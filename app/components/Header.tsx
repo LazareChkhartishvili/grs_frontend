@@ -1,8 +1,8 @@
 import React from "react";
-import MobileNavbar from "./MobileNavbar";
-import DesktopNavbar from "./DesktopNavbar";
 
 import Image from "next/image";
+import MobileNavbar from "./Navbar/MobileNavbar";
+import DesktopNavbar from "./Navbar/DesktopNavbar";
 
 interface MenuItem {
   id: number;
@@ -13,7 +13,7 @@ interface HeaderProps {
   menuItems?: MenuItem[];
 }
 
-const defaultMenuItems: MenuItem[] = [
+export const defaultMenuItems: MenuItem[] = [
   { id: 1, name: "Все комплексы" },
   { id: 2, name: "О нас" },
   { id: 3, name: "Блог" },
@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-[818px] object-cover z-[-1] rounded-[20px]"
+        className="absolute inset-0 w-full h-[838px] object-cover z-[-1] md:rounded-[20px]"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         </section>
         {/*  */}
         <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
-          <div className="bg-[rgba(61,51,74,0.3)] rounded-[30px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
+          <div className="bg-[rgba(61,51,74,0.3)] rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
             <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
               Реабилитация
             </h2>
@@ -115,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
           </div>
         </section> */}
         {/*  */}
-        <div className="hidden absolute md:flex flex-row items-center right-10 bottom-60 ">
+        <div className="hidden absolute md:flex flex-row items-center right-10 bottom-68 ">
           <div className="w-[70px] h-[70px] bg-[#857b9299] rounded-[20px] flex items-center justify-center mr-2.5">
             <Image
               src={"/assets/images/rightIcon.svg"}

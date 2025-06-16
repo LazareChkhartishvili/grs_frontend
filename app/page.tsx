@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import Rehabilitation from "./components/Rehabilitation";
 import Category from "./components/Category";
 import Works from "./components/Works";
+import Subscribe from "./components/Subscribe";
+import Professional from "./components/Professional";
 
 const Home = () => {
   return (
@@ -12,6 +14,8 @@ const Home = () => {
         <Rehabilitation />
         <Category />
         <Works />
+        <Subscribe />
+        <Professional />
       </div>
     </div>
   );

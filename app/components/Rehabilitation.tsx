@@ -1,11 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Banner from "./Banner";
 
 const Rehabilitation = () => {
   return (
-    <div className="bg-[#F9F7FE] px-4 md:px-10">
-      <div className="bg-[url('/assets/images/blog.png')] rounded-t-[20px] md:pl-10 flex items-start justify-center md:justify-normal pt-6 w-full h-[97px] md:h-[150px] md:mb-10 bg-cover bg-center">
+    <div className="bg-[#F9F7FE] mt-10">
+      {/* <div className="bg-[url('/assets/images/blog.png')] rounded-t-[20px] md:pl-10 flex items-start justify-center md:justify-normal pt-6 w-full h-[97px] md:h-[150px] md:mb-10 bg-cover bg-center">
         <Image
           src={"/assets/images/simpleLogo.svg"}
           width={105}
@@ -20,8 +20,12 @@ const Rehabilitation = () => {
           height={19}
           className=""
         />
-      </div>
-      <div className="">
+      </div> */}
+      <Banner
+        backgroundUrl="/assets/images/blog.png"
+        logoUrl="/assets/images/simpleLogo.svg"
+      />
+      <div className="md:px-5 px-4">
         <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Реабилитация
         </h1>
@@ -35,7 +39,7 @@ const Rehabilitation = () => {
         >
           ИЗучить →
         </Link>
-        <hr className=" md:mt-10 bg-[#D5D1DB] text-[#D5D1DB]" />
+        <hr className=" md:mt-10 mt-5 bg-[#D5D1DB] text-[#D5D1DB]" />
       </div>
     </div>
   );
