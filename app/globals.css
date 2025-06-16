@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: Bowler;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("/assets/font/Bowler.woff") format("woff");
+}
+
 body {
   background: white;
   color: white;
+  font-family: cursive;
 }
 
 header {
@@ -42,6 +51,7 @@ header {
   padding: 20px;
 }
 .white-cutout {
+  position: relative;
   display: flex;
   gap: 20px;
   /* background-color: white; */
@@ -55,17 +65,17 @@ header {
 }
 
 .purple-cutout {
-  height: 100%;
-  width: 100%;
+  /* height: 100%; */
+  /* width: 100%; */
   background-color: inherit;
   position: relative;
 }
-.purp1 {
+/* .purp1 {
   background-color: inherit;
   position: relative;
-}
+} */
 
-.purp1::before {
+/* .purp1::before {
   content: "";
   position: absolute;
   bottom: 0;
@@ -73,13 +83,13 @@ header {
   width: 40px;
   height: 40px;
   background: radial-gradient(circle at top left, transparent 40px, white 40px);
-}
+} */
 
 .purple-cutout::before {
   content: "";
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 0px;
   width: 40px;
   height: 40px;
   background: radial-gradient(circle at top left, transparent 40px, white 40px);
