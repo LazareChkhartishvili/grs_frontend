@@ -10,7 +10,6 @@ const MobileNavbar = () => (
       <IconButton src="/assets/images/store.svg" alt="Store" />
     </div>
 
-    {/* Indicator bars */}
     <div className="max-w-[313px] mt-6 flex gap-2 mx-auto">
       {[...Array(4)].map((_, i) => (
         <div

@@ -27,20 +27,20 @@ const categories = [
 ];
 
 const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
-  <div className="md:m-5 md:rounded-[20px] max-h-[818px]">
-    <div className="relative w-full h-screen md:rounded-[20px] rounded-none">
+  <header className="md:m-5 max-h-[818px] rounded-[20px]">
+    <div className="relative w-full h-screen rounded-[20px]">
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-[818px] object-cover z-[-1] md:rounded-[20px] rounded-none rounded-br-4xl"
+        className="absolute inset-0 w-full h-[818px] object-cover z-[-1] rounded-[20px]"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
-      <div className="relative z-10 md:rounded-[20px] rounded-none">
+      <div className="relative z-10 ">
         <MobileNavbar />
         <DesktopNavbar menuItems={menuItems} />
         {/* HeroTitle */}
@@ -100,7 +100,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
           </div>
         </section>
         {/*  */}
-        <section className="md:bg-white md:h-[250px] md:absolute -bottom-10 right-0 rounded-t-[40px] ml-2 rounded-tl-[20px] w-[500px]">
+        {/* <section className="md:bg-white md:h-[250px] md:absolute -bottom-0 right-0 rounded-t-[40px] ml-2 rounded-tl-[20px] w-[500px]">
           <div className="flex items-center md:mr-18 md:justify-end mt-10 gap-2">
             <div className="w-[176px] h-[166px] bg-[#3D334A] rounded-[20px] pt-4 pl-4">
               <h2 className="text-[18px] leading-[90%] uppercase">
@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
               </h2>
             </div>
           </div>
-        </section>
+        </section> */}
         {/*  */}
         <div className="hidden absolute md:flex flex-row items-center right-10 bottom-60 ">
           <div className="w-[70px] h-[70px] bg-[#857b9299] rounded-[20px] flex items-center justify-center mr-2.5">
@@ -136,7 +136,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         </div>
       </div>
     </div>
-  </div>
+  </header>
 );
 
 export default Header;
