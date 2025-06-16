@@ -4,3 +4,92 @@ body {
   background: white;
   color: white;
 }
+
+header {
+  position: relative;
+}
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* height: 100%; */
+  object-fit: cover;
+  z-index: -1;
+}
+.sub-header1 {
+  width: 100%;
+  max-width: 100%;
+  height: 50px;
+  position: absolute;
+  /* background-color: red; */
+  bottom: 328px;
+}
+.sub-header2 {
+  max-width: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+.cutout-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-top-left-radius: 40px;
+  padding: 20px;
+}
+.white-cutout {
+  display: flex;
+  gap: 20px;
+  /* background-color: white; */
+  padding: 10px 0 10px;
+}
+.white-cutout div {
+  /* background-color: blue; */
+  width: 246px;
+  height: 244px;
+  border-radius: 20px;
+}
+
+.purple-cutout {
+  height: 100%;
+  width: 100%;
+  background-color: inherit;
+  position: relative;
+}
+.purp1 {
+  background-color: inherit;
+  position: relative;
+}
+
+.purp1::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at top left, transparent 40px, white 40px);
+}
+
+.purple-cutout::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at top left, transparent 40px, white 40px);
+}
+.sub-header1::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at top left, transparent 40px, white 40px);
+}

@@ -44,8 +44,6 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems }) => {
           <NavbarIconButton src={"/assets/images/person.svg"} alt="Person" />
         </div>
       </header>
-
-      <div className="hidden md:block h-[130px]" />
     </>
   );
 };

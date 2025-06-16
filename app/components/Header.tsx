@@ -27,14 +27,14 @@ const categories = [
 ];
 
 const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
-  <header className="md:m-5 max-h-[818px] rounded-[20px]">
+  <header className="md:m-5 max-h-[1218px] rounded-[20px]">
     <div className="relative w-full h-screen rounded-[20px]">
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-[838px] object-cover z-[-1] md:rounded-[20px]"
+        className="video-bg absolute h-[838px] object-cover z-[-1] md:rounded-[20px]"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
         Your browser does not support the video tag.
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         <MobileNavbar />
         <DesktopNavbar menuItems={menuItems} />
         {/* HeroTitle */}
-        <h2 className="mx-5 mt-[82px] hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
+        <h2 className="mx-5 hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
           экосистема продуктов направленная на формирование вашего здоровья
         </h2>
         {/* Section */}
@@ -114,6 +114,31 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
             </div>
           </div>
         </section> */}
+        <header className="header">
+          {/* <video muted loop className="video-bg">
+            <source
+              src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+              type="video/mp4"
+            />
+          </video> */}
+          <div className="absolute w-full mt-24 hidden lg:flex">
+            <div className="sub-header1"></div>
+            <div className="sub-header2">
+              <div className="purple-cutout"></div>
+              <div className="cutout-container">
+                <div className="purp1">purpple1</div>
+                <div className="white-cutout">
+                  <div className="bg-[#3D334A] p-5">
+                    <h3 className="text-[24px] ">Изучить подробнее</h3>
+                  </div>
+                  <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5">
+                    <h3 className="text-[24px]">В каталог</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
         {/*  */}
         <div className="hidden absolute md:flex flex-row items-center right-10 bottom-68 ">
           <div className="w-[70px] h-[70px] bg-[#857b9299] rounded-[20px] flex items-center justify-center mr-2.5">
