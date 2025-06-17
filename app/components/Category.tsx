@@ -13,8 +13,8 @@ const Category = () => {
         <SliderArrows />
       </div>
       <Link
-        href=""
-        className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
+        href="/categories"
+        className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC] hover:text-[#734ea4] transition-colors duration-300"
       >
         Смотреть все →
       </Link>

@@ -1,3 +1,15 @@
+/* Google Fonts - Beautiful & Unique Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 @import "tailwindcss";
 
 @font-face {
@@ -5,13 +17,66 @@
   font-style: normal;
   font-weight: 200 700;
   font-display: swap;
-  src: url("/assets/font/Bowler.woff") format("woff");
+  src: url("/assets/font/Bowler.woff") format("woff"),
+       url("/assets/font/bowler.otf") format("opentype");
 }
 
 body {
   background: white;
   color: white;
   font-family: cursive;
+}
+
+/* ვარიანტები */
+.font-thin { font-weight: 100; }
+.font-extralight { font-weight: 200; }
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black { font-weight: 900; }
+
+/* ლამაზი ფონტ კლასები */
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-dancing {
+  font-family: 'Dancing Script', cursive;
+}
+
+.font-great-vibes {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-abril {
+  font-family: 'Abril Fatface', serif;
+}
+
+.font-righteous {
+  font-family: 'Righteous', sans-serif;
+}
+
+.font-merriweather {
+  font-family: 'Merriweather', serif;
+}
+
+.font-lobster {
+  font-family: 'Lobster', cursive;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+.font-bebas {
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 header {
@@ -103,4 +168,31 @@ header {
   width: 40px;
   height: 40px;
   background: radial-gradient(circle at top left, transparent 40px, white 40px);
+}
+
+/* Swiper კასტომ სტილები */
+.category-swiper .swiper-pagination-bullet {
+  background: #D5D1DB;
+  opacity: 0.5;
+  width: 8px;
+  height: 8px;
+}
+
+.category-swiper .swiper-pagination-bullet-active {
+  background: #734ea4;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.swiper-button-prev-custom:hover svg path,
+.swiper-button-next-custom:hover svg path {
+  stroke: #3f1a70;
+}
+
+/* Swiper navigation ღილაკების დამალვა მობაილზე */
+@media (max-width: 640px) {
+  .swiper-button-prev-custom,
+  .swiper-button-next-custom {
+    display: none;
+  }
 }
