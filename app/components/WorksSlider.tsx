@@ -8,7 +8,7 @@ const works = [
     description:
       "Улучшение динамики и подвижности грудного отдела отдела отдела отдела",
     price: "920 ₽/мес",
-    image: "/assets/images/services/work.png",
+    image: "/assets/images/workMan.png",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const works = [
     description:
       "Комплекс упражнений для восстановления осанки и улучшения дыхания",
     price: "750 ₽/мес",
-    image: "/assets/images/services/work.png",
+    image: "/assets/images/workWoman.png",
   },
   {
     id: 3,
@@ -25,6 +25,14 @@ const works = [
       "Упражнения после операций для ускоренного восстановления организма",
     price: "1120 ₽/мес",
     image: "/assets/images/services/work.png",
+  },
+  {
+    id: 4,
+    title: "Хирургия",
+    description:
+      "Упражнения после операций для ускоренного восстановления организма",
+    price: "1120 ₽/мес",
+    image: "/assets/images/workMan.png",
   },
 ];
 
@@ -42,8 +50,9 @@ const WorksSlider = () => {
               width={319}
               height={212}
               alt="work"
-              className="mb-6"
+              className="w-full h-[212px] object-cover rounded mb-6"
             />
+
             <h2 className="p-2 bg-[#E9DFF6] rounded-[6px] text-[#3D334A] text-[18px] leading-[90%] uppercase mb-2.5">
               {work.title}
             </h2>

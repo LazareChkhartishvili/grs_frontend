@@ -27,8 +27,8 @@ const categories = [
 ];
 
 const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
-  <header className="md:m-5 max-h-[1218px] rounded-[20px]">
-    <div className="relative w-full h-screen rounded-[20px]">
+  <header className="md:m-5 rounded-[20px]">
+    <div className="relative w-full rounded-[20px]">
       <video
         autoPlay
         muted
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         <MobileNavbar />
         <DesktopNavbar menuItems={menuItems} />
         {/* HeroTitle */}
-        <h2 className="mx-5 hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
+        <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
           экосистема продуктов направленная на формирование вашего здоровья
         </h2>
         {/* Section */}
@@ -88,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         </section>
         {/*  */}
         <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
-          <div className="bg-[rgba(61,51,74,0.3)] rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
+          <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
             <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
               Реабилитация
             </h2>
@@ -128,10 +128,10 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
               <div className="cutout-container">
                 <div className="purp1">purpple1</div>
                 <div className="white-cutout">
-                  <div className="bg-[#3D334A] p-5">
+                  <div className="bg-[#3D334A] p-5 -mt-8">
                     <h3 className="text-[24px] ">Изучить подробнее</h3>
                   </div>
-                  <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5">
+                  <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
                     <h3 className="text-[24px]">В каталог</h3>
                   </div>
                 </div>

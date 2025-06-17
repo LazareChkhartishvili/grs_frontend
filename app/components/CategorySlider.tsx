@@ -37,17 +37,21 @@ const CategorySlider = () => {
               width={232}
               height={82}
               alt={category.title}
-              className="mx-auto rounded-[14px] p-[4px] md:w-[443px] md:h-[163px]"
+              className="mx-auto rounded-[14px] p-[4px] md:w-[443px] md:h-[153px]"
             />
             <div className="flex items-center justify-between bg-white py-2 md:py-4 px-4 mx-[4px] rounded-[20px] text-black">
-              <h4>{category.title}</h4>
-              <Image
-                src="/assets/images/dropDown.svg"
-                width={6}
-                height={3}
-                alt="dropDown"
-                className="bg-[#E9DFF6] w-4 h-4"
-              />
+              <h4 className="text-[14px] md:text-[24px] bg-gradient-to-r from-[#734ea4] to-[#3f1a70] bg-clip-text text-transparent">
+                {category.title}
+              </h4>
+
+              <div className="bg-[#E9DFF6] w-6 h-6 flex items-center justify-center rounded">
+                <Image
+                  src="/assets/images/dropDown.svg"
+                  width={12}
+                  height={7}
+                  alt="dropDown"
+                />
+              </div>
             </div>
           </div>
         ))}
