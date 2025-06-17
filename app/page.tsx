@@ -9,6 +9,7 @@ import Professional from "./components/Professional";
 import MarketPlace from "./components/MarketPlace";
 import { Footer } from "./components/Footer";
 import Blog from "./components/Blog";
+import Download from "./components/Download";
 
 const Home = () => {
   return (
@@ -22,6 +23,9 @@ const Home = () => {
         <Professional />
         <Blog />
         <MarketPlace />
+        <Subscribe />
+        <Download />
+        <Subscribe />
         <Footer />
       </div>
     </div>
