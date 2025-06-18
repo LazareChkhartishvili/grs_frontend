@@ -11,6 +11,7 @@ interface MenuItem {
 
 interface HeaderProps {
   menuItems?: MenuItem[];
+  variant?: "default" | "rehabilitation";
 }
 
 export const defaultMenuItems: MenuItem[] = [
@@ -26,7 +27,10 @@ const categories = [
   { id: 3, text: "Рестораны", image: "/assets/images/camera.svg" },
 ];
 
-const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
+const Header: React.FC<HeaderProps> = ({
+  menuItems = defaultMenuItems,
+  variant = "default",
+}) => (
   <header className="md:m-5 rounded-[20px]">
     <div className="relative w-full rounded-[20px]">
       <video
@@ -44,103 +48,113 @@ const Header: React.FC<HeaderProps> = ({ menuItems = defaultMenuItems }) => (
         <MobileNavbar />
         <DesktopNavbar menuItems={menuItems} />
         {/* HeroTitle */}
-        <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
-          экосистема продуктов направленная на формирование вашего здоровья
-        </h2>
-        {/* Section */}
-        <section className="mt-[152px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
-          {/* პირველი ბარათი */}
-          <div className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]">
-            <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
-              <Image
-                src={categories[0].image}
-                alt={categories[0].text}
-                width={30}
-                height={30}
-              />
-            </div>
-            <h3 className="text-white text-sm font-medium">
-              {categories[0].text}
-            </h3>
+        {variant == "default" && (
+          <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
+            экосистема продуктов направленная на формирование вашего здоровья
+          </h2>
+        )}
+        {variant == "rehabilitation" && (
+          <div className="flex flex-col gap-0 px-5">
+            <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
+              СОВРЕМЕННЫЕ ИЗРАИЛЬСКИЕ МЕТОДИКИ РЕАБИЛИТАЦИИ
+            </h2>
+            <p className="leading-[120%] text-[32px] font-medium mt-">
+              Для восстановления и поддержания подвижности и трудоспособности
+            </p>
           </div>
+        )}
 
-          {/* მეორე და მესამე ბარათები */}
-          <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full">
-            {categories.slice(1).map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
-              >
+        {/* Section */}
+        {variant == "default" && (
+          <div>
+            <section className="mt-[152px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
+              {/* პირველი ბარათი */}
+              <div className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]">
                 <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
                   <Image
-                    src={item.image}
-                    alt={item.text}
+                    src={categories[0].image}
+                    alt={categories[0].text}
                     width={30}
                     height={30}
                   />
                 </div>
-                <h3 className="text-white text-sm font-medium">{item.text}</h3>
+                <h3 className="text-white text-sm font-medium">
+                  {categories[0].text}
+                </h3>
               </div>
-            ))}
-          </div>
 
-          {/*  */}
-        </section>
-        {/*  */}
-        <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
-          <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
-            <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
-              Реабилитация
-            </h2>
-            <p className="leading-[120%] font-medium md:max-w-[519px]">
-              Современные израильские методики реабилитации по направлениям
-              ортопедия, неврология, посттравматическая реабилитация походки и
-              др.
-            </p>
+              {/* მეორე და მესამე ბარათები */}
+
+              <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full">
+                {categories.slice(1).map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                  >
+                    <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                      <Image
+                        src={item.image}
+                        alt={item.text}
+                        width={30}
+                        height={30}
+                      />
+                    </div>
+                    <h3 className="text-white text-sm font-medium">
+                      {item.text}
+                    </h3>
+                  </div>
+                ))}
+              </div>
+
+              {/*  */}
+            </section>
+            {/*  */}
+            <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
+              <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
+                <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
+                  Реабилитация
+                </h2>
+                <p className="leading-[120%] font-medium md:max-w-[519px]">
+                  Современные израильские методики реабилитации по направлениям
+                  ортопедия, неврология, посттравматическая реабилитация походки
+                  и др.
+                </p>
+              </div>
+            </section>
           </div>
-        </section>
-        {/*  */}
-        {/* <section className="md:bg-white md:h-[250px] md:absolute -bottom-0 right-0 rounded-t-[40px] ml-2 rounded-tl-[20px] w-[500px]">
-          <div className="flex items-center md:mr-18 md:justify-end mt-10 gap-2">
-            <div className="w-[176px] h-[166px] bg-[#3D334A] rounded-[20px] pt-4 pl-4">
-              <h2 className="text-[18px] leading-[90%] uppercase">
-                Изучить подробнее
-              </h2>
-            </div>
-            <div className="w-[176px] h-[166px] bg-[#3D334A] rounded-[20px] pt-4 pl-4">
-              <h2 className="text-[18px] leading-[90%] uppercase">
-                Изучить подробнее
-              </h2>
-            </div>
-          </div>
-        </section> */}
+        )}
+
         <header className="header">
-          {/* <video muted loop className="video-bg">
-            <source
-              src="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
-              type="video/mp4"
-            />
-          </video> */}
-          <div className="absolute w-full mt-24 hidden lg:flex">
+          <div
+            className={`absolute w-full ${
+              variant == "default" ? "mt-[100px]" : "mt-[500px]"
+            } hidden lg:flex`}
+          >
             <div className="sub-header1"></div>
             <div className="sub-header2">
-              <div className="purple-cutout"></div>
-              <div className="cutout-container">
+              <div className="purple-cutout "></div>
+              <div className="cutout-container ">
                 <div className="purp1">purpple1</div>
-                <div className="white-cutout">
+                <div className="white-cutout ">
                   <div className="bg-[#3D334A] p-5 -mt-8">
                     <h3 className="text-[24px] ">Изучить подробнее</h3>
                   </div>
-                  <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
-                    <h3 className="text-[24px]">В каталог</h3>
-                  </div>
+                  {variant == "default" && (
+                    <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
+                      <h3 className="text-[24px]">В каталог</h3>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </header>
         {/*  */}
-        <div className="hidden absolute md:flex flex-row items-center right-10 bottom-68 ">
+        <div
+          className={`hidden absolute md:flex flex-row items-center right-10 ${
+            variant == "rehabilitation" ? "-bottom-40" : " bottom-68"
+          }`}
+        >
           <div className="w-[70px] h-[70px] bg-[#857b9299] rounded-[20px] flex items-center justify-center mr-2.5">
             <Image
               src={"/assets/images/rightIcon.svg"}

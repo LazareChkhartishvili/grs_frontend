@@ -26,9 +26,8 @@ const Home = () => {
         <MarketPlace />
         <Subscribe />
         <Download />
-        <Subscribe />
         <Reviews />
-        <Footer />
+        <Subscribe />
       </div>
     </div>
   );
