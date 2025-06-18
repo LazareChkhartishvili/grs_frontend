@@ -10,6 +10,7 @@ import MarketPlace from "./components/MarketPlace";
 import { Footer } from "./components/Footer";
 import Blog from "./components/Blog";
 import Download from "./components/Download";
+import Reviews from "./components/Reviews";
 
 const Home = () => {
   return (
@@ -26,6 +27,7 @@ const Home = () => {
         <Subscribe />
         <Download />
         <Subscribe />
+        <Reviews />
         <Footer />
       </div>
     </div>
