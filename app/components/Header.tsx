@@ -11,7 +11,7 @@ interface MenuItem {
 
 interface HeaderProps {
   menuItems?: MenuItem[];
-  variant?: "default" | "rehabilitation";
+  variant?: "default" | "rehabilitation" | "complex";
 }
 
 export const defaultMenuItems: MenuItem[] = [

@@ -1,9 +1,12 @@
 import React from "react";
+import Header from "../components/Header";
+import WorksSlider from "../components/WorksSlider";
 
-import WorksSlider from "./WorksSlider";
-import Link from "next/link";
+import Subscribe from "../components/Subscribe";
+import ReviewSlider from "../components/ReviewSlider";
+import Blog from "../components/Blog";
 
-const homePageWorks = [
+const chapterSliderInfo = [
   {
     id: 1,
     title: "Ортопедия",
@@ -34,19 +37,24 @@ const homePageWorks = [
   },
 ];
 
-const Works = () => {
+const Chapter = () => {
   return (
-    <div className="bg-[#F9F7FE] md:px-10 md:mx-10 md:mt-0 px-4 md:my-10 rounded-b-[15px] md:pb-10">
-      {/* Slider */}
-      <WorksSlider title="Упражнения" works={homePageWorks} />
-      <Link
-        href=""
-        className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
-      >
-        Все 5304 Упражнения →
-      </Link>
+    <div>
+      <Header />
+      <div className="mt-40 px-6">
+        <WorksSlider title="Популярные упражнения" works={chapterSliderInfo} />
+      </div>
+      <div className="mt-10 px-6">
+        <WorksSlider
+          title="Шейный отдел позвоночника"
+          works={chapterSliderInfo}
+        />
+      </div>
+      <Subscribe />
+      <ReviewSlider />
+      <Blog />
     </div>
   );
 };
 
-export default Works;
+export default Chapter;

@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "./Banner";
 import SliderArrows from "./SliderArrows";
 import BlogSlider from "./BlogSlider";
+import Professional from "./Professional";
 
 const Blog = () => {
   return (
@@ -21,6 +22,7 @@ const Blog = () => {
         </div>
         {/* Slider */}
         <BlogSlider />
+        <Professional />
       </div>
     </div>
   );
