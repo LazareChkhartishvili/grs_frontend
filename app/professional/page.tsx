@@ -4,6 +4,8 @@ import Image from "next/image";
 import CategorySlider from "../components/CategorySlider";
 import CourseSlider from "../components/CourseSlider";
 import SliderArrows from "../components/SliderArrows";
+import Subscribe from "../components/Subscribe";
+import ReviewSlider from "../components/ReviewSlider";
 
 const Professional = () => {
   return (
@@ -64,6 +66,8 @@ const Professional = () => {
         <SliderArrows />
       </div>
       <CourseSlider />
+      <Subscribe />
+      <ReviewSlider />
     </div>
   );
 };
