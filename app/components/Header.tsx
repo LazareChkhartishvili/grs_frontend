@@ -11,7 +11,7 @@ interface MenuItem {
 
 interface HeaderProps {
   menuItems?: MenuItem[];
-  variant?: "default" | "rehabilitation" | "complex";
+  variant?: "default" | "rehabilitation" | "complex" | "category";
 }
 
 export const defaultMenuItems: MenuItem[] = [
@@ -31,7 +31,9 @@ const Header: React.FC<HeaderProps> = ({
   menuItems = defaultMenuItems,
   variant = "default",
 }) => (
-  <header className="md:m-5 rounded-[20px]">
+  <header
+    className={`md:m-5 rounded-[20px] ${variant == "category" && "h-screen"}`}
+  >
     <div className="relative w-full rounded-[20px]">
       <video
         autoPlay
@@ -46,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({
 
       <div className="relative z-10 ">
         <MobileNavbar />
-        <DesktopNavbar menuItems={menuItems} />
+        {variant !== "category" && <DesktopNavbar menuItems={menuItems} />}
         {/* HeroTitle */}
         {variant == "default" && (
           <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
@@ -123,32 +125,34 @@ const Header: React.FC<HeaderProps> = ({
             </section>
           </div>
         )}
-
-        <header className="header">
-          <div
-            className={`absolute w-full ${
-              variant == "default" ? "mt-[100px]" : "mt-[500px]"
-            } hidden lg:flex`}
-          >
-            <div className="sub-header1"></div>
-            <div className="sub-header2">
-              <div className="purple-cutout "></div>
-              <div className="cutout-container ">
-                <div className="purp1">purpple1</div>
-                <div className="white-cutout ">
-                  <div className="bg-[#3D334A] p-5 -mt-8">
-                    <h3 className="text-[24px] ">Изучить подробнее</h3>
-                  </div>
-                  {variant == "default" && (
-                    <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
-                      <h3 className="text-[24px]">В каталог</h3>
+        {variant !== "category" && (
+          <header className="header">
+            <div
+              className={`absolute w-full ${
+                variant == "default" ? "mt-[100px]" : "mt-[500px]"
+              } hidden lg:flex`}
+            >
+              <div className="sub-header1"></div>
+              <div className="sub-header2">
+                <div className="purple-cutout "></div>
+                <div className="cutout-container ">
+                  <div className="purp1">purpple1</div>
+                  <div className="white-cutout ">
+                    <div className="bg-[#3D334A] p-5 -mt-8">
+                      <h3 className="text-[24px] ">Изучить подробнее</h3>
                     </div>
-                  )}
+                    {variant == "default" && (
+                      <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
+                        <h3 className="text-[24px]">В каталог</h3>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
+        )}
+
         {/*  */}
         <div
           className={`hidden absolute md:flex flex-row items-center right-10 ${

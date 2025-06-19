@@ -20,7 +20,7 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
   works,
 }) => {
   return (
-    <div>
+    <div className="mx-2 px-10 mt-20">
       <div className="flex items-center justify-between">
         <h2 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           {title}

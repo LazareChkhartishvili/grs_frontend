@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "./Banner";
+
 import Link from "next/link";
 import SliderArrows from "./SliderArrows";
 import CourseSlider from "./CourseSlider";
@@ -7,10 +7,10 @@ import CourseSlider from "./CourseSlider";
 const Professional = () => {
   return (
     <div className="py-10 mb-10 md:mx-10 bg-[#F9F7FE]">
-      <Banner
+      {/* <Banner
         backgroundUrl="/assets/images/marketPlace.png"
         logoUrl="/assets/images/simpleLogo.svg"
-      />
+      /> */}
       <div className="px-4">
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Профразвитие
