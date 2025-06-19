@@ -79,7 +79,7 @@ export default function CategoriesPage() {
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <Header variant="category" />
+      <Header variant="default" />
       <div className="mt-40 px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
         <div className=" flex items-center justify-between">
           <div className="flex flex-col gap-5">

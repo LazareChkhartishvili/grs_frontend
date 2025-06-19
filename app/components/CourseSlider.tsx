@@ -4,7 +4,7 @@ import React from "react";
 const CourseSlider = () => {
   return (
     <div className="overflow-x-auto scrollbar-hide">
-      <div className="flex flex-row gap-4 w-max md:w-auto mb-10">
+      <div className="flex flex-row gap-4 w-max md:w-auto mb-10 mx-6">
         <div className="bg-white rounded-[20px] p-1.5 pb-4 w-[248px] md:w-[690px] md:h-[518px]">
           {/* Mobile image */}
           <Image
