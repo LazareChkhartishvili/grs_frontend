@@ -3,7 +3,7 @@ import React from "react";
 import WorksSlider from "./WorksSlider";
 import Link from "next/link";
 
-const homePageWorks = [
+export const homePageWorks = [
   {
     id: 1,
     title: "Ортопедия",
