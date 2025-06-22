@@ -2,7 +2,7 @@ import React from "react";
 
 const Article = () => {
   return (
-    <main className="flex justify-between  gap-[30px">
+    <main className="flex justify-between  gap-[30px] text-[#3D334A]">
       <div className="p-5 bg-[rgba(255,255,255,1)] min-h-[700px] h-[700px] rounded-[20px] max-w-[335px] hidden md:block">
         <h2 className="text-lg font-semibold mb-4 text-[rgba(61,51,74,1)]">
           Содержание
