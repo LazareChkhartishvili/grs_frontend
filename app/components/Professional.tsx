@@ -24,7 +24,7 @@ const Professional = () => {
         </p>
         <Link
           className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
-          href=""
+          href="professional"
         >
           Изучить →
         </Link>
@@ -38,9 +38,12 @@ const Professional = () => {
           </div>
 
           <CourseSlider />
-          <h1 className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]">
+          <Link
+            href={"/allCourse"}
+            className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
+          >
             Все 439 курсов →
-          </h1>
+          </Link>
         </div>
       </div>
     </div>

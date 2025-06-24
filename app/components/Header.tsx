@@ -4,9 +4,10 @@ import Image from "next/image";
 import MobileNavbar from "./Navbar/MobileNavbar";
 import DesktopNavbar from "./Navbar/DesktopNavbar";
 
-interface MenuItem {
+export interface MenuItem {
   id: number;
   name: string;
+  route: string;
 }
 
 interface HeaderProps {
@@ -15,10 +16,10 @@ interface HeaderProps {
 }
 
 export const defaultMenuItems: MenuItem[] = [
-  { id: 1, name: "Все комплексы" },
-  { id: 2, name: "О нас" },
-  { id: 3, name: "Блог" },
-  { id: 4, name: "Контакты" },
+  { id: 1, name: "Все комплексы", route: "complex" },
+  { id: 2, name: "О нас", route: "about" },
+  { id: 3, name: "Блог", route: "blog" },
+  { id: 4, name: "Контакты", route: "contact" },
 ];
 
 const categories = [

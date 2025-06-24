@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { MobileLogo } from "../Logo";
 import NavbarIconButton from "./NavbarIconButton";
 import { defaultMenuItems } from "../Header";
+import Link from "next/link";
 
 const MobileNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,9 @@ const MobileNavbar = () => {
           <div onClick={toggleMenu}>
             <NavbarIconButton src={"/assets/images/burger.svg"} alt="Burger" />
           </div>
-          <MobileLogo />
+          <Link href={"/"}>
+            <MobileLogo />
+          </Link>
           <NavbarIconButton src="/assets/images/store.svg" alt="Store" />
         </div>
       </div>
@@ -38,16 +41,16 @@ const MobileNavbar = () => {
       {isMenuOpen && (
         <div className="fixed top-24 left-4 w-[90%] mx-auto flex flex-col gap-2 px-4 py-4 bg-gradient-to-br from-[rgba(94,43,143,0.6)] to-[rgba(61,51,74,0.5)] rounded-2xl shadow-lg backdrop-blur-lg border border-white/10">
           {defaultMenuItems.map((item, index) => (
-            <button
-              key={index}
-              className="text-white text-[17px] text-left px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-150"
-              onClick={() => {
-                setIsMenuOpen(false);
-                // აქ მგონი როუტინგი უნდა ჩასვა :დდ
-              }}
-            >
-              {item.name}
-            </button>
+            <Link href={item.route} key={index}>
+              <button
+                className="text-white text-[17px] text-left px-4 py-2 rounded-lg hover:bg-white/10 transition-colors duration-150"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                }}
+              >
+                {item.name}
+              </button>
+            </Link>
           ))}
         </div>
       )}

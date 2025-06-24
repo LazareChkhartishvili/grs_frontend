@@ -40,7 +40,7 @@ const Works = () => {
       {/* Slider */}
       <WorksSlider title="Упражнения" works={homePageWorks} />
       <Link
-        href=""
+        href="complex"
         className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
       >
         Все 5304 Упражнения →
