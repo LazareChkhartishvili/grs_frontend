@@ -39,7 +39,9 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems }) => {
             onSelectLanguage={setLanguage}
           />
           <NavbarIconButton src="/assets/images/store.svg" alt="Store" />
-          <NavbarIconButton src={"/assets/images/person.svg"} alt="Person" />
+          <Link href={"/personalAccount"}>
+            <NavbarIconButton src={"/assets/images/person.svg"} alt="Person" />
+          </Link>
         </div>
       </header>
     </>
