@@ -5,44 +5,19 @@ import Subscribe from "../components/Subscribe";
 import ReviewSlider from "../components/ReviewSlider";
 import BlogSlider from "../components/BlogSlider";
 import Professional from "../components/Professional";
+import Tabs from "../components/Tabs";
 
 const Complex = () => {
+  const tabItems = [
+    { label: "Описание", href: "#description" },
+    { label: "Дополнительно", href: "#extra" },
+    { label: "Демо-видео", href: "#demo" },
+  ];
   return (
     <div>
       <Header />
       <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:mt-40 px-4">
-        <div className="md:col-span-2 order-2 md:order-1 bg-[rgba(233,223,246,1)] md:p-[40px] p-4 rounded-[20px] flex md:gap-[40px] gap-6 items-center relative">
-          <div className="relative group">
-            <a
-              href=""
-              className="text-[rgba(132,111,160,1)] md:text-2xl text-[14px] leading-[90%] md:leading-[120%] tracking-[0%] uppercase group-hover:text-[rgba(61,51,74,1)]"
-            >
-              Описание
-            </a>
-
-            <div className="absolute left-0 -bottom-[42px] h-[2px] w-full bg-[rgba(61,51,74,1)] scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></div>
-          </div>
-
-          <div className="relative group">
-            <a
-              href=""
-              className="text-[rgba(132,111,160,1)] md:text-2xl text-[14px] leading-[90%] md:leading-[120%] tracking-[0%] uppercase group-hover:text-[rgba(61,51,74,1)]"
-            >
-              Дополнительно
-            </a>
-            <div className="absolute left-0 -bottom-[42px] h-[2px] w-full bg-[rgba(61,51,74,1)] scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></div>
-          </div>
-
-          <div className="relative group">
-            <a
-              href=""
-              className="text-[rgba(132,111,160,1)] md:text-2xl text-[14px] leading-[90%] md:leading-[120%] tracking-[0%] uppercase group-hover:text-[rgba(61,51,74,1)]"
-            >
-              Демо-видео
-            </a>
-            <div className="absolute left-0 -bottom-[42px] h-[2px] w-full bg-[rgba(61,51,74,1)] scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></div>
-          </div>
-        </div>
+        <Tabs items={tabItems} />
 
         <div className="order-3 md:order-2 p-4 md:p-[40px] bg-[rgba(249,247,254,1)] rounded-[20px] md:rounded-[30px]">
           <div className="flex flex-col md:gap-5 gap-4 pb-6 md:pb-[80px]">

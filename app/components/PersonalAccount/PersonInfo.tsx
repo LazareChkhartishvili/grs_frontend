@@ -21,7 +21,7 @@ export const personalLinks = [
 
 const PersonInfo = () => {
   return (
-    <div className="mx-2 mt-3 md:mt-5 bg-[#F9F7FE] p-4 md:p-[30px] md:mx-10 rounded-[10px]">
+    <div className="mx-2 mt-3 md:mt-5 mb-2 md:mb-5 bg-[#F9F7FE] p-4 md:p-[30px] md:mx-10 rounded-[10px]">
       <div className="md:flex md:flex-row md:gap-5 md:w-full">
         <Image
           src={"/assets/images/personImage.png"}
