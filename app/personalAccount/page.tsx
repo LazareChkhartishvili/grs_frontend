@@ -9,6 +9,7 @@ import PersonInfo from "../components/PersonalAccount/PersonInfo";
 import Tabs from "../components/Tabs";
 import CourseContents from "../components/CourseContents";
 import Statistics from "../components/Statistics";
+import Achievements from "../components/Achievements";
 
 const PersonalAccount = () => {
   const tabItems = [
@@ -29,6 +30,7 @@ const PersonalAccount = () => {
       <Tabs items={tabItems} className="md:mx-10 mx-2" />
       <CourseContents />
       <Statistics />
+      <Achievements />
     </div>
   );
 };
