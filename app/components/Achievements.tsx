@@ -4,7 +4,7 @@ import ChallengeCard from "./ChallengeCard";
 
 const Achievements = () => {
   return (
-    <div>
+    <div className="">
       <div className="p-4 bg-[#F9F7FE] mt-2 md:mt-5">
         <h1 className="text-[#3D334A] mb-4 text-[18px] md:text-[40px] leading-[120%] tracking-[-3%]">
           Достижения
