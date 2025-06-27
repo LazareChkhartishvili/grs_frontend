@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
         {variant !== "category" && <DesktopNavbar menuItems={menuItems} />}
         {/* HeroTitle */}
         {variant == "default" && (
-          <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
+          <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%]  tracking-[-3%] max-w-[894px]">
             экосистема продуктов направленная на формирование вашего здоровья
           </h2>
         )}
@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({
             <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%] tracking-[-3%] max-w-[894px]">
               СОВРЕМЕННЫЕ ИЗРАИЛЬСКИЕ МЕТОДИКИ РЕАБИЛИТАЦИИ
             </h2>
-            <p className="leading-[120%] text-[32px] font-medium mt-">
+            <p className="leading-[120%] text-[32px] font-medium md:max-w-[792px] md:mt-[92px]">
               Для восстановления и поддержания подвижности и трудоспособности
             </p>
           </div>
@@ -130,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({
           <header className="header">
             <div
               className={`absolute w-full ${
-                variant == "default" ? "mt-[100px]" : "mt-[500px]"
+                variant == "default" ? "mt-[11.7px]" : "top-[286.7px]"
               } hidden lg:flex`}
             >
               <div className="sub-header1"></div>
@@ -157,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({
         {/*  */}
         <div
           className={`hidden absolute md:flex flex-row items-center right-10 ${
-            variant == "rehabilitation" ? "-bottom-40" : " bottom-68"
+            variant == "rehabilitation" ? "bottom-14" : "bottom-84"
           }`}
         >
           <div className="w-[70px] h-[70px] bg-[#857b9299] rounded-[20px] flex items-center justify-center mr-2.5">

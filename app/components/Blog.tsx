@@ -11,11 +11,14 @@ const Blog = () => {
         <Banner
           backgroundUrl="/assets/images/blog.png"
           logoUrl="/assets/images/simpleLogo.svg"
+          icon="/assets/images/media.png"
+          iconHeight={33}
+          iconWidth={125}
         />
       </div>
       <div className="py-5 px-6 md:py-[50px] md:px-15">
         <div className="flex items-center justify-between">
-          <h2 className="text-[20px] leadig-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
+          <h2 className="text-[20px] leading-[120%]  text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
             Блог
           </h2>
           <SliderArrows />

@@ -19,7 +19,7 @@ const PersonalAccount = () => {
     { label: "история подписок", href: "#история подписок" },
   ];
   return (
-    <div className="md:gap-20 px-4 md:px-10">
+    <div className="md:gap-20 px-4 md:px-5">
       <DesktopNavbar menuItems={defaultMenuItems} />
       <MobileNavbar />
       <div className="md:mt-10 mb-[100px]">

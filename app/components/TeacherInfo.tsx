@@ -5,7 +5,7 @@ const TeacherInfo = () => {
   return (
     <div>
       <div className="md:flex-row flex">
-        <div className="mx-2 px-2 md:px-10 flex flex-col md:flex-row">
+        <div className="mx-2 px-2 md:px-5 flex flex-col md:flex-row">
           <Image
             src={"/assets/images/user1.png"}
             width={343}

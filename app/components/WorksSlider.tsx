@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import SliderArrows from "./SliderArrows";
@@ -19,15 +21,32 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
   title = "Упражнения",
   works,
 }) => {
+  const scroll = (direction: "left" | "right") => {
+    const slider = document.getElementById("works-slider");
+    if (slider) {
+      slider.scrollBy({
+        left: direction === "left" ? -500 : 500,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div className="mx-2 px-10 mt-20">
+    <div className="mx-2 px-10">
       <div className="flex items-center justify-between">
-        <h2 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
+        <h2 className="text-[20px] md:text-[40px] text-[#3D334A] mb-2.5 md:mb-5">
           {title}
         </h2>
-        <SliderArrows />
+        <SliderArrows
+          onScrollLeft={() => scroll("left")}
+          onScrollRight={() => scroll("right")}
+        />
       </div>
-      <div className="overflow-x-auto scrollbar-hide mb-10">
+
+      <div
+        id="works-slider"
+        className="overflow-x-auto scrollbar-hide mb-10 md:overflow-hidden"
+      >
         <div className="flex gap-4">
           {works.map((work) => (
             <div
@@ -41,7 +60,6 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
                 alt="work"
                 className="w-full h-[212px] object-cover rounded mb-6"
               />
-
               <h2 className="p-2 bg-[#E9DFF6] rounded-[6px] text-[#3D334A] text-[18px] leading-[90%] uppercase mb-2.5">
                 {work.title}
               </h2>
@@ -49,7 +67,7 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
                 {work.description}
               </p>
               <div className="w-full flex items-end justify-end">
-                <button className="p-2 bg-[#D4BAFC] rounded-[6px] text-[#FFFFFF] text-[18px] leading-[90%] uppercase mb-2.5">
+                <button className="p-2 bg-[#D4BAFC] rounded-[6px] text-white text-[18px] uppercase">
                   {work.price}
                 </button>
               </div>

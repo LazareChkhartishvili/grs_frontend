@@ -1,22 +1,35 @@
 "use client";
 
-import React from "react";
-
+import React, { useRef } from "react";
 import Link from "next/link";
 import SliderArrows from "./SliderArrows";
 import CourseSlider from "./CourseSlider";
 import { useCourses } from "../hooks/useCourses";
+import Banner from "./Banner";
 
 const Professional = () => {
   const { courses, loading, error } = useCourses();
 
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    sliderRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    sliderRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
-    <div className="py-10 mb-10 md:mx-10 bg-[#F9F7FE]">
-      {/* <Banner
-        backgroundUrl="/assets/images/marketPlace.png"
+    <div className="mb-10 md:mx-10 bg-[#F9F7FE]">
+      <Banner
+        backgroundUrl="/assets/images/bluebg.jpg"
         logoUrl="/assets/images/simpleLogo.svg"
-      /> */}
-      <div className="px-4">
+        icon="/assets/images/profIcon.png"
+        iconHeight={50}
+        iconWidth={170}
+      />
+      <div className="">
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Профразвитие
         </h1>
@@ -33,13 +46,16 @@ const Professional = () => {
         >
           Изучить →
         </Link>
-        <hr className=" md:mt-10 mt-5 bg-[#D5D1DB] text-[#D5D1DB]" />
+        <hr className="md:mt-10 mt-5 bg-[#D5D1DB] text-[#D5D1DB]" />
         <div className="bg-[#F9F7FE] mt-4 md:mt-[50px] md:mb-[45px] rounded-2xl">
           <div className="flex items-center justify-between md:mb-[10px]">
             <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
               Курсы
             </h1>
-            <SliderArrows />
+            <SliderArrows
+              onScrollLeft={scrollLeft}
+              onScrollRight={scrollRight}
+            />
           </div>
 
           {loading ? (
@@ -52,9 +68,14 @@ const Professional = () => {
               <p className="text-gray-500 text-sm">{error}</p>
             </div>
           ) : (
-            <CourseSlider courses={courses} />
+            <div
+              ref={sliderRef}
+              className="overflow-x-auto scrollbar-hide flex gap-4 mb-6"
+            >
+              <CourseSlider courses={courses} />
+            </div>
           )}
-          
+
           <Link
             href={"/allCourse"}
             className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
