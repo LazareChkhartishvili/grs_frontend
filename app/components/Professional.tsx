@@ -1,10 +1,15 @@
+"use client";
+
 import React from "react";
 
 import Link from "next/link";
 import SliderArrows from "./SliderArrows";
 import CourseSlider from "./CourseSlider";
+import { useCourses } from "../hooks/useCourses";
 
 const Professional = () => {
+  const { courses, loading, error } = useCourses();
+
   return (
     <div className="py-10 mb-10 md:mx-10 bg-[#F9F7FE]">
       {/* <Banner
@@ -37,12 +42,24 @@ const Professional = () => {
             <SliderArrows />
           </div>
 
-          <CourseSlider />
+          {loading ? (
+            <div className="flex justify-center py-10">
+              <div className="animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent"></div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-10">
+              <p className="text-red-500 mb-2">შეცდომა კურსების ჩატვირთვაში</p>
+              <p className="text-gray-500 text-sm">{error}</p>
+            </div>
+          ) : (
+            <CourseSlider courses={courses} />
+          )}
+          
           <Link
             href={"/allCourse"}
             className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
           >
-            Все 439 курсов →
+            Все {courses.length} курсов →
           </Link>
         </div>
       </div>
