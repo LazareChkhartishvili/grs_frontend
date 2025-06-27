@@ -3,6 +3,7 @@ import React from "react";
 import { CgMail } from "react-icons/cg";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { FaPhone } from "react-icons/fa6";
+import Link from "next/link";
 
 export const personalLinks = [
   {
@@ -46,9 +47,11 @@ const PersonInfo = () => {
               );
             })}
           </div>
-          <h3 className="text-[#D4BAFC] md:text-[24px] md:font-medium cursor-pointer text-end text-[14px] uppercase leading-[90%] mt-8">
-            Редактировать
-          </h3>
+          <Link href={"editprofile"}>
+            <h3 className="text-[#D4BAFC] md:text-[24px] md:font-medium cursor-pointer text-end text-[14px] uppercase leading-[90%] mt-8">
+              Редактировать
+            </h3>
+          </Link>
         </div>
       </div>
     </div>

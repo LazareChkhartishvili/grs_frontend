@@ -2,12 +2,14 @@ import React from "react";
 import { defaultMenuItems } from "../components/Header";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
+import PersonInfo from "../components/PersonalAccount/PersonInfo";
 
 const EditProfile = () => {
   return (
     <div>
       <DesktopNavbar menuItems={defaultMenuItems} />
       <MobileNavbar />
+      <PersonInfo />
       <div className="md:p-10 p-5 bg-[#F9F7FE] m-10">
         <h1
           className="text-[#3D334A] text-[18px] md:text-[40px] leading-[120%] tracking-[-3%] pl-4 mb-10
