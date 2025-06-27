@@ -117,15 +117,12 @@ const PersonGoals = () => {
                   }),
                   menu: (base) => ({
                     ...base,
-                    zIndex: 9999, // რათა არ დაიფაროს სხვა ელემენტებით
+                    zIndex: 9999,
                   }),
                 }}
               />
             </div>
 
-            {/*  */}
-
-            {/* შენახვა */}
             <button
               onClick={() => setIsOpen(false)}
               className="mt-2 bg-[#D4BAFC] text-white py-2 px-4 rounded-[8px] w-full"
