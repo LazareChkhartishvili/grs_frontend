@@ -43,12 +43,12 @@ const Works = () => {
   }
 
   return (
-    <div className="bg-[#F9F7FE] md:mt-0  md:mb-10 md:mx-5 rounded-b-[15px] md:pb-10">
+    <div className="bg-[#F9F7FE] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0">
       {/* Slider */}
       <WorksSlider title="Упражнения" works={works} />
       <Link
         href="complex"
-        className="text-[14px] md:px-10 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
+        className="text-[14px] md:px-10  px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
       >
         Все {works.length} Упражнения →
       </Link>

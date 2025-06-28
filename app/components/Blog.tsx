@@ -25,7 +25,6 @@ const Blog = () => {
         </div>
         {/* Slider */}
         <BlogSlider />
-        <Professional />
       </div>
     </div>
   );

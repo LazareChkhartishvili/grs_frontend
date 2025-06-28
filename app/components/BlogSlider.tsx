@@ -5,7 +5,7 @@ import { IoIosShareAlt } from "react-icons/io";
 const BlogSlider = () => {
   return (
     <div className="md:mt-[50px] mt-5 w-full md:mb-20">
-      <div className="flex md:flex-row gap-7 w-full md:flex-wrap overflow-x-auto md:overflow-x-visible px-0  snap-x snap-mandatory">
+      <div className="flex md:flex-row flex-col gap-7 w-full md:flex-wrap overflow-x-auto md:overflow-x-visible px-0  snap-x snap-mandatory">
         <div className="hidden md:flex bg-white md:p-2 md:pb-5 md:min-h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px]  flex-col justify-between snap-center">
           <div className="relative">
             <Image
@@ -63,7 +63,7 @@ const BlogSlider = () => {
                 alt="blog1"
                 className="flex md:hidden"
               />
-              <p className="text-[#3D334A] text-[14px] md:text-[18px] line-clamp-2">
+              <p className="text-[#3D334A] text-[14px] md:text-[18px] leading-[120%] mt-2 line-clamp-2">
                 Как физиотерапия остеопороза снижает риск переломов
               </p>
               <div className="flex justify-between items-center mt-2 md:mt-3">
@@ -93,8 +93,8 @@ const BlogSlider = () => {
           ))}
         </div>
         <span
-          className="text-[#D4BAFC] leading-[90%] text-[24px] uppercase mt-4
-        px-5 cursor-pointer"
+          className="text-[#D4BAFC] leading-[90%] text-[15px] md:text-[24px] uppercase mt-4
+        md:px-5 px-0 cursor-pointer"
         >
           {" "}
           Все 439 статей →

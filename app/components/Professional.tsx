@@ -21,7 +21,7 @@ const Professional = () => {
   };
 
   return (
-    <div className="mb-10 md:mx-10 bg-[#F9F7FE]">
+    <div className="mb-10 md:mx-5 bg-[#F9F7FE]">
       <Banner
         backgroundUrl="/assets/images/bluebg.jpg"
         logoUrl="/assets/images/simpleLogo.svg"
@@ -29,7 +29,7 @@ const Professional = () => {
         iconHeight={50}
         iconWidth={170}
       />
-      <div className="">
+      <div className="md:p-10 px-5">
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Профразвитие
         </h1>

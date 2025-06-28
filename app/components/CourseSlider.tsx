@@ -57,7 +57,7 @@ const CourseSlider: React.FC<CourseSliderProps> = ({
 
   return (
     <div className="overflow-x-auto scrollbar-hide">
-      <div className="flex flex-row gap-4 w-max md:w-auto mb-10 mx-6">
+      <div className="flex flex-row gap-4 w-max md:w-auto mb-10">
         {displayCourses.map((course) => (
           <div
             key={course.id}
@@ -92,7 +92,7 @@ const CourseSlider: React.FC<CourseSliderProps> = ({
                 : "С советами по безопасности, которым нужно следовать до и после перелома Кристен Гасник"}
             </p>
             <div className="w-full flex justify-end items-end pr-4 md:mt-5">
-              <button className="bg-[#D4BAFC] py-[5px] px-4 rounded-[3px] text-[12px] md:text-[24px]">
+              <button className="bg-[#D4BAFC] py-[5px] px-4 rounded-[3px] md:mt-[19px] md:rounded-[10px] text-[12px] md:text-[24px] leading-[100%]">
                 {course.price}
               </button>
             </div>

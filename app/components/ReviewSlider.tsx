@@ -40,7 +40,7 @@ const ReviewSlider = () => {
         <SliderArrows />
       </div>
 
-      <div className="py-5 px-4 md:py-10 md:px-5 bg-[#F9F7FE] rounded-[30px] w-full overflow-x-auto">
+      <div className="py-5 px-4 md:py-10 md:px-5 bg-[#F9F7FE] rounded-[30px] w-full overflow-x-auto md:overglow-x-hidden">
         <div className="flex gap-5 w-max flex-nowrap">
           {reviewSliderItems.map((item, index) => (
             <div

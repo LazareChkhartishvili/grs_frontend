@@ -19,7 +19,7 @@ const Category = () => {
   return (
     <div className="bg-[#F9F7FE] md:mx-5 md:px-5 px-4 md:pb-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-[20px] md:text-[40px] text-[#3D334A] mb-2.5 md:mb-5">
+        <h1 className="text-[20px] mt-5 md:text-[40px] pt-10 text-[#3D334A] md:mb-5">
           Категории
         </h1>
         <SliderArrows onScrollLeft={scrollLeft} onScrollRight={scrollRight} />

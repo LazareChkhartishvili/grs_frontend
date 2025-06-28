@@ -89,7 +89,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
 
     if (loading) {
       return (
-        <div className="relative md:mt-10">
+        <div className="relative md:mt-10 mt-5">
           <div className="flex items-center gap-[14px] md:gap-[26px]">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex-shrink-0 animate-pulse">
@@ -112,7 +112,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
     }
 
     return (
-      <div className="relative md:mt-10">
+      <div className="relative md:mt-10 mt-2">
         <div
           ref={sliderRef}
           className="flex items-start gap-[14px] md:gap-[26px] overflow-x-auto scrollbar-hide overflow-y-visible md:overflow-hidden scroll-smooth"
