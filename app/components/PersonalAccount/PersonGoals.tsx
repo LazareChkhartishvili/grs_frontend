@@ -6,23 +6,33 @@ import DayBoxes from "../DayBoxes";
 import Select from "react-select";
 import { IoMdClose } from "react-icons/io";
 
-const PersonGoals = () => {
+type Goals = {
+  currentStreak: number;
+  recordStreak: number;
+  calendarIntegration: string;
+};
+
+type Props = {
+  goals: Goals;
+};
+
+const calendarOptions = [
+  { value: "google", label: "Google Calendar" },
+  { value: "apple", label: "Apple Calendar" },
+  { value: "outlook", label: "Outlook" },
+  { value: "yandex", label: "Yandex Календарь" },
+];
+
+const PersonGoals: React.FC<Props> = ({ goals }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const calendarOptions = [
-    { value: "google", label: "Google Calendar" },
-    { value: "apple", label: "Apple Calendar" },
-    { value: "outlook", label: "Outlook" },
-    { value: "yandex", label: "Yandex Календарь" },
-  ];
-
-  const [selectedCalendars, setSelectedCalendars] = useState([
-    { value: "google", label: "Google Calendar" },
-  ]);
+  const [selectedCalendars, setSelectedCalendars] = useState(
+    calendarOptions.filter(
+      (option) => option.value === goals.calendarIntegration
+    )
+  );
 
   return (
     <>
-      {/* ღილაკი მოდალის გასახსნელად */}
       <div className="p-2.5 md:p-5 bg-[#F3D57F] rounded-[10px] md:w-full">
         <div className="flex items-center gap-3">
           <Image
@@ -39,6 +49,10 @@ const PersonGoals = () => {
           Регулярные занятия помогут вам сохранить мотивацию. Настройте
           уведомления и мы поможем вам не забыть о занятии.
         </p>
+        <div className="mb-3 text-white px-5">
+          <p>Текущая серия: {goals.currentStreak} дней</p>
+          <p>Рекорд: {goals.recordStreak} дней подряд</p>
+        </div>
         <button
           onClick={() => setIsOpen(true)}
           className="bg-white text-[#3D334A] py-[17px] pr-[43px] rounded-[10px] text-[18px] leading-[100%] tracking-[-1%] w-full"
@@ -47,10 +61,9 @@ const PersonGoals = () => {
         </button>
       </div>
 
-      {/* მოდალი */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-[#00000033]">
-          <div className="bg-white md:p-[30px] p-4 pt-[27px] mx-auto items-start flex flex-col rounded-[10px] w-[90%] max-w-[500px] shadow-lg relative">
+          <div className="bg-white md:p-[30px] p-4 pt-[27px] mx-auto flex flex-col rounded-[10px] w-[90%] max-w-[500px] shadow-lg relative">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-2 right-3 text-xl font-bold"
@@ -71,21 +84,19 @@ const PersonGoals = () => {
               По каким дням вы хотите заниматься?
             </p>
 
-            {/* დღეების სექცია */}
             <div className="w-full flex justify-center mb-[27px]">
               <DayBoxes />
             </div>
 
-            {/* დროის არჩევა */}
             <div className="grid grid-cols-2 gap-4 w-full mb-4">
-              <div className="flex flex-row items-center gap-[15px]">
+              <div className="flex items-center gap-[15px]">
                 <label className="text-[#3D334A] mb-1 text-sm">С</label>
                 <input
                   type="time"
                   className="border border-[#D4BAFC] w-[100px] md:w-auto rounded-[6px] px-3 py-2 text-[#3D334A]"
                 />
               </div>
-              <div className="flex flex-row items-center gap-[15px]">
+              <div className="flex items-center gap-[15px]">
                 <label className="text-[#3D334A] mb-1 text-sm">До</label>
                 <input
                   type="time"
@@ -94,7 +105,6 @@ const PersonGoals = () => {
               </div>
             </div>
 
-            {/* კალენდრის multiselect */}
             <div className="mb-4 w-full">
               <label className="text-[#3D334A] block mb-2">
                 Выберите календарь для отображения уведомлений

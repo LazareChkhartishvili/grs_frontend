@@ -5,7 +5,7 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import { FaPhone } from "react-icons/fa6";
 import Link from "next/link";
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -14,7 +14,11 @@ type User = {
   image?: string;
 };
 
-const PersonInfo = ({ user }: { user: User }) => {
+type Props = {
+  user: User;
+};
+
+const PersonInfo: React.FC<Props> = ({ user }) => {
   const personalLinks = [
     {
       icon: <CgMail size={20} color="#846FA0" />,
@@ -37,7 +41,7 @@ const PersonInfo = ({ user }: { user: User }) => {
           src={user.image || "/assets/images/personImage.png"}
           width={359}
           height={216}
-          alt="personImage"
+          alt={user.name || "personImage"}
           className="md:w-[190px] md:h-[190px] md:object-cover md:rounded-[10px]"
         />
         <div className="md:w-full">
