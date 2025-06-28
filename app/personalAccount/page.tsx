@@ -11,6 +11,7 @@ import CourseContents from "../components/CourseContents";
 import Statistics from "../components/Statistics";
 import Achievements from "../components/Achievements";
 import { FaMedal } from "react-icons/fa";
+import { users } from "../data/dummyUsers";
 
 const PersonalAccount = () => {
   const tabItems = [
@@ -28,7 +29,7 @@ const PersonalAccount = () => {
           <PersonGoals />
           <DaysInRow />
         </div>
-        <PersonInfo />
+        <PersonInfo user={users[2]} />
         <Tabs items={tabItems} className="md:mx-10 mx-2" />
         <CourseContents />
         <Statistics />
