@@ -25,7 +25,7 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems }) => {
           <ul className="flex ml-[89px] mr-[73px] justify-between w-full">
             {menuItems.map(({ id, name, route }) => (
               <Link key={id} href={route}>
-                <li className="text-white text-[18px] leading-[100%] tracking-[-1%]">
+                <li className="text-white text-[18px] font-[Pt] leading-[100%] tracking-[-1%]">
                   {name}
                 </li>
               </Link>

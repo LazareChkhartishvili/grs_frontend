@@ -3,13 +3,14 @@ import Banner from "./Banner";
 
 const MarketPlace = () => {
   return (
-    <div className="bg-[#F9F7FE] md:mx-10 md:mb-10 mb-6">
+    <div className="bg-[#F9F7FE] md:mx-10 md:mb-10 mb-6 rounded-[30px]">
       <Banner
         backgroundUrl="/assets/images/marketPlace.png"
         logoUrl="/assets/images/simpleLogo.svg"
+        icon="/assets/images/marketplaceTxt.png"
       />
-      <div className="flex flex-col items-start md:items-baseline gap-10 px-4 pb-4">
-        <p className="text-[#3D334A] md:text-[24px] md:p-10 md:max-w-[838px] font-medium leading-[120%]">
+      <div className="flex flex-col items-start md:items-baseline gap-10 px-4 pb-4 ">
+        <p className="text-[#3D334A] md:text-[24px] md:px-5 md:pt-10 md:max-w-[838px] font-bold leading-[120%] font-[Pt]">
           Мы развиваем направление МАРКЕТПЛЭЙС. Нашими партнерами в этом
           направлении могут стать реабилитационные центры, клиники, санатории,
           спортклубы, массаж …

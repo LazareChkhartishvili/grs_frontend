@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
         {variant !== "category" && <DesktopNavbar menuItems={menuItems} />}
         {/* HeroTitle */}
         {variant == "default" && (
-          <h2 className="mx-5  hidden md:flex text-[64px] leading-[100%]  tracking-[-3%] max-w-[894px]">
+          <h2 className="mx-5  hidden md:flex text-[64px] mt-20 leading-[100%]  tracking-[-3%] max-w-[994px]">
             экосистема продуктов направленная на формирование вашего здоровья
           </h2>
         )}
@@ -81,14 +81,14 @@ const Header: React.FC<HeaderProps> = ({
                     height={30}
                   />
                 </div>
-                <h3 className="text-white text-sm font-medium">
+                <h3 className="text-white text-sm font-medium font-[Pt]">
                   {categories[0].text}
                 </h3>
               </div>
 
               {/* მეორე და მესამე ბარათები */}
 
-              <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full">
+              <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full font-[Pt]">
                 {categories.slice(1).map((item) => (
                   <div
                     key={item.id}
@@ -113,11 +113,11 @@ const Header: React.FC<HeaderProps> = ({
             </section>
             {/*  */}
             <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
-              <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[81px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
+              <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[73.2px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[31px] mt-2">
                 <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
                   Реабилитация
                 </h2>
-                <p className="leading-[120%] font-medium md:max-w-[519px]">
+                <p className="leading-[120%] font-medium md:max-w-[719px] text-[24px] font-[Pt] ">
                   Современные израильские методики реабилитации по направлениям
                   ортопедия, неврология, посттравматическая реабилитация походки
                   и др.

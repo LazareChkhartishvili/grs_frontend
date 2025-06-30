@@ -13,7 +13,7 @@ import Reviews from "./components/Reviews";
 
 const Home = () => {
   return (
-    <div className="w-full min-h-screen ">
+    <div className="w-full min-h-screen  ">
       <Header />
       <div>
         <Rehabilitation />

@@ -9,6 +9,13 @@ import Statistics from "../components/Statistics";
 import DaysInRow from "../components/PersonalAccount/DaysInRow";
 import { users } from "../data/dummyUsers";
 import ContinueWatchingBanner from "../components/PersonalAccount/ContinueWatchingBanner";
+import Tabs from "../components/Tabs";
+
+const tabItems = [
+  { label: "Описание", href: "#description" },
+  { label: "Дополнительно", href: "#extra" },
+  { label: "Демо-видео", href: "#demo" },
+];
 
 type Props = {
   userId: string;
@@ -28,6 +35,7 @@ const PersonalAccount: React.FC<Props> = ({ userId }) => {
       <ContinueWatchingBanner />
       <div className="md:mt-10 mb-[100px]">
         <PersonInfo user={user} />
+        <Tabs items={tabItems} />
         <div className="mx-2 md:mx-10 md:mt-10 mt-0 flex flex-col gap-3 md:flex-row-reverse">
           <PersonGoals goals={user.goals} />
           <DaysInRow

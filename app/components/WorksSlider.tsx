@@ -51,7 +51,7 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
           {works.map((work) => (
             <div
               key={work.id}
-              className="bg-white p-2 w-[335px] h-[493px] flex-shrink-0"
+              className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px]"
             >
               <Image
                 src={work.image}
@@ -63,11 +63,11 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
               <h2 className="p-2 bg-[#E9DFF6] rounded-[6px] text-[#3D334A] text-[18px] leading-[90%] uppercase mb-2.5">
                 {work.title}
               </h2>
-              <p className="max-w-[295px] h-[96px] mb-10 text-[#3D334A] leading-[100%] text-[24px]">
+              <p className="max-w-[295px] my-2.5 font-bold mb-10 text-[#3D334A] leading-[100%] text-[24px]">
                 {work.description}
               </p>
-              <div className="w-full flex items-end justify-end">
-                <button className="p-2 bg-[#D4BAFC] rounded-[6px] text-white text-[18px] uppercase">
+              <div className="w-full flex items-end justify-end mt-2.5">
+                <button className="p-2 mt-5 bg-[#D4BAFC] rounded-[6px] text-white text-[18px] leading-[100%] font-bold uppercase">
                   {work.price}
                 </button>
               </div>
