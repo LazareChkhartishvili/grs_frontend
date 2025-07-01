@@ -8,7 +8,7 @@ import { blogItem } from "./BlogItems";
 const Blog = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const blogsPerPage = 6;
+  const blogsPerPage = 4;
   const totalPages = useMemo(() => {
     const otherBlogs = blogItem.slice(1);
     return Math.ceil(otherBlogs.length / blogsPerPage);
