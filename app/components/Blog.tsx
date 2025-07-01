@@ -8,7 +8,7 @@ import { blogItem } from "./BlogItems";
 const Blog = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const blogsPerPage = 4;
+  const blogsPerPage = 6;
   const totalPages = useMemo(() => {
     const otherBlogs = blogItem.slice(1);
     return Math.ceil(otherBlogs.length / blogsPerPage);
@@ -40,7 +40,7 @@ const Blog = () => {
         iconHeight={33}
         iconWidth={125}
       />
-      <div className="py-5 px-6 md:py-[50px] md:px-15">
+      <div className="py-5 px-6 md:py-[50px]">
         <div className="flex items-center justify-between">
           <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
             Блог

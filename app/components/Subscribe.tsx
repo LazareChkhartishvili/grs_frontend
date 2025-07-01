@@ -17,7 +17,7 @@ interface SubscribeProps {
 }
 
 const Subscribe = ({
-  backgroundImage = "/assets/images/hero.jpg",
+  backgroundImage = "/assets/images/continueWatchingBanner.jpg",
   title = "Приобретите подписку для получения доступа к контенту платформы",
   buttonText = "Приобрести подписку",
   buttonTextColor = "#3D334A",
@@ -31,7 +31,7 @@ const Subscribe = ({
   return (
     <div className={`mb-6 md:mb-10 mt-10 md:mt-0 md:px-5 ${containerStyles}`}>
       <div
-        className={`bg-center bg-cover w-[359px] md:w-full md:h-[424px] rounded-[20px] md:px-5 mx-auto md:mx-0 p-4 gap-5`}
+        className={` w-[359px] md:w-full md:h-[424px] rounded-[20px] md:px-5 mx-auto md:mx-0 p-4 gap-5`}
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundColor: bgColor,

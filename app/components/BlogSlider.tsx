@@ -45,8 +45,8 @@ const BlogSlider = ({
       <div className="flex md:flex-row flex-col gap-2.5 mb-10 w-full md:flex-wrap px-0">
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
-          <div className="bg-white md:p-2 md:pb-5 md:min-h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden md:flex">
-            <div className="relative w-[690px]">
+          <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden md:flex">
+            <div className="relative w-[640px] ">
               <Image
                 src={featuredBlog.imageUrl}
                 width={694}
@@ -80,11 +80,11 @@ const BlogSlider = ({
         {/* Desktop Grid */}
         {isDesktop ? (
           <div className="relative">
-            <div className="grid grid-cols-2 grid-rows-2 gap-5">
+            <div className="grid grid-cols-3  grid-rows-3 gap-5">
               {getCurrentBlogs().map((item) => (
                 <div
                   key={item.id}
-                  className="min-w-[200px] max-w-[450px] md:h-[249px] p-5 bg-white flex flex-col justify-between rounded-[20px]"
+                  className="min-w-[200px] max-w-[300px] md:h-[249px] p-5 bg-white flex flex-col justify-between rounded-[20px]"
                 >
                   <p className="text-[#3D334A] text-[18px] leading-[120%] line-clamp-2 font-bold md:text-[24px]">
                     {item.description}
@@ -114,7 +114,7 @@ const BlogSlider = ({
             {otherBlogs.map((item) => (
               <div
                 key={item.id}
-                className="w-[201px] flex-shrink-0 p-3 bg-white flex flex-col justify-between rounded-[10px] snap-center"
+                className="w-[300px] flex-shrink-0 p-3 bg-white flex flex-col justify-between rounded-[10px] snap-center"
               >
                 <Image
                   src={item.imageUrl}
