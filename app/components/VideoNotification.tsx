@@ -20,7 +20,7 @@ const VideoNotification = ({ variant }: VideoNotificationProps) => {
           <h3 className="md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Комплексы упражнений
           </h3>
-          <p className=" md:tex-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
+          <p className=" md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
             В разделе реабилитация предоставлены комплексы упражнений по
             следующим направлениям: ортопедия, неврология, ожирение,
             реабилитация для пожилых, реабилитация после COVID-19, реабилитация
@@ -33,7 +33,7 @@ const VideoNotification = ({ variant }: VideoNotificationProps) => {
           <h3 className="md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Для детей
           </h3>
-          <p className="md:text-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
+          <p className="md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Детям с 10 лет и подросткам будут актуальны разделы, связанные с
             осанкой, юношеским сколиозом и грудным отделом позвоночника, также
             проблемы плечевого пояса, нижняя конечность и коррекция.
@@ -54,7 +54,7 @@ const VideoNotification = ({ variant }: VideoNotificationProps) => {
           <h3 className=" md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Статьи
           </h3>
-          <p className=" md:tex-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
+          <p className=" md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
             В нашей библиотеке представлены статьи, которые являются
             теоретической вводной частью для каждого направления Реабилитации и
             освещают возможные проблемы и патологии, анатомию, физиологию и
