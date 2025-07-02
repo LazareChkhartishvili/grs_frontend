@@ -8,19 +8,19 @@ interface VideoNotificationProps {
 const VideoNotification = ({ variant }: VideoNotificationProps) => {
   return (
     <section
-      className={`flex flex-col md:mx-10 mt-56 md:mb-1 mb-6 mx-auto md:justify-between justify-center items-center ${
-        variant == "rehabilitation" ? "" : "mt-[550px] "
+      className={`flex flex-col md:mx-10 md:mb-20 mt-56 mb-10 md:justify-between ${
+        variant == "rehabilitation" ? "" : "mt-[500px] "
       }`}
     >
       <h2 className="md:text-[64px] px-2 md:px-0 items-start text-start flex justify-start w-full text-2xl text-[rgba(61,51,74,1)] md:pb-10 pb-6">
         ВИдеоупражнения
       </h2>
-      <div className="flex flex-col md:flex-row gap-4 md:gap-5 w-full justify-center items-center md:justify-between mx-auto">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-5 w-full items-center md:justify-between mx-auto">
         <div className="md:p-[30px] p-4 md:w-[456px] md:h-[505px] md:rounded-[40px] w-[359px] h-[397px] rounded-3xl bg-[rgba(212,186,252,1)]">
           <h3 className="md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Комплексы упражнений
           </h3>
-          <p className=" md:tex-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
+          <p className=" md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
             В разделе реабилитация предоставлены комплексы упражнений по
             следующим направлениям: ортопедия, неврология, ожирение,
             реабилитация для пожилых, реабилитация после COVID-19, реабилитация
@@ -33,7 +33,7 @@ const VideoNotification = ({ variant }: VideoNotificationProps) => {
           <h3 className="md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Для детей
           </h3>
-          <p className="md:text-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
+          <p className="md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Детям с 10 лет и подросткам будут актуальны разделы, связанные с
             осанкой, юношеским сколиозом и грудным отделом позвоночника, также
             проблемы плечевого пояса, нижняя конечность и коррекция.
@@ -54,7 +54,7 @@ const VideoNotification = ({ variant }: VideoNotificationProps) => {
           <h3 className=" md:pb-[34px] pb-8 md:text-[40px] text-4xl text-[rgba(255,255,255,1)] tracking-[-3%] leading-[120%]">
             Статьи
           </h3>
-          <p className=" md:tex-[18px] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
+          <p className=" md:text-[18px] font-[Pt] font-medium text-[14px] text-[rgba(255,255,255,1)] tracking-[-3%]  leading-[120%]">
             В нашей библиотеке представлены статьи, которые являются
             теоретической вводной частью для каждого направления Реабилитации и
             освещают возможные проблемы и патологии, анатомию, физиологию и

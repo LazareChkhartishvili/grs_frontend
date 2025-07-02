@@ -13,20 +13,50 @@ import Reviews from "./components/Reviews";
 
 const Home = async () => {
   return (
-    <div className="w-full min-h-screen ">
+    <div className="w-full min-h-screen  ">
       <Header />
       <div>
         <Rehabilitation />
         <Category />
         <Works />
-        <Subscribe />
+        <Subscribe
+          backgroundImage="/assets/images/blueBg.jpg"
+          title="Приобретите подписку для получения доступа к контенту платформы"
+          buttonText="Приобрести подписку"
+          buttonTextColor="#3D334A"
+          buttonBgColor="#FFFFFF"
+          containerStyles="custom-class"
+          titleStyles="text-white"
+          buttonStyles="hover:opacity-80"
+        />
+
         <Professional />
         <Blog />
         <MarketPlace />
-        <Subscribe />
+        <Subscribe
+          backgroundImage="/assets/images/categorySliderBgs/bg1.jpg"
+          title="Пройдите тест и подберите подходящий вам комплекс упражнений"
+          buttonText="ПРОиТИ ТЕСТИРОВАНИЕ"
+          buttonTextColor="#3D334A"
+          buttonBgColor="#FFFFFF"
+          containerStyles="custom-class"
+          titleStyles="text-white"
+          buttonStyles="hover:opacity-80"
+        />
         <Download />
         <Reviews />
-        <Subscribe />
+        <Subscribe
+          backgroundImage=""
+          title="поделитесь вашими впечатлениями"
+          subTitle="Пройдите небольшой опрос и оставьте пожелания о работе с нашей платформой"
+          buttonText="пройти опрос"
+          buttonTextColor="#3D334A"
+          buttonBgColor="#FFFFFF"
+          containerStyles="custom-class"
+          titleStyles="text-[#3D334A]"
+          buttonStyles="hover:opacity-80"
+          bgColor="#F9F7FE"
+        />
       </div>
     </div>
   );

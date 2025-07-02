@@ -9,7 +9,16 @@ const EditProfile = () => {
     <div>
       <DesktopNavbar menuItems={defaultMenuItems} />
       <MobileNavbar />
-      <PersonInfo />
+      <PersonInfo
+        user={{
+          id: "",
+          name: "",
+          email: "",
+          phone: "",
+          location: "",
+          image: undefined,
+        }}
+      />
       <div className="md:p-10 p-5 bg-[#F9F7FE] m-10">
         <h1
           className="text-[#3D334A] text-[18px] md:text-[40px] leading-[120%] tracking-[-3%] pl-4 mb-10

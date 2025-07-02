@@ -11,8 +11,8 @@ const MobileNavbar = () => {
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
-    <header className="px-4 py-6 md:hidden w-full">
-      <div className="fixed top-0 left-0 right-0 z-50 px-4 py-6 md:hidden w-full">
+    <header className="py-6 md:hidden z-[9999999999]">
+      <div className="fixed top-0 left-0 right-0 z-[9999999999] px-6 py-6 md:hidden w-full mx-auto">
         <div className="px-4 py-3  flex justify-between items-center rounded-2xl bg-gradient-to-br from-[rgba(94,43,143,0.5)] to-[rgba(61,51,74,0.4)] backdrop-blur-lg shadow-xl border border-white/10">
           <div onClick={toggleMenu}>
             <NavbarIconButton src={"/assets/images/burger.svg"} alt="Burger" />

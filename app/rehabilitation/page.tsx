@@ -31,7 +31,7 @@ const Rehabilitation = () => {
             </div>
             <p
               className="
-           text-[rgba(255,255,255,1)] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full md:mt-5 mt-[60px]"
+           text-[rgba(255,255,255,1)] font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full md:mt-5 mt-[60px]"
             >
               Оплатить подписку можно с помощью банковской карты или QR-кода в
               личном кабинете
@@ -54,7 +54,7 @@ const Rehabilitation = () => {
                     height={39}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Возможность составлять график тренировок и получать
                   уведомления от платформы об очередной тренировке
                 </p>
@@ -73,7 +73,7 @@ const Rehabilitation = () => {
                     height={25}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Это подписка на 3 или 5 календарных дней с возможностью
                   автоматического продления на 3 или 5 календарных дней
                 </p>
@@ -94,7 +94,7 @@ const Rehabilitation = () => {
                     height={41}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   После оплаты подписки в вашем личном кабинете автоматически
                   активируется доступ к выбранному вами комплексу
                   видеоупражнений
@@ -115,7 +115,7 @@ const Rehabilitation = () => {
                     height={54}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Отменить автоматическое продление подписки можно в личном
                   кабинете сняв соответствующую отметку
                 </p>
@@ -124,11 +124,11 @@ const Rehabilitation = () => {
           </div>
         </div>
 
-        <div className=" relative bg-[url('/assets/images/orangeBg.jpg')] bg-no-repeat bg-cover w-full  overflow-hidden  bg-center md:p-5 p-4 h-[260px] md:h-[386px] md:rounded-[20px] rounded-3xl">
+        <div className=" relative bg-[url('/assets/images/orangeBg.jpg')] bg-no-repeat bg-cover w-full  overflow-hidden  bg-center md:p-10 p-4 h-[260px] md:h-[386px] md:rounded-[20px] rounded-3xl">
           <h3 className="md:text-[42px] text-2xl text-[rgba(255,255,255,1)]  md:tracking-[-1%] tracking-[-3%] md:leading-[100%] leading-[120%]">
             Скидка 10% на 3 месяца <br />и 25% на 6 месяцев подписки
           </h3>
-          <div className="md:max-w-[562px] max-w-[327px] md:p-5 p-[10px] rounded-[10px] bg-[rgba(255,255,255,1)] flex items-center gap-5 absolute bottom-4 left-4 ">
+          <div className="md:max-w-[862px] md:ml-4 cursor-pointer max-w-[327px] md:p-5 p-[10px] rounded-[10px] bg-[rgba(255,255,255,1)] flex items-center gap-5 absolute bottom-4 left-4 ">
             <span className="md:text-[32px] text-[rgba(61,51,74,1)]">
               Приобрести подписку
             </span>
