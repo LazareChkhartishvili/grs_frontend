@@ -19,7 +19,7 @@ const Complex = () => {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:mt-40 px-4">
         <Tabs items={tabItems} />
 
-        <div className="order-3 md:order-2 p-4 md:p-[40px] bg-[rgba(249,247,254,1)] rounded-[20px] md:rounded-[30px]">
+        <div className="order-3 md:order-2 p-4 md:p-[40px] md:mb-20 bg-[rgba(249,247,254,1)] rounded-[20px] md:rounded-[30px]">
           <div className="flex flex-col md:gap-5 gap-4 pb-6 md:pb-[80px]">
             <strong className="text-[rgba(61,51,74,1)] tracking-[-3%] leading-[120%] text-[18px] md:text-[40px] font-medium">
               Комплекс состоит <br /> из 8 упражнений,
