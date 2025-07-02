@@ -124,11 +124,11 @@ const Rehabilitation = () => {
           </div>
         </div>
 
-        <div className=" relative bg-[url('/assets/images/orangeBg.jpg')] bg-no-repeat bg-cover w-full  overflow-hidden  bg-center md:p-5 p-4 h-[260px] md:h-[386px] md:rounded-[20px] rounded-3xl">
+        <div className=" relative bg-[url('/assets/images/orangeBg.jpg')] bg-no-repeat bg-cover w-full  overflow-hidden  bg-center md:p-10 p-4 h-[260px] md:h-[386px] md:rounded-[20px] rounded-3xl">
           <h3 className="md:text-[42px] text-2xl text-[rgba(255,255,255,1)]  md:tracking-[-1%] tracking-[-3%] md:leading-[100%] leading-[120%]">
             Скидка 10% на 3 месяца <br />и 25% на 6 месяцев подписки
           </h3>
-          <div className="md:max-w-[562px] max-w-[327px] md:p-5 p-[10px] rounded-[10px] bg-[rgba(255,255,255,1)] flex items-center gap-5 absolute bottom-4 left-4 ">
+          <div className="md:max-w-[862px] md:ml-4 cursor-pointer max-w-[327px] md:p-5 p-[10px] rounded-[10px] bg-[rgba(255,255,255,1)] flex items-center gap-5 absolute bottom-4 left-4 ">
             <span className="md:text-[32px] text-[rgba(61,51,74,1)]">
               Приобрести подписку
             </span>

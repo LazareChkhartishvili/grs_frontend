@@ -2,13 +2,13 @@ import React from "react";
 
 const Advantages = () => {
   return (
-    <section className="md:max-w-full max-w-[359px] px-2 md:px-8">
+    <section className="md:max-w-full max-w-[359px] px-2 md:px-8 md:mb-20 mb-10">
       <h2 className="md:text-[64px] text-2xl text-[rgba(61,51,74,1)] md:pb-10 pb-6">
         Преимущества
       </h2>
-      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-4">
-        <div className="flex flex-col gap-4 md:gap-5">
-          <div className="bg-[rgba(249,247,254,1)] md:rounded-[15px] rounded-3xl md:p-5 p-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-4 w-full">
+        <div className="flex flex-col gap-4 md:gap-5 w-full min-w-full">
+          <div className="bg-[rgba(249,247,254,1)] md:rounded-[15px] rounded-3xl md:p-5 p-4 w-full">
             <h3 className="text-2xl   md:tracking-[-1%] tracking-[-3%] leading-[100%] text-[rgba(61,51,74,1)]">
               Преимущества
             </h3>
@@ -32,7 +32,7 @@ const Advantages = () => {
             </p>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-5 ">
-            <div className="bg-[rgba(249,247,254,1)] md:rounded-[15px] rounded-3xl md:p-5 p-4 md:max-w-[335px]">
+            <div className="bg-[rgba(249,247,254,1)] w-full md:rounded-[15px] rounded-3xl md:p-5 p-4 md:max-w-[335px]">
               <h3 className="text-2xl  md:tracking-[-1%] tracking-[-3%] leading-[100%] text-[rgba(61,51,74,1)]">
                 75 КОМПЛЕКСОВ УПРАЖНЕНИЙ
               </h3>
