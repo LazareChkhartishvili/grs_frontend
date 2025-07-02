@@ -3,8 +3,8 @@ import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
 import { defaultMenuItems } from "../components/Header";
 import Image from "next/image";
-import WorksSlider from "../components/WorksSlider";
-import { homePageWorks } from "../components/Works";
+// import WorksSlider from "../components/WorksSlider";
+// import { homePageWorks } from "../components/Works";
 
 const ShoppingCard = () => {
   return (
@@ -73,7 +73,7 @@ const ShoppingCard = () => {
           </div>
         </div>
         {/*  */}
-        <WorksSlider works={homePageWorks} />
+        {/* <WorksSlider works={homePageWorks} /> */}
       </div>
     </div>
   );

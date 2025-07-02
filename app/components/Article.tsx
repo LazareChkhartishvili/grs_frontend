@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const Article = () => {
   return (
@@ -90,17 +91,21 @@ const Article = () => {
               </button>
               <div className="flex justify-between items-center gap-[6px]">
                 <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                  <img
+                  <Image
                     className=" w-[14px] h-[18px]"
                     src="/public/arrow-icon.png"
                     alt=""
+                    width={14}
+                    height={18}
                   />
                 </div>
                 <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                  <img
+                  <Image
                     className=" w-[14px] h-[18px]"
                     src="/public/arrow-icon.png"
                     alt=""
+                    width={14}
+                    height={18}
                   />
                 </div>
               </div>
@@ -236,10 +241,12 @@ const Article = () => {
                 </button>
               </div>
             </div>
-            <img
+            <Image
               className="object-contain w-full h-full"
               src="/public/girl.png"
               alt=""
+              width={14}
+              height={18}
             />
           </section>
           <section>
@@ -263,10 +270,12 @@ const Article = () => {
           </section>
           <section className="p-4 md:hidden">
             <div className="max-w-[319px] max-h-[213px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={319}
+                height={213}
               />
             </div>
           </section>
@@ -378,10 +387,12 @@ const Article = () => {
           </section>
           <section className="p-4 hidden md:block">
             <div className="max-w-[630px] max-h-[309px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={630}
+                height={309}
               />
             </div>
           </section>
@@ -494,37 +505,45 @@ const Article = () => {
           </section>
           <section className="p-4 hidden md:block">
             <div className="max-w-[630px] max-h-[309px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={630}
+                height={309}
               />
             </div>
           </section>
           <section className="p-4 hidden md:block">
             <div className="max-w-[630px] max-h-[309px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={630}
+                height={309}
               />
             </div>
           </section>
           <section className="p-4 hidden md:block">
             <div className="max-w-[630px] max-h-[309px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={630}
+                height={309}
               />
             </div>
           </section>
           <section className="p-4 hidden md:block">
             <div className="max-w-[630px] max-h-[309px] rounded-[10px] overflow-hidden">
-              <img
+              <Image
                 src="/public/reabilitation.png"
                 alt="reabilitation hand picture"
                 className="w-full h-full rounded-[10px] object-cover"
+                width={630}
+                height={309}
               />
             </div>
           </section>
@@ -536,38 +555,48 @@ const Article = () => {
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-[4.16px] md:gap-6">
               <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <img
+                <Image
                   src="/public/star-icon.png"
                   alt="reabilitation hand picture"
                   className="w-full h-full rounded-[10px] object-cover"
+                  width={55.55}
+                  height={50.7}
                 />
               </div>
               <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <img
+                <Image
                   src="/public/star-icon.png"
                   alt="reabilitation hand picture"
                   className="w-full h-full rounded-[10px] object-cover"
+                  width={55.55}
+                  height={50.7}
                 />
               </div>
               <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <img
+                <Image
                   src="/public/star-icon.png"
                   alt="reabilitation hand picture"
                   className="w-full h-full rounded-[10px] object-cover"
+                  width={55.55}
+                  height={50.7}
                 />
               </div>
               <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <img
+                <Image
                   src="/public/star-icon.png"
                   alt="reabilitation hand picture"
                   className="w-full h-full rounded-[10px] object-cover"
+                  width={55.55}
+                  height={50.7}
                 />
               </div>
               <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <img
+                <Image
                   src="/public/star-icon.png"
                   alt="reabilitation hand picture"
                   className="w-full h-full rounded-[10px] object-cover"
+                  width={55.55}
+                  height={50.7}
                 />
               </div>
             </div>
@@ -616,10 +645,12 @@ const Article = () => {
           <div className=" flex flex-col gap-5">
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
               <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <img
+                <Image
                   src="/public/avatar.jpg"
                   alt="User avatar"
                   className="w-full h-full object-cover"
+                  width={50}
+                  height={50}
                 />
               </div>
 
@@ -639,10 +670,12 @@ const Article = () => {
             </div>
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
               <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <img
+                <Image
                   src="/public/avatar.jpg"
                   alt="User avatar"
                   className="w-full h-full object-cover"
+                  width={50}
+                  height={50}
                 />
               </div>
 
@@ -662,10 +695,12 @@ const Article = () => {
             </div>
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
               <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <img
+                <Image
                   src="/public/avatar.jpg"
                   alt="User avatar"
                   className="w-full h-full object-cover"
+                  width={50}
+                  height={50}
                 />
               </div>
 
@@ -690,7 +725,7 @@ const Article = () => {
         </section>
       </div>
 
-      <div className="md:block flex flex-col hidden">
+      <div className=" md:flex flex-col hidden">
         <div className=" w-[335px] bg-[rgba(255,255,255,1)] p-5 flex flex-col justify-between rounded-[20px] h-[249px]  mb-5">
           <p>Как физиотерапия остеопороза снижает риск переломов</p>
           <div className="flex justify-between items-center ">
@@ -699,17 +734,21 @@ const Article = () => {
             </button>
             <div className="flex justify-between items-center gap-[6px]">
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
             </div>
@@ -724,17 +763,21 @@ const Article = () => {
             </button>
             <div className="flex justify-between items-center gap-[6px]">
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
             </div>
@@ -749,27 +792,33 @@ const Article = () => {
             </button>
             <div className="flex justify-between items-center gap-[6px]">
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <img
+        <Image
           src="/public/mobileAppPic.png"
           alt="mobile app ilustration"
           className="mx-[17.5px] mb-5"
+          width={14}
+          height={18}
         />
 
         <div className=" w-[335px] bg-[rgba(255,255,255,1)] p-5 flex flex-col justify-between rounded-[20px] h-[249px] mb-5">
@@ -780,17 +829,21 @@ const Article = () => {
             </button>
             <div className="flex justify-between items-center gap-[6px]">
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
             </div>
@@ -805,27 +858,33 @@ const Article = () => {
             </button>
             <div className="flex justify-between items-center gap-[6px]">
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
               <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <img
+                <Image
                   className=" w-[14px] h-[18px]"
                   src="/public/arrow-icon.png"
                   alt=""
+                  width={14}
+                  height={18}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <img
+        <Image
           src="/public/mobileAppPic.png"
           alt="mobile app ilustration"
           className="mx-[17.5px] mb-5"
+          width={14}
+          height={18}
         />
       </div>
     </main>
