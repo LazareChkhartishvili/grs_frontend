@@ -27,7 +27,7 @@ const SubcategoryDropdown = ({
       {subcategories.map((subcategory, index) => (
         <Link
           key={subcategory.id}
-          href={`/subcategories/${subcategory.id}`}
+          href={`category/${category.id}`}
           className={`
             flex items-center justify-between p-3 md:p-4 cursor-pointer
             hover:bg-[#F9F7FE] transition-colors duration-200
