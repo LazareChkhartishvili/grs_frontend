@@ -31,7 +31,7 @@ const Rehabilitation = () => {
             </div>
             <p
               className="
-           text-[rgba(255,255,255,1)] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full md:mt-5 mt-[60px]"
+           text-[rgba(255,255,255,1)] font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full md:mt-5 mt-[60px]"
             >
               Оплатить подписку можно с помощью банковской карты или QR-кода в
               личном кабинете
@@ -54,7 +54,7 @@ const Rehabilitation = () => {
                     height={39}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Возможность составлять график тренировок и получать
                   уведомления от платформы об очередной тренировке
                 </p>
@@ -73,7 +73,7 @@ const Rehabilitation = () => {
                     height={25}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Это подписка на 3 или 5 календарных дней с возможностью
                   автоматического продления на 3 или 5 календарных дней
                 </p>
@@ -94,7 +94,7 @@ const Rehabilitation = () => {
                     height={41}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   После оплаты подписки в вашем личном кабинете автоматически
                   активируется доступ к выбранному вами комплексу
                   видеоупражнений
@@ -115,7 +115,7 @@ const Rehabilitation = () => {
                     height={54}
                   />
                 </div>
-                <p className="text-white text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
+                <p className="text-white font-[Pt] text-[14px] md:text-[18px] tracking-[0%] leading-[120%] font-medium md:max-w-[413px] w-full mt-[60px] md:mt-5">
                   Отменить автоматическое продление подписки можно в личном
                   кабинете сняв соответствующую отметку
                 </p>
