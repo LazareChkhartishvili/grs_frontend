@@ -102,10 +102,9 @@ export function useCategories(): UseCategoriesReturn {
       setError(null);
       
       // Import API function dynamically
-      const { apiRequest } = await import('../config/api');
-      const endpoint = '/api/categories/with-subcategories';
+      const { fetchMainCategories } = await import('../config/api');
       
-      const backendCategories: BackendCategory[] = await apiRequest<BackendCategory[]>(endpoint);
+      const backendCategories: BackendCategory[] = await fetchMainCategories<BackendCategory[]>();
 
       // Check if it's an array and has expected structure
       if (!Array.isArray(backendCategories)) {
