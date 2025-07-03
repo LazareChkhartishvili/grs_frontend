@@ -1,11 +1,19 @@
+// BlogSlider.tsx
 "use client";
 import Image from "next/image";
 import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { blogItem } from "./BlogItems";
+import { BlogItem } from "../data/BlogItems";
 
-const useIsDesktop = () => {
+interface BlogSliderProps {
+  scrollRef: React.RefObject<HTMLDivElement | null>;
+  currentPage: number;
+  blogsPerPage: number;
+}
+
+const useIsDesktop = (): boolean => {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -20,21 +28,17 @@ const useIsDesktop = () => {
   return isDesktop;
 };
 
-const BlogSlider = ({
+const BlogSlider: React.FC<BlogSliderProps> = ({
   scrollRef,
   currentPage,
   blogsPerPage,
-}: {
-  scrollRef: React.RefObject<HTMLDivElement | null>;
-  currentPage: number;
-  blogsPerPage: number;
 }) => {
   const isDesktop = useIsDesktop();
 
-  const featuredBlog = blogItem[0];
-  const otherBlogs = blogItem.slice(1);
+  const featuredBlog: BlogItem | undefined = blogItem[0];
+  const otherBlogs: BlogItem[] = blogItem.slice(1);
 
-  const getCurrentBlogs = () => {
+  const getCurrentBlogs = (): BlogItem[] => {
     const startIndex = currentPage * blogsPerPage;
     const endIndex = startIndex + blogsPerPage;
     return otherBlogs.slice(startIndex, endIndex);
@@ -42,7 +46,7 @@ const BlogSlider = ({
 
   return (
     <div className="md:mt-[50px] mt-5 w-full font-[Pt]">
-      <div className="flex md:flex-row flex-col gap-2.5 mb-10 w-full  px-0">
+      <div className="flex md:flex-row flex-col gap-2.5 mb-10 w-full px-0">
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
           <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden md:flex">

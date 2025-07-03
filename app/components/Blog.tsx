@@ -1,27 +1,39 @@
+// Blog.tsx
 "use client";
 import React, { useRef, useState, useMemo } from "react";
 import Banner from "./Banner";
 import SliderArrows from "./SliderArrows";
-import BlogSlider from "./BlogSlider";
+import GridLayouts, { LayoutType } from "./GridLayouts";
 import { blogItem } from "./BlogItems";
 
-const Blog = ({ withBanner }: { withBanner: boolean }) => {
+interface BlogProps {
+  withBanner: boolean;
+  withSlider: boolean;
+  layoutType?: LayoutType;
+}
+
+const Blog: React.FC<BlogProps> = ({
+  withBanner,
+  withSlider,
+  layoutType = "default",
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const blogsPerPage = 4;
+
   const totalPages = useMemo(() => {
     const otherBlogs = blogItem.slice(1);
     return Math.ceil(otherBlogs.length / blogsPerPage);
-  }, []);
+  }, [blogsPerPage]);
 
-  const scrollLeft = () => {
+  const scrollLeft = (): void => {
     if (currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
     }
     scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
   };
 
-  const scrollRight = () => {
+  const scrollRight = (): void => {
     if (currentPage < totalPages - 1) {
       setCurrentPage((prev) => prev + 1);
     }
@@ -44,18 +56,22 @@ const Blog = ({ withBanner }: { withBanner: boolean }) => {
       )}
 
       <div className="py-5 px-6 md:py-[50px]">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
-            Блог
-          </h2>
-          <SliderArrows
-            onScrollLeft={scrollLeft}
-            onScrollRight={scrollRight}
-            canScrollLeft={canScrollLeft}
-            canScrollRight={canScrollRight}
-          />
-        </div>
-        <BlogSlider
+        {withSlider && (
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
+              Блог
+            </h2>
+            <SliderArrows
+              onScrollLeft={scrollLeft}
+              onScrollRight={scrollRight}
+              canScrollLeft={canScrollLeft}
+              canScrollRight={canScrollRight}
+            />
+          </div>
+        )}
+
+        <GridLayouts
+          layoutType={layoutType}
           scrollRef={scrollRef}
           currentPage={currentPage}
           blogsPerPage={blogsPerPage}

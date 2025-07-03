@@ -1,4 +1,3 @@
-
 import React from "react";
 import Header from "./components/Header";
 import Rehabilitation from "./components/Rehabilitation";
@@ -31,7 +30,7 @@ const Home = async () => {
         />
 
         <Professional />
-        <Blog />
+        <Blog withBanner={true} withSlider={true} />
         <MarketPlace />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg1.jpg"

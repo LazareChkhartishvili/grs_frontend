@@ -11,8 +11,8 @@ const MobileNavbar = () => {
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
-    <header className="py-6 md:hidden z-[9999999999]">
-      <div className="fixed top-0 left-0 right-0 z-[9999999999] px-6 py-6 md:hidden w-full mx-auto">
+    <header className="py-6 md:hidden z-[9999999999] max-w-[700px]">
+      <div className=" top-0 left-0 right-0 z-[9999999999] px-6 py-6 md:hidden w-full mx-auto">
         <div className="px-4 py-3  flex justify-between items-center rounded-2xl bg-gradient-to-br from-[rgba(94,43,143,0.5)] to-[rgba(61,51,74,0.4)] backdrop-blur-lg shadow-xl border border-white/10">
           <div onClick={toggleMenu}>
             <NavbarIconButton src={"/assets/images/burger.svg"} alt="Burger" />
@@ -24,7 +24,7 @@ const MobileNavbar = () => {
         </div>
       </div>
 
-      <div className="max-w-[313px] mt-26 flex gap-2 mx-auto">
+      <div className="max-w-[313px] hidden mt-26 md:flex gap-2 mx-auto">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
