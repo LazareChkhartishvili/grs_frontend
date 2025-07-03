@@ -33,7 +33,7 @@ const Professional = () => {
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Профразвитие
         </h1>
-        <p className="text-[#846FA0] text-[18px] md:max-w-[1320px] md:text-[24px] leading-[120%] md:leading-[100%] mb-5">
+        <p className="text-[#846FA0] text-[18px] font-[Pt] font-medium md:max-w-[1320px] md:text-[24px] leading-[120%] md:leading-[100%] mb-5">
           Раздел обучение и профессиональное развитие в области реабилитации,
           физиотерапии и лечебно-восстановительного массажа -это коллаборация с
           Израильскими специалистами и центрами обучения, например, таким как

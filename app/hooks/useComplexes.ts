@@ -7,7 +7,8 @@ interface UseComplexesReturn {
   complexes: Complex[];
   loading: boolean;
   error: string | null;
-  refetch: () => Promise<void>;
+  refetch: (categoryId?: string | number) => Promise<void>;
+  exercises?: Exercise[];
 }
 
 function transformExercise(backendExercise: BackendExercise): Exercise {
@@ -97,62 +98,62 @@ function getFallbackComplexes(): Complex[] {
   ];
 }
 
-export function useComplexes(): UseComplexesReturn {
+export function useComplexes(categoryId?: string | number): UseComplexesReturn {
   const [complexes, setComplexes] = useState<Complex[]>([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchComplexes = async () => {
+  const fetchComplexes = async (catId?: string | number) => {
     try {
       setLoading(true);
       setError(null);
-      
-      console.log('🔗 Fetching complexes from: http://localhost:4000/api/complexes');
-      
-      const response = await fetch('http://localhost:4000/api/complexes');
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      setExercises([]);
+      // თუ გადმოეცა categoryId, გამოიძახე შესაბამისი endpoint
+      if (catId || categoryId) {
+        const id = catId || categoryId;
+        const url = `http://localhost:4000/categories/${id}/exercises-and-complexes`;
+        console.log('🔗 Fetching category complexes/exercises from:', url);
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // ვვარაუდობ, რომ პასუხი არის { complexes: BackendComplex[], exercises: BackendExercise[] }
+        const backendComplexes: BackendComplex[] = data.complexes || [];
+        const backendExercises: BackendExercise[] = data.exercises || [];
+        // complexes
+        const transformedComplexes: Complex[] = backendComplexes
+          .filter(complex => complex.isActive)
+          .map(transformComplex);
+        setComplexes(transformedComplexes);
+        // exercises
+        const transformedExercises: Exercise[] = backendExercises
+          .filter(ex => ex.isActive)
+          .map(transformExercise);
+        setExercises(transformedExercises);
+      } else {
+        // ძველი ლოგიკა
+        console.log('🔗 Fetching complexes from: http://localhost:4000/api/complexes');
+        const response = await fetch('http://localhost:4000/api/complexes');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const backendComplexes: BackendComplex[] = await response.json();
+        if (!Array.isArray(backendComplexes)) {
+          throw new Error('API response is not an array');
+        }
+        const transformedComplexes: Complex[] = backendComplexes
+          .filter(complex => complex.isActive)
+          .map(transformComplex);
+        setComplexes(transformedComplexes);
+        setExercises([]); // exercises ცარიელი
       }
-      
-      const backendComplexes: BackendComplex[] = await response.json();
-      
-      console.log('📊 Received complexes:', backendComplexes);
-
-      // Check if it's an array
-      if (!Array.isArray(backendComplexes)) {
-        throw new Error('API response is not an array');
-      }
-      
-      // Transform data to match frontend interface
-      const transformedComplexes: Complex[] = backendComplexes
-        .filter(complex => complex.isActive)
-        .map(transformComplex);
-      
-      console.log('✅ Transformed complexes:', transformedComplexes);
-      
-      // Log detailed information about each complex
-      transformedComplexes.forEach(complex => {
-        console.log(`📋 კომპლექსის ინფორმაცია:`);
-        console.log(`სახელი: ${complex.name}`);
-        console.log(`ფასი: ${complex.price}${complex.currency}`);
-        console.log(`სირთულე: ${complex.difficulty}`);
-        console.log(`სტადია: ${complex.stage}`);
-        console.log(`სავარჯიშოების რაოდენობა: ${complex.exercisesCount}`);
-        console.log(`სავარჯიშოები კომპლექსში:`);
-        complex.exercises.forEach(exercise => {
-          console.log(`  ${exercise.title} - ${exercise.difficulty}, ${exercise.duration} წუთი, ${exercise.sets} სეტი`);
-        });
-        console.log('---');
-      });
-      
-      setComplexes(transformedComplexes);
     } catch (err) {
       console.error('❌ Error fetching complexes:', err);
-      // Use fallback complexes on error
       const fallbackComplexes = getFallbackComplexes();
       setComplexes(fallbackComplexes);
-      
+      setExercises([]);
       setError(err instanceof Error ? err.message : 'API Error - using fallback data');
     } finally {
       setLoading(false);
@@ -161,12 +162,14 @@ export function useComplexes(): UseComplexesReturn {
 
   useEffect(() => {
     fetchComplexes();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId]);
 
   return {
     complexes,
     loading,
     error,
-    refetch: fetchComplexes
+    refetch: fetchComplexes,
+    exercises: exercises.length > 0 ? exercises : undefined
   };
 } 

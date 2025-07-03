@@ -57,7 +57,7 @@ const CourseSlider: React.FC<CourseSliderProps> = ({
 
   return (
     <div className="overflow-x-auto scrollbar-hide">
-      <div className="flex flex-row gap-4 w-max md:w-auto mb-10">
+      <div className="flex flex-row gap-4 w-max md:w-auto mb-10 font-[Pt]">
         {displayCourses.map((course) => (
           <div
             key={course.id}

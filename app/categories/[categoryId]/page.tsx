@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 // import React, { useEffect, useState } from 'react';
 // import { useCategories } from '../../hooks/useCategories';
@@ -239,16 +239,20 @@ import ReviewSlider from "../../components/ReviewSlider";
 import Blog from "../../components/Blog";
 import Professional from "../../components/Professional";
 
+import { useComplexes } from "@/app/hooks/useComplexes";
+
 const Section = () => {
+  const complexes = useComplexes();
+  console.log(complexes);
   return (
     <div>
       <MobileNavbar />
       <Header />
-      <Works />
-      <Works />
+      <Works title="Упражнения" />
+      <Works title="Complexes" />
       <Subscribe />
       <ReviewSlider />
-      <Blog withBanner={false} />
+      <Blog withBanner={false} withSlider={false} />
       <Professional />
     </div>
   );

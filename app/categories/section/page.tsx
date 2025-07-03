@@ -17,7 +17,7 @@ const Section = () => {
       <Works />
       <Subscribe />
       <ReviewSlider />
-      <Blog withBanner={false} />
+      <Blog withBanner={false} withSlider={true} />
       <Professional />
     </div>
   );

@@ -17,7 +17,7 @@ const Home = async () => {
       <div>
         <Rehabilitation />
         <Category />
-        <Works />
+        <Works title="Упражнения" />
         <Subscribe
           backgroundImage="/assets/images/blueBg.jpg"
           title="Приобретите подписку для получения доступа к контенту платформы"
