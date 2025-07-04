@@ -246,14 +246,16 @@ const Section = () => {
   console.log(complexes);
   return (
     <div>
-      <MobileNavbar />
-      <Header />
-      <Works title="Упражнения" />
-      <Works title="Complexes" />
-      <Subscribe />
-      <ReviewSlider />
-      <Blog withBanner={false} withSlider={false} />
-      <Professional />
+      {/* <MobileNavbar /> */}
+      <Header variant="category-detail" />
+      <div className="md:mt-[100px]">
+        <Works title="Упражнения" />
+        <Works title="Complexes" />
+        <Subscribe />
+        <ReviewSlider />
+        <Blog withBanner={false} withSlider={false} />
+        <Professional />
+      </div>
     </div>
   );
 };
