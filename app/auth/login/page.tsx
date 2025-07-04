@@ -11,7 +11,7 @@ import { TbBrandOkRu } from "react-icons/tb";
 const Login = () => {
   return (
     <div className="min-h-screen md:relative flex flex-col md:bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] md:bg-cover md:bg-center text-[#3D334A] mt-10 md:p-5 md:items-end md:mt-0">
-      <div className="md:w-[808px] md:bg-white md:h-[984px] md:py-[200px] md:px-[118px] rounded-[40px]">
+      <div className="md:w-[808px] md:bg-white md:h-auto md:py-[200px] md:px-[118px] rounded-[40px]">
         <Image
           src={"/assets/icons/Union.png"}
           width={158}

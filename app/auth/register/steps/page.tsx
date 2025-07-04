@@ -1,0 +1,497 @@
+"use client";
+import React, { useState } from "react";
+import VerificationStep from "./VerificationStep";
+import Image from "next/image";
+import Link from "next/link";
+
+const steps = [
+  { label: "Верификация" },
+  { label: "Шаг 2" },
+  { label: "Шаг 3" },
+  { label: "Шаг 4" },
+  { label: "Шаг 5" },
+  { label: "Шаг 6" },
+];
+
+const countryOptions = [
+  { label: "Россия", code: "+7" },
+  { label: "Грузия", code: "+995" },
+  { label: "Украина", code: "+380" },
+];
+
+const diseaseOptions = [
+  { label: "Остеохондроз", value: "Остеохондроз" },
+  { label: "Артрит", value: "Артрит" },
+  { label: "Сколиоз", value: "Сколиоз" },
+  { label: "Другое", value: "Другое" },
+];
+
+const Step2 = ({
+  onNext,
+  onBack,
+}: {
+  onNext: () => void;
+  onBack: () => void;
+}) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const allFilled = firstName.trim().length > 0 && lastName.trim().length > 0;
+
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (allFilled) {
+      onNext();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
+      <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
+        Как вас зовут?
+      </h2>
+      <p className="mb-10 mt-2 text-[#846FA0] text-start pl- text-[18px] font-medium leading-[100%] font-[Pt]">
+        Имя и фамилия будут отображаться в вашем личном кабинете
+      </p>
+      <form
+        onSubmit={handleNext}
+        className="flex flex-col gap-4 w-full justify-center"
+      >
+        <div className="flex flex-row font-[Pt] gap-6 items-center justify-center mb-2 w-full">
+          <input
+            type="text"
+            placeholder="Имя"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+          <input
+            type="text"
+            placeholder="Фамилия"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+        </div>
+        <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
+          <button
+            type="button"
+            onClick={onBack}
+            className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px] w-full"
+          >
+            Назад
+          </button>
+          <button
+            type="submit"
+            className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50 w-full"
+            disabled={!allFilled}
+          >
+            Далее
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const Step3 = ({
+  onNext,
+  onBack,
+}: {
+  onNext: () => void;
+  onBack: () => void;
+}) => {
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const allFilled = country.trim().length > 0 && city.trim().length > 0;
+
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (allFilled) {
+      onNext();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
+      <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
+        Откуда вы?
+      </h2>
+      <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
+        Укажите название страны и населенного пункта
+      </p>
+      <form
+        onSubmit={handleNext}
+        className="flex flex-col gap-4 w-full justify-center"
+      >
+        <div className="flex flex-row font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
+          <input
+            type="text"
+            placeholder="Страна/Регион"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+          <input
+            type="text"
+            placeholder="Населенный пункт"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+        </div>
+        <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
+          <button
+            type="button"
+            onClick={onBack}
+            className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px] w-full"
+          >
+            Назад
+          </button>
+          <button
+            type="submit"
+            className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50 w-full"
+            disabled={!allFilled}
+          >
+            Далее
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const Step4 = ({
+  onNext,
+  onBack,
+}: {
+  onNext: () => void;
+  onBack: () => void;
+}) => {
+  const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]);
+  const [phone, setPhone] = useState("");
+  const [other, setOther] = useState("");
+  const allFilled = phone.trim().length > 0 && other.trim().length > 0;
+
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (allFilled) {
+      onNext();
+    }
+  };
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const country = countryOptions.find((c) => c.code === e.target.value);
+    if (country) {
+      setSelectedCountry(country);
+      setPhone("");
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    setPhone(value);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
+      <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
+        Как с вами связаться?
+      </h2>
+      <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
+        Укажите номер телефона или другой удобный вам способ связи.
+      </p>
+      <form
+        onSubmit={handleNext}
+        className="flex flex-col gap-4 w-full justify-center"
+      >
+        <div className="flex flex-col font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
+          <select
+            value={selectedCountry.code}
+            onChange={handleCountryChange}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl bg-white text-[#3D334A] mb-2"
+          >
+            {countryOptions.map((option) => (
+              <option key={option.code} value={option.code}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="relative w-full">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl text-[#3D334A] select-none">
+              {selectedCountry.code}
+            </span>
+            <input
+              type="text"
+              value={phone}
+              onChange={handlePhoneChange}
+              className="w-full h-[60px] border border-[#E9DFF6] rounded-lg pl-16 pr-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A] mb-2"
+              placeholder={selectedCountry.code + " ..."}
+              maxLength={15}
+            />
+          </div>
+          <input
+            type="text"
+            placeholder="Другой способ связи"
+            value={other}
+            onChange={(e) => setOther(e.target.value)}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+        </div>
+        <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
+          <button
+            type="button"
+            onClick={onBack}
+            className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px] w-full"
+          >
+            Назад
+          </button>
+          <button
+            type="submit"
+            className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50 w-full"
+            disabled={!allFilled}
+          >
+            Далее
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const Step5 = ({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void;
+  onNext: () => void;
+}) => {
+  const [gender, setGender] = useState("");
+  const [age, setAge] = useState("");
+  const [weight, setWeight] = useState("");
+  const allFilled = gender && age.trim().length > 0 && weight.trim().length > 0;
+
+  const handleFinish = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (allFilled) {
+      onNext();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
+      <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
+        Расскажите о себе
+      </h2>
+      <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
+        Укажите ваш пол, примерный вес и рост. Это поможет нашим специалистам в
+        дальнейшем.
+      </p>
+      <form
+        onSubmit={handleFinish}
+        className="flex flex-col gap-4 w-full justify-center"
+      >
+        <div className="flex flex-col font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
+          <select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl bg-white text-[#3D334A] mb-2"
+          >
+            <option value="" disabled>
+              Пол
+            </option>
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+            <option value="Другое">Другое</option>
+          </select>
+          <div className="flex flex-row font-[Pt] gap-6 items-center justify-center mb-2 w-full">
+            <input
+              type="number"
+              placeholder="Возраст"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+              min={0}
+            />
+            <input
+              type="number"
+              placeholder="Вес"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+              min={0}
+            />
+          </div>
+        </div>
+        <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
+          <button
+            type="button"
+            onClick={onBack}
+            className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px] w-full"
+          >
+            Назад
+          </button>
+          <button
+            type="submit"
+            className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50 w-full"
+            disabled={!allFilled}
+          >
+            Далее
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const Step6 = ({
+  onNext,
+  onBack,
+}: {
+  onNext: () => void;
+  onBack: () => void;
+}) => {
+  const [disease, setDisease] = useState("");
+  const [other, setOther] = useState("");
+  const isOther = disease === "Другое";
+  const allFilled =
+    (disease && disease !== "Другое") || (isOther && other.trim().length > 0);
+
+  const handleNext = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (allFilled) {
+      onNext();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
+      <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
+        ВАше заболевание
+      </h2>
+      <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
+        Выберите подходящее заболевание из предложенного списка или укажите его
+        самостоятельно.
+      </p>
+      <form
+        onSubmit={handleNext}
+        className="flex flex-col gap-4 w-full justify-center"
+      >
+        <div className="flex flex-col font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
+          <select
+            value={disease}
+            onChange={(e) => setDisease(e.target.value)}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl bg-white text-[#3D334A] mb-2"
+          >
+            <option value="" disabled>
+              Заболевание
+            </option>
+            {diseaseOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            placeholder="Другое"
+            value={other}
+            onChange={(e) => setOther(e.target.value)}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
+        </div>
+        <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
+          <button
+            type="button"
+            onClick={onBack}
+            className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px] w-full"
+          >
+            Назад
+          </button>
+          <button
+            type="submit"
+            className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50 w-full"
+            disabled={!allFilled}
+          >
+            Завершить
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const CongratsStep = () => (
+  <div className="flex flex-col items-center justify-center min-h-screen">
+    <Image
+      src={"/assets/images/congrats.png"}
+      quality={10}
+      width={446}
+      height={446}
+      alt="ballons"
+    />
+    <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-6 text-[#3D334A]">
+      Регистрация завершена!
+    </h2>
+    <p className="text-[#846FA0] text-center text-[20px] font-medium leading-[120%] font-[Pt] max-w-xl">
+      Теперь вы можете пользоваться всем спектром функций, предложенных нашей
+      платформой.
+    </p>
+    <div className="flex items-center gap-4 mt-10">
+      <button className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] rounded-[8px] bg-cover bg-center w-[335px] h-[48px] bg-no-repeat">
+        <Link href={"/personalAccount/1/edit"}>в личный кабинет</Link>
+      </button>
+      <button className="bg-[#F9F7FE] w-[335px] h-[48px] bg-no-repeat text-[#D4BAFC] rounded-[8px]">
+        <Link href={"/"}>На главную</Link>
+      </button>
+    </div>
+  </div>
+);
+
+const RegisterSteps = () => {
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => setActiveStep((s) => Math.min(s + 1, steps.length));
+  const handleBack = () => setActiveStep((s) => (s > 0 ? s - 1 : 0));
+
+  const renderStep = () => {
+    switch (activeStep) {
+      case 0:
+        return <VerificationStep onNext={handleNext} onBack={handleBack} />;
+      case 1:
+        return <Step2 onNext={handleNext} onBack={handleBack} />;
+      case 2:
+        return <Step3 onNext={handleNext} onBack={handleBack} />;
+      case 3:
+        return <Step4 onNext={handleNext} onBack={handleBack} />;
+      case 4:
+        return <Step5 onBack={handleBack} onNext={handleNext} />;
+      case 5:
+        return <Step6 onNext={handleNext} onBack={handleBack} />;
+      default:
+        return <CongratsStep />;
+    }
+  };
+
+  const progress = ((activeStep + 1) / steps.length) * 100;
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center ">
+      <div>
+        {/* მხოლოდ progress bar, მილოცვის გვერდზე აღარ ჩანს */}
+        {activeStep < steps.length && (
+          <div className="w-[500px] mx-auto">
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-10">
+              <div
+                className="h-full bg-[#D4BAFC] rounded-[20px] w-[600px] transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        )}
+        {renderStep()}
+      </div>
+    </div>
+  );
+};
+
+export default RegisterSteps;

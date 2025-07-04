@@ -6,8 +6,7 @@ import { Footer } from "./Footer";
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const hideFooter =
-    pathname.startsWith("/auth/signIn") ||
-    pathname.startsWith("/auth/register");
+    pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
 
   return (
     <CategoryProvider>
