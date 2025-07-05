@@ -39,7 +39,7 @@ const MobileNavbar = () => {
 
       {/* Dropdown Menu */}
       {isMenuOpen && (
-        <div className="fixed top-24 left-4 w-[90%] mx-auto flex flex-col gap-2 px-4 py-4 bg-gradient-to-br from-[rgba(94,43,143,0.6)] to-[rgba(61,51,74,0.5)] rounded-2xl shadow-lg backdrop-blur-lg border border-white/10">
+        <div className="fixed top-30 left-2 w-[90%] mx-auto flex flex-col gap-2 px-4 py-4 bg-gradient-to-br from-[rgba(94,43,143,0.6)] to-[rgba(61,51,74,0.5)] rounded-2xl shadow-lg backdrop-blur-lg border border-white/10">
           {defaultMenuItems.map((item, index) => (
             <Link href={item.route} key={index}>
               <button
