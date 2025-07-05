@@ -20,7 +20,7 @@ const Home = () => {
         <Category />
         <Works title="Упражнения" />
         <Subscribe
-          backgroundImage="/assets/images/blueBg.jpg"
+          backgroundImage="/assets/images/bluebg.jpg"
           title="Приобретите подписку для получения доступа к контенту платформы"
           buttonText="Приобрести подписку"
           buttonTextColor="#3D334A"

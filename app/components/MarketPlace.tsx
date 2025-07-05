@@ -7,7 +7,7 @@ const MarketPlace = () => {
       <Banner
         backgroundUrl="/assets/images/marketPlace.png"
         logoUrl="/assets/images/simpleLogo.svg"
-        icon="/assets/images/marketplaceTxt.png"
+        icon="/assets/images/marketplacetxt.png"
       />
       <div className="flex flex-col items-start md:items-baseline gap-10 px-4 pb-4 ">
         <p className="text-[#3D334A] md:text-[24px] md:px-5 md:pt-10 md:max-w-[838px] font-bold leading-[120%] font-[Pt]">

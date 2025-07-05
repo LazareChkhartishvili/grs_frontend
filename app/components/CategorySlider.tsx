@@ -134,7 +134,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                 className="flex-shrink-0 flex flex-col relative z-10 overflow-visible"
               >
                 <Link
-                  href={`/category/${category.id}`}
+                  href={`/categories/${category.id}`}
                   onClick={(e) =>
                     handleCategoryClick(category.id, category.title, e)
                   }

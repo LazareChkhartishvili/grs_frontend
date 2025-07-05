@@ -26,9 +26,8 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/assets/font/pt.woff") format("woff"),
-    url("/assets/font/pt.otf") format("opentype"),
-    url("/assets/font/pt.ttf") format("truetype");
+  src: url("/assets/font/pt.otf") format("opentype"),
+    url("/assets/font/Pt.ttf") format("truetype");
 }
 
 body {

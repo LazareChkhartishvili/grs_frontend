@@ -95,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({
             <Image
               width={1120}
               height={518}
-              src={"/assets/images/blogBg.jpg"}
+              src={"/assets/images/blogbg.jpg"}
               alt="blogBg"
               className="md:h-[518px] md:w-full h-[217px] w-[359px] bg-cover bg-center rounded-[20px] relative"
             />

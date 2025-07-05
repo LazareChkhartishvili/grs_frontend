@@ -24,7 +24,7 @@ const Rehabilitation = () => {
       <Banner
         backgroundUrl="/assets/images/continueWatchingBanner.jpg"
         logoUrl="/assets/images/simpleLogo.svg"
-        icon="/assets/icons/rehabilitation.png"
+        icon="/assets/icons/Rehabilitation.png"
       />
       <div className="md:p-10 px-4">
         <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
