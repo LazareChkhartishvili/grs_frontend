@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { CiBookmark } from "react-icons/ci";
@@ -57,9 +57,20 @@ const Header: React.FC<HeaderProps> = ({
   menuItems = defaultMenuItems,
   variant = "default",
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
 
-  console.log(currentSlide);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setCurrentSlide(1);
+      } else {
+        setCurrentSlide(0);
+      }
+    };
+    handleResize(); // პირველივე რენდერზე
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleRightArrowClick = () => {
     setCurrentSlide(1);
@@ -145,6 +156,7 @@ const Header: React.FC<HeaderProps> = ({
                 здоровья
               </h2>
             )}
+
             {variant == "rehabilitation" && (
               <div className="flex flex-col gap-0 px-5">
                 <h2 className="mx-5  hidden md:flex text-[64px] md:mt-[40px] leading-[100%] tracking-[-3%] max-w-[994px]">
@@ -178,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
                       <>
-                        <section className="mt-[152px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
+                        <section className="mt-[150px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
                           {/* პირველი ბარათი */}
                           <motion.div
                             initial={{ opacity: 0, x: -100 }}
@@ -243,6 +255,7 @@ const Header: React.FC<HeaderProps> = ({
                 </AnimatePresence>
               </div>
             )}
+
             {variant == "category-detail" && (
               <div className="mb-5 md:mb-0 mx-auto">
                 <section className="mt-[122px] md:mt-[450px] mx-auto md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
@@ -423,6 +436,18 @@ const Header: React.FC<HeaderProps> = ({
                 </section>
               </div>
             )}
+
+            {variant == "default" && (
+              <div className="flex md:hidden mt-28 mx-auto items-center justify-center gap-2">
+                <div className="bg-[#3D334A] p-4 rounded-[20px] w-[176px] h-[166px]">
+                  Изучить подробнее
+                </div>
+                <div className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] bg-cover bg-center p-4 rounded-[20px] w-[176px] h-[166px] ">
+                  В каталог
+                </div>
+              </div>
+            )}
+
             {variant !== "category" &&
               variant !== "category-detail" &&
               variant !== "categories" && (
@@ -499,7 +524,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             )}
 
-            {/*  */}
+            {/* Desktop Navigation Arrows */}
             {variant !== "category-detail" &&
               variant !== "categories" &&
               variant !== "complex" && (
@@ -514,13 +539,13 @@ const Header: React.FC<HeaderProps> = ({
                     currentSlide === 1 &&
                     variant == "rehabilitation" &&
                     " bottom-0 top-[450px]"
-                  }`}
+                  }  `}
                 >
                   <div
                     onClick={handleLeftArrowClick}
-                    className={`w-[70px] h-[70px]  ${
+                    className={`w-[70px] h-[70px] hidden   ${
                       currentSlide === 0 ? "bg-[#857b9299]" : "bg-[#3D334A99]"
-                    } rounded-[20px] flex items-center justify-center mr-2.5 cursor-pointer`}
+                    } rounded-[20px] md:flex items-center justify-center mr-2.5 cursor-pointer`}
                   >
                     <Image
                       src={"/assets/images/rightIcon.svg"}
@@ -531,9 +556,9 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div
                     onClick={handleRightArrowClick}
-                    className={`w-[70px] h-[70px]  ${
+                    className={`w-[70px] h-[70px] hidden  ${
                       currentSlide === 0 ? "bg-[#3D334A99]" : "bg-[#857b9299]"
-                    } rounded-[20px] flex items-center justify-center cursor-pointer`}
+                    } rounded-[20px] md:flex items-center justify-center cursor-pointer`}
                   >
                     {" "}
                     <Image
@@ -541,6 +566,44 @@ const Header: React.FC<HeaderProps> = ({
                       alt="leftIcon"
                       width={11}
                       height={9}
+                    />
+                  </div>
+                </div>
+              )}
+
+            {/* Mobile Navigation Arrows */}
+            {variant !== "category-detail" &&
+              variant !== "categories" &&
+              variant !== "complex" && (
+                <div
+                  className={`hidden absolute flex-row items-center right-5 bottom-5 ${
+                    variant == "rehabilitation" ? "bottom-14" : "bottom-5"
+                  }`}
+                >
+                  <div
+                    onClick={handleLeftArrowClick}
+                    className={`w-[50px] h-[50px]  ${
+                      currentSlide === 0 ? "bg-[#857b9299]" : "bg-[#3D334A99]"
+                    } rounded-[15px] flex items-center justify-center mr-2 cursor-pointer`}
+                  >
+                    <Image
+                      src={"/assets/images/rightIcon.svg"}
+                      alt="rightIcon"
+                      width={8}
+                      height={6}
+                    />
+                  </div>
+                  <div
+                    onClick={handleRightArrowClick}
+                    className={`w-[50px] h-[50px]  ${
+                      currentSlide === 0 ? "bg-[#3D334A99]" : "bg-[#857b9299]"
+                    } rounded-[15px] flex items-center justify-center cursor-pointer`}
+                  >
+                    <Image
+                      src={"/assets/images/leftIcon.svg"}
+                      alt="leftIcon"
+                      width={8}
+                      height={6}
                     />
                   </div>
                 </div>

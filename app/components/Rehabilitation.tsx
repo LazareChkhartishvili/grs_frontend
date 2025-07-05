@@ -4,23 +4,7 @@ import Banner from "./Banner";
 
 const Rehabilitation = () => {
   return (
-    <div className="bg-[#F9F7FE] md:mt-32 md:mx-5">
-      {/* <div className="bg-[url('/assets/images/blog.png')] rounded-t-[20px] md:pl-10 flex items-start justify-center md:justify-normal pt-6 w-full h-[97px] md:h-[150px] md:mb-10 bg-cover bg-center">
-        <Image
-          src={"/assets/images/simpleLogo.svg"}
-          width={105}
-          height={40}
-          alt="logo"
-          className=""
-        />
-        <Image
-          src={"/assets/icons/rehabilitation.png"}
-          alt="rehabilitation"
-          width={166}
-          height={19}
-          className=""
-        />
-      </div> */}
+    <div className="bg-[#F9F7FE] md:mt-32 md:mx-5 mt-[200px]">
       <Banner
         backgroundUrl="/assets/images/continueWatchingBanner.jpg"
         logoUrl="/assets/images/simpleLogo.svg"
