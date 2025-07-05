@@ -10,12 +10,12 @@ const reviewSliderItems = [
   },
   {
     id: 2,
-    image: "/assets/images/reviewSliderImages/image4.png",
+    image: "/assets/images/reviewSliderImages/image2.png",
     name: "Алексей",
   },
   {
     id: 3,
-    image: "/assets/images/reviewSliderImages/image1.png",
+    image: "/assets/images/reviewSliderImages/image3.png",
     name: "Владислава",
   },
   {
@@ -25,7 +25,7 @@ const reviewSliderItems = [
   },
   {
     id: 5,
-    image: "/assets/images/reviewSliderImages/image1.png",
+    image: "/assets/images/reviewSliderImages/image3.png",
     name: "Владислава",
   },
 ];
