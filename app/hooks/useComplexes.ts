@@ -119,16 +119,28 @@ export function useComplexes(categoryId?: string | number): UseComplexesReturn {
       // თუ გადმოეცა categoryId, გამოიძახე შესაბამისი endpoint
       if (catId || categoryId) {
         const id = catId || categoryId;
-        const url = `https://grs-bkbc.onrender.com/api/categories/${id}/exercises-and-complexes`;
-        console.log("🔗 Fetching category complexes/exercises from:", url);
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+        const { apiRequest, API_CONFIG } = await import("../config/api");
+        const endpoint = `/api/categories/${id}/exercises-and-complexes`;
+        console.log(
+          "🔗 Fetching category complexes/exercises from:",
+          `${API_CONFIG.BASE_URL}${endpoint}`
+        );
+        const data = await apiRequest(endpoint);
         // ვვარაუდობ, რომ პასუხი არის { complexes: BackendComplex[], exercises: BackendExercise[] }
-        const backendComplexes: BackendComplex[] = data.complexes || [];
-        const backendExercises: BackendExercise[] = data.exercises || [];
+        const backendComplexes: BackendComplex[] =
+          (
+            data as {
+              complexes?: BackendComplex[];
+              exercises?: BackendExercise[];
+            }
+          ).complexes || [];
+        const backendExercises: BackendExercise[] =
+          (
+            data as {
+              complexes?: BackendComplex[];
+              exercises?: BackendExercise[];
+            }
+          ).exercises || [];
         // complexes
         const transformedComplexes: Complex[] = backendComplexes
           .filter((complex) => complex.isActive)
@@ -141,16 +153,15 @@ export function useComplexes(categoryId?: string | number): UseComplexesReturn {
         setExercises(transformedExercises);
       } else {
         // ძველი ლოგიკა
+        const { apiRequest, API_CONFIG } = await import("../config/api");
+        const endpoint = "/api/complexes";
         console.log(
-          "🔗 Fetching complexes from: https://grs-bkbc.onrender.com/api/exercise-complexes"
+          "🔗 Fetching complexes from:",
+          `${API_CONFIG.BASE_URL}${endpoint}`
         );
-        const response = await fetch(
-          "https://grs-bkbc.onrender.com/api/exercise-complexes"
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const backendComplexes: BackendComplex[] = await response.json();
+        const backendComplexes: BackendComplex[] = await apiRequest<
+          BackendComplex[]
+        >(endpoint);
         if (!Array.isArray(backendComplexes)) {
           throw new Error("API response is not an array");
         }

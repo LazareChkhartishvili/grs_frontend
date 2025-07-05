@@ -30,6 +30,11 @@ let AppController = class AppController {
                 courseCategories: '/api/course-categories',
                 exercises: '/api/exercises',
                 exerciseComplexes: '/api/exercise-complexes',
+                subcategories: '/api/subcategories',
+                articles: '/api/articles',
+                videos: '/api/videos',
+                users: '/api/users',
+                sets: '/api/sets',
             },
         };
     }
@@ -40,6 +45,11 @@ let AppController = class AppController {
                 category: 'POST /api/categories',
                 course: 'POST /api/courses',
                 exercise: 'POST /api/exercises',
+                subcategory: 'POST /api/subcategories',
+                article: 'POST /api/articles',
+                video: 'POST /api/videos',
+                user: 'POST /api/users',
+                set: 'POST /api/sets',
             },
         };
     }

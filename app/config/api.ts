@@ -5,6 +5,8 @@ export const API_CONFIG = {
   ENDPOINTS: {
     CATEGORIES: "/api/categories/with-subcategories",
     MAIN_CATEGORIES: "/api/categories",
+    COMPLEXES: "/api/complexes",
+    EXERCISES: "/api/exercises",
   },
 
   HEADERS: {

@@ -12,6 +12,11 @@ export declare class AppController {
             courseCategories: string;
             exercises: string;
             exerciseComplexes: string;
+            subcategories: string;
+            articles: string;
+            videos: string;
+            users: string;
+            sets: string;
         };
     };
     seedData(): {
@@ -20,6 +25,11 @@ export declare class AppController {
             category: string;
             course: string;
             exercise: string;
+            subcategory: string;
+            article: string;
+            video: string;
+            user: string;
+            set: string;
         };
     };
 }

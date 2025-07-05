@@ -8,6 +8,10 @@ import { useComplexes } from "../hooks/useComplexes";
 const Works = ({ title }: { title: string }) => {
   const { complexes, loading, error } = useComplexes();
 
+  console.log("🔍 Works component - complexes:", complexes);
+  console.log("🔍 Works component - loading:", loading);
+  console.log("🔍 Works component - error:", error);
+
   // Transform complexes to work with existing WorksSlider component
   const works = complexes.flatMap((complex) =>
     complex.exercises.map((exercise) => ({

@@ -10,9 +10,10 @@ async function bootstrap() {
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     });
-    await app.listen(4000);
-    console.log('GRS Backend is running on: http://localhost:4000');
-    console.log('API Base URL: http://localhost:4000/api');
+    const port = process.env.PORT || 4000;
+    await app.listen(port);
+    console.log(`GRS Backend is running on: http://localhost:${port}`);
+    console.log(`API Base URL: http://localhost:${port}/api`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
