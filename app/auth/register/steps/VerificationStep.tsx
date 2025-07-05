@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   useState,
   useRef,
@@ -6,10 +7,13 @@ import React, {
   KeyboardEvent,
   ClipboardEvent,
 } from "react";
+import { verifyCode } from "@/app/config/api";
 
 interface VerificationStepProps {
   onNext: () => void;
   onBack: () => void;
+  onVerificationComplete: (code: string) => void;
+  email: string;
 }
 
 const CODE_LENGTH = 6;
@@ -17,11 +21,14 @@ const CODE_LENGTH = 6;
 const VerificationStep: React.FC<VerificationStepProps> = ({
   onNext,
   onBack,
+  onVerificationComplete,
+  email,
 }) => {
   const [values, setValues] = useState<string[]>(Array(CODE_LENGTH).fill(""));
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(60);
   const [disabled, setDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
@@ -30,7 +37,7 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
       return () => clearInterval(interval);
     } else if (timer === 0) {
       setDisabled(true);
-      setError("Время истекло. Запросите код повторно.");
+      setError("კოდის ვადა ამოიწურა. გთხოვთ მოითხოვოთ ახალი კოდი.");
     }
   }, [timer, disabled]);
 
@@ -70,21 +77,33 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
 
   const allFilled = values.every((v) => v.length === 1);
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (allFilled) {
-      onNext();
+    if (allFilled && !isLoading) {
+      setIsLoading(true);
+      setError("");
+      
+      try {
+        const code = values.join("");
+        await verifyCode(email, code);
+        onVerificationComplete(code);
+        onNext();
+      } catch (error: unknown) {
+        console.error('Verification failed:', error);
+        setError("არასწორი კოდი. გთხოვთ სცადოთ ხელახლა.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
       <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-[#3D334A] ">
-        Верификация аккаунта
+        ანგარიშის ვერიფიკაცია
       </h2>
       <p className="mb-10 mt-2 text-[#846FA0] text-start pl-12 text-[18px] font-medium leading-[100%] font-[Pt]">
-        Для подтверждения аккаунта введите код, который мы отправили вам на
-        почтовый адрес example@example.com
+        ანგარიშის დასადასტურებლად შეიყვანეთ კოდი, რომელიც გამოგზავნილია თქვენს ელ-ფოსტაზე {email}
       </p>
       <form
         onSubmit={handleNext}
@@ -106,14 +125,14 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
               onChange={handleChange(idx)}
               onKeyDown={handleKeyDown(idx)}
               onPaste={handlePaste}
-              disabled={disabled}
+              disabled={disabled || isLoading}
               autoFocus={idx === 0}
             />
           ))}
         </div>
         <div className="text-[#846FA0] mt-5 text-[18px] leading-[100%] pl-10 font-bold font-[Pt]">
-          Получить код повторно можно через:{" "}
-          <span className="text-[#D4BAFC]">{timer}</span>
+          კოდის ხელახლა გამოგზავნა შესაძლებელია:{" "}
+          <span className="text-[#D4BAFC]">{timer}</span> წამში
         </div>
         {error && (
           <span className="text-red-500 text-sm text-center">{error}</span>
@@ -123,15 +142,16 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
             type="button"
             onClick={onBack}
             className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px]"
+            disabled={isLoading}
           >
-            Назад
+            უკან
           </button>
           <button
             type="submit"
             className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50"
-            disabled={!allFilled || disabled}
+            disabled={!allFilled || disabled || isLoading}
           >
-            Далее
+            {isLoading ? "გთხოვთ მოიცადოთ..." : "შემდეგი"}
           </button>
         </div>
       </form>

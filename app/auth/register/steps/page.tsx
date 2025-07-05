@@ -3,6 +3,27 @@ import React, { useState } from "react";
 import VerificationStep from "./VerificationStep";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { register } from "../../../config/api";
+
+interface RegistrationData {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  location: string;
+  diseases?: string[];
+  additionalInfo?: string;
+  verificationCode?: string;
+  otherContact?: string;
+}
+
+interface VerificationStepProps {
+  onNext: () => void;
+  onBack: () => void;
+  onVerificationComplete: (code: string) => void;
+  email: string;
+}
 
 const steps = [
   { label: "Верификация" },
@@ -29,9 +50,11 @@ const diseaseOptions = [
 const Step2 = ({
   onNext,
   onBack,
+  onDataUpdate,
 }: {
   onNext: () => void;
   onBack: () => void;
+  onDataUpdate: (data: { firstName: string; lastName: string }) => void;
 }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -40,6 +63,7 @@ const Step2 = ({
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
+      onDataUpdate({ firstName, lastName });
       onNext();
     }
   };
@@ -96,9 +120,11 @@ const Step2 = ({
 const Step3 = ({
   onNext,
   onBack,
+  onDataUpdate,
 }: {
   onNext: () => void;
   onBack: () => void;
+  onDataUpdate: (data: { country: string; city: string }) => void;
 }) => {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -107,6 +133,7 @@ const Step3 = ({
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
+      onDataUpdate({ country, city });
       onNext();
     }
   };
@@ -163,9 +190,11 @@ const Step3 = ({
 const Step4 = ({
   onNext,
   onBack,
+  onDataUpdate,
 }: {
   onNext: () => void;
   onBack: () => void;
+  onDataUpdate: (data: { phone: string; otherContact: string }) => void;
 }) => {
   const [selectedCountry, setSelectedCountry] = useState(countryOptions[0]);
   const [phone, setPhone] = useState("");
@@ -175,6 +204,7 @@ const Step4 = ({
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
+      onDataUpdate({ phone: selectedCountry.code + phone, otherContact: other });
       onNext();
     }
   };
@@ -259,20 +289,25 @@ const Step4 = ({
 };
 
 const Step5 = ({
-  onBack,
   onNext,
+  onBack,
+  onDataUpdate,
 }: {
-  onBack: () => void;
   onNext: () => void;
+  onBack: () => void;
+  onDataUpdate: (data: { selectedDiseases: string[] }) => void;
 }) => {
-  const [gender, setGender] = useState("");
-  const [age, setAge] = useState("");
-  const [weight, setWeight] = useState("");
-  const allFilled = gender && age.trim().length > 0 && weight.trim().length > 0;
+  const [selectedDisease, setSelectedDisease] = useState("");
+  const [other, setOther] = useState("");
+  const allFilled = selectedDisease.trim().length > 0 || other.trim().length > 0;
 
-  const handleFinish = (e: React.FormEvent) => {
+  const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
+      const diseases = [];
+      if (selectedDisease) diseases.push(selectedDisease);
+      if (other) diseases.push(other);
+      onDataUpdate({ selectedDiseases: diseases });
       onNext();
     }
   };
@@ -287,40 +322,31 @@ const Step5 = ({
         дальнейшем.
       </p>
       <form
-        onSubmit={handleFinish}
+        onSubmit={handleNext}
         className="flex flex-col gap-4 w-full justify-center"
       >
         <div className="flex flex-col font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
           <select
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            value={selectedDisease}
+            onChange={(e) => setSelectedDisease(e.target.value)}
             className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl bg-white text-[#3D334A] mb-2"
           >
             <option value="" disabled>
-              Пол
+              Заболевание
             </option>
-            <option value="Мужской">Мужской</option>
-            <option value="Женский">Женский</option>
-            <option value="Другое">Другое</option>
+            {diseaseOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
-          <div className="flex flex-row font-[Pt] gap-6 items-center justify-center mb-2 w-full">
-            <input
-              type="number"
-              placeholder="Возраст"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
-              min={0}
-            />
-            <input
-              type="number"
-              placeholder="Вес"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              className="w-[276px] h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
-              min={0}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Другое"
+            value={other}
+            onChange={(e) => setOther(e.target.value)}
+            className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
+          />
         </div>
         <div className="flex justify-between mt-8 gap-4 px-10 font-[Pt]">
           <button
@@ -346,19 +372,19 @@ const Step5 = ({
 const Step6 = ({
   onNext,
   onBack,
+  onDataUpdate,
 }: {
   onNext: () => void;
   onBack: () => void;
+  onDataUpdate: (data: { additionalInfo: string }) => void;
 }) => {
-  const [disease, setDisease] = useState("");
-  const [other, setOther] = useState("");
-  const isOther = disease === "Другое";
-  const allFilled =
-    (disease && disease !== "Другое") || (isOther && other.trim().length > 0);
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const allFilled = additionalInfo.trim().length > 0;
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
+      onDataUpdate({ additionalInfo });
       onNext();
     }
   };
@@ -378,8 +404,8 @@ const Step6 = ({
       >
         <div className="flex flex-col font-[Pt] gap-6 items-center justify-center mb-2 w-full px-10">
           <select
-            value={disease}
-            onChange={(e) => setDisease(e.target.value)}
+            value={additionalInfo}
+            onChange={(e) => setAdditionalInfo(e.target.value)}
             className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl bg-white text-[#3D334A] mb-2"
           >
             <option value="" disabled>
@@ -394,8 +420,8 @@ const Step6 = ({
           <input
             type="text"
             placeholder="Другое"
-            value={other}
-            onChange={(e) => setOther(e.target.value)}
+            value={additionalInfo}
+            onChange={(e) => setAdditionalInfo(e.target.value)}
             className="w-full h-[60px] border border-[#E9DFF6] rounded-lg px-4 text-xl focus:outline-none focus:border-[#846FA0] bg-white text-[#3D334A]"
           />
         </div>
@@ -448,25 +474,111 @@ const CongratsStep = () => (
 );
 
 const RegisterSteps = () => {
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
+  const [registrationData, setRegistrationData] = useState<RegistrationData>(() => {
+    // თუ localStorage-ში გვაქვს დროებითი მონაცემები
+    const savedData = typeof window !== 'undefined' ? localStorage.getItem('registrationData') : null;
+    return savedData ? JSON.parse(savedData) : {
+      email: '',
+      password: '',
+      name: '',
+      phone: '',
+      location: '',
+      diseases: [],
+      additionalInfo: '',
+    };
+  });
 
-  const handleNext = () => setActiveStep((s) => Math.min(s + 1, steps.length));
-  const handleBack = () => setActiveStep((s) => (s > 0 ? s - 1 : 0));
+  const handleNext = () => {
+    const nextStep = activeStep + 1;
+    
+    // ბოლო ეტაპზე გაგზავნა
+    if (nextStep === steps.length) {
+      handleSubmitRegistration();
+      return;
+    }
+    
+    setActiveStep(nextStep);
+    // შევინახოთ პროგრესი
+    localStorage.setItem('registrationData', JSON.stringify(registrationData));
+  };
+
+  const handleBack = () => {
+    setActiveStep((s) => (s > 0 ? s - 1 : 0));
+  };
+
+  const handleSubmitRegistration = async () => {
+    try {
+      const { otherContact, ...registrationDataToSend } = registrationData;
+      await register(registrationDataToSend);
+      // წარმატების შემთხვევაში
+      localStorage.removeItem('registrationData'); // წავშალოთ დროებითი მონაცემები
+      router.push('/auth/login');
+    } catch (error) {
+      console.error('Registration failed:', error);
+      // აქ შეგიძლიათ დაამატოთ error handling
+    }
+  };
+
+  const updateRegistrationData = (data: Partial<RegistrationData>) => {
+    setRegistrationData(prev => ({
+      ...prev,
+      ...data
+    }));
+  };
 
   const renderStep = () => {
     switch (activeStep) {
       case 0:
-        return <VerificationStep onNext={handleNext} onBack={handleBack} />;
+        return (
+          <VerificationStep
+            onNext={handleNext}
+            onBack={handleBack}
+            onVerificationComplete={(code) => updateRegistrationData({ verificationCode: code })}
+            email={registrationData.email}
+          />
+        );
       case 1:
-        return <Step2 onNext={handleNext} onBack={handleBack} />;
+        return (
+          <Step2
+            onNext={handleNext}
+            onBack={handleBack}
+            onDataUpdate={(data) => updateRegistrationData({ name: `${data.firstName} ${data.lastName}` })}
+          />
+        );
       case 2:
-        return <Step3 onNext={handleNext} onBack={handleBack} />;
+        return (
+          <Step3
+            onNext={handleNext}
+            onBack={handleBack}
+            onDataUpdate={(data) => updateRegistrationData({ location: `${data.country}, ${data.city}` })}
+          />
+        );
       case 3:
-        return <Step4 onNext={handleNext} onBack={handleBack} />;
+        return (
+          <Step4
+            onNext={handleNext}
+            onBack={handleBack}
+            onDataUpdate={(data) => updateRegistrationData({ phone: data.phone, otherContact: data.otherContact })}
+          />
+        );
       case 4:
-        return <Step5 onBack={handleBack} onNext={handleNext} />;
+        return (
+          <Step5
+            onNext={handleNext}
+            onBack={handleBack}
+            onDataUpdate={(data) => updateRegistrationData({ diseases: data.selectedDiseases })}
+          />
+        );
       case 5:
-        return <Step6 onNext={handleNext} onBack={handleBack} />;
+        return (
+          <Step6
+            onNext={handleNext}
+            onBack={handleBack}
+            onDataUpdate={(data) => updateRegistrationData({ additionalInfo: data.additionalInfo })}
+          />
+        );
       default:
         return <CongratsStep />;
     }

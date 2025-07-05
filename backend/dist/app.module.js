@@ -21,6 +21,7 @@ const user_module_1 = require("./user/user.module");
 const article_module_1 = require("./article/article.module");
 const video_module_1 = require("./video/video.module");
 const set_module_1 = require("./set/set.module");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,6 +41,7 @@ exports.AppModule = AppModule = __decorate([
             article_module_1.ArticleModule,
             video_module_1.VideoModule,
             set_module_1.SetModule,
+            auth_module_1.AuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

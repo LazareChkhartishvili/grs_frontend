@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema({ timestamps: true })
+@Schema()
 export class User {
   @Prop({ required: true })
   name: string;
@@ -11,35 +11,33 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop()
-  bio?: string;
+  @Prop({ required: true })
+  password: string;
+
+  @Prop({ required: true })
+  phone: string;
+
+  @Prop({ required: true })
+  location: string;
 
   @Prop()
-  avatar?: string;
+  image?: string;
 
-  @Prop({
-    enum: ['admin', 'instructor', 'student'],
-    default: 'student',
-  })
-  role: string;
+  @Prop({ default: Date.now })
+  createdAt: Date;
 
-  @Prop({ default: true })
-  isActive: boolean;
-
-  @Prop()
-  phone?: string;
-
-  @Prop()
-  expertise?: string[];
-
-  @Prop()
-  experience?: number; // წლები
-
-  @Prop()
-  education?: string;
-
-  @Prop()
-  certifications?: string[];
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User); 
+export const UserSchema = SchemaFactory.createForClass(User);
+
+// DTO for frontend response
+export interface UserResponse {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  image?: string;
+}

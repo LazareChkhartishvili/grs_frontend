@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { VideoModule } from './video/video.module';
 import { SetModule } from './set/set.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SetModule } from './set/set.module';
     ArticleModule,
     VideoModule,
     SetModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

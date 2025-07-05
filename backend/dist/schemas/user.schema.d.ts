@@ -3,15 +3,12 @@ export type UserDocument = User & Document;
 export declare class User {
     name: string;
     email: string;
-    bio?: string;
-    avatar?: string;
-    role: string;
-    isActive: boolean;
-    phone?: string;
-    expertise?: string[];
-    experience?: number;
-    education?: string;
-    certifications?: string[];
+    password: string;
+    phone: string;
+    location: string;
+    image?: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User, any> & User & {
     _id: import("mongoose").Types.ObjectId;
@@ -22,3 +19,11 @@ export declare const UserSchema: import("mongoose").Schema<User, import("mongoos
 } & {
     __v: number;
 }>;
+export interface UserResponse {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    location: string;
+    image?: string;
+}
