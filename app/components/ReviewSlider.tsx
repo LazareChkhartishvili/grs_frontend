@@ -5,7 +5,7 @@ import SliderArrows from "./SliderArrows";
 const reviewSliderItems = [
   {
     id: 1,
-    image: "/assets/images/reviewSliderImages/image1.png",
+    image: "/assets/images/reviewSliderImages/image4.png",
     name: "Александра",
   },
   {
