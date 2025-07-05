@@ -37,7 +37,7 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
       return () => clearInterval(interval);
     } else if (timer === 0) {
       setDisabled(true);
-      setError("კოდის ვადა ამოიწურა. გთხოვთ მოითხოვოთ ახალი კოდი.");
+      setError("Время действия кода истекло. Пожалуйста, запросите новый код.");
     }
   }, [timer, disabled]);
 
@@ -82,15 +82,15 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
     if (allFilled && !isLoading) {
       setIsLoading(true);
       setError("");
-      
+
       try {
         const code = values.join("");
         await verifyCode(email, code);
         onVerificationComplete(code);
         onNext();
       } catch (error: unknown) {
-        console.error('Verification failed:', error);
-        setError("არასწორი კოდი. გთხოვთ სცადოთ ხელახლა.");
+        console.error("Verification failed:", error);
+        setError("Неверный код. Пожалуйста, попробуйте снова.");
       } finally {
         setIsLoading(false);
       }
@@ -100,10 +100,11 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
   return (
     <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
       <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-[#3D334A] ">
-        ანგარიშის ვერიფიკაცია
+        Верификация аккаунта
       </h2>
       <p className="mb-10 mt-2 text-[#846FA0] text-start pl-12 text-[18px] font-medium leading-[100%] font-[Pt]">
-        ანგარიშის დასადასტურებლად შეიყვანეთ კოდი, რომელიც გამოგზავნილია თქვენს ელ-ფოსტაზე {email}
+        Для подтверждения аккаунта введите код, отправленный на ваш email{" "}
+        {email}
       </p>
       <form
         onSubmit={handleNext}
@@ -131,8 +132,8 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
           ))}
         </div>
         <div className="text-[#846FA0] mt-5 text-[18px] leading-[100%] pl-10 font-bold font-[Pt]">
-          კოდის ხელახლა გამოგზავნა შესაძლებელია:{" "}
-          <span className="text-[#D4BAFC]">{timer}</span> წამში
+          Повторная отправка кода возможна через:{" "}
+          <span className="text-[#D4BAFC]">{timer}</span> секунд
         </div>
         {error && (
           <span className="text-red-500 text-sm text-center">{error}</span>
@@ -144,14 +145,14 @@ const VerificationStep: React.FC<VerificationStepProps> = ({
             className="bg-[#E9DFF6] text-[#3D334A] py-2 px-8 rounded-lg font-medium text-[18px]"
             disabled={isLoading}
           >
-            უკან
+            Назад
           </button>
           <button
             type="submit"
             className="bg-[#D4BAFC] text-white py-2 px-8 rounded-lg font-medium text-[18px] disabled:opacity-50"
             disabled={!allFilled || disabled || isLoading}
           >
-            {isLoading ? "გთხოვთ მოიცადოთ..." : "შემდეგი"}
+            {isLoading ? "Пожалуйста, подождите..." : "Далее"}
           </button>
         </div>
       </form>

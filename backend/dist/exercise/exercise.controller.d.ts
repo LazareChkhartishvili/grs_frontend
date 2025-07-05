@@ -2,13 +2,13 @@ import { ExerciseService } from './exercise.service';
 export declare class ExerciseController {
     private readonly exerciseService;
     constructor(exerciseService: ExerciseService);
-    getAllExercises(): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
-    getExerciseById(id: string): Promise<import("../schemas/exercise.schema").ExerciseDocument>;
-    getExercisesByCategory(categoryId: string): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
-    getExercisesBySubcategory(subcategoryId: string): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
-    getExercisesByDifficulty(difficulty: string): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
-    searchExercises(searchTerm: string): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
-    getCategoriesWithExercises(): Promise<any[]>;
+    getAllExercises(): unknown;
+    getExerciseById(id: string): unknown;
+    getExercisesByCategory(categoryId: string): unknown;
+    getExercisesBySubcategory(subcategoryId: string): unknown;
+    getExercisesByDifficulty(difficulty: string): unknown;
+    searchExercises(searchTerm: string): unknown;
+    getCategoriesWithExercises(): unknown;
     createExercise(exerciseData: {
         name: string;
         description?: string;
@@ -27,10 +27,7 @@ export declare class ExerciseController {
         imageMimeType?: string;
         imageSize?: number;
         complexId?: string;
-    }): Promise<{
-        exercise: import("../schemas/exercise.schema").ExerciseDocument;
-        complex?: import("../schemas/exercise-complex.schema").ExerciseComplexDocument;
-    }>;
+    }): unknown;
     updateExercise(id: string, updateData: {
         name?: string;
         description?: string;
@@ -46,8 +43,6 @@ export declare class ExerciseController {
         imageData?: string;
         imageMimeType?: string;
         imageSize?: number;
-    }): Promise<import("../schemas/exercise.schema").ExerciseDocument>;
-    deleteExercise(id: string): Promise<{
-        message: string;
-    }>;
+    }): unknown;
+    deleteExercise(id: string): unknown;
 }

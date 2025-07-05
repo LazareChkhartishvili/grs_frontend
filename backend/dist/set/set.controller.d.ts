@@ -2,22 +2,14 @@ import { SetService } from './set.service';
 export declare class SetController {
     private readonly setService;
     constructor(setService: SetService);
-    getAllSets(page?: string, limit?: string, categoryId?: string, subcategoryId?: string, difficulty?: string, level?: string, isPublic?: string): Promise<{
-        sets: import("../schemas/set.schema").SetDocument[];
-        total: number;
-        pages: number;
-    }>;
-    searchSets(query: string, page?: string, limit?: string): Promise<{
-        sets: import("../schemas/set.schema").SetDocument[];
-        total: number;
-        pages: number;
-    }>;
-    getFeaturedSets(): Promise<import("../schemas/set.schema").SetDocument[]>;
-    getSetsByCategory(categoryId: string): Promise<import("../schemas/set.schema").SetDocument[]>;
-    getSetsBySubcategory(subcategoryId: string): Promise<import("../schemas/set.schema").SetDocument[]>;
-    getSetsByDifficulty(difficulty: string): Promise<import("../schemas/set.schema").SetDocument[]>;
-    getSetsByGoals(goals: string): Promise<import("../schemas/set.schema").SetDocument[]>;
-    getSetById(id: string): Promise<import("../schemas/set.schema").SetDocument>;
+    getAllSets(page?: string, limit?: string, categoryId?: string, subcategoryId?: string, difficulty?: string, level?: string, isPublic?: string): unknown;
+    searchSets(query: string, page?: string, limit?: string): unknown;
+    getFeaturedSets(): unknown;
+    getSetsByCategory(categoryId: string): unknown;
+    getSetsBySubcategory(subcategoryId: string): unknown;
+    getSetsByDifficulty(difficulty: string): unknown;
+    getSetsByGoals(goals: string): unknown;
+    getSetById(id: string): unknown;
     createSet(setData: {
         name: string;
         description?: string;
@@ -51,11 +43,9 @@ export declare class SetController {
         targetGender?: string;
         suitableConditions?: string[];
         contraindicatedConditions?: string[];
-    }): Promise<import("../schemas/set.schema").SetDocument>;
-    updateSet(id: string, updateData: any): Promise<import("../schemas/set.schema").SetDocument>;
-    deleteSet(id: string): Promise<{
-        message: string;
-    }>;
+    }): unknown;
+    updateSet(id: string, updateData: any): unknown;
+    deleteSet(id: string): unknown;
     addExerciseToSet(setId: string, exerciseData: {
         exerciseId: string;
         repetitions?: number;
@@ -63,11 +53,9 @@ export declare class SetController {
         restTime?: number;
         duration?: number;
         notes?: string;
-    }): Promise<import("../schemas/set.schema").SetDocument>;
-    removeExerciseFromSet(setId: string, exerciseId: string): Promise<{
-        message: string;
-    }>;
+    }): unknown;
+    removeExerciseFromSet(setId: string, exerciseId: string): unknown;
     rateSet(setId: string, data: {
         rating: number;
-    }): Promise<import("../schemas/set.schema").SetDocument>;
+    }): unknown;
 }

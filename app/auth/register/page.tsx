@@ -30,33 +30,36 @@ const Register = () => {
     setPasswordError("");
 
     if (!validateEmail(email)) {
-      setEmailError("გთხოვთ შეიყვანოთ სწორი Gmail მისამართი");
+      setEmailError("Пожалуйста, введите правильный Gmail адрес");
       valid = false;
     }
     if (password.length < 4) {
-      setPasswordError("პაროლი უნდა შეიცავდეს მინიმუმ 4 სიმბოლოს");
+      setPasswordError("Пароль должен содержать минимум 4 символа");
       valid = false;
     }
     if (!valid) return;
 
     try {
       setIsLoading(true);
-      // ვაგზავნით ვერიფიკაციის კოდს
+      // Отправляем код верификации
       await sendVerificationCode(email);
-      
-      // შევინახოთ მონაცემები localStorage-ში
-      localStorage.setItem('registrationData', JSON.stringify({
-        email,
-        password,
-        step: 0
-      }));
-      
+
+      // Сохраняем данные в localStorage
+      localStorage.setItem(
+        "registrationData",
+        JSON.stringify({
+          email,
+          password,
+          step: 0,
+        })
+      );
+
       router.push("/auth/register/steps");
     } catch (error) {
       if (error instanceof Error) {
         setEmailError(error.message);
       } else {
-        setEmailError("დაფიქსირდა შეცდომა, სცადეთ თავიდან");
+        setEmailError("Произошла ошибка, попробуйте снова");
       }
     } finally {
       setIsLoading(false);
@@ -75,7 +78,7 @@ const Register = () => {
         />
         <div>
           <h1 className="text-center mb-10 text-[24px] md:text-[32px] tracking-[-3%] leading-[100%]">
-            რეგისტრაცია
+            Регистрация
           </h1>
           {/* Socials */}
           <div className="flex gap-10 items-center justify-center mb-[58px]">
@@ -109,7 +112,7 @@ const Register = () => {
           <input
             type="email"
             title="Email"
-            placeholder="ელ-ფოსტა"
+            placeholder="Email"
             className="p-5 border border-[#E9DFF6] rounded-lg mx-2 placeholder:text-[#3D334A] placeholder:text-[18px] placeholder:leading-[120%] placeholder:font-medium"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -121,7 +124,7 @@ const Register = () => {
           <input
             type="password"
             title="Password"
-            placeholder="პაროლი"
+            placeholder="Пароль"
             className="p-5 border border-[#E9DFF6] rounded-lg mx-2 placeholder:text-[#3D334A] placeholder:text-[18px] placeholder:leading-[120%] placeholder:font-medium"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -135,7 +138,8 @@ const Register = () => {
             className="flex items-center gap-2 mx-2 justify-between px-5 mt-10 bg-[#D4BAFC] text-white text-[18px] leading-[120%] font-medium py-[17px] rounded-lg disabled:opacity-50"
             disabled={isLoading}
           >
-            {isLoading ? "იგზავნება..." : "გაგრძელება"} <FaArrowRightLong size={20} />
+            {isLoading ? "Отправляется..." : "Продолжить"}{" "}
+            <FaArrowRightLong size={20} />
           </button>
         </form>
         <div className="mt-5 text-center w-full">
@@ -144,9 +148,9 @@ const Register = () => {
             className="text-[#D4BAFC] tracking-[-1%] font-medium leading-[100%] font-[Pt]"
           >
             <p className="text-[#3D334A] text-[18px] leading-[120%] font-medium font-[Pt]">
-              უკვე გაქვთ ანგარიში?{" "}
+              Уже есть аккаунт?{" "}
               <span className="text-[#D4BAFC] tracking-[-1%] font-medium leading-[100%] font-[Pt]">
-                შესვლა
+                Войти
               </span>
             </p>
           </Link>

@@ -33,22 +33,13 @@ export declare class AuthController {
     }>;
     sendVerificationCode({ email }: {
         email: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
     verifyCode({ email, code }: {
         email: string;
         code: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
     resendVerificationCode({ email }: {
         email: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
 }
 export {};

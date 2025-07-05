@@ -28,8 +28,8 @@ export const API_CONFIG = {
       REFRESH_TOKEN: "/auth/refresh-token",
       SEND_VERIFICATION: "/auth/send-verification",
       VERIFY_CODE: "/auth/verify-code",
-      RESEND_CODE: "/auth/resend-code"
-    }
+      RESEND_CODE: "/auth/resend-code",
+    },
   },
 
   HEADERS: {
@@ -48,9 +48,11 @@ export async function apiRequest<T>(
   const config: RequestInit = {
     headers: {
       ...API_CONFIG.HEADERS,
-      ...(localStorage.getItem('token') ? {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      } : {})
+      ...(localStorage.getItem("token")
+        ? {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        : {}),
     },
     ...options,
   };
@@ -84,42 +86,42 @@ export async function fetchMainCategories<T>(): Promise<T> {
 // Auth functions
 export async function login(email: string, password: string) {
   return apiRequest(API_CONFIG.ENDPOINTS.AUTH.LOGIN, {
-    method: 'POST',
-    body: JSON.stringify({ email, password })
+    method: "POST",
+    body: JSON.stringify({ email, password }),
   });
 }
 
 export async function register(userData: RegistrationData) {
   return apiRequest<User>(API_CONFIG.ENDPOINTS.AUTH.REGISTER, {
-    method: 'POST',
-    body: JSON.stringify(userData)
+    method: "POST",
+    body: JSON.stringify(userData),
   });
 }
 
 export async function logout() {
   return apiRequest(API_CONFIG.ENDPOINTS.AUTH.LOGOUT, {
-    method: 'POST'
+    method: "POST",
   });
 }
 
 // ვერიფიკაციის ფუნქციები
 export async function sendVerificationCode(email: string) {
   return apiRequest(API_CONFIG.ENDPOINTS.AUTH.SEND_VERIFICATION, {
-    method: 'POST',
-    body: JSON.stringify({ email })
+    method: "POST",
+    body: JSON.stringify({ email }),
   });
 }
 
 export async function verifyCode(email: string, code: string) {
   return apiRequest(API_CONFIG.ENDPOINTS.AUTH.VERIFY_CODE, {
-    method: 'POST',
-    body: JSON.stringify({ email, code })
+    method: "POST",
+    body: JSON.stringify({ email, code }),
   });
 }
 
 export async function resendVerificationCode(email: string) {
   return apiRequest(API_CONFIG.ENDPOINTS.AUTH.RESEND_CODE, {
-    method: 'POST',
-    body: JSON.stringify({ email })
+    method: "POST",
+    body: JSON.stringify({ email }),
   });
 }

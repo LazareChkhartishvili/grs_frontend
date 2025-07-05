@@ -18,12 +18,12 @@ interface RegistrationData {
   otherContact?: string;
 }
 
-interface VerificationStepProps {
-  onNext: () => void;
-  onBack: () => void;
-  onVerificationComplete: (code: string) => void;
-  email: string;
-}
+// interface VerificationStepProps {
+//   onNext: () => void;
+//   onBack: () => void;
+//   onVerificationComplete: (code: string) => void;
+//   email: string;
+// }
 
 const steps = [
   { label: "Верификация" },
@@ -204,7 +204,10 @@ const Step4 = ({
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (allFilled) {
-      onDataUpdate({ phone: selectedCountry.code + phone, otherContact: other });
+      onDataUpdate({
+        phone: selectedCountry.code + phone,
+        otherContact: other,
+      });
       onNext();
     }
   };
@@ -299,7 +302,8 @@ const Step5 = ({
 }) => {
   const [selectedDisease, setSelectedDisease] = useState("");
   const [other, setOther] = useState("");
-  const allFilled = selectedDisease.trim().length > 0 || other.trim().length > 0;
+  const allFilled =
+    selectedDisease.trim().length > 0 || other.trim().length > 0;
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
@@ -392,7 +396,7 @@ const Step6 = ({
   return (
     <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
       <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
-        ВАше заболевание
+        Ваше заболевание
       </h2>
       <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
         Выберите подходящее заболевание из предложенного списка или укажите его
@@ -476,32 +480,39 @@ const CongratsStep = () => (
 const RegisterSteps = () => {
   const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
-  const [registrationData, setRegistrationData] = useState<RegistrationData>(() => {
-    // თუ localStorage-ში გვაქვს დროებითი მონაცემები
-    const savedData = typeof window !== 'undefined' ? localStorage.getItem('registrationData') : null;
-    return savedData ? JSON.parse(savedData) : {
-      email: '',
-      password: '',
-      name: '',
-      phone: '',
-      location: '',
-      diseases: [],
-      additionalInfo: '',
-    };
-  });
+  const [registrationData, setRegistrationData] = useState<RegistrationData>(
+    () => {
+      // Если в localStorage есть временные данные
+      const savedData =
+        typeof window !== "undefined"
+          ? localStorage.getItem("registrationData")
+          : null;
+      return savedData
+        ? JSON.parse(savedData)
+        : {
+            email: "",
+            password: "",
+            name: "",
+            phone: "",
+            location: "",
+            diseases: [],
+            additionalInfo: "",
+          };
+    }
+  );
 
   const handleNext = () => {
     const nextStep = activeStep + 1;
-    
-    // ბოლო ეტაპზე გაგზავნა
+
+    // На последнем этапе отправка
     if (nextStep === steps.length) {
       handleSubmitRegistration();
       return;
     }
-    
+
     setActiveStep(nextStep);
-    // შევინახოთ პროგრესი
-    localStorage.setItem('registrationData', JSON.stringify(registrationData));
+    // Сохраним прогресс
+    localStorage.setItem("registrationData", JSON.stringify(registrationData));
   };
 
   const handleBack = () => {
@@ -510,21 +521,22 @@ const RegisterSteps = () => {
 
   const handleSubmitRegistration = async () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { otherContact, ...registrationDataToSend } = registrationData;
       await register(registrationDataToSend);
-      // წარმატების შემთხვევაში
-      localStorage.removeItem('registrationData'); // წავშალოთ დროებითი მონაცემები
-      router.push('/auth/login');
+      // В случае успеха
+      localStorage.removeItem("registrationData"); // Удалим временные данные
+      router.push("/auth/login");
     } catch (error) {
-      console.error('Registration failed:', error);
-      // აქ შეგიძლიათ დაამატოთ error handling
+      console.error("Registration failed:", error);
+      // Здесь можно добавить error handling
     }
   };
 
   const updateRegistrationData = (data: Partial<RegistrationData>) => {
-    setRegistrationData(prev => ({
+    setRegistrationData((prev) => ({
       ...prev,
-      ...data
+      ...data,
     }));
   };
 
@@ -535,7 +547,9 @@ const RegisterSteps = () => {
           <VerificationStep
             onNext={handleNext}
             onBack={handleBack}
-            onVerificationComplete={(code) => updateRegistrationData({ verificationCode: code })}
+            onVerificationComplete={(code) =>
+              updateRegistrationData({ verificationCode: code })
+            }
             email={registrationData.email}
           />
         );
@@ -544,7 +558,11 @@ const RegisterSteps = () => {
           <Step2
             onNext={handleNext}
             onBack={handleBack}
-            onDataUpdate={(data) => updateRegistrationData({ name: `${data.firstName} ${data.lastName}` })}
+            onDataUpdate={(data) =>
+              updateRegistrationData({
+                name: `${data.firstName} ${data.lastName}`,
+              })
+            }
           />
         );
       case 2:
@@ -552,7 +570,11 @@ const RegisterSteps = () => {
           <Step3
             onNext={handleNext}
             onBack={handleBack}
-            onDataUpdate={(data) => updateRegistrationData({ location: `${data.country}, ${data.city}` })}
+            onDataUpdate={(data) =>
+              updateRegistrationData({
+                location: `${data.country}, ${data.city}`,
+              })
+            }
           />
         );
       case 3:
@@ -560,7 +582,12 @@ const RegisterSteps = () => {
           <Step4
             onNext={handleNext}
             onBack={handleBack}
-            onDataUpdate={(data) => updateRegistrationData({ phone: data.phone, otherContact: data.otherContact })}
+            onDataUpdate={(data) =>
+              updateRegistrationData({
+                phone: data.phone,
+                otherContact: data.otherContact,
+              })
+            }
           />
         );
       case 4:
@@ -568,7 +595,9 @@ const RegisterSteps = () => {
           <Step5
             onNext={handleNext}
             onBack={handleBack}
-            onDataUpdate={(data) => updateRegistrationData({ diseases: data.selectedDiseases })}
+            onDataUpdate={(data) =>
+              updateRegistrationData({ diseases: data.selectedDiseases })
+            }
           />
         );
       case 5:
@@ -576,7 +605,9 @@ const RegisterSteps = () => {
           <Step6
             onNext={handleNext}
             onBack={handleBack}
-            onDataUpdate={(data) => updateRegistrationData({ additionalInfo: data.additionalInfo })}
+            onDataUpdate={(data) =>
+              updateRegistrationData({ additionalInfo: data.additionalInfo })
+            }
           />
         );
       default:
@@ -589,7 +620,7 @@ const RegisterSteps = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center ">
       <div>
-        {/* მხოლოდ progress bar, მილოცვის გვერდზე აღარ ჩანს */}
+        {/* Только progress bar, на странице поздравления больше не показывается */}
         {activeStep < steps.length && (
           <div className="w-[500px] mx-auto">
             <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-10">

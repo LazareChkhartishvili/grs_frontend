@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
+import { UserDocument } from '../schemas/user.schema';
 export declare class InstructorController {
     private userModel;
     constructor(userModel: Model<UserDocument>);

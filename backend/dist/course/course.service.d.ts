@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
-import { Course, CourseDocument } from '../schemas/course.schema';
-import { Lesson, LessonDocument } from '../schemas/lesson.schema';
-import { Review, ReviewDocument } from '../schemas/review.schema';
+import { CourseDocument } from '../schemas/course.schema';
+import { LessonDocument } from '../schemas/lesson.schema';
+import { ReviewDocument } from '../schemas/review.schema';
 import { UserDocument } from '../schemas/user.schema';
 import { CategoryDocument } from '../schemas/category.schema';
 import { SubCategoryDocument } from '../schemas/subcategory.schema';

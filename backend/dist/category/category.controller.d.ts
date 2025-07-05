@@ -2,31 +2,29 @@ import { CategoryService } from './category.service';
 export declare class CategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
-    getMainCategories(): Promise<any[]>;
-    getMainCategoriesOnly(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoriesWithSubcategories(): Promise<any[]>;
-    getFullHierarchy(): Promise<any[]>;
-    getAllSubcategories(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoryById(categoryId: string): Promise<import("../schemas/category.schema").CategoryDocument>;
-    getSubCategories(parentId: string): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoryWithChildren(categoryId: string): Promise<any>;
+    getMainCategories(): unknown;
+    getMainCategoriesOnly(): unknown;
+    getCategoriesWithSubcategories(): unknown;
+    getFullHierarchy(): unknown;
+    getAllSubcategories(): unknown;
+    getCategoryById(categoryId: string): unknown;
+    getSubCategories(parentId: string): unknown;
+    getCategoryWithChildren(categoryId: string): unknown;
     createCategory(categoryData: {
         name: string;
         description?: string;
         image?: string;
         parentId?: string;
         exercises?: any[];
-    }): Promise<import("../schemas/category.schema").CategoryDocument>;
+    }): unknown;
     createSubcategory(parentId: string, subcategoryData: {
         name: string;
         description?: string;
         image?: string;
         exercises?: any[];
-    }): Promise<import("../schemas/category.schema").CategoryDocument>;
-    updateCategory(categoryId: string, updateData: any): Promise<import("../schemas/category.schema").CategoryDocument>;
-    deleteCategory(categoryId: string): Promise<{
-        message: string;
-    }>;
+    }): unknown;
+    updateCategory(categoryId: string, updateData: any): unknown;
+    deleteCategory(categoryId: string): unknown;
     addExerciseToCategory(categoryId: string, exercise: {
         name: string;
         description?: string;
@@ -54,7 +52,7 @@ export declare class CategoryController {
 export declare class CourseCategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
-    getCourseCategories(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
+    getCourseCategories(): unknown;
     getCategoriesForDropdown(): Promise<{
         id: string;
         name: string;
