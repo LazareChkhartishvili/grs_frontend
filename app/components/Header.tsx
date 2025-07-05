@@ -444,11 +444,11 @@ const Header: React.FC<HeaderProps> = ({
                     } ${
                       currentSlide === 0 &&
                       variant == "complex" &&
-                      "z-[999999] -mt-[260px]"
+                      "-mt-[260px]"
                     }`}
                   >
                     <div className="sub-header1"></div>
-                    <div className="sub-header2">
+                    <div className={`sub-header2 `}>
                       <div className="purple-cutout "></div>
                       <div className={`cutout-container `}>
                         <div className="purp1">purpple1</div>

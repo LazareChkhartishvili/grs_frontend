@@ -5,10 +5,9 @@ import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
 import React, { useEffect, useState } from "react";
 import { blogItem } from "./BlogItems";
-import { BlogItem } from "../data/BlogItems";
 
 interface BlogSliderProps {
-  scrollRef: React.RefObject<HTMLDivElement | null>;
+  scrollRef?: React.RefObject<HTMLDivElement | null>;
   currentPage: number;
   blogsPerPage: number;
 }
@@ -34,11 +33,10 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
   blogsPerPage,
 }) => {
   const isDesktop = useIsDesktop();
+  const featuredBlog = blogItem[0];
+  const otherBlogs = blogItem.slice(1);
 
-  const featuredBlog: BlogItem | undefined = blogItem[0];
-  const otherBlogs: BlogItem[] = blogItem.slice(1);
-
-  const getCurrentBlogs = (): BlogItem[] => {
+  const getCurrentBlogs = () => {
     const startIndex = currentPage * blogsPerPage;
     const endIndex = startIndex + blogsPerPage;
     return otherBlogs.slice(startIndex, endIndex);

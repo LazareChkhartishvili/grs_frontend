@@ -229,9 +229,9 @@
 //   );
 // }
 
+"use client";
 import React from "react";
 
-import MobileNavbar from "../../components/Navbar/MobileNavbar";
 import Header from "../../components/Header";
 import Works from "../../components/Works";
 import Subscribe from "../../components/Subscribe";

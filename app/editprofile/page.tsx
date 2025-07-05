@@ -7,7 +7,7 @@ import PersonInfo from "../components/PersonalAccount/PersonInfo";
 const EditProfile = () => {
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <PersonInfo
         user={{

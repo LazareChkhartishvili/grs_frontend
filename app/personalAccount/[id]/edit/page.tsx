@@ -18,7 +18,7 @@ const PersonalAccountPage = ({ params }: Props) => {
 
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <PersonInfo user={user} />
       <div className="md:p-10 p-5 bg-[#F9F7FE] m-10">

@@ -37,7 +37,14 @@ const ReviewSlider = () => {
         <h1 className="text-[20px] leadig-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
           ОТЗЫВЫ О GRS
         </h1>
-        <SliderArrows />
+        <SliderArrows
+          onScrollLeft={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          onScrollRight={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </div>
 
       <div className="py-5 px-4 md:py-10 md:px-5 bg-[#F9F7FE] rounded-[30px] w-full overflow-x-auto md:overglow-x-hidden">

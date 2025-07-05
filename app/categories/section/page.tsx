@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import MobileNavbar from "../../components/Navbar/MobileNavbar";
@@ -13,8 +14,8 @@ const Section = () => {
     <div>
       <MobileNavbar />
       <Header />
-      <Works />
-      <Works />
+      <Works title={"test2"} />
+      <Works title={"test3"} />
       <Subscribe />
       <ReviewSlider />
       <Blog withBanner={false} withSlider={true} />

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Header from "../components/Header";
 import Image from "next/image";
@@ -63,7 +64,14 @@ const Professional = () => {
       <CategorySlider />
       <div className="flex items-center justify-between mx-6 mb-4">
         <h1 className="text-[#3D334A] text-[40px]">Курсы</h1>
-        <SliderArrows />
+        <SliderArrows
+          onScrollLeft={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          onScrollRight={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </div>
       <CourseSlider />
       <Subscribe />

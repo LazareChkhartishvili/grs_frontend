@@ -21,21 +21,21 @@ export class AppController {
         categories: '/api/categories',
         courseCategories: '/api/course-categories',
         exercises: '/api/exercises',
-        exerciseComplexes: '/api/exercise-complexes'
-      }
+        exerciseComplexes: '/api/exercise-complexes',
+      },
     };
   }
 
   // სწრაფი მონაცემების შექმნისთვის
   @Post('seed-data')
-  async seedData() {
+  seedData() {
     return {
       message: 'Use individual endpoints to create test data',
       examples: {
         category: 'POST /api/categories',
         course: 'POST /api/courses',
-        exercise: 'POST /api/exercises'
-      }
+        exercise: 'POST /api/exercises',
+      },
     };
   }
 }

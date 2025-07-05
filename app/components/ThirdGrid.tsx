@@ -4,7 +4,6 @@ import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
 import React from "react";
 import { blogItem } from "./BlogItems";
-import { BlogItem } from "../data/BlogItems";
 
 interface ThirdGridProps {
   scrollRef: React.RefObject<HTMLDivElement | null>;
@@ -14,7 +13,7 @@ interface ThirdGridProps {
 
 const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
   // 7 ელემენტი
-  const otherBlogs: BlogItem[] = blogItem.slice(1, 8);
+  const otherBlogs = blogItem.slice(1, 8);
 
   if (otherBlogs.length < 7) {
     return <div>ბლოგების რაოდენობა საკმარისი არ არის</div>;

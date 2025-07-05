@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { CiPlay1 } from "react-icons/ci";
 import Header from "../components/Header";
@@ -16,7 +17,7 @@ const Complex = () => {
   return (
     <div>
       <Header variant="complex" />
-      <div className="mt-[800px]">
+      <div className="">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:mt-40 px-4">
           <Tabs items={tabItems} />
 
@@ -98,7 +99,7 @@ const Complex = () => {
         </section>
         <Subscribe />
         <ReviewSlider />
-        <BlogSlider />
+        <BlogSlider currentPage={0} blogsPerPage={0} />
         <Professional />
       </div>
     </div>

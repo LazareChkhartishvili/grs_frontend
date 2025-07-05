@@ -9,12 +9,14 @@ import { CiSearch } from "react-icons/ci";
 import { useCourses } from "../hooks/useCourses";
 import { useCategories } from "../context/CategoryContext";
 
-
-
 const AllCourse = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const { categories, loading: categoriesLoading } = useCategories();
-  const { courses, loading: coursesLoading, error } = useCourses(selectedCategory || undefined);
+  const {
+    courses,
+    loading: coursesLoading,
+    error,
+  } = useCourses(selectedCategory || undefined);
 
   const loading = categoriesLoading || coursesLoading;
 
@@ -23,7 +25,9 @@ const AllCourse = () => {
       <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
-          <h2 className="text-2xl font-semibold text-gray-700">მონაცემები იტვირთება...</h2>
+          <h2 className="text-2xl font-semibold text-gray-700">
+            მონაცემები იტვირთება...
+          </h2>
         </div>
       </div>
     );
@@ -33,7 +37,9 @@ const AllCourse = () => {
     return (
       <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl text-red-600 mb-4">შეცდომა კურსების ჩატვირთვაში</h2>
+          <h2 className="text-xl text-red-600 mb-4">
+            შეცდომა კურსების ჩატვირთვაში
+          </h2>
           <p className="text-gray-600">{error}</p>
         </div>
       </div>
@@ -42,7 +48,7 @@ const AllCourse = () => {
 
   return (
     <div className="bg-[#F9F7FE] pb-40">
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <div className=" mx-2 px-4">
         <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%] mb-[61px]">
@@ -65,19 +71,21 @@ const AllCourse = () => {
               key="all"
               onClick={() => setSelectedCategory(null)}
               className={`text-[#3D334A] text-[19px] mx-auto md:mx-0 rounded-[8px] px-5 h-[33px] transition-colors ${
-                selectedCategory === null ? 'bg-[#D4BAFC]' : 'bg-[#F9F7FE]'
+                selectedCategory === null ? "bg-[#D4BAFC]" : "bg-[#F9F7FE]"
               }`}
             >
               Все категории
             </button>
-            
+
             {/* კატეგორიების ღილაკები */}
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 className={`text-[#3D334A] text-[19px] mx-auto md:mx-0 rounded-[8px] px-5 h-[33px] transition-colors ${
-                  selectedCategory === category.id ? 'bg-[#D4BAFC]' : 'bg-[#F9F7FE]'
+                  selectedCategory === category.id
+                    ? "bg-[#D4BAFC]"
+                    : "bg-[#F9F7FE]"
                 }`}
               >
                 {category.title}

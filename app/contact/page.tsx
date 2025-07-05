@@ -22,7 +22,7 @@ const ClockIcon = () => (
 const Contact = () => {
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <section className="px-2 md:px-8 py-4">
         <h2 className="font-medium text-xl md:text-2xl mb-2 md:mb-4">

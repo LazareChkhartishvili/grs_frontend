@@ -164,7 +164,7 @@ const Player = () => {
   }, []);
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <section className="w-full flex flex-col items-center bg-[#F9F7FE] min-h-screen py-6 px-2">
         <div className="relative w-full max-w-3xl flex flex-col gap-6">
           {/* Desktop: ვერტიკალური ხაზის სეგმენტები */}

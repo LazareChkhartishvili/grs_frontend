@@ -9,8 +9,9 @@ type Props = {
 
 const UserPage = ({ params }: Props) => {
   const userId = params.id;
+  console.log(userId);
 
-  return <PersonalAccount userId={userId} />;
+  return <PersonalAccount />;
 };
 
 export default UserPage;

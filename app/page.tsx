@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Header from "./components/Header";
 import Rehabilitation from "./components/Rehabilitation";
@@ -10,7 +11,7 @@ import Blog from "./components/Blog";
 import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 
-const Home = async () => {
+const Home = () => {
   return (
     <div className="w-full min-h-screen  ">
       <Header />

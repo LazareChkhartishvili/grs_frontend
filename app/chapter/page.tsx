@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Header from "../components/Header";
 import WorksSlider from "../components/WorksSlider";
@@ -52,7 +53,7 @@ const Chapter = () => {
       </div>
       <Subscribe />
       <ReviewSlider />
-      <Blog />
+      <Blog withBanner={false} withSlider={false} />
     </div>
   );
 };

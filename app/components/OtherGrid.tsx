@@ -4,7 +4,6 @@ import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
 import React from "react";
 import { blogItem } from "./BlogItems";
-import { BlogItem } from "../data/BlogItems";
 
 interface OtherGridProps {
   scrollRef: React.RefObject<HTMLDivElement | null>;
@@ -13,7 +12,7 @@ interface OtherGridProps {
 }
 
 const OtherGrid: React.FC<OtherGridProps> = ({}) => {
-  const otherBlogs: BlogItem[] = blogItem.slice(1, 6);
+  const otherBlogs = blogItem.slice(1, 6);
 
   if (otherBlogs.length < 5) {
     return <div>ბლოგების რაოდენობა საკმარისი არ არის</div>;

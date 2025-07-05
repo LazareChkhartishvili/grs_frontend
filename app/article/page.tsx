@@ -8,7 +8,7 @@ import Image from "next/image";
 const page = () => {
   return (
     <div className="bg-[#F9F7FE]">
-      <DesktopNavbar menuItems={defaultMenuItems} />
+      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <div className="mx-10">
         <Image

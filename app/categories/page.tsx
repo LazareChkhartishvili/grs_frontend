@@ -161,7 +161,7 @@ export default function CategoriesPage() {
         <WorksSlider title="Комплексы" works={homePageWorks} />
         <Subscribe />
         <ReviewSlider />
-        <BlogSlider scrollRef={null} currentPage={1} blogsPerPage={6} />
+        <BlogSlider currentPage={1} blogsPerPage={6} />
         <Professional />
       </div>
     </div>
