@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Complex, Exercise, BackendComplex, BackendExercise } from '../../types/exercise';
+import { useState, useEffect } from "react";
+import {
+  Complex,
+  Exercise,
+  BackendComplex,
+  BackendExercise,
+} from "../../types/exercise";
 
 interface UseComplexesReturn {
   complexes: Complex[];
@@ -19,19 +24,21 @@ function transformExercise(backendExercise: BackendExercise): Exercise {
     difficulty: backendExercise.difficulty,
     duration: backendExercise.duration,
     sets: `${backendExercise.repetitions}x${backendExercise.sets}`,
-    image: backendExercise.images?.[0] || '/assets/images/workMan.png',
+    image: backendExercise.images?.[0] || "/assets/images/workMan.png",
     category: backendExercise.categoryId?.name,
-    instructions: backendExercise.instructions ? [backendExercise.instructions] : [],
-    equipment: []
+    instructions: backendExercise.instructions
+      ? [backendExercise.instructions]
+      : [],
+    equipment: [],
   };
 }
 
 function transformComplex(backendComplex: BackendComplex): Complex {
   // Map stage values
-  let stage: 'beginner' | 'intermediate' | 'advanced' = 'beginner';
-  if (backendComplex.stage === 'advanced') stage = 'advanced';
-  else if (backendComplex.stage === 'mid') stage = 'intermediate';
-  else if (backendComplex.stage === 'intermediate') stage = 'intermediate';
+  let stage: "beginner" | "intermediate" | "advanced" = "beginner";
+  if (backendComplex.stage === "advanced") stage = "advanced";
+  else if (backendComplex.stage === "mid") stage = "intermediate";
+  else if (backendComplex.stage === "intermediate") stage = "intermediate";
 
   return {
     id: parseInt(backendComplex._id.slice(-8), 16),
@@ -43,9 +50,9 @@ function transformComplex(backendComplex: BackendComplex): Complex {
     exercisesCount: backendComplex.exerciseCount,
     exercises: backendComplex.exercises?.map(transformExercise) || [],
     description: backendComplex.description,
-    image: '/assets/images/workMan.png',
+    image: "/assets/images/workMan.png",
     totalDuration: backendComplex.totalDuration,
-    isActive: backendComplex.isActive
+    isActive: backendComplex.isActive,
   };
 }
 
@@ -66,7 +73,7 @@ function getFallbackComplexes(): Complex[] {
           difficulty: "easy",
           duration: 301,
           sets: "10x5",
-          image: "/assets/images/workMan.png"
+          image: "/assets/images/workMan.png",
         },
         {
           id: 102,
@@ -74,7 +81,7 @@ function getFallbackComplexes(): Complex[] {
           difficulty: "hard",
           duration: 30,
           sets: "10x3",
-          image: "/assets/images/workMan.png"
+          image: "/assets/images/workMan.png",
         },
         {
           id: 103,
@@ -82,7 +89,7 @@ function getFallbackComplexes(): Complex[] {
           difficulty: "hard",
           duration: 30,
           sets: "10x3",
-          image: "/assets/images/workMan.png"
+          image: "/assets/images/workMan.png",
         },
         {
           id: 104,
@@ -90,11 +97,11 @@ function getFallbackComplexes(): Complex[] {
           difficulty: "medium",
           duration: 15,
           sets: "12x3",
-          image: "/assets/images/workMan.png"
-        }
+          image: "/assets/images/workMan.png",
+        },
       ],
-      isActive: true
-    }
+      isActive: true,
+    },
   ];
 }
 
@@ -112,8 +119,8 @@ export function useComplexes(categoryId?: string | number): UseComplexesReturn {
       // თუ გადმოეცა categoryId, გამოიძახე შესაბამისი endpoint
       if (catId || categoryId) {
         const id = catId || categoryId;
-        const url = `http://localhost:4000/categories/${id}/exercises-and-complexes`;
-        console.log('🔗 Fetching category complexes/exercises from:', url);
+        const url = `https://grs-bkbc.onrender.com/api/categories/${id}/exercises-and-complexes`;
+        console.log("🔗 Fetching category complexes/exercises from:", url);
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -124,37 +131,43 @@ export function useComplexes(categoryId?: string | number): UseComplexesReturn {
         const backendExercises: BackendExercise[] = data.exercises || [];
         // complexes
         const transformedComplexes: Complex[] = backendComplexes
-          .filter(complex => complex.isActive)
+          .filter((complex) => complex.isActive)
           .map(transformComplex);
         setComplexes(transformedComplexes);
         // exercises
         const transformedExercises: Exercise[] = backendExercises
-          .filter(ex => ex.isActive)
+          .filter((ex) => ex.isActive)
           .map(transformExercise);
         setExercises(transformedExercises);
       } else {
         // ძველი ლოგიკა
-        console.log('🔗 Fetching complexes from: http://localhost:4000/api/complexes');
-        const response = await fetch('http://localhost:4000/api/complexes');
+        console.log(
+          "🔗 Fetching complexes from: https://grs-bkbc.onrender.com/api/exercise-complexes"
+        );
+        const response = await fetch(
+          "https://grs-bkbc.onrender.com/api/exercise-complexes"
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const backendComplexes: BackendComplex[] = await response.json();
         if (!Array.isArray(backendComplexes)) {
-          throw new Error('API response is not an array');
+          throw new Error("API response is not an array");
         }
         const transformedComplexes: Complex[] = backendComplexes
-          .filter(complex => complex.isActive)
+          .filter((complex) => complex.isActive)
           .map(transformComplex);
         setComplexes(transformedComplexes);
         setExercises([]); // exercises ცარიელი
       }
     } catch (err) {
-      console.error('❌ Error fetching complexes:', err);
+      console.error("❌ Error fetching complexes:", err);
       const fallbackComplexes = getFallbackComplexes();
       setComplexes(fallbackComplexes);
       setExercises([]);
-      setError(err instanceof Error ? err.message : 'API Error - using fallback data');
+      setError(
+        err instanceof Error ? err.message : "API Error - using fallback data"
+      );
     } finally {
       setLoading(false);
     }
@@ -170,6 +183,6 @@ export function useComplexes(categoryId?: string | number): UseComplexesReturn {
     loading,
     error,
     refetch: fetchComplexes,
-    exercises: exercises.length > 0 ? exercises : undefined
+    exercises: exercises.length > 0 ? exercises : undefined,
   };
-} 
+}

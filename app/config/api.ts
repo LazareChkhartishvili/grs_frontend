@@ -1,25 +1,25 @@
 // API Configuration
 export const API_CONFIG = {
   // შეცვალე შენი backend URL-ით
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
   ENDPOINTS: {
-    CATEGORIES: '/categories/with-subcategories',
-    MAIN_CATEGORIES: '/api/categories',
+    CATEGORIES: "/api/categories/with-subcategories",
+    MAIN_CATEGORIES: "/api/categories",
   },
-  
+
   HEADERS: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-  
+
   TIMEOUT: 10000,
 };
 
 export async function apiRequest<T>(
-  endpoint: string, 
+  endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
-  
+
   const config: RequestInit = {
     headers: API_CONFIG.HEADERS,
     ...options,
@@ -27,19 +27,19 @@ export async function apiRequest<T>(
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
-  
+
   try {
     const response = await fetch(url, {
       ...config,
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     clearTimeout(timeoutId);
@@ -49,4 +49,4 @@ export async function apiRequest<T>(
 
 export async function fetchMainCategories<T>(): Promise<T> {
   return apiRequest<T>(API_CONFIG.ENDPOINTS.MAIN_CATEGORIES);
-} 
+}
