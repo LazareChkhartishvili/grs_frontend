@@ -50,12 +50,4 @@ export declare class Set {
     suitableConditions?: string[];
     contraindicatedConditions?: string[];
 }
-export declare const SetSchema: import("mongoose").Schema<Set, import("mongoose").Model<Set, any, any, any, Document<unknown, any, Set, any> & Set & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Set, Document<unknown, {}, import("mongoose").FlatRecord<Set>, {}> & import("mongoose").FlatRecord<Set> & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}>;
+export declare const SetSchema: any;

@@ -16,39 +16,17 @@ interface RegistrationDto {
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    login(req: LoginRequest): Promise<{
-        token: string;
-        user: UserResponse;
-    }>;
-    register(registrationData: RegistrationDto): Promise<{
-        token: string;
-        user: {
-            id: string;
-            name: string;
-            email: string;
-            phone: string;
-            location: string;
-            image: string | undefined;
-        };
-    }>;
+    login(req: LoginRequest): unknown;
+    register(registrationData: RegistrationDto): unknown;
     sendVerificationCode({ email }: {
         email: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
     verifyCode({ email, code }: {
         email: string;
         code: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
     resendVerificationCode({ email }: {
         email: string;
-    }): Promise<{
-        success: boolean;
-        message: string;
-    }>;
+    }): unknown;
 }
 export {};

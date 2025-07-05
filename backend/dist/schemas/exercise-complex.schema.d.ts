@@ -35,12 +35,4 @@ export declare class ExerciseComplex {
         discount: number;
     }[];
 }
-export declare const ExerciseComplexSchema: import("mongoose").Schema<ExerciseComplex, import("mongoose").Model<ExerciseComplex, any, any, any, Document<unknown, any, ExerciseComplex, any> & ExerciseComplex & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ExerciseComplex, Document<unknown, {}, import("mongoose").FlatRecord<ExerciseComplex>, {}> & import("mongoose").FlatRecord<ExerciseComplex> & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}>;
+export declare const ExerciseComplexSchema: any;

@@ -5,7 +5,7 @@ export declare class AppController {
     getHello(): string;
     getTest(): {
         message: string;
-        timestamp: string;
+        timestamp: any;
         endpoints: {
             courses: string;
             categories: string;

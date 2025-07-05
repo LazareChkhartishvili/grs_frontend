@@ -31,20 +31,7 @@ export declare class AuthService {
         message: string;
     }>;
     validateUser(email: string, password: string): Promise<UserResponse>;
-    login(user: UserResponse): Promise<{
-        token: string;
-        user: UserResponse;
-    }>;
-    register(registrationData: RegistrationDto): Promise<{
-        token: string;
-        user: {
-            id: string;
-            name: string;
-            email: string;
-            phone: string;
-            location: string;
-            image: string | undefined;
-        };
-    }>;
+    login(user: UserResponse): unknown;
+    register(registrationData: RegistrationDto): unknown;
 }
 export {};

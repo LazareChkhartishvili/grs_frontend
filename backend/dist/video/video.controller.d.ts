@@ -2,28 +2,14 @@ import { VideoService } from './video.service';
 export declare class VideoController {
     private readonly videoService;
     constructor(videoService: VideoService);
-    getAllVideos(page?: string, limit?: string, categoryCode?: string, setId?: string, resolution?: string, format?: string): Promise<{
-        videos: any[];
-        total: number;
-        pages: number;
-    }>;
-    searchVideos(query: string, page?: string, limit?: string): Promise<{
-        videos: any[];
-        total: number;
-        pages: number;
-    }>;
-    getFeaturedVideos(limit?: string): Promise<any[]>;
-    getVideoStats(): Promise<{
-        totalVideos: number;
-        totalCategories: number;
-        totalSets: number;
-        resolutions: Record<string, number>;
-        formats: Record<string, number>;
-    }>;
-    getAllCategoryCodes(): Promise<string[]>;
-    getAllSetIds(): Promise<string[]>;
-    getAllResolutions(): Promise<string[]>;
-    getVideosByCategoryCode(categoryCode: string): Promise<any[]>;
-    getVideosBySetId(setId: string): Promise<any[]>;
-    getVideosByResolution(resolution: string): Promise<any[]>;
+    getAllVideos(page?: string, limit?: string, categoryCode?: string, setId?: string, resolution?: string, format?: string): unknown;
+    searchVideos(query: string, page?: string, limit?: string): unknown;
+    getFeaturedVideos(limit?: string): unknown;
+    getVideoStats(): unknown;
+    getAllCategoryCodes(): unknown;
+    getAllSetIds(): unknown;
+    getAllResolutions(): unknown;
+    getVideosByCategoryCode(categoryCode: string): unknown;
+    getVideosBySetId(setId: string): unknown;
+    getVideosByResolution(resolution: string): unknown;
 }

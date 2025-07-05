@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -20,32 +20,35 @@ interface LoginResponse {
 const Login = () => {
   const { login: authLogin } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
-    
+
     try {
-      const response = await login(formData.email, formData.password) as LoginResponse;
+      const response = (await login(
+        formData.email,
+        formData.password
+      )) as LoginResponse;
       authLogin(response.token, response.user);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('არასწორი ელ-ფოსტა ან პაროლი');
+        setError("Неверный email или пароль");
       }
     } finally {
       setIsLoading(false);
@@ -64,7 +67,7 @@ const Login = () => {
         />
         <div>
           <h1 className="text-center mb-10 text-[24px] md:text-[32px] tracking-[-3%] leading-[100%]">
-            ავტორიზაცია
+            Авторизация
           </h1>
           {/* Socials */}
           <div className="flex gap-10 items-center justify-center mb-[58px]">
@@ -91,15 +94,18 @@ const Login = () => {
           </div>
         </div>
         {/* Form */}
-        <form onSubmit={handleSubmit} className="font-[Pt] flex flex-col gap-5 text-[#3D334A] text-[18px] leading-[120%] font-medium">
+        <form
+          onSubmit={handleSubmit}
+          className="font-[Pt] flex flex-col gap-5 text-[#3D334A] text-[18px] leading-[120%] font-medium"
+        >
           {error && <div className="text-red-500 text-center">{error}</div>}
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            title="ელ-ფოსტა"
-            placeholder="ელ-ფოსტა"
+            title="Email"
+            placeholder="Email"
             className="p-5 border border-[#E9DFF6] rounded-lg mx-2 placeholder:text-[#3D334A] placeholder:text-[18px] placeholder:leading-[120%] placeholder:font-medium"
           />
           <input
@@ -107,29 +113,30 @@ const Login = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            title="პაროლი"
-            placeholder="პაროლი"
+            title="Пароль"
+            placeholder="Пароль"
             className="p-5 border border-[#E9DFF6] rounded-lg mx-2 placeholder:text-[#3D334A] placeholder:text-[18px] placeholder:leading-[120%] placeholder:font-medium"
           />
-          <button 
+          <button
             type="submit"
             disabled={isLoading}
             className="flex items-center gap-2 mx-2 justify-between px-5 mt-10 bg-[#D4BAFC] text-white text-[18px] leading-[120%] font-medium py-[17px] rounded-lg disabled:opacity-50"
           >
-            {isLoading ? "გთხოვთ მოიცადოთ..." : "შესვლა"} <FaArrowRightLong size={20} />
+            {isLoading ? "Пожалуйста, подождите..." : "Войти"}{" "}
+            <FaArrowRightLong size={20} />
           </button>
         </form>
         <div className="mt-5 text-center w-full">
           <span className="text-[#D4BAFC] tracking-[-1%] font-medium leading-[100%] font-[Pt] cursor-pointer">
-            პაროლის აღდგენა
+            Восстановить пароль
           </span>
           <p className="text-[#3D334A] text-[18px] leading-[120%] font-medium font-[Pt]">
-            არ გაქვთ ანგარიში?{" "}
+            Нет аккаунта?{" "}
             <Link
               href={"/auth/register"}
               className="text-[#D4BAFC] tracking-[-1%] font-medium leading-[100%] font-[Pt]"
             >
-              რეგისტრაცია
+              Регистрация
             </Link>
           </p>
         </div>

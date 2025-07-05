@@ -396,7 +396,7 @@ const Step6 = ({
   return (
     <div className="flex flex-col items-center justify-center max-w-[600px] mx-auto">
       <h2 className="text-[32px] leading-[100%] tracking-[-3%] font-bold mb-2 text-start w-full pl-10 text-[#3D334A] ">
-        ВАше заболевание
+        Ваше заболевание
       </h2>
       <p className="mb-10 mt-2 text-[#846FA0] text-start items-start w-full pl-10 text-[18px] font-medium leading-[100%] font-[Pt]">
         Выберите подходящее заболевание из предложенного списка или укажите его
@@ -482,7 +482,7 @@ const RegisterSteps = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [registrationData, setRegistrationData] = useState<RegistrationData>(
     () => {
-      // თუ localStorage-ში გვაქვს დროებითი მონაცემები
+      // Если в localStorage есть временные данные
       const savedData =
         typeof window !== "undefined"
           ? localStorage.getItem("registrationData")
@@ -504,14 +504,14 @@ const RegisterSteps = () => {
   const handleNext = () => {
     const nextStep = activeStep + 1;
 
-    // ბოლო ეტაპზე გაგზავნა
+    // На последнем этапе отправка
     if (nextStep === steps.length) {
       handleSubmitRegistration();
       return;
     }
 
     setActiveStep(nextStep);
-    // შევინახოთ პროგრესი
+    // Сохраним прогресс
     localStorage.setItem("registrationData", JSON.stringify(registrationData));
   };
 
@@ -524,12 +524,12 @@ const RegisterSteps = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { otherContact, ...registrationDataToSend } = registrationData;
       await register(registrationDataToSend);
-      // წარმატების შემთხვევაში
-      localStorage.removeItem("registrationData"); // წავშალოთ დროებითი მონაცემები
+      // В случае успеха
+      localStorage.removeItem("registrationData"); // Удалим временные данные
       router.push("/auth/login");
     } catch (error) {
       console.error("Registration failed:", error);
-      // აქ შეგიძლიათ დაამატოთ error handling
+      // Здесь можно добавить error handling
     }
   };
 
@@ -620,7 +620,7 @@ const RegisterSteps = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center ">
       <div>
-        {/* მხოლოდ progress bar, მილოცვის გვერდზე აღარ ჩანს */}
+        {/* Только progress bar, на странице поздравления больше не показывается */}
         {activeStep < steps.length && (
           <div className="w-[500px] mx-auto">
             <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-10">

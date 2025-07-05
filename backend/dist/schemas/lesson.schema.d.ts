@@ -12,12 +12,4 @@ export declare class Lesson {
     materials: string[];
     transcript: string;
 }
-export declare const LessonSchema: import("mongoose").Schema<Lesson, import("mongoose").Model<Lesson, any, any, any, Document<unknown, any, Lesson, any> & Lesson & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Lesson, Document<unknown, {}, import("mongoose").FlatRecord<Lesson>, {}> & import("mongoose").FlatRecord<Lesson> & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}>;
+export declare const LessonSchema: any;

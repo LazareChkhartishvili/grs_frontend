@@ -2,31 +2,29 @@ import { CategoryService } from './category.service';
 export declare class CategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
-    getMainCategories(): Promise<any[]>;
-    getMainCategoriesOnly(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoriesWithSubcategories(): Promise<any[]>;
-    getFullHierarchy(): Promise<any[]>;
-    getAllSubcategories(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoryById(categoryId: string): Promise<import("../schemas/category.schema").CategoryDocument>;
-    getSubCategories(parentId: string): Promise<import("../schemas/category.schema").CategoryDocument[]>;
-    getCategoryWithChildren(categoryId: string): Promise<any>;
+    getMainCategories(): unknown;
+    getMainCategoriesOnly(): unknown;
+    getCategoriesWithSubcategories(): unknown;
+    getFullHierarchy(): unknown;
+    getAllSubcategories(): unknown;
+    getCategoryById(categoryId: string): unknown;
+    getSubCategories(parentId: string): unknown;
+    getCategoryWithChildren(categoryId: string): unknown;
     createCategory(categoryData: {
         name: string;
         description?: string;
         image?: string;
         parentId?: string;
         exercises?: any[];
-    }): Promise<import("../schemas/category.schema").CategoryDocument>;
+    }): unknown;
     createSubcategory(parentId: string, subcategoryData: {
         name: string;
         description?: string;
         image?: string;
         exercises?: any[];
-    }): Promise<import("../schemas/category.schema").CategoryDocument>;
-    updateCategory(categoryId: string, updateData: any): Promise<import("../schemas/category.schema").CategoryDocument>;
-    deleteCategory(categoryId: string): Promise<{
-        message: string;
-    }>;
+    }): unknown;
+    updateCategory(categoryId: string, updateData: any): unknown;
+    deleteCategory(categoryId: string): unknown;
     addExerciseToCategory(categoryId: string, exercise: {
         name: string;
         description?: string;
@@ -35,30 +33,14 @@ export declare class CategoryController {
         instructions?: string;
         images?: string[];
         videos?: string[];
-    }): Promise<import("../schemas/category.schema").CategoryDocument>;
-    deleteAllCategoriesAndSubcategories(): Promise<{
-        deletedCategories: number;
-        deletedSubcategories: number;
-    }>;
-    getCategoryExercisesAndComplexes(id: string): Promise<{
-        exercises: (import("mongoose").Document<unknown, {}, import("../schemas/exercise.schema").ExerciseDocument, {}> & import("../schemas/exercise.schema").Exercise & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
-        })[];
-        complexes: (import("mongoose").Document<unknown, {}, import("../schemas/exercise-complex.schema").ExerciseComplexDocument, {}> & import("../schemas/exercise-complex.schema").ExerciseComplex & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
-        })[];
-        totalExercises: number;
-        totalComplexes: number;
-    }>;
+    }): unknown;
+    deleteAllCategoriesAndSubcategories(): unknown;
+    getCategoryExercisesAndComplexes(id: string): unknown;
 }
 export declare class CourseCategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
-    getCourseCategories(): Promise<import("../schemas/category.schema").CategoryDocument[]>;
+    getCourseCategories(): unknown;
     getCategoriesForDropdown(): Promise<{
         id: string;
         name: string;

@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../schemas/user.schema';
+import { UserDocument } from '../schemas/user.schema';
 export declare class InstructorController {
     private userModel;
     constructor(userModel: Model<UserDocument>);
@@ -8,11 +8,7 @@ export declare class InstructorController {
         name: string;
         email: string;
     }[]>;
-    getAllInstructors(): Promise<(import("mongoose").Document<unknown, {}, UserDocument, {}> & User & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[]>;
+    getAllInstructors(): unknown;
     createInstructor(instructorData: {
         name: string;
         email: string;
@@ -21,9 +17,5 @@ export declare class InstructorController {
         experience?: number;
         education?: string;
         certifications?: string[];
-    }): Promise<import("mongoose").Document<unknown, {}, UserDocument, {}> & User & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    }>;
+    }): unknown;
 }

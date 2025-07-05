@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetSchema = exports.Set = exports.SetExercise = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
@@ -24,7 +25,7 @@ let SetExercise = class SetExercise {
 exports.SetExercise = SetExercise;
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Exercise', required: true }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    __metadata("design:type", typeof (_a = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _a : Object)
 ], SetExercise.prototype, "exerciseId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: 1 }),
@@ -102,11 +103,11 @@ __decorate([
 ], Set.prototype, "image", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category', required: true }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    __metadata("design:type", typeof (_b = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _b : Object)
 ], Set.prototype, "categoryId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'SubCategory' }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    __metadata("design:type", typeof (_c = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _c : Object)
 ], Set.prototype, "subcategoryId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: [SetExercise], default: [] }),
@@ -160,7 +161,7 @@ __decorate([
 ], Set.prototype, "generalNotes", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User' }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
+    __metadata("design:type", typeof (_d = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _d : Object)
 ], Set.prototype, "createdBy", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: true }),
