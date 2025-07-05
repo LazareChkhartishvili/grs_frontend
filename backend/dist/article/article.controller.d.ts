@@ -3,10 +3,8 @@ export declare class ArticleController {
     private readonly articleService;
     constructor(articleService: ArticleService);
     getAllArticles(page?: string, limit?: string, category?: string, published?: string, sort?: string, order?: 'asc' | 'desc'): Promise<{
-        data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument, {}> & import("../schemas/article.schema").Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument> & import("../schemas/article.schema").Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         pagination: {
             currentPage: number;
@@ -18,11 +16,9 @@ export declare class ArticleController {
         };
     }>;
     searchArticles(query: string, page?: string, limit?: string): Promise<{
-        data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument, {}> & import("../schemas/article.schema").Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
-        })[];
+        data: Omit<Omit<import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument> & import("../schemas/article.schema").Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        }, never>, never>[];
         pagination: {
             currentPage: number;
             totalPages: number;
@@ -36,10 +32,8 @@ export declare class ArticleController {
     getArticleById(id: string): Promise<import("../schemas/article.schema").ArticleDocument>;
     getArticleBySlug(slug: string): Promise<import("../schemas/article.schema").ArticleDocument>;
     getArticlesByCategory(categoryId: string, page?: string, limit?: string): Promise<{
-        data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument, {}> & import("../schemas/article.schema").Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument> & import("../schemas/article.schema").Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         pagination: {
             currentPage: number;

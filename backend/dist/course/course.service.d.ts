@@ -13,40 +13,26 @@ export declare class CourseService {
     private categoryModel;
     private subCategoryModel;
     constructor(courseModel: Model<CourseDocument>, lessonModel: Model<LessonDocument>, reviewModel: Model<ReviewDocument>, userModel: Model<UserDocument>, categoryModel: Model<CategoryDocument>, subCategoryModel: Model<SubCategoryDocument>);
-    findAll(filters?: any): Promise<(import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findAll(filters?: any): Promise<(import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findAllForAdmin(filters?: any): Promise<(import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findAllForAdmin(filters?: any): Promise<(import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    findOneForAdmin(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findOneForAdmin(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    findOneForEdit(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findOneForEdit(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    create(createCourseDto: any): Promise<import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    create(createCourseDto: any): Promise<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    update(id: string, updateCourseDto: any): Promise<import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    update(id: string, updateCourseDto: any): Promise<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     remove(id: string): Promise<{
         message: string;
@@ -59,25 +45,17 @@ export declare class CourseService {
         message: string;
         isActive: boolean;
     }>;
-    getLessons(courseId: string): Promise<(import("mongoose").Document<unknown, {}, LessonDocument, {}> & Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getLessons(courseId: string): Promise<(import("mongoose").Document<unknown, {}, LessonDocument> & Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    getLesson(lessonId: string): Promise<import("mongoose").Document<unknown, {}, LessonDocument, {}> & Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getLesson(lessonId: string): Promise<import("mongoose").Document<unknown, {}, LessonDocument> & Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    addLesson(courseId: string, lessonData: any): Promise<import("mongoose").Document<unknown, {}, LessonDocument, {}> & Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    addLesson(courseId: string, lessonData: any): Promise<import("mongoose").Document<unknown, {}, LessonDocument> & Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    updateLesson(lessonId: string, updateLessonDto: any): Promise<import("mongoose").Document<unknown, {}, LessonDocument, {}> & Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    updateLesson(lessonId: string, updateLessonDto: any): Promise<import("mongoose").Document<unknown, {}, LessonDocument> & Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     removeLesson(courseId: string, lessonId: string): Promise<{
         message: string;
@@ -88,20 +66,14 @@ export declare class CourseService {
     }[]): Promise<{
         message: string;
     }>;
-    getReviews(courseId: string): Promise<(import("mongoose").Document<unknown, {}, ReviewDocument, {}> & Review & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[]>;
-    addReview(courseId: string, userId: string, reviewData: any): Promise<import("mongoose").Document<unknown, {}, ReviewDocument, {}> & Review & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getReviews(courseId: string): Promise<Omit<import("mongoose").Document<unknown, {}, ReviewDocument> & Review & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>[]>;
+    addReview(courseId: string, userId: string, reviewData: any): Promise<import("mongoose").Document<unknown, {}, ReviewDocument> & Review & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     private updateCourseRating;
-    search(query: string): Promise<(import("mongoose").Document<unknown, {}, CourseDocument, {}> & Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[]>;
+    search(query: string): Promise<Omit<Omit<import("mongoose").Document<unknown, {}, CourseDocument> & Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>, never>[]>;
 }

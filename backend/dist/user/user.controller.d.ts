@@ -8,10 +8,8 @@ export declare class InstructorController {
         name: string;
         email: string;
     }[]>;
-    getAllInstructors(): Promise<(import("mongoose").Document<unknown, {}, UserDocument, {}> & User & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getAllInstructors(): Promise<(import("mongoose").Document<unknown, {}, UserDocument> & User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
     createInstructor(instructorData: {
         name: string;
@@ -21,9 +19,7 @@ export declare class InstructorController {
         experience?: number;
         education?: string;
         certifications?: string[];
-    }): Promise<import("mongoose").Document<unknown, {}, UserDocument, {}> & User & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    }): Promise<import("mongoose").Document<unknown, {}, UserDocument> & User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
 }

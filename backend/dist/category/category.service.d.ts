@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Category, CategoryDocument } from '../schemas/category.schema';
 import { SubCategoryDocument } from '../schemas/subcategory.schema';
 import { ExerciseComplex, ExerciseComplexDocument } from '../schemas/exercise-complex.schema';
@@ -39,15 +39,11 @@ export declare class CategoryService {
         deletedSubcategories: number;
     }>;
     getCategoryExercisesAndComplexes(categoryId: string): Promise<{
-        exercises: (import("mongoose").Document<unknown, {}, ExerciseDocument, {}> & Exercise & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        exercises: (import("mongoose").Document<unknown, {}, ExerciseDocument> & Exercise & import("mongoose").Document<any, any, any> & {
+            _id: Types.ObjectId;
         })[];
-        complexes: (import("mongoose").Document<unknown, {}, ExerciseComplexDocument, {}> & ExerciseComplex & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        complexes: (import("mongoose").Document<unknown, {}, ExerciseComplexDocument> & ExerciseComplex & import("mongoose").Document<any, any, any> & {
+            _id: Types.ObjectId;
         })[];
         totalExercises: number;
         totalComplexes: number;

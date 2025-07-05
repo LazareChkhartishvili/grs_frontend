@@ -19,12 +19,8 @@ export declare class SubCategory {
     exercises?: Exercise[];
     sortOrder: number;
 }
-export declare const SubCategorySchema: import("mongoose").Schema<SubCategory, import("mongoose").Model<SubCategory, any, any, any, Document<unknown, any, SubCategory, any> & SubCategory & {
+export declare const SubCategorySchema: import("mongoose").Schema<SubCategory, import("mongoose").Model<SubCategory, any, any, any, Document<unknown, any, SubCategory> & SubCategory & {
     _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, SubCategory, Document<unknown, {}, import("mongoose").FlatRecord<SubCategory>, {}> & import("mongoose").FlatRecord<SubCategory> & {
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, SubCategory, Document<unknown, {}, import("mongoose").FlatRecord<SubCategory>> & import("mongoose").FlatRecord<SubCategory> & {
     _id: Types.ObjectId;
-} & {
-    __v: number;
 }>;

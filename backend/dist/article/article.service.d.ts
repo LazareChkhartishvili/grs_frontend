@@ -13,10 +13,8 @@ export declare class ArticleService {
         sort?: string;
         order?: 'asc' | 'desc';
     }): Promise<{
-        data: (import("mongoose").Document<unknown, {}, ArticleDocument, {}> & Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        data: (import("mongoose").Document<unknown, {}, ArticleDocument> & Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         pagination: {
             currentPage: number;
@@ -33,10 +31,8 @@ export declare class ArticleService {
         page?: number;
         limit?: number;
     }): Promise<{
-        data: (import("mongoose").Document<unknown, {}, ArticleDocument, {}> & Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        data: (import("mongoose").Document<unknown, {}, ArticleDocument> & Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         pagination: {
             currentPage: number;
@@ -51,11 +47,9 @@ export declare class ArticleService {
         page?: number;
         limit?: number;
     }): Promise<{
-        data: (import("mongoose").Document<unknown, {}, ArticleDocument, {}> & Article & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
-        })[];
+        data: Omit<Omit<import("mongoose").Document<unknown, {}, ArticleDocument> & Article & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        }, never>, never>[];
         pagination: {
             currentPage: number;
             totalPages: number;

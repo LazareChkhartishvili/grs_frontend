@@ -5,58 +5,38 @@ import { CreateLessonDto } from './dto/create-lesson.dto';
 export declare class CourseController {
     private readonly courseService;
     constructor(courseService: CourseService);
-    findAll(filters: any): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    findAll(filters: any): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    search(query: string): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[]>;
-    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    search(query: string): Promise<Omit<Omit<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>, never>[]>;
+    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    create(createCourseDto: CreateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    create(createCourseDto: CreateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    update(id: string, updateCourseDto: Partial<CreateCourseDto>): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    update(id: string, updateCourseDto: Partial<CreateCourseDto>): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    patch(id: string, updateCourseDto: UpdateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    patch(id: string, updateCourseDto: UpdateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     remove(id: string): Promise<{
         message: string;
     }>;
-    getLessons(courseId: string): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument, {}> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getLessons(courseId: string): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    getLesson(courseId: string, lessonId: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument, {}> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getLesson(courseId: string, lessonId: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    addLesson(courseId: string, createLessonDto: CreateLessonDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument, {}> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    addLesson(courseId: string, createLessonDto: CreateLessonDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    updateLesson(courseId: string, lessonId: string, updateLessonDto: Partial<CreateLessonDto>): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument, {}> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    updateLesson(courseId: string, lessonId: string, updateLessonDto: Partial<CreateLessonDto>): Promise<import("mongoose").Document<unknown, {}, import("../schemas/lesson.schema").LessonDocument> & import("../schemas/lesson.schema").Lesson & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     deleteLesson(courseId: string, lessonId: string): Promise<{
         message: string;
@@ -67,42 +47,30 @@ export declare class CourseController {
     }[]): Promise<{
         message: string;
     }>;
-    getReviews(courseId: string): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/review.schema").ReviewDocument, {}> & import("../schemas/review.schema").Review & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
-    })[]>;
+    getReviews(courseId: string): Promise<Omit<import("mongoose").Document<unknown, {}, import("../schemas/review.schema").ReviewDocument> & import("../schemas/review.schema").Review & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never>[]>;
     addReview(courseId: string, reviewData: {
         userId: string;
         rating: number;
         comment: string;
-    }): Promise<import("mongoose").Document<unknown, {}, import("../schemas/review.schema").ReviewDocument, {}> & import("../schemas/review.schema").Review & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    }): Promise<import("mongoose").Document<unknown, {}, import("../schemas/review.schema").ReviewDocument> & import("../schemas/review.schema").Review & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    getAllCoursesForAdmin(filters: any): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getAllCoursesForAdmin(filters: any): Promise<(import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     })[]>;
-    getAdminCourse(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getAdminCourse(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    getEditCourse(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    getEditCourse(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
     toggleCourseStatus(id: string): Promise<{
         message: string;
         isPublished: boolean;
     }>;
-    updateAdminCourse(id: string, updateCourseDto: UpdateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument, {}> & import("../schemas/course.schema").Course & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-        _id: unknown;
-    }> & {
-        __v: number;
+    updateAdminCourse(id: string, updateCourseDto: UpdateCourseDto): Promise<import("mongoose").Document<unknown, {}, import("../schemas/course.schema").CourseDocument> & import("../schemas/course.schema").Course & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
 }

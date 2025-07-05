@@ -41,15 +41,11 @@ export declare class CategoryController {
         deletedSubcategories: number;
     }>;
     getCategoryExercisesAndComplexes(id: string): Promise<{
-        exercises: (import("mongoose").Document<unknown, {}, import("../schemas/exercise.schema").ExerciseDocument, {}> & import("../schemas/exercise.schema").Exercise & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        exercises: (import("mongoose").Document<unknown, {}, import("../schemas/exercise.schema").ExerciseDocument> & import("../schemas/exercise.schema").Exercise & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
-        complexes: (import("mongoose").Document<unknown, {}, import("../schemas/exercise-complex.schema").ExerciseComplexDocument, {}> & import("../schemas/exercise-complex.schema").ExerciseComplex & import("mongoose").Document<unknown, any, any, Record<string, any>> & Required<{
-            _id: unknown;
-        }> & {
-            __v: number;
+        complexes: (import("mongoose").Document<unknown, {}, import("../schemas/exercise-complex.schema").ExerciseComplexDocument> & import("../schemas/exercise-complex.schema").ExerciseComplex & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
         })[];
         totalExercises: number;
         totalComplexes: number;

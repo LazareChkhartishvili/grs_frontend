@@ -23,7 +23,7 @@ export declare class AuthController {
     register(registrationData: RegistrationDto): Promise<{
         token: string;
         user: {
-            id: string;
+            id: any;
             name: string;
             email: string;
             phone: string;
