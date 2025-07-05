@@ -4,6 +4,7 @@ import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
 import React from "react";
 import { blogItem } from "./BlogItems";
+import Link from "next/link";
 
 interface ThirdGridProps {
   scrollRef: React.RefObject<HTMLDivElement | null>;
@@ -58,35 +59,36 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
         "
       >
         {orderedBlogs.map((blog, idx) => (
-          <div
-            className={`min-w-[200px] max-w-full p-5 bg-white flex flex-col justify-between rounded-[20px] ${gridClasses[idx]}`}
-            key={blog.id}
-          >
-            <Image
-              src={blog.imageUrl}
-              alt={blog.description}
-              width={300}
-              height={160}
-              className="rounded-md object-cover w-full h-[120px] mb-3"
-            />
-            <p className="text-[#3D334A] text-[18px] leading-[120%] line-clamp-2 font-bold md:text-[24px]">
-              {blog.description}
-            </p>
-            <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
-              {blog.category}
-            </span>
-            <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
-              {blog.subText}
-            </span>
-            <div className="flex items-center gap-1.5 mt-3">
-              <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
-                <CiBookmark className="w-[14.2px] h-[18.68px] text-black" />
-              </div>
-              <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
-                <IoIosShareAlt className="w-[14.2px] h-[18.68px] text-black" />
+          <Link key={blog.id} href="/article">
+            <div
+              className={`min-w-[200px] max-w-full p-5 bg-white flex flex-col justify-between rounded-[20px] ${gridClasses[idx]}`}
+            >
+              <Image
+                src={blog.imageUrl}
+                alt={blog.description}
+                width={300}
+                height={160}
+                className="rounded-md object-cover w-full h-[120px] mb-3"
+              />
+              <p className="text-[#3D334A] text-[18px] leading-[120%] line-clamp-2 font-bold md:text-[24px]">
+                {blog.description}
+              </p>
+              <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
+                {blog.category}
+              </span>
+              <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
+                {blog.subText}
+              </span>
+              <div className="flex items-center gap-1.5 mt-3">
+                <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
+                  <CiBookmark className="w-[14.2px] h-[18.68px] text-black" />
+                </div>
+                <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
+                  <IoIosShareAlt className="w-[14.2px] h-[18.68px] text-black" />
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       {/* Mobile: horizontal scroll */}
