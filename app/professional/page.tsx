@@ -3,10 +3,11 @@ import React from "react";
 import Header from "../components/Header";
 import Image from "next/image";
 import CategorySlider from "../components/CategorySlider";
-import CourseSlider from "../components/CourseSlider";
+// import CourseSlider from "../components/CourseSlider";
 import SliderArrows from "../components/SliderArrows";
 import Subscribe from "../components/Subscribe";
 import ReviewSlider from "../components/ReviewSlider";
+import CourseSlider from "../components/CourseSlider";
 
 const Professional = () => {
   return (
@@ -61,9 +62,9 @@ const Professional = () => {
         </div>
       </div>
       {/*  */}
-      <CategorySlider />
+
       <div className="flex items-center justify-between mx-6 mb-4">
-        <h1 className="text-[#3D334A] text-[40px]">Курсы</h1>
+        <h1 className="text-[#3D334A] text-[40px] mt-10">Курсы</h1>
         <SliderArrows
           onScrollLeft={function (): void {
             throw new Error("Function not implemented.");
@@ -73,6 +74,7 @@ const Professional = () => {
           }}
         />
       </div>
+      <CategorySlider />
       <CourseSlider />
       <Subscribe />
       <ReviewSlider />

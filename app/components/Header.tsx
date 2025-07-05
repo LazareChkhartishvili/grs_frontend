@@ -8,6 +8,7 @@ import { RiShareForwardLine } from "react-icons/ri";
 import Image from "next/image";
 import MobileNavbar from "./Navbar/MobileNavbar";
 import DesktopNavbar from "./Navbar/DesktopNavbar";
+import Link from "next/link";
 
 export interface MenuItem {
   id: number;
@@ -461,9 +462,11 @@ const Header: React.FC<HeaderProps> = ({
                             </div>
                           )}
                           {variant == "default" && (
-                            <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
-                              <h3 className="text-[24px]">В каталог</h3>
-                            </div>
+                            <Link href={"/chapter"}>
+                              <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
+                                <h3 className="text-[24px]">В каталог</h3>
+                              </div>
+                            </Link>
                           )}
                           {variant == "complex" && (
                             <div className="bg-[url('/assets/images/categoryHeader.png')]  p-5 -mt-8 ">
