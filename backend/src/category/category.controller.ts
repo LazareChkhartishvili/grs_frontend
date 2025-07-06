@@ -105,10 +105,11 @@ export class CategoryController {
       name: string;
       description?: string;
       duration?: number;
-      difficulty?: string;
+      difficulty: string;
       instructions?: string;
       images?: string[];
       videos?: string[];
+      categoryId: string;
     },
   ) {
     return this.categoryService.addExerciseToCategory(categoryId, exercise);

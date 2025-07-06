@@ -1,219 +1,37 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Set, SetDocument } from '../schemas/set.schema';
+import { Set as SetModel, SetDocument } from '../schemas/set.schema';
+import { Video, VideoDocument } from '../schemas/video.schema';
 
 @Injectable()
 export class SetService {
-  constructor(@InjectModel(Set.name) private setModel: Model<SetDocument>) {}
-
-  // ყველა სეტის მიღება
-  async findAll(
-    page: number = 1,
-    limit: number = 10,
-    filters: any = {},
-  ): Promise<{ sets: SetDocument[]; total: number; pages: number }> {
-    const skip = (page - 1) * limit;
-    const query = { isActive: true, ...filters };
-
-    const [sets, total] = await Promise.all([
-      this.setModel
-        .find(query)
-        .populate('categoryId', 'name')
-        .populate('subcategoryId', 'name')
-        .populate('exercises.exerciseId', 'name duration difficulty')
-        .populate('createdBy', 'name email')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      this.setModel.countDocuments(query),
-    ]);
-
-    return {
-      sets,
-      total,
-      pages: Math.ceil(total / limit),
-    };
-  }
-
-  // კონკრეტული სეტის მიღება
-  async findById(id: string): Promise<SetDocument> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new NotFoundException('არასწორი სეტის ID');
-    }
-
-    const set = await this.setModel
-      .findById(id)
-      .populate('categoryId', 'name')
-      .populate('subcategoryId', 'name')
-      .populate(
-        'exercises.exerciseId',
-        'name description duration difficulty images videos',
-      )
-      .populate('createdBy', 'name email')
-      .populate('relatedSets', 'name difficulty level')
-      .populate('prerequisites', 'name difficulty level')
-      .exec();
-
-    if (!set) {
-      throw new NotFoundException('სეტი ვერ მოიძებნა');
-    }
-
-    // Usage counter-ის გაზრდა
-    await this.setModel.findByIdAndUpdate(id, {
-      $inc: { usageCount: 1 },
-    });
-
-    return set;
-  }
-
-  // სეტების ძიება
-  async search(
-    query: string,
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<{ sets: SetDocument[]; total: number; pages: number }> {
-    const skip = (page - 1) * limit;
-
-    const searchQuery = {
-      isActive: true,
-      $text: { $search: query },
-    };
-
-    const [sets, total] = await Promise.all([
-      this.setModel
-        .find(searchQuery, { score: { $meta: 'textScore' } })
-        .populate('categoryId', 'name')
-        .populate('subcategoryId', 'name')
-        .sort({ score: { $meta: 'textScore' } })
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      this.setModel.countDocuments(searchQuery),
-    ]);
-
-    return {
-      sets,
-      total,
-      pages: Math.ceil(total / limit),
-    };
-  }
-
-  // რჩეული სეტები
-  async getFeaturedSets(): Promise<SetDocument[]> {
-    return this.setModel
-      .find({ isFeatured: true, isActive: true })
-      .populate('categoryId', 'name')
-      .populate('subcategoryId', 'name')
-      .sort({ rating: -1, usageCount: -1 })
-      .limit(10)
-      .exec();
-  }
-
-  // კატეგორიის სეტები
-  async findByCategory(categoryId: string): Promise<SetDocument[]> {
-    if (!categoryId || !Types.ObjectId.isValid(categoryId)) {
-      throw new BadRequestException('არასწორი კატეგორიის ID');
-    }
-
-    return this.setModel
-      .find({ categoryId: new Types.ObjectId(categoryId), isActive: true })
-      .populate('subcategoryId', 'name')
-      .sort({ sortOrder: 1, rating: -1 })
-      .exec();
-  }
-
-  // სუბკატეგორიის სეტები
-  async findBySubcategory(subcategoryId: string): Promise<SetDocument[]> {
-    if (!subcategoryId || !Types.ObjectId.isValid(subcategoryId)) {
-      throw new BadRequestException('არასწორი სუბკატეგორიის ID');
-    }
-
-    return this.setModel
-      .find({
-        subcategoryId: new Types.ObjectId(subcategoryId),
-        isActive: true,
-      })
-      .sort({ sortOrder: 1, rating: -1 })
-      .exec();
-  }
-
-  // სირთულის მიხედვით სეტები
-  async findByDifficulty(difficulty: string): Promise<SetDocument[]> {
-    return this.setModel
-      .find({ difficulty, isActive: true })
-      .populate('categoryId', 'name')
-      .populate('subcategoryId', 'name')
-      .sort({ rating: -1 })
-      .exec();
-  }
-
-  // მიზნების მიხედვით სეტები
-  async findByGoals(goals: string[]): Promise<SetDocument[]> {
-    return this.setModel
-      .find({ goals: { $in: goals }, isActive: true })
-      .populate('categoryId', 'name')
-      .populate('subcategoryId', 'name')
-      .sort({ rating: -1 })
-      .exec();
-  }
+  constructor(
+    @InjectModel(SetModel.name) private setModel: Model<SetDocument>,
+    @InjectModel(Video.name) private videoModel: Model<VideoDocument>,
+  ) {}
 
   // სეტის შექმნა
-  async create(setData: {
+  async createSet(setData: {
     name: string;
     description?: string;
-    image?: string;
+    price: number;
     categoryId: string;
     subcategoryId?: string;
-    exercises?: Array<{
-      exerciseId: string;
-      repetitions?: number;
-      sets?: number;
-      restTime?: number;
-      duration?: number;
-      notes?: string;
-      order?: number;
-    }>;
-    difficulty?: string;
-    level?: string;
-    tags?: string[];
-    targetMuscles?: string[];
-    equipment?: string[];
-    warmupInstructions?: string;
-    cooldownInstructions?: string;
-    generalNotes?: string;
-    createdBy?: string;
-    isPublic?: boolean;
-    goals?: string[];
-    ageGroup?: { minAge: number; maxAge: number };
-    targetGender?: string;
-    suitableConditions?: string[];
-    contraindicatedConditions?: string[];
+    setNumber: string;
+    videos?: string[];
+    subscriptionPlans: { period: number; price: number }[];
   }): Promise<SetDocument> {
-    // Calculate total duration and calories
-    let totalDuration = 0;
-    const totalCalories = 0;
-
+    // ვიდეოებისთვის სავარჯიშოების შექმნა
     const exercises =
-      setData.exercises?.map((ex, index) => ({
-        exerciseId: new Types.ObjectId(ex.exerciseId),
-        repetitions: ex.repetitions || 1,
-        sets: ex.sets || 1,
-        restTime: ex.restTime || 0,
-        duration: ex.duration || 0,
-        notes: ex.notes,
-        order: ex.order || index,
+      setData.videos?.map((videoId, index) => ({
+        repetitions: 1,
+        sets: 1,
+        restTime: 0,
+        duration: 0,
+        order: index,
+        videoId: new Types.ObjectId(videoId),
       })) || [];
-
-    // Sum up durations
-    exercises.forEach((ex) => {
-      totalDuration += ex.duration + ex.restTime;
-    });
 
     const set = new this.setModel({
       ...setData,
@@ -221,149 +39,314 @@ export class SetService {
       subcategoryId: setData.subcategoryId
         ? new Types.ObjectId(setData.subcategoryId)
         : undefined,
-      exercises,
-      totalDuration,
-      totalCalories,
-      createdBy: setData.createdBy
-        ? new Types.ObjectId(setData.createdBy)
-        : undefined,
+      exercises: exercises,
     });
-
     return set.save();
   }
 
   // სეტის განახლება
-  async update(id: string, updateData: any): Promise<SetDocument> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new NotFoundException('არასწორი სეტის ID');
+  async updateSet(
+    setId: string,
+    updateData: Partial<SetModel>,
+  ): Promise<SetDocument> {
+    const updatePayload = { ...updateData } as {
+      categoryId?: string | Types.ObjectId;
+      subcategoryId?: string | Types.ObjectId;
+      videos?: string[];
+    };
+
+    if (
+      updatePayload.categoryId &&
+      typeof updatePayload.categoryId === 'string'
+    ) {
+      updatePayload.categoryId = new Types.ObjectId(updatePayload.categoryId);
     }
 
-    // Recalculate totals if exercises are updated
-    if (updateData.exercises) {
-      let totalDuration = 0;
-      updateData.exercises.forEach((ex: any) => {
-        totalDuration += (ex.duration || 0) + (ex.restTime || 0);
-      });
-      updateData.totalDuration = totalDuration;
+    if (
+      updatePayload.subcategoryId &&
+      typeof updatePayload.subcategoryId === 'string'
+    ) {
+      updatePayload.subcategoryId = new Types.ObjectId(
+        updatePayload.subcategoryId,
+      );
+    }
+
+    // ვიდეოების განახლება
+    if (updatePayload.videos) {
+      updatePayload['exercises'] = updatePayload.videos.map((videoId, index) => ({
+        repetitions: 1,
+        sets: 1,
+        restTime: 0,
+        duration: 0,
+        order: index,
+        videoId: new Types.ObjectId(videoId),
+      }));
+      delete updatePayload.videos;
     }
 
     const set = await this.setModel
-      .findByIdAndUpdate(id, updateData, { new: true })
+      .findByIdAndUpdate(setId, updatePayload, { new: true })
       .exec();
 
     if (!set) {
       throw new NotFoundException('სეტი ვერ მოიძებნა');
     }
+
+    // ვიდეოების ინფორმაციის დამატება
+    const videoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: videoIds } })
+      .exec();
+
+    set.exercises = set.exercises.map((exercise) => {
+      if (exercise.videoId) {
+        const video = videos.find((v) => v._id.equals(exercise.videoId));
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
 
     return set;
   }
 
-  // სეტის წაშლა
-  async delete(id: string): Promise<void> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new NotFoundException('არასწორი სეტის ID');
-    }
-
-    const result = await this.setModel.findByIdAndUpdate(
-      id,
-      { isActive: false },
-      { new: true },
-    );
-
-    if (!result) {
+  // სეტის წაშლა (soft delete)
+  async deleteSet(setId: string): Promise<void> {
+    const set = await this.setModel.findById(setId).exec();
+    if (!set) {
       throw new NotFoundException('სეტი ვერ მოიძებნა');
     }
+    set.isActive = false;
+    await set.save();
   }
 
-  // სეტში სავარჯიშოს დამატება
-  async addExercise(
-    setId: string,
-    exerciseData: {
-      exerciseId: string;
-      repetitions?: number;
-      sets?: number;
-      restTime?: number;
-      duration?: number;
-      notes?: string;
-    },
-  ): Promise<SetDocument> {
-    const set = await this.setModel.findById(setId);
+  // კონკრეტული სეტის მიღება
+  async getSetById(setId: string): Promise<SetDocument> {
+    const set = await this.setModel.findById(setId).exec();
+
     if (!set) {
       throw new NotFoundException('სეტი ვერ მოიძებნა');
     }
 
-    const newExercise = {
-      exerciseId: new Types.ObjectId(exerciseData.exerciseId),
-      repetitions: exerciseData.repetitions || 1,
-      sets: exerciseData.sets || 1,
-      restTime: exerciseData.restTime || 0,
-      duration: exerciseData.duration || 0,
-      notes: exerciseData.notes,
-      order: set.exercises.length,
-    };
-
-    set.exercises.push(newExercise);
-
-    // Update total duration
-    set.totalDuration += newExercise.duration + newExercise.restTime;
-
-    return set.save();
-  }
-
-  // სეტიდან სავარჯიშოს წაშლა
-  async removeExercise(
-    setId: string,
-    exerciseId: string,
-  ): Promise<SetDocument> {
-    const set = await this.setModel.findById(setId);
-    if (!set) {
-      throw new NotFoundException('სეტი ვერ მოიძებნა');
-    }
-
-    const exerciseIndex = set.exercises.findIndex(
-      (ex) => ex.exerciseId.toString() === exerciseId,
-    );
-
-    if (exerciseIndex === -1) {
-      throw new NotFoundException('სავარჯიშო სეტში ვერ მოიძებნა');
-    }
-
-    // Subtract from total duration
-    const removedExercise = set.exercises[exerciseIndex];
-    set.totalDuration -= removedExercise.duration + removedExercise.restTime;
-
-    set.exercises.splice(exerciseIndex, 1);
-
-    return set.save();
-  }
-
-  // სეტის rating-ის განახლება
-  async updateRating(setId: string, rating: number): Promise<SetDocument> {
-    const set = await this.setModel.findById(setId);
-    if (!set) {
-      throw new NotFoundException('სეტი ვერ მოიძებნა');
-    }
-
-    // Calculate new average rating
-    const totalRating = set.rating * set.reviewsCount + rating;
-    const newReviewsCount = set.reviewsCount + 1;
-    const newAverageRating = totalRating / newReviewsCount;
-
-    const updatedSet = await this.setModel
-      .findByIdAndUpdate(
-        setId,
-        {
-          rating: Math.round(newAverageRating * 10) / 10, // Round to 1 decimal
-          reviewsCount: newReviewsCount,
-        },
-        { new: true },
-      )
+    // ვიდეოების ინფორმაციის დამატება
+    const videoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: videoIds } })
       .exec();
 
-    if (!updatedSet) {
-      throw new NotFoundException('სეტის განახლება ვერ მოხერხდა');
+    set.exercises = set.exercises.map((exercise) => {
+      if (exercise.videoId) {
+        const video = videos.find((v) => v._id.equals(exercise.videoId));
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
+
+    return set;
+  }
+
+  // ყველა აქტიური სეტის მიღება
+  async getAllSets(): Promise<SetDocument[]> {
+    const sets = await this.setModel
+      .find({ isActive: true })
+      .sort({ sortOrder: 1 })
+      .exec();
+
+    // ვიდეოების ინფორმაციის დამატება ყველა სეტისთვის
+    const allVideoIds = sets
+      .flatMap((set) => set.exercises.map((ex) => ex.videoId))
+      .filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .exec();
+
+    return sets.map((set) => {
+      set.exercises = set.exercises.map((exercise) => {
+        if (exercise.videoId) {
+          const video = videos.find((v) => v._id === exercise.videoId);
+          return {
+            ...exercise,
+            video: video || null,
+          };
+        }
+        return exercise;
+      });
+      return set;
+    });
+  }
+
+  // კატეგორიის სეტების მიღება
+  async getSetsByCategory(categoryId: string): Promise<SetDocument[]> {
+    const sets = await this.setModel
+      .find({ categoryId: new Types.ObjectId(categoryId), isActive: true })
+      .sort({ sortOrder: 1 })
+      .exec();
+
+    // ვიდეოების ინფორმაციის დამატება ყველა სეტისთვის
+    const allVideoIds = sets
+      .flatMap((set) => set.exercises.map((ex) => ex.videoId))
+      .filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .exec();
+
+    return sets.map((set) => {
+      set.exercises = set.exercises.map((exercise) => {
+        if (exercise.videoId) {
+          const video = videos.find((v) => v._id === exercise.videoId);
+          return {
+            ...exercise,
+            video: video || null,
+          };
+        }
+        return exercise;
+      });
+      return set;
+    });
+  }
+
+  // ქვეკატეგორიის სეტების მიღება
+  async getSetsBySubcategory(subcategoryId: string): Promise<SetDocument[]> {
+    const sets = await this.setModel
+      .find({
+        subcategoryId: new Types.ObjectId(subcategoryId),
+        isActive: true,
+      })
+      .sort({ sortOrder: 1 })
+      .exec();
+
+    // ვიდეოების ინფორმაციის დამატება ყველა სეტისთვის
+    const allVideoIds = sets
+      .flatMap((set) => set.exercises.map((ex) => ex.videoId))
+      .filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .exec();
+
+    return sets.map((set) => {
+      set.exercises = set.exercises.map((exercise) => {
+        if (exercise.videoId) {
+          const video = videos.find((v) => v._id === exercise.videoId);
+          return {
+            ...exercise,
+            video: video || null,
+          };
+        }
+        return exercise;
+      });
+      return set;
+    });
+  }
+
+  // ვიდეოების დამატება სეტში
+  async addVideosToSet(
+    setId: string,
+    videoIds: string[],
+  ): Promise<SetDocument> {
+    const set = await this.setModel.findById(setId).exec();
+    if (!set) {
+      throw new NotFoundException('სეტი ვერ მოიძებნა');
     }
 
-    return updatedSet;
+    // არსებული ვიდეოების ID-ების მიღება
+    const existingVideoIds = set.exercises
+      .map((ex) => ex.videoId?.toString())
+      .filter(Boolean) as string[];
+
+    // უნიკალური ვიდეოების ID-ების მიღება
+    const uniqueVideoIds = [...new Set([...existingVideoIds, ...videoIds])];
+
+    // ახალი სავარჯიშოების შექმნა ახალი ვიდეოებისთვის
+    const newExercises = videoIds
+      .filter((id) => !existingVideoIds.includes(id))
+      .map((videoId, index) => ({
+        repetitions: 1,
+        sets: 1,
+        restTime: 0,
+        duration: 0,
+        order: set.exercises.length + index,
+        videoId: new Types.ObjectId(videoId),
+      }));
+
+    set.exercises = [...set.exercises, ...newExercises];
+
+    return set.save();
+  }
+
+  // ვიდეოების წაშლა სეტიდან
+  async removeVideosFromSet(
+    setId: string,
+    videoIds: string[],
+  ): Promise<SetDocument> {
+    const set = await this.setModel.findById(setId).exec();
+    if (!set) {
+      throw new NotFoundException('სეტი ვერ მოიძებნა');
+    }
+
+    // სავარჯიშოების წაშლა შესაბამისი ვიდეოებისთვის
+    set.exercises = set.exercises.filter(
+      (exercise) =>
+        !exercise.videoId ||
+        !videoIds.includes(exercise.videoId.toString()),
+    );
+
+    // სავარჯიშოების order-ის განახლება
+    set.exercises = set.exercises.map((exercise, index) => ({
+      ...exercise,
+      order: index,
+    }));
+
+    return set.save();
+  }
+
+  // სეტის ვიდეოების სორტირება
+  async reorderSetVideos(
+    setId: string,
+    videoIds: string[],
+  ): Promise<SetDocument> {
+    const set = await this.setModel.findById(setId).exec();
+    if (!set) {
+      throw new NotFoundException('სეტი ვერ მოიძებნა');
+    }
+
+    // სავარჯიშოების გადაწყობა ახალი თანმიმდევრობით
+    const reorderedExercises = videoIds
+      .map((videoId, index) => {
+        const exercise = set.exercises.find(
+          (ex) => ex.videoId?.toString() === videoId,
+        );
+        if (exercise) {
+          return {
+            ...exercise,
+            order: index,
+          };
+        }
+        return null;
+      })
+      .filter(
+        (exercise): exercise is NonNullable<typeof exercise> =>
+          exercise !== null,
+      );
+
+    // დარჩენილი სავარჯიშოების დამატება (რომლებსაც არ აქვთ ვიდეო)
+    const exercisesWithoutVideo = set.exercises.filter(
+      (ex) =>
+        !ex.videoId || !videoIds.includes(ex.videoId.toString()),
+    );
+
+    set.exercises = [
+      ...reorderedExercises,
+      ...exercisesWithoutVideo.map((exercise, index) => ({
+        ...exercise,
+        order: reorderedExercises.length + index,
+      })),
+    ];
+
+    return set.save();
   }
 }

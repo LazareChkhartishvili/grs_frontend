@@ -4,7 +4,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { Category, CategoryDocument } from '../schemas/category.schema';
+import {
+  Category,
+  CategoryDocument,
+  CategoryWithSubcategories,
+} from '../schemas/category.schema';
 import {
   SubCategory,
   SubCategoryDocument,
@@ -14,6 +18,7 @@ import {
   ExerciseComplexDocument,
 } from '../schemas/exercise-complex.schema';
 import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
+
 @Injectable()
 export class CategoryService {
   constructor(
@@ -24,6 +29,7 @@ export class CategoryService {
     private exerciseComplexModel: Model<ExerciseComplexDocument>,
     @InjectModel(Exercise.name) private exerciseModel: Model<ExerciseDocument>,
   ) {}
+
   // ყველა ძირითადი კატეგორიის მიღება (parentId = null)
   async getMainCategories(): Promise<CategoryDocument[]> {
     return this.categoryModel
@@ -31,6 +37,7 @@ export class CategoryService {
       .sort({ sortOrder: 1 })
       .exec();
   }
+
   // კონკრეტული კატეგორიის მიღება
   async getCategoryById(categoryId: string): Promise<CategoryDocument> {
     const category = await this.categoryModel.findById(categoryId).exec();
@@ -39,74 +46,71 @@ export class CategoryService {
     }
     return category;
   }
+
   // ყველა კატეგორია სუბკატეგორიებით
-  async getCategoriesWithSubcategories(): Promise<any[]> {
+  async getCategoriesWithSubcategories(): Promise<CategoryWithSubcategories[]> {
     console.log('🔍 Getting categories with subcategories...');
     const mainCategories = await this.getMainCategories();
     console.log('📋 Main categories found:', mainCategories.length);
-    // ვნახოთ ყველა სუბკატეგორია რა categoryId-ებს აქვს
-    const allSubcategories = await this.subcategoryModel
-      .find({ isActive: true })
-      .exec();
-    console.log('📋 All subcategories found:', allSubcategories.length);
-    console.log(
-      '📋 Subcategory categoryIds:',
-      allSubcategories.map((sub) => sub.categoryId),
-    );
-    const result: any[] = [];
+
+    const result: CategoryWithSubcategories[] = [];
     for (const category of mainCategories) {
-      // შევამოწმოთ, რომ კატეგორია არსებობს
       if (!category) {
         console.log('⚠️ Category is null or undefined');
         continue;
       }
-      // ვიღებთ category ID-ს - ეს შეიძლება იყოს რიცხვითი ან ObjectId
+
       const categoryId = category._id?.toString();
       if (!categoryId) {
         console.log('⚠️ Category has no _id field, skipping');
         continue;
       }
+
       console.log(
         '🔍 Looking for subcategories for category:',
         categoryId,
         category.name,
-        'Type:',
-        typeof category._id,
       );
-      // ვეძებთ სუბკატეგორიებს categoryId-ის მიხედვით
-      const subcategories = await this.subcategoryModel
+
+      const subcategories = await this.categoryModel
         .find({
-          categoryId: categoryId,
+          parentId: categoryId,
           isActive: true,
         })
         .sort({ sortOrder: 1 })
         .exec();
+
       console.log(
         '📋 Subcategories found for',
         category.name,
         ':',
         subcategories.length,
       );
+
       result.push({
         ...category.toObject(),
         subcategories: subcategories.map((sub) => sub.toObject()),
-      });
+      } as CategoryWithSubcategories);
     }
+
     console.log('✅ Final result length:', result.length);
     return result;
   }
+
   async getAllSubcategories(): Promise<CategoryDocument[]> {
     return this.categoryModel
       .find({ parentId: { $ne: null }, isActive: true })
       .sort({ sortOrder: 1 })
       .exec();
   }
+
   async getSubCategories(parentId: string): Promise<CategoryDocument[]> {
     return this.categoryModel
       .find({ parentId, isActive: true })
       .sort({ sortOrder: 1 })
       .exec();
   }
+
   async getCategoryWithChildren(categoryId: string): Promise<any> {
     const category = await this.categoryModel.findById(categoryId).exec();
     if (!category) {
@@ -121,6 +125,7 @@ export class CategoryService {
       children,
     };
   }
+
   // კატეგორიის შექმნა
   async createCategory(categoryData: {
     name: string;
@@ -139,9 +144,8 @@ export class CategoryService {
       }
       level = parent.level + 1;
     }
-    // მონაცემების გაწმენდა - image ფილდის დამუშავება
+
     const cleanedData = { ...categoryData };
-    // თუ image ცარიელი string-ია, object-ია ან undefined-ია, მოვშოროთ
     if (
       !cleanedData.image ||
       typeof cleanedData.image !== 'string' ||
@@ -150,12 +154,14 @@ export class CategoryService {
     ) {
       delete cleanedData.image;
     }
+
     const category = new this.categoryModel({
       ...cleanedData,
       level,
     });
     return category.save();
   }
+
   // კატეგორიის განახლება
   async updateCategory(
     categoryId: string,
@@ -179,6 +185,7 @@ export class CategoryService {
     }
     return category;
   }
+
   async deleteCategory(categoryId: string): Promise<void> {
     const category = await this.categoryModel.findById(categoryId).exec();
     if (!category) {
@@ -190,13 +197,14 @@ export class CategoryService {
     category.isActive = false;
     await category.save();
   }
+
   async addExerciseToCategory(
     categoryId: string,
     exercise: {
       name: string;
       description?: string;
       duration?: number;
-      difficulty?: string;
+      difficulty: string;
       instructions?: string;
       images?: string[];
       videos?: string[];
@@ -209,22 +217,67 @@ export class CategoryService {
     if (!category.exercises) {
       category.exercises = [];
     }
-    category.exercises.push(exercise);
+
+    const newExercise: Exercise = {
+      ...exercise,
+      categoryId: new Types.ObjectId(categoryId),
+      isActive: true,
+      sortOrder: category.exercises.length,
+      difficulty: exercise.difficulty || 'medium',
+    };
+
+    category.exercises.push(newExercise);
     return category.save();
   }
+
   // სრული იერარქიული სტრუქტურის მიღება
   async getFullHierarchy(): Promise<any[]> {
     const mainCategories = await this.getMainCategories();
     const result: any[] = [];
+
     for (const category of mainCategories) {
-      const categoryWithChildren = await this.getCategoryWithChildren(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (category as any)._id.toString(),
-      );
-      result.push(categoryWithChildren);
+      if (category._id) {
+        // მივიღოთ კატეგორია შვილობილი კატეგორიებით
+        const categoryWithChildren = await this.getCategoryWithChildren(
+          category._id.toString(),
+        );
+
+        // მივიღოთ კომპლექსები და სავარჯიშოები ამ კატეგორიისთვის
+        const { exercises, complexes } =
+          await this.getCategoryExercisesAndComplexes(category._id.toString());
+
+        // დავამატოთ კომპლექსები და სავარჯიშოები კატეგორიას
+        const enrichedCategory = {
+          ...categoryWithChildren,
+          complexes,
+          exercises,
+        };
+
+        // თუ არის შვილობილი კატეგორიები, მათთვისაც მივიღოთ კომპლექსები და სავარჯიშოები
+        if (enrichedCategory.children && enrichedCategory.children.length > 0) {
+          const enrichedChildren = await Promise.all(
+            enrichedCategory.children.map(async (child: CategoryDocument) => {
+              const { exercises: childExercises, complexes: childComplexes } =
+                await this.getCategoryExercisesAndComplexes(
+                  child._id.toString(),
+                );
+              return {
+                ...child.toObject(),
+                complexes: childComplexes,
+                exercises: childExercises,
+              };
+            }),
+          );
+          enrichedCategory.children = enrichedChildren;
+        }
+
+        result.push(enrichedCategory);
+      }
     }
+
     return result;
   }
+
   // ყველა კატეგორიისა და სუბკატეგორიის წაშლა (დებაგინგისთვის)
   async deleteAllCategoriesAndSubcategories(): Promise<{
     deletedCategories: number;
@@ -240,27 +293,23 @@ export class CategoryService {
       deletedSubcategories: deletedSubcategories.deletedCount || 0,
     };
   }
-  // ყველა კატეგორია სუბკატეგორიებით
+
+  // კატეგორიის სავარჯიშოებისა და კომპლექსების მიღება
   async getCategoryExercisesAndComplexes(categoryId: string) {
     const objectId = new Types.ObjectId(categoryId);
-    // პარალელურად წამოვიღოთ ორივე მონაცემი უკეთესი პერფორმანსისთვის
     const [exercises, complexes] = await Promise.all([
       this.exerciseModel
         .find({ categoryId: objectId, isActive: true })
-        .select('-imageData -imageMimeType -imageSize') // არ წამოვიღოთ დიდი ველები
+        .select('-imageData -imageMimeType -imageSize')
         .sort({ sortOrder: 1 })
         .exec(),
       this.exerciseComplexModel
         .find({ categoryId: objectId, isActive: true })
-        .select('-instructorNotes') // არ წამოვიღოთ არასაჭირო ველები
+        .select('-instructorNotes')
         .sort({ sortOrder: 1 })
         .exec(),
     ]);
-    return {
-      exercises,
-      complexes,
-      totalExercises: exercises.length,
-      totalComplexes: complexes.length,
-    };
+
+    return { exercises, complexes };
   }
 }
