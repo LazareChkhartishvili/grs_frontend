@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentSchema = exports.Comment = exports.CommentAuthor = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
@@ -45,7 +44,7 @@ let Comment = class Comment {
 exports.Comment = Comment;
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Article', required: true }),
-    __metadata("design:type", typeof (_a = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _a : Object)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Comment.prototype, "articleId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: CommentAuthor, required: true }),
@@ -61,11 +60,11 @@ __decorate([
 ], Comment.prototype, "isApproved", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Comment', default: null }),
-    __metadata("design:type", typeof (_b = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _b : Object)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Comment.prototype, "parentCommentId", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
-    __metadata("design:type", typeof (_c = typeof Date !== "undefined" && Date) === "function" ? _c : Object)
+    __metadata("design:type", Date)
 ], Comment.prototype, "publishedAt", void 0);
 exports.Comment = Comment = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })

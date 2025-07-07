@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import SliderArrows from "./SliderArrows";
+import Link from "next/link";
 
 interface WorkItem {
   id: number;
@@ -15,11 +16,15 @@ interface WorkItem {
 interface WorksSliderProps {
   title?: string;
   works: WorkItem[];
+  link?: string;
+  className?:string,
 }
 
 const WorksSlider: React.FC<WorksSliderProps> = ({
   title = "Упражнения",
   works,
+  link,
+  className = "",
 }) => {
   const scroll = (direction: "left" | "right") => {
     const slider = document.getElementById("works-slider");
@@ -32,9 +37,9 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
   };
 
   return (
-    <div className="mx-2 md:px-10 px-2 py-2">
+    <div className={`mx-2   md:px-10 px-2 py-2 ${className} `}>
       <div className="flex items-center justify-between">
-        <h2 className="text-[20px] md:text-[40px] text-[#3D334A] mb-2.5 md:mb-5">
+        <h2 className="text-[20px] md:text-[40px] text-[#3D334A] ">
           {title}
         </h2>
         <SliderArrows
@@ -42,6 +47,11 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
           onScrollRight={() => scroll("right")}
         />
       </div>
+      {link && (
+        <Link href={link} className="text-[#D4BAFC] text-[24px] mt-[-30px]">
+          Смотреть все →
+        </Link>
+      )}
 
       <div
         id="works-slider"

@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { ArticleDocument } from '../schemas/article.schema';
+import { Article, ArticleDocument } from '../schemas/article.schema';
 import { CommentDocument } from '../schemas/comment.schema';
 export declare class ArticleService {
     private articleModel;
