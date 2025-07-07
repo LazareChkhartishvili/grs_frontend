@@ -16,7 +16,7 @@ export default function Month({ onSelect }: Props) {
             className="flex items-center justify-between h-[70px] hover:bg-gray-300 px-[20px] cursor-pointer"
           >
             <p className="text-[#3D334A]">{month}</p>
-            <p className="text-[#3D334A]">""</p>
+            <p className="text-[#3D334A]">Icon</p>
           </div>
           <hr className="h-[3px] bg-[#3D334A] opacity-[0.1]" />
         </React.Fragment>
