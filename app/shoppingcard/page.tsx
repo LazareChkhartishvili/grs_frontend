@@ -48,17 +48,16 @@ const ShoppingCard = () => {
       <div className="bg-[#F9F7FE] md:pb-[100px] mb-[-100px] ">
         <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
         <MobileNavbar />
-        <div className="flex md:flex-row md:items-start flex-col mx-2 md:mx-10 md:justify-between md:mb-10 md:pb-10 ">
+        <div className="flex md:flex-row md:items-start flex-col mx-2 md:mx-10 md:justify-between md:mb-10 md:pb-10  ">
            {/* LeftSide */}
-          <div className="flex flex-col bg-white w-full md:w-[60%] lg:w-[72%] rounded-[20px] ">
+          <div className="flex flex-col bg-white w-full md:w-[60%] lg:w-[72%] rounded-[20px] md:h-[832px] ">
             <div className="flex items-center justify-between px-[16px] pt-[16px] md:px-[40px] md:pt-[40px]">
               <h1 className="text-[#3D334A]">Корзина</h1>
               <h3 className="hidden lg:block text-[#D5D1DB]">Удалить все</h3>
             </div>
             <hr className="hidden lg:block h-[3px] w-full bg-[#F9F7FE] my-[40px]" />
+            <div className="flex flex-col  max-h-[734px] overflow-y-auto">
             {/* item ეს ის ნაწილია რაც უნდა გამოიმაპოს  */}
-            <div className="flex flex-col  max-h-[405px] overflow-y-auto">
-
             <div className="mt-[24px] px-[16px] md:px-[40px] md:mt-[0px] md:mb-[40px]">
               <div className="flex flex-col">
               <div className="flex gap-[8px] md:gap-[20px] items-start">
@@ -134,6 +133,68 @@ const ShoppingCard = () => {
               </div>
             </div> 
             </div>
+              {/* item ეს ის ნაწილია რაც უნდა გამოიმაპოს  */}
+            <div className="mt-[24px] px-[16px] md:px-[40px] md:mt-[0px] md:mb-[40px]">
+              <div className="flex flex-col">
+              <div className="flex gap-[8px] md:gap-[20px] items-start">
+            <Image
+                src={"/assets/images/blog1.png"}
+                width={75}
+                height={75}
+                alt="image"
+               />
+               <div className="flex flex-col w-full">
+                <div className="flex items-start w-full justify-between">
+                  <div className="flex flex-col xl:w-[533px] md:w-[433px] ">
+                <h4 className="text-[#3D334A] text-[14px] md:text-[20px] xl:text-[24]">Комплекс упражнений №1 для грудного отдела позвоночника</h4>
+                <p className="text-[#846FA0] text-[12px] md:text-[14px] xl:text-[18px]">Улучшение динамики и подвижности грудного отдела</p>
+                  </div>
+                <p className="text-[#3D334A] hidden md:block">950 ₽</p>
+                </div>
+                <div className="hidden md:flex w-full justify-between items-center mt-[25px]">
+                <p className="text-[#846FA0] text-[12px]">Срок подписки: <span className="text-[#D4BAFC] text-[12px]">1 месяц</span></p>
+                <p className="text-[#846FA0]">Удалить <span>Icon</span></p>
+                </div>
+               </div>
+              </div>
+              <div className="flex w-full justify-between items-center md:hidden my-[24px]">
+                <p className="text-[#846FA0] text-[12px]">Срок подписки: <span className="text-[#D4BAFC] text-[12px]">1 месяц</span></p>
+                <p className="text-[#3D334A] text-[15px]">950 ₽</p>
+              </div>
+            </div> 
+            </div>
+             {/* item ეს ის ნაწილია რაც უნდა გამოიმაპოს  */}
+             <div className="mt-[24px] px-[16px] md:px-[40px] md:mt-[0px] md:mb-[40px]">
+              <div className="flex flex-col">
+              <div className="flex gap-[8px] md:gap-[20px] items-start">
+            <Image
+                src={"/assets/images/blog1.png"}
+                width={75}
+                height={75}
+                alt="image"
+               />
+               <div className="flex flex-col w-full">
+                <div className="flex items-start w-full justify-between">
+                  <div className="flex flex-col xl:w-[533px] md:w-[433px] ">
+                <h4 className="text-[#3D334A] text-[14px] md:text-[20px] xl:text-[24]">Комплекс упражнений №1 для грудного отдела позвоночника</h4>
+                <p className="text-[#846FA0] text-[12px] md:text-[14px] xl:text-[18px]">Улучшение динамики и подвижности грудного отдела</p>
+                  </div>
+                <p className="text-[#3D334A] hidden md:block">950 ₽</p>
+                </div>
+                <div className="hidden md:flex w-full justify-between items-center mt-[25px]">
+                <p className="text-[#846FA0] text-[12px]">Срок подписки: <span className="text-[#D4BAFC] text-[12px]">1 месяц</span></p>
+                <p className="text-[#846FA0]">Удалить <span>Icon</span></p>
+                </div>
+               </div>
+              </div>
+              <div className="flex w-full justify-between items-center md:hidden my-[24px]">
+                <p className="text-[#846FA0] text-[12px]">Срок подписки: <span className="text-[#D4BAFC] text-[12px]">1 месяц</span></p>
+                <p className="text-[#3D334A] text-[15px]">950 ₽</p>
+              </div>
+            </div> 
+            </div>
+
+
            </div>
           </div>
 
