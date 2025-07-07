@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CategoryController } from './category.controller';
+import { CategoryService } from './category.service';
 import { Category, CategorySchema } from '../schemas/category.schema';
-import { SubCategory, SubCategorySchema } from '../schemas/subcategory.schema';
+import { Set, SetSchema } from '../schemas/set.schema';
+import { Video, VideoSchema } from '../schemas/video.schema';
+import { Exercise, ExerciseSchema } from 'src/schemas/exercise.schema';
 import {
   ExerciseComplex,
   ExerciseComplexSchema,
-} from '../schemas/exercise-complex.schema';
-import { Exercise, ExerciseSchema } from '../schemas/exercise.schema';
-import {
-  CategoryController,
-  CourseCategoryController,
-} from './category.controller';
-import { CategoryService } from './category.service';
+} from 'src/schemas/exercise-complex.schema';
+import { SubCategory, SubCategorySchema } from 'src/schemas/subcategory.schema';
 
 @Module({
   imports: [
@@ -20,10 +19,11 @@ import { CategoryService } from './category.service';
       { name: SubCategory.name, schema: SubCategorySchema },
       { name: ExerciseComplex.name, schema: ExerciseComplexSchema },
       { name: Exercise.name, schema: ExerciseSchema },
+      { name: Set.name, schema: SetSchema },
+      { name: Video.name, schema: VideoSchema },
     ]),
   ],
-  controllers: [CategoryController, CourseCategoryController],
+  controllers: [CategoryController],
   providers: [CategoryService],
-  exports: [CategoryService],
 })
 export class CategoryModule {}

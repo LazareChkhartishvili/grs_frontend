@@ -5,13 +5,14 @@ import { CategoryItem } from '../context/CategoryContext';
 
 // Import the BackendCategory type structure
 interface BackendCategory {
+  _id: string;
   id: number;
   name: string;
   description?: string;
   image?: string;
   backgroundImage?: string;
   subcategories?: Array<{
-    _id: string; // MongoDB uses _id instead of id
+    _id: string;
     name: string;
     description?: string;
     categoryId?: string;
@@ -23,6 +24,7 @@ interface BackendCategory {
     updatedAt?: string;
     __v?: number;
   }>;
+  sets?: unknown[]; // Added for the new structure
 }
 
 interface UseCategoriesReturn {
@@ -36,6 +38,7 @@ function getFallbackCategories(): CategoryItem[] {
   return [
     {
       id: 1,
+      _id: "fallback_1",
       title: "Ортопедия",
       backgroundImage: "/assets/images/blog.png",
       categoryImage: "/assets/images/services/category.png",
@@ -54,6 +57,7 @@ function getFallbackCategories(): CategoryItem[] {
     },
     {
       id: 2,
+      _id: "fallback_2",
       title: "Терапия",
       backgroundImage: "/assets/images/blog.png",
       categoryImage: "/assets/images/services/course2.png",
@@ -72,6 +76,7 @@ function getFallbackCategories(): CategoryItem[] {
     },
     {
       id: 3,
+      _id: "fallback_3",
       title: "Хирургия",
       backgroundImage: "/assets/images/blog.png",
       categoryImage: "/assets/images/services/cousre1.png",
@@ -101,29 +106,32 @@ export function useCategories(): UseCategoriesReturn {
       setLoading(true);
       setError(null);
       
-      // Import API function dynamically
-      const { fetchMainCategories } = await import('../config/api');
+      const { apiRequest, API_CONFIG } = await import('../config/api');
       
-      const backendCategories: BackendCategory[] = await fetchMainCategories<BackendCategory[]>();
+      const endpoint = '/api/categories/full-structure';
+      console.log('📡 API Endpoint:', `${API_CONFIG.BASE_URL}${endpoint}`);
+      
+      const backendCategories: BackendCategory[] = await apiRequest<BackendCategory[]>(endpoint);
 
-      // Check if it's an array and has expected structure
       if (!Array.isArray(backendCategories)) {
         throw new Error('API response is not an array');
       }
       
-      // Transform data
       const transformedCategories: CategoryItem[] = backendCategories.map((category, index) => {
         const transformed = {
-          id: category.id || (index + 1), // Fallback ID if missing
+          id: category.id || (index + 1),
+          _id: category._id,
           title: category.name || `Category ${index + 1}`,
           backgroundImage: category.backgroundImage || '/assets/images/blog.png',
           categoryImage: category.image || '/assets/images/services/category.png',
           items: category.subcategories?.map((sub) => sub.name) || [],
           subcategories: category.subcategories?.map((sub) => ({
-            id: parseInt(sub._id.slice(-8), 16), // Convert MongoDB _id to number for compatibility
+            id: parseInt(sub._id.slice(-8), 16),
             name: sub.name,
-            description: sub.description
-          })) || []
+            description: sub.description,
+            sets: sub.exercises || []
+          })) || [],
+          sets: category.sets || []
         };
         
         return transformed;
@@ -131,10 +139,9 @@ export function useCategories(): UseCategoriesReturn {
       
       setCategories(transformedCategories);
     } catch (err) {
-      // Use fallback categories on error
+      console.error('❌ Error fetching categories:', err);
       const fallbackCategories = getFallbackCategories();
       setCategories(fallbackCategories);
-      
       setError(err instanceof Error ? err.message : 'API Error - using fallback data');
     } finally {
       setLoading(false);

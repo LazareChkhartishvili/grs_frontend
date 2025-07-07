@@ -1,34 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Exercise } from './exercise.schema';
 
 export type CategoryDocument = Category & Document;
 
-// სავარჯიშოს ქვე-სქემა
-@Schema()
-export class Exercise {
-  @Prop({ required: true })
-  name: string;
-
-  @Prop()
-  description?: string;
-
-  @Prop()
-  duration?: number; // წუთებში
-
-  @Prop()
-  difficulty?: string; // easy, medium, hard
-
-  @Prop()
-  instructions?: string;
-
-  @Prop([String])
-  images?: string[];
-
-  @Prop([String])
-  videos?: string[];
+// ინტერფეისი კატეგორიებისთვის სუბკატეგორიებით
+export interface CategoryWithSubcategories extends CategoryDocument {
+  subcategories: CategoryDocument[];
 }
 
-// კატეგორიის ძირითადი სქემა (რომელიც შეიძლება იყოს კატეგორია ან სუბკატეგორია)
 @Schema({ timestamps: true })
 export class Category {
   @Prop({ required: true })
@@ -41,8 +21,12 @@ export class Category {
   image?: string;
 
   // კატეგორიის უნიკალური კოდი
-  @Prop({ unique: true })
+  @Prop()
   code?: string;
+
+  // sequence - იერარქიული სტრუქტურის მაჩვენებელი (მაგ: "1.1.1")
+  @Prop({ unique: true })
+  sequence?: string;
 
   // parentId - თუ null-ია, მაშინ ეს არის ძირითადი კატეგორია
   // თუ parentId-ს აქვს მნიშვნელობა, მაშინ ეს არის სუბკატეგორია

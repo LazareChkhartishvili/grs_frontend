@@ -38,24 +38,26 @@ export class VideoService {
   }
 
   // კონკრეტული ვიდეოს მიღება ID-ით
-  async findById(id: string | number): Promise<any> {
-    const videoId = typeof id === 'string' ? parseInt(id) : id;
+  async findById(id: string): Promise<VideoDocument> {
+    try {
+      const videoId = new Types.ObjectId(id);
+      const video = await this.videoModel.findById(videoId).lean().exec();
 
-    if (isNaN(videoId)) {
+      if (!video) {
+        throw new NotFoundException('ვიდეო ვერ მოიძებნა');
+      }
+
+      return video;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new NotFoundException('არასწორი ვიდეოს ID');
     }
-
-    const video = await this.videoModel.findOne({ _id: videoId }).lean().exec();
-
-    if (!video) {
-      throw new NotFoundException('ვიდეო ვერ მოიძებნა');
-    }
-
-    return video;
   }
 
   // კატეგორიის კოდის მიხედვით ვიდეოები
-  async findByCategoryCode(categoryCode: string): Promise<any[]> {
+  async findByCategoryCode(categoryCode: string): Promise<VideoDocument[]> {
     return this.videoModel
       .find({ categoryCode, isActive: true })
       .sort({ sequence: 1 })
@@ -64,7 +66,7 @@ export class VideoService {
   }
 
   // Set ID-ის მიხედვით ვიდეოები
-  async findBySetId(setId: string): Promise<any[]> {
+  async findBySetId(setId: string): Promise<VideoDocument[]> {
     return this.videoModel
       .find({ setId, isActive: true })
       .sort({ sequence: 1 })
@@ -73,7 +75,7 @@ export class VideoService {
   }
 
   // Resolution-ის მიხედვით ვიდეოები
-  async findByResolution(resolution: string): Promise<any[]> {
+  async findByResolution(resolution: string): Promise<VideoDocument[]> {
     return this.videoModel
       .find({ resolution, isActive: true })
       .sort({ sequence: 1 })
@@ -86,7 +88,7 @@ export class VideoService {
     query: string,
     page: number = 1,
     limit: number = 10,
-  ): Promise<{ videos: any[]; total: number; pages: number }> {
+  ): Promise<{ videos: VideoDocument[]; total: number; pages: number }> {
     const skip = (page - 1) * limit;
 
     const searchQuery = {
@@ -117,7 +119,7 @@ export class VideoService {
   }
 
   // გამორჩეული ვიდეოები (უმაღლესი ID-ებით)
-  async getFeaturedVideos(limit: number = 10): Promise<any[]> {
+  async getFeaturedVideos(limit: number = 10): Promise<VideoDocument[]> {
     return this.videoModel
       .find({ isActive: true })
       .sort({ _id: -1 }) // ბოლო დამატებული ვიდეოები
@@ -190,5 +192,4 @@ export class VideoService {
       }, {}),
     };
   }
-
 }

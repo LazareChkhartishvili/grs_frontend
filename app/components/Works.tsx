@@ -1,60 +1,58 @@
 "use client";
 
 import React from "react";
-import WorksSlider from "./WorksSlider";
 import Link from "next/link";
-import { useComplexes } from "../hooks/useComplexes";
+import WorksSlider from "./WorksSlider";
 
-const Works = ({ title }: { title: string }) => {
-  const { complexes, loading, error } = useComplexes();
+interface Exercise {
+  _id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  videoId?: string;
+  video?: {
+    url: string;
+    duration: number;
+  };
+}
 
-  console.log("🔍 Works component - complexes:", complexes);
-  console.log("🔍 Works component - loading:", loading);
-  console.log("🔍 Works component - error:", error);
+interface Set {
+  _id: string;
+  title: string;
+  description: string;
+  exercises: Exercise[];
+  categoryId: string;
+  subcategoryId?: string;
+  categoryName?: string;
+  monthlyPrice: number;
+}
 
-  // Transform complexes to work with existing WorksSlider component
-  const works = complexes.flatMap((complex) =>
-    complex.exercises.map((exercise) => ({
-      id: exercise.id,
-      title: exercise.category || exercise.title,
-      description:
-        exercise.description ||
-        `${exercise.difficulty} - ${exercise.duration} წუთი, ${exercise.sets} სეტი`,
-      price: `${complex.price} ${complex.currency}`,
-      image: exercise.image || "/assets/images/workMan.png",
-    }))
-  );
+interface WorksProps {
+  title: string;
+  items: Set[];
+}
 
-  if (loading) {
-    return (
-      <div className="bg-[#F9F7FE] md:px-5 md:mt-0 px-4 md:my-10 rounded-b-[15px] md:pb-10">
-        <div className="flex justify-center py-10">
-          <div className="animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-[#F9F7FE] md:px-5 md:mx-10 md:mt-0 px-4 md:my-10 rounded-b-[15px] md:pb-10">
-        <div className="text-center py-10">
-          <p className="text-red-500 mb-2">შეცდომა სავარჯიშოების ჩატვირთვაში</p>
-          <p className="text-gray-500 text-sm">{error}</p>
-        </div>
-      </div>
-    );
-  }
+const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
+  // Transform sets to work with existing WorksSlider component
+  const works = items.map((set) => ({
+    id: set._id,
+    title: set.title,
+    description: set.description,
+    image: "/assets/images/workMan.png", // Default image
+    exerciseCount: set.exercises.length,
+    categoryName: set.categoryName || "ორთოპედია", // დროებით ჩავსვათ დეფოლტი
+    monthlyPrice: set.monthlyPrice || 920 // დეფოლტ ფასი
+  }));
 
   return (
     <div className="bg-[#F9F7FE] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0">
       {/* Slider */}
       <WorksSlider title={title} works={works} />
       <Link
-        href="complex"
-        className="text-[14px] md:px-10  px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
+        href="sets"
+        className="text-[14px] md:px-10 px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
       >
-        Все {works.length} Упражнения →
+        ყველა {works.length} სეტი →
       </Link>
     </div>
   );

@@ -23,6 +23,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:4000/api/:path*",
+      },
+    ];
+  },
   // experimental: {
   //   typedRoutes: true,
   // },
