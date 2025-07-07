@@ -3,10 +3,10 @@ import React from "react";
 import DayBoxes from "../DayBoxes";
 
 type DaysInRowProps = {
-  currentStreak: number; // დღეთა რიგი (მაგ: 4)
-  recordStreak: number; // მაქსიმალური დღეთა რიგი (მაგ: 18)
-  multiplier?: number; // გასამმაგებელი კოეფიციენტი (მაგ: 2)
-  timer?: string; // დათვლის დრო, შეიძლება იყოს "18:45:24" ფორმატი
+  currentStreak: number;
+  recordStreak: number;
+  multiplier?: number;
+  timer?: string;
 };
 
 const DaysInRow: React.FC<DaysInRowProps> = ({
