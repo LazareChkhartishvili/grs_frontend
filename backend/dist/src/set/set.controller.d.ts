@@ -6,7 +6,7 @@ export declare class SetController {
     createSet(setData: {
         name: string;
         description?: string;
-        price: number;
+        monthlyPrice: number;
         categoryId: string;
         subcategoryId?: string;
         setNumber: string;
@@ -25,4 +25,5 @@ export declare class SetController {
     addVideosToSet(id: string, videoIds: string[]): Promise<import("../schemas/set.schema").SetDocument>;
     removeVideosFromSet(id: string, videoIds: string[]): Promise<import("../schemas/set.schema").SetDocument>;
     reorderSetVideos(id: string, videoIds: string[]): Promise<import("../schemas/set.schema").SetDocument>;
+    linkVideosToSet(id: string): Promise<import("../schemas/set.schema").SetDocument>;
 }

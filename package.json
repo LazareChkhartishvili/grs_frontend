@@ -11,6 +11,7 @@
   "dependencies": {
     "@nestjs/common": "^10.4.19",
     "@react-input/mask": "^2.0.4",
+    "axios": "^1.10.0",
     "framer-motion": "^12.23.0",
     "next": "15.3.3",
     "react": "^19.0.0",

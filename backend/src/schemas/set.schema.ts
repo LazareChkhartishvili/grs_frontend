@@ -20,8 +20,8 @@ export class Set {
   @Prop()
   description: string;
 
-  @Prop({ required: true })
-  price: number;
+  @Prop({ required: true, default: 920 }) // დეფოლტ ფასი 920 ლარი
+  monthlyPrice: number;
 
   @Prop({ required: true })
   categoryId: Types.ObjectId;
@@ -40,12 +40,17 @@ export class Set {
 
   @Prop([
     {
+      _id: { type: Types.ObjectId, auto: true },
       repetitions: { type: Number, default: 1 },
       sets: { type: Number, default: 1 },
       restTime: { type: Number, default: 0 },
       duration: { type: Number, default: 0 },
       order: { type: Number, default: 0 },
       videoId: { type: Types.ObjectId }, // ვიდეოს ID
+      video: {
+        type: Types.ObjectId,
+        ref: 'Video',
+      },
     },
   ])
   exercises: Exercise[];

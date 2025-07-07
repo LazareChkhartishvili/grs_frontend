@@ -12,11 +12,12 @@ import { CourseModule } from './course/course.module';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { API_CONFIG } from './config/api';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(API_CONFIG.MONGODB_URI),
+    MongooseModule.forRoot(
+      'mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db',
+    ),
     CategoryModule,
     SubCategoryModule,
     SetModule,

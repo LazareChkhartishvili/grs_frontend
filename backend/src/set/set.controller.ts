@@ -20,7 +20,7 @@ export class SetController {
     setData: {
       name: string;
       description?: string;
-      price: number;
+      monthlyPrice: number;
       categoryId: string;
       subcategoryId?: string;
       setNumber: string;
@@ -83,5 +83,10 @@ export class SetController {
     @Body('videoIds') videoIds: string[],
   ) {
     return this.setService.reorderSetVideos(id, videoIds);
+  }
+
+  @Post(':id/link-videos')
+  async linkVideosToSet(@Param('id') id: string) {
+    return this.setService.linkVideosToSet(id);
   }
 }

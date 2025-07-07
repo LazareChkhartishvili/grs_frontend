@@ -42,15 +42,20 @@ let VideoService = class VideoService {
         };
     }
     async findById(id) {
-        const videoId = typeof id === 'string' ? parseInt(id) : id;
-        if (isNaN(videoId)) {
+        try {
+            const videoId = new mongoose_2.Types.ObjectId(id);
+            const video = await this.videoModel.findById(videoId).lean().exec();
+            if (!video) {
+                throw new common_1.NotFoundException('ვიდეო ვერ მოიძებნა');
+            }
+            return video;
+        }
+        catch (error) {
+            if (error instanceof common_1.NotFoundException) {
+                throw error;
+            }
             throw new common_1.NotFoundException('არასწორი ვიდეოს ID');
         }
-        const video = await this.videoModel.findOne({ _id: videoId }).lean().exec();
-        if (!video) {
-            throw new common_1.NotFoundException('ვიდეო ვერ მოიძებნა');
-        }
-        return video;
     }
     async findByCategoryCode(categoryCode) {
         return this.videoModel

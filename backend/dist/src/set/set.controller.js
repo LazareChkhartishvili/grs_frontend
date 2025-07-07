@@ -50,6 +50,9 @@ let SetController = class SetController {
     async reorderSetVideos(id, videoIds) {
         return this.setService.reorderSetVideos(id, videoIds);
     }
+    async linkVideosToSet(id) {
+        return this.setService.linkVideosToSet(id);
+    }
 };
 exports.SetController = SetController;
 __decorate([
@@ -125,6 +128,13 @@ __decorate([
     __metadata("design:paramtypes", [String, Array]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "reorderSetVideos", null);
+__decorate([
+    (0, common_1.Post)(':id/link-videos'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SetController.prototype, "linkVideosToSet", null);
 exports.SetController = SetController = __decorate([
     (0, common_1.Controller)('sets'),
     __metadata("design:paramtypes", [set_service_1.SetService])

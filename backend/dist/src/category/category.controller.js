@@ -12,62 +12,38 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CourseCategoryController = exports.CategoryController = void 0;
+exports.CategoryController = void 0;
 const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
+const category_schema_1 = require("../schemas/category.schema");
 let CategoryController = class CategoryController {
     categoryService;
     constructor(categoryService) {
         this.categoryService = categoryService;
     }
-    async getMainCategories() {
-        return this.categoryService.getCategoriesWithSubcategories();
+    async findAll() {
+        return this.categoryService.findAll();
     }
-    async getMainCategoriesOnly() {
-        return this.categoryService.getMainCategories();
+    async findAllWithSubcategories() {
+        return this.categoryService.findAllWithSubcategories();
     }
-    async getCategoriesWithSubcategories() {
-        return this.categoryService.getCategoriesWithSubcategories();
+    async findAllWithFullStructure() {
+        return this.categoryService.findAllWithFullStructure();
     }
-    async getFullHierarchy() {
-        return this.categoryService.getFullHierarchy();
+    async findOne(id) {
+        return this.categoryService.findOne(id);
     }
-    async getAllSubcategories() {
-        return this.categoryService.getAllSubcategories();
+    async create(category) {
+        return this.categoryService.create(category);
     }
-    async getCategoryById(categoryId) {
-        return this.categoryService.getCategoryById(categoryId);
+    async update(id, category) {
+        return this.categoryService.update(id, category);
     }
-    async getSubCategories(parentId) {
-        return this.categoryService.getSubCategories(parentId);
+    async delete(id) {
+        return this.categoryService.delete(id);
     }
-    async getCategoryWithChildren(categoryId) {
-        return this.categoryService.getCategoryWithChildren(categoryId);
-    }
-    async createCategory(categoryData) {
-        return this.categoryService.createCategory(categoryData);
-    }
-    async createSubcategory(parentId, subcategoryData) {
-        return this.categoryService.createCategory({
-            ...subcategoryData,
-            parentId,
-        });
-    }
-    async updateCategory(categoryId, updateData) {
-        return this.categoryService.updateCategory(categoryId, updateData);
-    }
-    async deleteCategory(categoryId) {
-        await this.categoryService.deleteCategory(categoryId);
-        return { message: 'კატეგორია წარმატებით წაიშალა' };
-    }
-    async addExerciseToCategory(categoryId, exercise) {
-        return this.categoryService.addExerciseToCategory(categoryId, exercise);
-    }
-    async deleteAllCategoriesAndSubcategories() {
-        return this.categoryService.deleteAllCategoriesAndSubcategories();
-    }
-    async getCategoryExercisesAndComplexes(id) {
-        return this.categoryService.getCategoryExercisesAndComplexes(id);
+    async createSubcategories(id, subcategories) {
+        return this.categoryService.createSubcategories(id, subcategories);
     }
 };
 exports.CategoryController = CategoryController;
@@ -76,180 +52,58 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getMainCategories", null);
-__decorate([
-    (0, common_1.Get)('main-only'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getMainCategoriesOnly", null);
+], CategoryController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('with-subcategories'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getCategoriesWithSubcategories", null);
+], CategoryController.prototype, "findAllWithSubcategories", null);
 __decorate([
-    (0, common_1.Get)('hierarchy'),
+    (0, common_1.Get)('full-structure'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getFullHierarchy", null);
-__decorate([
-    (0, common_1.Get)('subcategories'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getAllSubcategories", null);
+], CategoryController.prototype, "findAllWithFullStructure", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getCategoryById", null);
-__decorate([
-    (0, common_1.Get)(':id/subcategories'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getSubCategories", null);
-__decorate([
-    (0, common_1.Get)(':id/with-children'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getCategoryWithChildren", null);
+], CategoryController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [category_schema_1.Category]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "createCategory", null);
-__decorate([
-    (0, common_1.Post)(':id/subcategories'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "createSubcategory", null);
+], CategoryController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, category_schema_1.Category]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "updateCategory", null);
+], CategoryController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "deleteCategory", null);
+], CategoryController.prototype, "delete", null);
 __decorate([
-    (0, common_1.Post)(':id/exercises'),
+    (0, common_1.Post)(':id/subcategories'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Array]),
     __metadata("design:returntype", Promise)
-], CategoryController.prototype, "addExerciseToCategory", null);
-__decorate([
-    (0, common_1.Delete)('all'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "deleteAllCategoriesAndSubcategories", null);
-__decorate([
-    (0, common_1.Get)(':id/exercises-and-complexes'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "getCategoryExercisesAndComplexes", null);
+], CategoryController.prototype, "createSubcategories", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)('categories'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])
 ], CategoryController);
-let CourseCategoryController = class CourseCategoryController {
-    categoryService;
-    constructor(categoryService) {
-        this.categoryService = categoryService;
-    }
-    async getCourseCategories() {
-        return this.categoryService.getMainCategories();
-    }
-    async getCategoriesForDropdown() {
-        const categories = await this.categoryService.getMainCategories();
-        return categories.map((cat) => ({
-            id: String(cat._id),
-            name: cat.name,
-        }));
-    }
-    async getCourseSubcategories(categoryId) {
-        return this.categoryService.getSubCategories(categoryId);
-    }
-    async getSubcategoriesForDropdown(categoryId) {
-        const subcategories = await this.categoryService.getSubCategories(categoryId);
-        return subcategories.map((subcat) => ({
-            id: String(subcat._id),
-            name: subcat.name,
-            categoryId: String(subcat.parentId),
-        }));
-    }
-    async getCategoriesWithSubcategoriesForDropdown() {
-        const categoriesWithSubs = await this.categoryService.getCategoriesWithSubcategories();
-        return categoriesWithSubs.map((cat) => ({
-            id: String(cat._id),
-            name: String(cat.name),
-            subcategories: cat.subcategories?.map((sub) => ({
-                id: String(sub._id),
-                name: String(sub.name),
-            })) || [],
-        }));
-    }
-};
-exports.CourseCategoryController = CourseCategoryController;
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CourseCategoryController.prototype, "getCourseCategories", null);
-__decorate([
-    (0, common_1.Get)('dropdown'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CourseCategoryController.prototype, "getCategoriesForDropdown", null);
-__decorate([
-    (0, common_1.Get)(':id/subcategories'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CourseCategoryController.prototype, "getCourseSubcategories", null);
-__decorate([
-    (0, common_1.Get)(':id/subcategories/dropdown'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CourseCategoryController.prototype, "getSubcategoriesForDropdown", null);
-__decorate([
-    (0, common_1.Get)('with-subcategories-dropdown'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CourseCategoryController.prototype, "getCategoriesWithSubcategoriesForDropdown", null);
-exports.CourseCategoryController = CourseCategoryController = __decorate([
-    (0, common_1.Controller)('course-categories'),
-    __metadata("design:paramtypes", [category_service_1.CategoryService])
-], CourseCategoryController);
 //# sourceMappingURL=category.controller.js.map

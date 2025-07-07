@@ -62,6 +62,9 @@ let VideoController = class VideoController {
     async getVideosByResolution(resolution) {
         return this.videoService.findByResolution(resolution);
     }
+    async getVideoById(id) {
+        return this.videoService.findById(id);
+    }
 };
 exports.VideoController = VideoController;
 __decorate([
@@ -137,6 +140,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], VideoController.prototype, "getVideosByResolution", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], VideoController.prototype, "getVideoById", null);
 exports.VideoController = VideoController = __decorate([
     (0, common_1.Controller)('videos'),
     __metadata("design:paramtypes", [video_service_1.VideoService])

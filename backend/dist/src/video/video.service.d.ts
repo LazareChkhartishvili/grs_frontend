@@ -8,16 +8,16 @@ export declare class VideoService {
         total: number;
         pages: number;
     }>;
-    findById(id: string | number): Promise<any>;
-    findByCategoryCode(categoryCode: string): Promise<any[]>;
-    findBySetId(setId: string): Promise<any[]>;
-    findByResolution(resolution: string): Promise<any[]>;
+    findById(id: string): Promise<VideoDocument>;
+    findByCategoryCode(categoryCode: string): Promise<VideoDocument[]>;
+    findBySetId(setId: string): Promise<VideoDocument[]>;
+    findByResolution(resolution: string): Promise<VideoDocument[]>;
     search(query: string, page?: number, limit?: number): Promise<{
-        videos: any[];
+        videos: VideoDocument[];
         total: number;
         pages: number;
     }>;
-    getFeaturedVideos(limit?: number): Promise<any[]>;
+    getFeaturedVideos(limit?: number): Promise<VideoDocument[]>;
     getAllCategoryCodes(): Promise<string[]>;
     getAllSetIds(): Promise<string[]>;
     getAllResolutions(): Promise<string[]>;

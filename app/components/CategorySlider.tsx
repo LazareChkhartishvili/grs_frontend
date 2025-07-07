@@ -29,20 +29,30 @@ const getValidImageUrl = (
 };
 
 interface CategorySliderProps {
-  onCategoryClick?: (categoryId: number, categoryTitle: string) => void;
+  onCategoryClick?: (categoryId: string, categoryTitle: string) => void;
 }
 
 const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
   ({ onCategoryClick }, ref) => {
     const { categories, loading, error } = useCategories();
-    const [clickedCategory, setClickedCategory] = useState<number | null>(null);
+    const [clickedCategory, setClickedCategory] = useState<string | null>(null);
+
+    // დებაგ ლოგები
+    useEffect(() => {
+      console.log("🔍 Categories Data:", {
+        categories,
+        loading,
+        error,
+        firstCategory: categories[0]
+      });
+    }, [categories, loading, error]);
 
     useImperativeHandle(ref, () => sliderRef.current as HTMLDivElement);
 
     const sliderRef = React.useRef<HTMLDivElement | null>(null);
 
     const handleCategoryClick = (
-      categoryId: number,
+      categoryId: string,
       categoryTitle: string,
       event?: React.MouseEvent
     ) => {
@@ -53,7 +63,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
     };
 
     const handleDropdownToggle = (
-      categoryId: number,
+      categoryId: string,
       event: React.MouseEvent
     ) => {
       event.preventDefault();
@@ -62,7 +72,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
     };
 
     const handleDropdownClose = () => setClickedCategory(null);
-    const isDropdownOpen = (categoryId: number) =>
+    const isDropdownOpen = (categoryId: string) =>
       clickedCategory === categoryId;
 
     useEffect(() => {
@@ -118,6 +128,12 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
           className="flex items-start gap-[14px] md:gap-[26px] overflow-x-auto scrollbar-hide overflow-y-visible md:overflow-hidden scroll-smooth"
         >
           {categories.map((category) => {
+            console.log("🎯 Rendering category:", {
+              id: category.id,
+              _id: category._id,
+              title: category.title
+            });
+
             const backgroundImageUrl =
               backgrounds[category.id % backgrounds.length];
             const categoryImageUrl = getValidImageUrl(
@@ -130,14 +146,19 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
 
             return (
               <div
-                key={category.id}
+                key={category._id}
                 className="flex-shrink-0 flex flex-col relative z-10 overflow-visible"
               >
                 <Link
-                  href={`/categories/${category.id}`}
-                  onClick={(e) =>
-                    handleCategoryClick(category.id, category.title, e)
-                  }
+                  href={`/categories/${category._id}`}
+                  onClick={(e) => {
+                    console.log("🖱️ Category clicked:", {
+                      id: category.id,
+                      _id: category._id,
+                      title: category.title
+                    });
+                    handleCategoryClick(category._id, category.title, e);
+                  }}
                   className="group cursor-pointer transform transition-transform duration-300"
                 >
                   <div
@@ -159,7 +180,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                         className="bg-[#E9DFF6] w-6 h-6 flex items-center justify-center rounded group-hover:bg-[#D4BAFC] transition-colors cursor-pointer relative z-20 dropdown-arrow"
                         onClick={(e) => {
                           if (hasSubcategories) {
-                            handleDropdownToggle(category.id, e);
+                            handleDropdownToggle(category._id, e);
                           }
                         }}
                       >
@@ -170,7 +191,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                           className={`transition-transform duration-200 ${
-                            isDropdownOpen(category.id) ? "rotate-90" : ""
+                            isDropdownOpen(category._id) ? "rotate-90" : ""
                           }`}
                         >
                           <path
@@ -187,7 +208,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                 </Link>
                 <SubcategoryDropdown
                   subcategories={category.subcategories || []}
-                  isOpen={isDropdownOpen(category.id)}
+                  isOpen={isDropdownOpen(category._id)}
                   onClose={handleDropdownClose}
                 />
               </div>

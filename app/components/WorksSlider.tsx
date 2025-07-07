@@ -3,13 +3,16 @@
 import Image from "next/image";
 import React from "react";
 import SliderArrows from "./SliderArrows";
+import Link from "next/link";
 
 interface WorkItem {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  price: string;
   image: string;
+  exerciseCount: number;
+  categoryName: string;
+  monthlyPrice: number;
 }
 
 interface WorksSliderProps {
@@ -18,7 +21,7 @@ interface WorksSliderProps {
 }
 
 const WorksSlider: React.FC<WorksSliderProps> = ({
-  title = "Упражнения",
+  title = "სეტები",
   works,
 }) => {
   const scroll = (direction: "left" | "right") => {
@@ -49,29 +52,34 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
       >
         <div className="flex gap-4">
           {works.map((work) => (
-            <div
+            <Link
               key={work.id}
-              className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px]"
+              href={`/sets/${work.id}`}
+              className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px] hover:shadow-lg transition-shadow flex flex-col"
             >
-              <Image
-                src={work.image}
-                width={319}
-                height={212}
-                alt="work"
-                className="w-full h-[212px] object-cover rounded mb-6"
-              />
-              <h2 className="p-2 bg-[#E9DFF6] rounded-[6px] text-[#3D334A] text-[18px] leading-[90%] uppercase mb-2.5">
-                {work.title}
-              </h2>
-              <p className="max-w-[295px] my-2.5 font-bold mb-10 text-[#3D334A] leading-[100%] text-[24px]">
-                {work.description}
-              </p>
-              <div className="w-full flex items-end justify-end mt-2.5">
-                <button className="p-2 mt-5 bg-[#D4BAFC] rounded-[6px] text-white text-[18px] leading-[100%] font-bold uppercase">
-                  {work.price}
-                </button>
+              <div className="flex-grow">
+                <Image
+                  src={work.image}
+                  width={319}
+                  height={212}
+                  alt={work.title}
+                  className="w-full h-[212px] object-cover rounded mb-6"
+                />
+                <div className="mb-2.5">
+                  <span className="px-2 py-1 bg-[#D4BAFC] rounded-[6px] text-white text-[14px] leading-[90%] uppercase">
+                    {work.categoryName}
+                  </span>
+                </div>
+                <p className="line-clamp-4 text-[#3D334A] leading-[120%] text-[24px] font-bold mb-4">
+                  {work.description}
+                </p>
               </div>
-            </div>
+              <div className="flex items-center justify-end">
+                <span className="p-2 bg-[#E9DFF6] rounded-[6px] text-[#3D334A] text-[18px] leading-[100%] font-bold">
+                  {work.monthlyPrice}₾/თვე
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -26,13 +26,15 @@ interface HeaderProps {
     | "blog"
     | "categories"
     | "category-detail";
+  title?: string;
+  info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any 
 }
 
 export const defaultMenuItems: MenuItem[] = [
   { id: 1, name: "Все комплексы", route: "complex" },
   { id: 2, name: "О нас", route: "about" },
   { id: 3, name: "Блог", route: "blog" },
-  { id: 4, name: "Контакты", route: "contact" },
+  { id: 4, name: "Контакты", route: "contact" },  
 ];
 
 const categories = [
@@ -56,6 +58,8 @@ const complexItems = [
 const Header: React.FC<HeaderProps> = ({
   menuItems = defaultMenuItems,
   variant = "default",
+  title,
+  info,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
 
@@ -86,10 +90,10 @@ const Header: React.FC<HeaderProps> = ({
         variant == "rehabilitation" && "h-[438px]"
       } ${variant == "default" && "h-[838px]"} ${
         variant == "blog" && "h-[518px]"
-      } `}
+      } ${variant == "category-detail" && "h-[338px]"}`}
     >
       <div className="relative w-full rounded-[20px]">
-        {variant !== "blog" && (
+        {variant !== "blog" && variant !== "category-detail" && (
           <video
             autoPlay
             muted
@@ -100,6 +104,31 @@ const Header: React.FC<HeaderProps> = ({
             <source src="/videos/hero.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+        )}
+
+        {variant === "category-detail" && (
+          <div className="bg-[#F9F7FE] h-[338px] rounded-[20px] relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-[20px]"></div>
+            <div className="relative z-10 p-8 md:p-12">
+              <h1 className="text-4xl md:text-6xl font-bold text-[#3D334A] mb-6">
+                {title}
+              </h1>
+              <div className="flex gap-8">
+                {categoryDetailItems.map((item) => (
+                  <div key={item.id} className="flex items-center gap-3">
+                    <Image
+                      src={item.image}
+                      width={24}
+                      height={24}
+                      alt={item.text}
+                      className="w-6 h-6"
+                    />
+                    {/* <span className="text-[#3D334A] text-lg">{item.text}</span> */}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
 
         {variant == "blog" && (
@@ -333,7 +362,7 @@ const Header: React.FC<HeaderProps> = ({
                       />
                     </div>
                     <h3 className="text-white text-sm font-medium font-[Pt]">
-                      {categoryDetailItems[0].text}
+                      {title}
                     </h3>
                   </motion.div>
 
@@ -366,7 +395,7 @@ const Header: React.FC<HeaderProps> = ({
                 <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
                   <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[73.2px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[90px] mt-2">
                     <h2 className="text-[20px] md:text-[40px] font-[Pt] leading-[120%] tracking-[-3%]">
-                      Ортопедия
+                      {title}
                     </h2>
                   </div>
                 </section>

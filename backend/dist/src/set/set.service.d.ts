@@ -8,7 +8,7 @@ export declare class SetService {
     createSet(setData: {
         name: string;
         description?: string;
-        price: number;
+        monthlyPrice: number;
         categoryId: string;
         subcategoryId?: string;
         setNumber: string;
@@ -27,4 +27,5 @@ export declare class SetService {
     addVideosToSet(setId: string, videoIds: string[]): Promise<SetDocument>;
     removeVideosFromSet(setId: string, videoIds: string[]): Promise<SetDocument>;
     reorderSetVideos(setId: string, videoIds: string[]): Promise<SetDocument>;
+    linkVideosToSet(setId: string): Promise<SetDocument>;
 }

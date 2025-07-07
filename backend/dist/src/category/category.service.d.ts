@@ -1,49 +1,20 @@
-import { Model, Types } from 'mongoose';
-import { Category, CategoryDocument, CategoryWithSubcategories } from '../schemas/category.schema';
-import { SubCategoryDocument } from '../schemas/subcategory.schema';
-import { ExerciseComplex, ExerciseComplexDocument } from '../schemas/exercise-complex.schema';
-import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
+import { Model } from 'mongoose';
+import { Category, CategoryDocument } from '../schemas/category.schema';
+import { SetDocument } from '../schemas/set.schema';
+import { VideoDocument } from '../schemas/video.schema';
+import { SubCategory } from '../schemas/subcategory.schema';
 export declare class CategoryService {
     private categoryModel;
     private subcategoryModel;
-    private exerciseComplexModel;
-    private exerciseModel;
-    constructor(categoryModel: Model<CategoryDocument>, subcategoryModel: Model<SubCategoryDocument>, exerciseComplexModel: Model<ExerciseComplexDocument>, exerciseModel: Model<ExerciseDocument>);
-    getMainCategories(): Promise<CategoryDocument[]>;
-    getCategoryById(categoryId: string): Promise<CategoryDocument>;
-    getCategoriesWithSubcategories(): Promise<CategoryWithSubcategories[]>;
-    getAllSubcategories(): Promise<CategoryDocument[]>;
-    getSubCategories(parentId: string): Promise<CategoryDocument[]>;
-    getCategoryWithChildren(categoryId: string): Promise<any>;
-    createCategory(categoryData: {
-        name: string;
-        description?: string;
-        image?: string;
-        parentId?: string;
-        exercises?: any[];
-    }): Promise<CategoryDocument>;
-    updateCategory(categoryId: string, updateData: Partial<Category>): Promise<CategoryDocument>;
-    deleteCategory(categoryId: string): Promise<void>;
-    addExerciseToCategory(categoryId: string, exercise: {
-        name: string;
-        description?: string;
-        duration?: number;
-        difficulty: string;
-        instructions?: string;
-        images?: string[];
-        videos?: string[];
-    }): Promise<CategoryDocument>;
-    getFullHierarchy(): Promise<any[]>;
-    deleteAllCategoriesAndSubcategories(): Promise<{
-        deletedCategories: number;
-        deletedSubcategories: number;
-    }>;
-    getCategoryExercisesAndComplexes(categoryId: string): Promise<{
-        exercises: (import("mongoose").Document<unknown, {}, ExerciseDocument> & Exercise & import("mongoose").Document<any, any, any> & {
-            _id: Types.ObjectId;
-        })[];
-        complexes: (import("mongoose").Document<unknown, {}, ExerciseComplexDocument> & ExerciseComplex & import("mongoose").Document<any, any, any> & {
-            _id: Types.ObjectId;
-        })[];
-    }>;
+    private setModel;
+    private videoModel;
+    constructor(categoryModel: Model<CategoryDocument>, subcategoryModel: Model<SubCategory>, setModel: Model<SetDocument>, videoModel: Model<VideoDocument>);
+    findAll(): Promise<Category[]>;
+    findAllWithSubcategories(): Promise<Category[]>;
+    findAllWithFullStructure(): Promise<Category[]>;
+    findOne(id: string): Promise<Category>;
+    create(categoryData: Partial<Category>): Promise<Category>;
+    update(id: string, categoryData: Partial<Category>): Promise<Category>;
+    delete(id: string): Promise<void>;
+    createSubcategories(parentId: string, subcategories: Partial<Category>[]): Promise<Category[]>;
 }

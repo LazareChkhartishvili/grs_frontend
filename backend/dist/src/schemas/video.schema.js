@@ -39,8 +39,8 @@ let Video = class Video {
 };
 exports.Video = Video;
 __decorate([
-    (0, mongoose_1.Prop)({ type: Number }),
-    __metadata("design:type", Number)
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, auto: true }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Video.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),

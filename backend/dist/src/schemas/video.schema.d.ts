@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 export type VideoDocument = Video & Document;
 export declare class Video {
-    _id?: number;
+    _id: Types.ObjectId;
     name: string;
     categoryCode: string;
     categoryId?: Types.ObjectId;
@@ -26,7 +26,7 @@ export declare class Video {
     sortOrder: number;
 }
 export declare const VideoSchema: import("mongoose").Schema<Video, import("mongoose").Model<Video, any, any, any, Document<unknown, any, Video> & Video & Required<{
-    _id: number;
+    _id: Types.ObjectId;
 }>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Video, Document<unknown, {}, import("mongoose").FlatRecord<Video>> & import("mongoose").FlatRecord<Video> & Required<{
-    _id: number;
+    _id: Types.ObjectId;
 }>>;

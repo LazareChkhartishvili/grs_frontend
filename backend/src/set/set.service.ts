@@ -4,6 +4,20 @@ import { Model, Types } from 'mongoose';
 import { Set as SetModel, SetDocument } from '../schemas/set.schema';
 import { Video, VideoDocument } from '../schemas/video.schema';
 
+interface ExerciseWithVideo {
+  videoId: Types.ObjectId;
+  [key: string]: any;
+}
+
+const hasVideoId = (exercise: unknown): exercise is ExerciseWithVideo => {
+  return Boolean(
+    exercise &&
+      typeof exercise === 'object' &&
+      'videoId' in exercise &&
+      exercise.videoId instanceof Types.ObjectId,
+  );
+};
+
 @Injectable()
 export class SetService {
   constructor(
@@ -15,7 +29,7 @@ export class SetService {
   async createSet(setData: {
     name: string;
     description?: string;
-    price: number;
+    monthlyPrice: number;
     categoryId: string;
     subcategoryId?: string;
     setNumber: string;
@@ -25,6 +39,7 @@ export class SetService {
     // ვიდეოებისთვის სავარჯიშოების შექმნა
     const exercises =
       setData.videos?.map((videoId, index) => ({
+        _id: new Types.ObjectId(),
         repetitions: 1,
         sets: 1,
         restTime: 0,
@@ -41,7 +56,34 @@ export class SetService {
         : undefined,
       exercises: exercises,
     });
-    return set.save();
+
+    await set.save();
+
+    // ვიდეოების ინფორმაციის დამატება
+    const videoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: videoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
+      .exec();
+
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
+      if (exercise.videoId) {
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
+
+    return populatedSet;
   }
 
   // სეტის განახლება
@@ -73,14 +115,17 @@ export class SetService {
 
     // ვიდეოების განახლება
     if (updatePayload.videos) {
-      updatePayload['exercises'] = updatePayload.videos.map((videoId, index) => ({
-        repetitions: 1,
-        sets: 1,
-        restTime: 0,
-        duration: 0,
-        order: index,
-        videoId: new Types.ObjectId(videoId),
-      }));
+      updatePayload['exercises'] = updatePayload.videos.map(
+        (videoId, index) => ({
+          _id: new Types.ObjectId(),
+          repetitions: 1,
+          sets: 1,
+          restTime: 0,
+          duration: 0,
+          order: index,
+          videoId: new Types.ObjectId(videoId),
+        }),
+      );
       delete updatePayload.videos;
     }
 
@@ -96,11 +141,18 @@ export class SetService {
     const videoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
     const videos = await this.videoModel
       .find({ _id: { $in: videoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
       .exec();
 
-    set.exercises = set.exercises.map((exercise) => {
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
       if (exercise.videoId) {
-        const video = videos.find((v) => v._id.equals(exercise.videoId));
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
         return {
           ...exercise,
           video: video || null,
@@ -109,7 +161,7 @@ export class SetService {
       return exercise;
     });
 
-    return set;
+    return populatedSet;
   }
 
   // სეტის წაშლა (soft delete)
@@ -134,11 +186,18 @@ export class SetService {
     const videoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
     const videos = await this.videoModel
       .find({ _id: { $in: videoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
       .exec();
 
-    set.exercises = set.exercises.map((exercise) => {
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
       if (exercise.videoId) {
-        const video = videos.find((v) => v._id.equals(exercise.videoId));
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
         return {
           ...exercise,
           video: video || null,
@@ -147,7 +206,7 @@ export class SetService {
       return exercise;
     });
 
-    return set;
+    return populatedSet;
   }
 
   // ყველა აქტიური სეტის მიღება
@@ -163,12 +222,19 @@ export class SetService {
       .filter(Boolean);
     const videos = await this.videoModel
       .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
       .exec();
 
     return sets.map((set) => {
-      set.exercises = set.exercises.map((exercise) => {
+      const populatedSet = set.toObject();
+      populatedSet.exercises = populatedSet.exercises.map((exercise) => {
         if (exercise.videoId) {
-          const video = videos.find((v) => v._id === exercise.videoId);
+          const video = videos.find(
+            (v) => String(v._id) === String(exercise.videoId),
+          );
           return {
             ...exercise,
             video: video || null,
@@ -176,7 +242,7 @@ export class SetService {
         }
         return exercise;
       });
-      return set;
+      return populatedSet;
     });
   }
 
@@ -193,12 +259,19 @@ export class SetService {
       .filter(Boolean);
     const videos = await this.videoModel
       .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
       .exec();
 
     return sets.map((set) => {
-      set.exercises = set.exercises.map((exercise) => {
+      const populatedSet = set.toObject();
+      populatedSet.exercises = populatedSet.exercises.map((exercise) => {
         if (exercise.videoId) {
-          const video = videos.find((v) => v._id === exercise.videoId);
+          const video = videos.find(
+            (v) => String(v._id) === String(exercise.videoId),
+          );
           return {
             ...exercise,
             video: video || null,
@@ -206,7 +279,7 @@ export class SetService {
         }
         return exercise;
       });
-      return set;
+      return populatedSet;
     });
   }
 
@@ -226,12 +299,19 @@ export class SetService {
       .filter(Boolean);
     const videos = await this.videoModel
       .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
       .exec();
 
     return sets.map((set) => {
-      set.exercises = set.exercises.map((exercise) => {
+      const populatedSet = set.toObject();
+      populatedSet.exercises = populatedSet.exercises.map((exercise) => {
         if (exercise.videoId) {
-          const video = videos.find((v) => v._id === exercise.videoId);
+          const video = videos.find(
+            (v) => String(v._id) === String(exercise.videoId),
+          );
           return {
             ...exercise,
             video: video || null,
@@ -239,7 +319,7 @@ export class SetService {
         }
         return exercise;
       });
-      return set;
+      return populatedSet;
     });
   }
 
@@ -258,13 +338,11 @@ export class SetService {
       .map((ex) => ex.videoId?.toString())
       .filter(Boolean) as string[];
 
-    // უნიკალური ვიდეოების ID-ების მიღება
-    const uniqueVideoIds = [...new Set([...existingVideoIds, ...videoIds])];
-
     // ახალი სავარჯიშოების შექმნა ახალი ვიდეოებისთვის
     const newExercises = videoIds
       .filter((id) => !existingVideoIds.includes(id))
       .map((videoId, index) => ({
+        _id: new Types.ObjectId(),
         repetitions: 1,
         sets: 1,
         restTime: 0,
@@ -275,7 +353,33 @@ export class SetService {
 
     set.exercises = [...set.exercises, ...newExercises];
 
-    return set.save();
+    await set.save();
+
+    // ვიდეოების ინფორმაციის დამატება
+    const allVideoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
+      .exec();
+
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
+      if (exercise.videoId) {
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
+
+    return populatedSet;
   }
 
   // ვიდეოების წაშლა სეტიდან
@@ -291,8 +395,7 @@ export class SetService {
     // სავარჯიშოების წაშლა შესაბამისი ვიდეოებისთვის
     set.exercises = set.exercises.filter(
       (exercise) =>
-        !exercise.videoId ||
-        !videoIds.includes(exercise.videoId.toString()),
+        !exercise.videoId || !videoIds.includes(exercise.videoId.toString()),
     );
 
     // სავარჯიშოების order-ის განახლება
@@ -301,7 +404,33 @@ export class SetService {
       order: index,
     }));
 
-    return set.save();
+    await set.save();
+
+    // ვიდეოების ინფორმაციის დამატება
+    const allVideoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
+      .exec();
+
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
+      if (exercise.videoId) {
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
+
+    return populatedSet;
   }
 
   // სეტის ვიდეოების სორტირება
@@ -335,8 +464,7 @@ export class SetService {
 
     // დარჩენილი სავარჯიშოების დამატება (რომლებსაც არ აქვთ ვიდეო)
     const exercisesWithoutVideo = set.exercises.filter(
-      (ex) =>
-        !ex.videoId || !videoIds.includes(ex.videoId.toString()),
+      (ex) => !ex.videoId || !videoIds.includes(ex.videoId.toString()),
     );
 
     set.exercises = [
@@ -347,6 +475,75 @@ export class SetService {
       })),
     ];
 
-    return set.save();
+    await set.save();
+
+    // ვიდეოების ინფორმაციის დამატება
+    const allVideoIds = set.exercises.map((ex) => ex.videoId).filter(Boolean);
+    const videos = await this.videoModel
+      .find({ _id: { $in: allVideoIds } })
+      .select(
+        '_id name url categoryCode setId sequence resolution format duration',
+      )
+      .lean()
+      .exec();
+
+    const populatedSet = set.toObject();
+    populatedSet.exercises = populatedSet.exercises.map((exercise) => {
+      if (hasVideoId(exercise)) {
+        const video = videos.find(
+          (v) => String(v._id) === String(exercise.videoId),
+        );
+        return {
+          ...exercise,
+          video: video || null,
+        };
+      }
+      return exercise;
+    });
+
+    return populatedSet;
+  }
+
+  // ვიდეოების დაკავშირება სეტთან sequence-ის მიხედვით
+  async linkVideosToSet(setId: string): Promise<SetDocument> {
+    const set = await this.setModel.findById(setId).exec();
+    if (!set) {
+      throw new NotFoundException('სეტი ვერ მოიძებნა');
+    }
+
+    // სეტის ნომრის ამოღება სახელიდან (მაგ: "Set 001 for Orthopedics" -> "001")
+    const setNumber = set.name.match(/Set (\d+)/)?.[1];
+    if (!setNumber) {
+      throw new Error('სეტის ნომერი ვერ მოიძებნა სახელში');
+    }
+
+    // ვიპოვოთ ყველა ვიდეო ამ სეტისთვის
+    const videos = await this.videoModel
+      .find({ setId: setNumber, isActive: true })
+      .sort({ sequence: 1 })
+      .lean()
+      .exec();
+
+    if (!videos.length) {
+      throw new Error(`ვიდეოები ვერ მოიძებნა სეტისთვის ${setNumber}`);
+    }
+
+    // შევქმნათ ახალი სავარჯიშოები ყველა ვიდეოსთვის
+    const exercises = videos.map((video, index) => ({
+      _id: new Types.ObjectId(),
+      repetitions: 1,
+      sets: 1,
+      restTime: 0,
+      duration: video.duration || 0,
+      order: index,
+      videoId: video._id,
+      video: video as VideoDocument,
+    }));
+
+    // განვაახლოთ სეტის სავარჯიშოები
+    set.exercises = exercises;
+    await set.save();
+
+    return set.toObject();
   }
 }

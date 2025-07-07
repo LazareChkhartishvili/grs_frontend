@@ -10,15 +10,59 @@ import MarketPlace from "./components/MarketPlace";
 import Blog from "./components/Blog";
 import Download from "./components/Download";
 import Reviews from "./components/Reviews";
+import { useCategories } from "./hooks/useCategories";
+
+interface Exercise {
+  _id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  videoId?: string;
+  video?: {
+    url: string;
+    duration: number;
+  };
+}
+
+interface Set {
+  _id: string;
+  title: string;
+  description: string;
+  exercises: Exercise[];
+  categoryId: string;
+  subcategoryId?: string;
+  categoryName?: string;
+  monthlyPrice: number;
+}
 
 const Home = () => {
+  const { categories } = useCategories();
+
+  // ყველა სეტის შეგროვება კატეგორიებიდან და საბკატეგორიებიდან
+  const allSets = categories.reduce((acc: Set[], category) => {
+    const categorySets = (category.sets || []).map(set => ({
+      ...set as Set,
+      categoryName: category.title
+    }));
+    
+    const subcategorySets = category.subcategories?.reduce((subAcc: Set[], subcategory) => {
+      const setsWithCategory = (subcategory.sets || []).map(set => ({
+        ...set as Set,
+        categoryName: category.title
+      }));
+      return [...subAcc, ...setsWithCategory];
+    }, []) || [];
+
+    return [...acc, ...categorySets, ...subcategorySets];
+  }, []);
+
   return (
-    <div className="w-full min-h-screen  ">
+    <div className="w-full min-h-screen">
       <Header />
       <div>
         <Rehabilitation />
         <Category />
-        <Works title="Упражнения" />
+        <Works title="Упражнения" items={allSets} />
         <Subscribe
           backgroundImage="/assets/images/bluebg.jpg"
           title="Приобретите подписку для получения доступа к контенту платформы"
