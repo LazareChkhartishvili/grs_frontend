@@ -2,12 +2,6 @@ import { ArticleService } from './article.service';
 export declare class ArticleController {
     private readonly articleService;
     constructor(articleService: ArticleService);
-    getAllArticles(page?: string, limit?: string, category?: string, published?: string, sort?: string, order?: 'asc' | 'desc'): unknown;
-    searchArticles(query: string, page?: string, limit?: string): unknown;
-    getFeaturedArticles(limit?: string): unknown;
-    getArticleById(id: string): unknown;
-    getArticleBySlug(slug: string): unknown;
-    getArticlesByCategory(categoryId: string, page?: string, limit?: string): unknown;
     getAllArticles(page?: string, limit?: string, category?: string, published?: string, sort?: string, order?: 'asc' | 'desc'): Promise<{
         data: (import("mongoose").Document<unknown, {}, import("../schemas/article.schema").ArticleDocument> & import("../schemas/article.schema").Article & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
@@ -71,10 +65,12 @@ export declare class ArticleController {
         }>;
         isPublished?: boolean;
         isFeatured?: boolean;
-    }): unknown;
-    updateArticle(id: string, updateData: any): unknown;
-    deleteArticle(id: string): unknown;
-    getArticleComments(articleId: string): unknown;
+    }): Promise<import("../schemas/article.schema").ArticleDocument>;
+    updateArticle(id: string, updateData: any): Promise<import("../schemas/article.schema").ArticleDocument>;
+    deleteArticle(id: string): Promise<{
+        message: string;
+    }>;
+    getArticleComments(articleId: string): Promise<import("../schemas/comment.schema").CommentDocument[]>;
     addComment(articleId: string, commentData: {
         author: {
             name: string;
@@ -83,11 +79,13 @@ export declare class ArticleController {
         };
         content: string;
         parentCommentId?: string;
-    }): unknown;
+    }): Promise<import("../schemas/comment.schema").CommentDocument>;
 }
 export declare class CommentController {
     private readonly articleService;
     constructor(articleService: ArticleService);
-    approveComment(commentId: string): unknown;
-    deleteComment(commentId: string): unknown;
+    approveComment(commentId: string): Promise<import("../schemas/comment.schema").CommentDocument>;
+    deleteComment(commentId: string): Promise<{
+        message: string;
+    }>;
 }

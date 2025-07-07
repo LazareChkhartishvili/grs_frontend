@@ -2,10 +2,10 @@ import { ExerciseComplexService } from './exercise-complex.service';
 export declare class ExerciseComplexController {
     private readonly exerciseComplexService;
     constructor(exerciseComplexService: ExerciseComplexService);
-    getAllComplexes(): unknown;
-    getComplexById(id: string): unknown;
-    getComplexByIdWithExercises(id: string): unknown;
-    getComplexesBySubcategory(subcategoryId: string): unknown;
+    getAllComplexes(): Promise<any[]>;
+    getComplexById(id: string): Promise<any>;
+    getComplexByIdWithExercises(id: string): Promise<any>;
+    getComplexesBySubcategory(subcategoryId: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
     createComplex(complexData: {
         subcategoryId: string;
         name: string;
@@ -26,7 +26,7 @@ export declare class ExerciseComplexController {
         };
         demoVideoUrl?: string;
         relatedComplexes?: string[];
-    }): unknown;
+    }): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument>;
     updateComplex(complexId: string, updateData: {
         subcategoryId?: string;
         name?: string;
@@ -47,18 +47,20 @@ export declare class ExerciseComplexController {
         };
         demoVideoUrl?: string;
         relatedComplexes?: string[];
-    }): unknown;
-    deleteComplex(complexId: string): unknown;
-    getFeaturedComplexes(): unknown;
-    getComplexesByCategory(categoryId: string): unknown;
-    getComplexesByPriceRange(minPrice: number, maxPrice: number): unknown;
-    getComplexesByDifficulty(difficulty: string): unknown;
-    getComplexesByStage(stage: string): unknown;
-    getComplexesByTags(tagsParam: string): unknown;
-    getCategoriesWithComplexes(): unknown;
-    addExerciseToComplex(complexId: string, exerciseId: string): unknown;
-    getComplexExercises(complexId: string): unknown;
-    removeExerciseFromComplex(complexId: string, exerciseId: string): unknown;
+    }): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument>;
+    deleteComplex(complexId: string): Promise<{
+        message: string;
+    }>;
+    getFeaturedComplexes(): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getComplexesByCategory(categoryId: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getComplexesByPriceRange(minPrice: number, maxPrice: number): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getComplexesByDifficulty(difficulty: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getComplexesByStage(stage: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getComplexesByTags(tagsParam: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument[]>;
+    getCategoriesWithComplexes(): Promise<any[]>;
+    addExerciseToComplex(complexId: string, exerciseId: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument>;
+    getComplexExercises(complexId: string): Promise<import("../schemas/exercise.schema").ExerciseDocument[]>;
+    removeExerciseFromComplex(complexId: string, exerciseId: string): Promise<import("../schemas/exercise-complex.schema").ExerciseComplexDocument>;
     createAndAddExerciseToComplex(complexId: string, exerciseData: {
         name: string;
         description?: string;
@@ -73,5 +75,8 @@ export declare class ExerciseComplexController {
         sets?: number;
         restTime?: number;
         calories?: number;
-    }): unknown;
+    }): Promise<{
+        exercise: import("../schemas/exercise.schema").ExerciseDocument;
+        complex: import("../schemas/exercise-complex.schema").ExerciseComplexDocument;
+    }>;
 }

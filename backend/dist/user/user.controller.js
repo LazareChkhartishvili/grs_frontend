@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstructorController = void 0;
 const common_1 = require("@nestjs/common");
@@ -60,7 +59,7 @@ __decorate([
     (0, common_1.Get)('dropdown'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+    __metadata("design:returntype", Promise)
 ], InstructorController.prototype, "getInstructorsForDropdown", null);
 __decorate([
     (0, common_1.Get)(),
@@ -78,6 +77,6 @@ __decorate([
 exports.InstructorController = InstructorController = __decorate([
     (0, common_1.Controller)('instructors'),
     __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
-    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], InstructorController);
 //# sourceMappingURL=user.controller.js.map

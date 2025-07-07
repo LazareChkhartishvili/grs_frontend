@@ -1,8 +1,8 @@
 import { Model, Types } from 'mongoose';
-import { Category, CategoryDocument, Exercise } from '../schemas/category.schema';
+import { Category, CategoryDocument } from '../schemas/category.schema';
 import { SubCategoryDocument } from '../schemas/subcategory.schema';
 import { ExerciseComplex, ExerciseComplexDocument } from '../schemas/exercise-complex.schema';
-import { ExerciseDocument } from '../schemas/exercise.schema';
+import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
 export declare class CategoryService {
     private categoryModel;
     private subcategoryModel;
