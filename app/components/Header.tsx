@@ -27,14 +27,14 @@ interface HeaderProps {
     | "categories"
     | "category-detail";
   title?: string;
-  info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any 
+  info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export const defaultMenuItems: MenuItem[] = [
   { id: 1, name: "Все комплексы", route: "complex" },
   { id: 2, name: "О нас", route: "about" },
   { id: 3, name: "Блог", route: "blog" },
-  { id: 4, name: "Контакты", route: "contact" },  
+  { id: 4, name: "Контакты", route: "contact" },
 ];
 
 const categories = [
@@ -572,20 +572,21 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div
                     onClick={handleLeftArrowClick}
-                    className={`w-[70px] h-[70px] hidden   ${
+                    className={`w-[70px] h-[70px] hidden ${
                       currentSlide === 0 ? "bg-[#857b9299]" : "bg-[#3D334A99]"
-                    } rounded-[20px] md:flex items-center justify-center mr-2.5 cursor-pointer`}
+                    } rounded-[20px] md:flex items-center justify-center mr-2.5 cursor-pointer transition-all duration-200 hover:bg-[#3D334Acc] group`}
                   >
                     <Image
                       src={"/assets/images/rightIcon.svg"}
                       alt="rightIcon"
                       width={11}
                       height={9}
+                      className="transition-transform duration-200 group-hover:scale-110"
                     />
                   </div>
                   <div
                     onClick={handleRightArrowClick}
-                    className={`w-[70px] h-[70px] hidden  ${
+                    className={`w-[70px] h-[70px] hidden group  hover:bg-[#2c243699] ${
                       currentSlide === 0 ? "bg-[#3D334A99]" : "bg-[#857b9299]"
                     } rounded-[20px] md:flex items-center justify-center cursor-pointer`}
                   >
@@ -595,6 +596,7 @@ const Header: React.FC<HeaderProps> = ({
                       alt="leftIcon"
                       width={11}
                       height={9}
+                      className="transition-transform duration-200 group-hover:scale-110 "
                     />
                   </div>
                 </div>
