@@ -14,8 +14,8 @@ interface RegistrationData {
 // API Configuration
 export const API_CONFIG = {
   // შეცვალე შენი backend URL-ით
-  // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
+  // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   ENDPOINTS: {
     CATEGORIES: "/api/categories/with-subcategories",
     MAIN_CATEGORIES: "/api/categories",
@@ -31,9 +31,10 @@ export const API_CONFIG = {
       RESEND_CODE: "/api/auth/resend-code",
     },
     SETS: {
-      ALL: '/api/sets',
+      ALL: "/api/sets",
       BY_CATEGORY: (categoryId: string) => `/api/sets/category/${categoryId}`,
-      BY_SUBCATEGORY: (subcategoryId: string) => `/api/sets/subcategory/${subcategoryId}`,
+      BY_SUBCATEGORY: (subcategoryId: string) =>
+        `/api/sets/subcategory/${subcategoryId}`,
       BY_ID: (id: string) => `/api/sets/${id}`,
     },
   },
