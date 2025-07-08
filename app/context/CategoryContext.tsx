@@ -44,6 +44,7 @@ export interface CategoryItem {
       exercises: unknown[];
       categoryId: string;
       subcategoryId?: string;
+      monthlyPrice: number;
     }[];
   }[];
   sets?: {
@@ -53,6 +54,7 @@ export interface CategoryItem {
     exercises: unknown[];
     categoryId: string;
     subcategoryId?: string;
+    monthlyPrice: number;
   }[];
 }
 
@@ -87,7 +89,7 @@ async function fetchCategories(): Promise<CategoryItem[]> {
           id: parseInt(sub._id.slice(-8), 16), // Convert MongoDB _id to number for compatibility
           name: sub.name,
           description: sub.description,
-          sets: sub.sets || []
+            sets: sub.sets || []
         })) || [],
         sets: category.sets || []
       };

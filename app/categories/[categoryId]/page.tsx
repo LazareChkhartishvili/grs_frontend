@@ -57,15 +57,15 @@ export default function CategoriesPage({
   }
 
   // გარდავქმნით სეტებს WorksSlider-ის ფორმატში
-  const formattedSets = selectedCategory.sets.map(set => ({
+  const formattedSets = selectedCategory.sets?.map(set => ({
     id: set._id,
-    title: set.name,
+    title: set.title,
     description: set.description,
     image: "/assets/images/workMan.png",
     exerciseCount: set.exercises?.length || 0,
     categoryName: selectedCategory.title,
-    price: `${set.monthlyPrice || 920}₾/თვე`
-  }));
+    price: `${set?.monthlyPrice || 920}₾/თვე`,
+  })) || [];
 
   return (
     <div className="">
@@ -116,7 +116,7 @@ export default function CategoriesPage({
           </div>
         </div>
         
-        {formattedSets.length > 0 && (
+        {formattedSets && formattedSets?.length > 0 && (
           <WorksSlider 
             title={`${selectedCategory.title}-ის სეტები`} 
             works={formattedSets}
