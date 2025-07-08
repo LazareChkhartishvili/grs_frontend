@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
   menuItems = defaultMenuItems,
   variant = "default",
   title,
-  info,
+  // info,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
 

@@ -82,7 +82,7 @@ export default function CategoriesPage() {
       <Header variant="categories" />
       <div className="md:pt-[100px] pt-[400px]">
         <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
-          <div className=" flex items-center justify-between">
+          <div className=" flex items-center justify-between">წ
             <div className="flex flex-col gap-5">
               <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
                 Разделы
