@@ -1,8 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Set } from "../../hooks/useSets";
 import { useParams } from "next/navigation";
+
+interface Video {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  thumbnail: string;
+  duration?: number;
+}
+
+interface SubscriptionPlan {
+  period: number;
+  price: number;
+}
+
+interface Set {
+  id: string;
+  name: string;
+  description: string;
+  videos: Video[];
+  subscriptionPlans: SubscriptionPlan[];
+}
 
 const SetDetails = () => {
   const params = useParams();
