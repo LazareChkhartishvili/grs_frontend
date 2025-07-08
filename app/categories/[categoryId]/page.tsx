@@ -19,7 +19,7 @@ export default function CategoriesPage({
   const { categories, loading, error } = useCategories();
 
   // ვპოულობთ არჩეულ კატეგორიას
-  const selectedCategory = categories.find(cat => cat._id === categoryId);
+  const selectedCategory = categories.find((cat) => cat._id === categoryId);
 
   if (loading) {
     return (
@@ -57,14 +57,15 @@ export default function CategoriesPage({
   }
 
   // გარდავქმნით სეტებს WorksSlider-ის ფორმატში
-  const formattedSets = selectedCategory.sets.map(set => ({
+  const formattedSets = selectedCategory.sets?.map((set) => ({
     id: set._id,
-    title: set.name,
+    title: set.title,
     description: set.description,
     image: "/assets/images/workMan.png",
     exerciseCount: set.exercises?.length || 0,
     categoryName: selectedCategory.title,
-    price: `${set.monthlyPrice || 920}₾/თვე`
+    price: `${set.monthlyPrice || 920}₾/თვე`,
+    monthlyPrice: set.monthlyPrice || 920,
   }));
 
   return (
@@ -92,10 +93,13 @@ export default function CategoriesPage({
               />
             </div>
           </div>
-          
+
           <div className="flex flex-row items-center gap-[28px] overflow-x-auto">
             {selectedCategory.subcategories.map((subcategory) => (
-              <div key={subcategory.id} className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px]">
+              <div
+                key={subcategory.id}
+                className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px]"
+              >
                 <Image
                   src={"/assets/images/category1.png"}
                   width={542}
@@ -115,13 +119,14 @@ export default function CategoriesPage({
             ))}
           </div>
         </div>
-        
-        {formattedSets.length > 0 && (
-          <WorksSlider 
-            title={`${selectedCategory.title}-ის სეტები`} 
+
+        {Array.isArray(formattedSets) && formattedSets.length > 0 && (
+          <WorksSlider
+            title={`${selectedCategory.title}-ის სეტები`}
             works={formattedSets}
           />
         )}
+
         <Subscribe />
         <ReviewSlider />
         <BlogSlider currentPage={1} blogsPerPage={6} />

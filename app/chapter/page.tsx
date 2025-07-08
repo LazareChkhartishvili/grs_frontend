@@ -9,32 +9,44 @@ import Blog from "../components/Blog";
 
 const chapterSliderInfo = [
   {
-    id: 1,
+    id: "1",
     title: "Ортопедия",
     description: "Улучшение динамики и подвижности грудного отдела",
     price: "920 ₽/мес",
     image: "/assets/images/workMan.png",
+    exerciseCount: 10,
+    categoryName: "Ортопедия",
+    monthlyPrice: 920,
   },
   {
-    id: 2,
+    id: "2",
     title: "Ортопедия",
     description: "Улучшение динамики и подвижности грудного отдела",
     price: "920 ₽/мес",
     image: "/assets/images/workMan.png",
+    exerciseCount: 10,
+    categoryName: "Ортопедия",
+    monthlyPrice: 920,
   },
   {
-    id: 3,
+    id: "3",
     title: "Ортопедия",
     description: "Улучшение динамики и подвижности грудного отдела",
     price: "920 ₽/мес",
     image: "/assets/images/workMan.png",
+    exerciseCount: 10,
+    categoryName: "Ортопедия",
+    monthlyPrice: 920,
   },
   {
-    id: 4,
+    id: "4",
     title: "Ортопедия",
     description: "Улучшение динамики и подвижности грудного отдела",
     price: "920 ₽/мес",
     image: "/assets/images/workMan.png",
+    exerciseCount: 10,
+    categoryName: "Ортопедия",
+    monthlyPrice: 920,
   },
 ];
 

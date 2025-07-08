@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { CategoryItem } from '../context/CategoryContext';
+import { useState, useEffect } from "react";
+import { CategoryItem } from "../context/CategoryContext";
 
 // Import the BackendCategory type structure
 interface BackendCategory {
@@ -44,16 +44,16 @@ function getFallbackCategories(): CategoryItem[] {
       categoryImage: "/assets/images/services/category.png",
       items: [
         "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА",
-        "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА", 
+        "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА",
         "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ",
-        "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ"
+        "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ",
       ],
       subcategories: [
         { id: 1, name: "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
         { id: 2, name: "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
         { id: 3, name: "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ" },
-        { id: 4, name: "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ" }
-      ]
+        { id: 4, name: "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ" },
+      ],
     },
     {
       id: 2,
@@ -65,14 +65,14 @@ function getFallbackCategories(): CategoryItem[] {
         "КАРДИОЛОГИЯ",
         "НЕВРОЛОГИЯ",
         "ЭНДОКРИНОЛОГИЯ",
-        "ГАСТРОЭНТЕРОЛОГИЯ"
+        "ГАСТРОЭНТЕРОЛОГИЯ",
       ],
       subcategories: [
         { id: 5, name: "КАРДИОЛОГИЯ" },
         { id: 6, name: "НЕВРОЛОГИЯ" },
         { id: 7, name: "ЭНДОКРИНОЛОГИЯ" },
-        { id: 8, name: "ГАСТРОЭНТЕРОЛОГИЯ" }
-      ]
+        { id: 8, name: "ГАСТРОЭНТЕРОЛОГИЯ" },
+      ],
     },
     {
       id: 3,
@@ -84,15 +84,15 @@ function getFallbackCategories(): CategoryItem[] {
         "ОБЩАЯ ХИРУРГИЯ",
         "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ",
         "НЕЙРОХИРУРГИЯ",
-        "КАРДИОХИРУРГИЯ"
+        "КАРДИОХИРУРГИЯ",
       ],
       subcategories: [
         { id: 9, name: "ОБЩАЯ ХИРУРГИЯ" },
         { id: 10, name: "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ" },
         { id: 11, name: "НЕЙРОХИРУРГИЯ" },
-        { id: 12, name: "КАРДИОХИРУРГИЯ" }
-      ]
-    }
+        { id: 12, name: "КАРДИОХИРУРГИЯ" },
+      ],
+    },
   ];
 }
 
@@ -105,44 +105,60 @@ export function useCategories(): UseCategoriesReturn {
     try {
       setLoading(true);
       setError(null);
-      
-      const { apiRequest, API_CONFIG } = await import('../config/api');
-      
-      const endpoint = '/api/categories/full-structure';
-      console.log('📡 API Endpoint:', `${API_CONFIG.BASE_URL}${endpoint}`);
-      
-      const backendCategories: BackendCategory[] = await apiRequest<BackendCategory[]>(endpoint);
+
+      const { apiRequest, API_CONFIG } = await import("../config/api");
+
+      const endpoint = "/api/categories/full-structure";
+      console.log("📡 API Endpoint:", `${API_CONFIG.BASE_URL}${endpoint}`);
+
+      const backendCategories: BackendCategory[] = await apiRequest<
+        BackendCategory[]
+      >(endpoint);
 
       if (!Array.isArray(backendCategories)) {
-        throw new Error('API response is not an array');
+        throw new Error("API response is not an array");
       }
-      
-      const transformedCategories: CategoryItem[] = backendCategories.map((category, index) => {
-        const transformed = {
-          id: category.id || (index + 1),
-          _id: category._id,
-          title: category.name || `Category ${index + 1}`,
-          backgroundImage: category.backgroundImage || '/assets/images/blog.png',
-          categoryImage: category.image || '/assets/images/services/category.png',
-          items: category.subcategories?.map((sub) => sub.name) || [],
-          subcategories: category.subcategories?.map((sub) => ({
-            id: parseInt(sub._id.slice(-8), 16),
-            name: sub.name,
-            description: sub.description,
-            sets: sub.exercises || []
-          })) || [],
-          sets: category.sets || []
-        };
-        
-        return transformed;
-      });
-      
+
+      const transformedCategories: CategoryItem[] = backendCategories.map(
+        (category, index) => {
+          const transformed = {
+            id: category.id || index + 1,
+            _id: category._id,
+            title: category.name || `Category ${index + 1}`,
+            backgroundImage:
+              category.backgroundImage || "/assets/images/blog.png",
+            categoryImage:
+              category.image || "/assets/images/services/category.png",
+            items: category.subcategories?.map((sub) => sub.name) || [],
+            subcategories:
+              category.subcategories?.map((subRaw: Record<string, unknown>) => {
+                const sub = subRaw as { [key: string]: unknown };
+                return {
+                  id: parseInt((sub._id as string).slice(-8), 16),
+                  name: sub.name as string,
+                  description: sub.description as string | undefined,
+                  sets:
+                    "sets" in sub && Array.isArray(sub.sets)
+                      ? (sub.sets as import("../types/exercise").Set[])
+                      : Array.isArray(sub.exercises)
+                      ? (sub.exercises as import("../types/exercise").Set[])
+                      : [],
+                };
+              }) || [],
+            sets: (category.sets as import("../types/exercise").Set[]) || [],
+          };
+          return transformed;
+        }
+      );
+
       setCategories(transformedCategories);
     } catch (err) {
-      console.error('❌ Error fetching categories:', err);
+      console.error("❌ Error fetching categories:", err);
       const fallbackCategories = getFallbackCategories();
       setCategories(fallbackCategories);
-      setError(err instanceof Error ? err.message : 'API Error - using fallback data');
+      setError(
+        err instanceof Error ? err.message : "API Error - using fallback data"
+      );
     } finally {
       setLoading(false);
     }
@@ -156,7 +172,7 @@ export function useCategories(): UseCategoriesReturn {
     categories,
     loading,
     error,
-    refetch: fetchCategories
+    refetch: fetchCategories,
   };
 }
 
@@ -189,4 +205,4 @@ export function useCategoriesSWR() {
     refetch: mutate
   };
 }
-*/ 
+*/

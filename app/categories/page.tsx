@@ -13,32 +13,44 @@ import Professional from "../components/Professional";
 export default function CategoriesPage() {
   const homePageWorks = [
     {
-      id: 1,
+      id: "1",
       title: "Ортопедия",
       description: "Улучшение динамики и подвижности грудного отдела",
       price: "920 ₽/мес",
       image: "/assets/images/workMan.png",
+      exerciseCount: 10,
+      categoryName: "Ортопедия",
+      monthlyPrice: 920,
     },
     {
-      id: 2,
+      id: "2",
       title: "Ортопедия",
       description: "Улучшение динамики и подвижности грудного отдела",
       price: "920 ₽/мес",
       image: "/assets/images/workMan.png",
+      exerciseCount: 10,
+      categoryName: "Ортопедия",
+      monthlyPrice: 920,
     },
     {
-      id: 3,
+      id: "3",
       title: "Ортопедия",
       description: "Улучшение динамики и подвижности грудного отдела",
       price: "920 ₽/мес",
       image: "/assets/images/workMan.png",
+      exerciseCount: 10,
+      categoryName: "Ортопедия",
+      monthlyPrice: 920,
     },
     {
-      id: 4,
+      id: "4",
       title: "Ортопедия",
       description: "Улучшение динамики и подвижности грудного отдела",
       price: "920 ₽/мес",
       image: "/assets/images/workMan.png",
+      exerciseCount: 10,
+      categoryName: "Ортопедия",
+      monthlyPrice: 920,
     },
   ];
   // const { categories, loading, error } = useCategories();
@@ -82,7 +94,8 @@ export default function CategoriesPage() {
       <Header variant="categories" />
       <div className="md:pt-[100px] pt-[400px]">
         <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
-          <div className=" flex items-center justify-between">წ
+          <div className=" flex items-center justify-between">
+            წ
             <div className="flex flex-col gap-5">
               <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
                 Разделы

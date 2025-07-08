@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import type { Set as SetType } from "../types/exercise";
 
 interface BackendCategory {
   _id: string;
@@ -37,23 +44,9 @@ export interface CategoryItem {
     id: number;
     name: string;
     description?: string;
-    sets?: {
-      _id: string;
-      title: string;
-      description: string;
-      exercises: unknown[];
-      categoryId: string;
-      subcategoryId?: string;
-    }[];
+    sets?: SetType[];
   }[];
-  sets?: {
-    _id: string;
-    title: string;
-    description: string;
-    exercises: unknown[];
-    categoryId: string;
-    subcategoryId?: string;
-  }[];
+  sets?: SetType[];
 }
 
 interface CategoryContextType {
@@ -63,41 +56,49 @@ interface CategoryContextType {
   refetch: () => Promise<void>;
 }
 
-const CategoryContext = createContext<CategoryContextType | undefined>(undefined);
+const CategoryContext = createContext<CategoryContextType | undefined>(
+  undefined
+);
 
 async function fetchCategories(): Promise<CategoryItem[]> {
   try {
-    const { apiRequest, API_CONFIG } = await import('../config/api');
-    
-    const endpoint = '/api/categories/full-structure';
-    console.log('📡 API Endpoint:', `${API_CONFIG.BASE_URL}${endpoint}`);
-    
-    const backendCategories: BackendCategory[] = await apiRequest<BackendCategory[]>(endpoint);
-    
+    const { apiRequest, API_CONFIG } = await import("../config/api");
+
+    const endpoint = "/api/categories/full-structure";
+    console.log("📡 API Endpoint:", `${API_CONFIG.BASE_URL}${endpoint}`);
+
+    const backendCategories: BackendCategory[] = await apiRequest<
+      BackendCategory[]
+    >(endpoint);
+
     // Transform data
-    const transformedCategories: CategoryItem[] = backendCategories.map((category, index) => {
-      const transformed = {
-        id: category.id || (index + 1), // Fallback ID if missing
-        _id: category._id,
-        title: category.name || `Category ${index + 1}`,
-        backgroundImage: category.backgroundImage || '/assets/images/blog.png',
-        categoryImage: category.image || '/assets/images/services/category.png',
-        items: category.subcategories?.map((sub) => sub.name) || [],
-        subcategories: category.subcategories?.map((sub) => ({
-          id: parseInt(sub._id.slice(-8), 16), // Convert MongoDB _id to number for compatibility
-          name: sub.name,
-          description: sub.description,
-          sets: sub.sets || []
-        })) || [],
-        sets: category.sets || []
-      };
-      
-      return transformed;
-    });
+    const transformedCategories: CategoryItem[] = backendCategories.map(
+      (category, index) => {
+        const transformed = {
+          id: category.id || index + 1, // Fallback ID if missing
+          _id: category._id,
+          title: category.name || `Category ${index + 1}`,
+          backgroundImage:
+            category.backgroundImage || "/assets/images/blog.png",
+          categoryImage:
+            category.image || "/assets/images/services/category.png",
+          items: category.subcategories?.map((sub) => sub.name) || [],
+          subcategories:
+            category.subcategories?.map((sub) => ({
+              id: parseInt(sub._id.slice(-8), 16),
+              name: sub.name,
+              description: sub.description,
+              sets: (sub.sets as SetType[]) || [],
+            })) || [],
+          sets: (category.sets as SetType[]) || [],
+        };
+        return transformed;
+      }
+    );
 
     return transformedCategories;
   } catch (error) {
-    console.error('❌ Error fetching categories:', error);
+    console.error("❌ Error fetching categories:", error);
     return getFallbackCategories();
   }
 }
@@ -112,16 +113,17 @@ function getFallbackCategories(): CategoryItem[] {
       categoryImage: "/assets/images/services/category.png",
       items: [
         "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА",
-        "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА", 
+        "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА",
         "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ",
-        "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ"
+        "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ",
       ],
       subcategories: [
-        { id: 1, name: "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
-        { id: 2, name: "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
-        { id: 3, name: "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ" },
-        { id: 4, name: "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ" }
-      ]
+        { id: 1, name: "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА", sets: [] as SetType[] },
+        { id: 2, name: "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА", sets: [] as SetType[] },
+        { id: 3, name: "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ", sets: [] as SetType[] },
+        { id: 4, name: "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ", sets: [] as SetType[] },
+      ],
+      sets: [] as SetType[],
     },
     {
       id: 2,
@@ -133,14 +135,15 @@ function getFallbackCategories(): CategoryItem[] {
         "КАРДИОЛОГИЯ",
         "НЕВРОЛОГИЯ",
         "ЭНДОКРИНОЛОГИЯ",
-        "ГАСТРОЭНТЕРОЛОГИЯ"
+        "ГАСТРОЭНТЕРОЛОГИЯ",
       ],
       subcategories: [
-        { id: 5, name: "КАРДИОЛОГИЯ" },
-        { id: 6, name: "НЕВРОЛОГИЯ" },
-        { id: 7, name: "ЭНДОКРИНОЛОГИЯ" },
-        { id: 8, name: "ГАСТРОЭНТЕРОЛОГИЯ" }
-      ]
+        { id: 5, name: "КАРДИОЛОГИЯ", sets: [] as SetType[] },
+        { id: 6, name: "НЕВРОЛОГИЯ", sets: [] as SetType[] },
+        { id: 7, name: "ЭНДОКРИНОЛОГИЯ", sets: [] as SetType[] },
+        { id: 8, name: "ГАСТРОЭНТЕРОЛОГИЯ", sets: [] as SetType[] },
+      ],
+      sets: [] as SetType[],
     },
     {
       id: 3,
@@ -152,15 +155,16 @@ function getFallbackCategories(): CategoryItem[] {
         "ОБЩАЯ ХИРУРГИЯ",
         "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ",
         "НЕЙРОХИРУРГИЯ",
-        "КАРДИОХИРУРГИЯ"
+        "КАРДИОХИРУРГИЯ",
       ],
       subcategories: [
-        { id: 9, name: "ОБЩАЯ ХИРУРГИЯ" },
-        { id: 10, name: "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ" },
-        { id: 11, name: "НЕЙРОХИРУРГИЯ" },
-        { id: 12, name: "КАРДИОХИРУРГИЯ" }
-      ]
-    }
+        { id: 9, name: "ОБЩАЯ ХИРУРГИЯ", sets: [] as SetType[] },
+        { id: 10, name: "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ", sets: [] as SetType[] },
+        { id: 11, name: "НЕЙРОХИРУРГИЯ", sets: [] as SetType[] },
+        { id: 12, name: "КАРДИОХИРУРГИЯ", sets: [] as SetType[] },
+      ],
+      sets: [] as SetType[],
+    },
   ];
 }
 
@@ -173,12 +177,12 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      
+
       const data = await fetchCategories();
       setCategories(data);
-      
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error loading categories';
+      const errorMessage =
+        err instanceof Error ? err.message : "Error loading categories";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -193,7 +197,7 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
     categories,
     loading,
     error,
-    refetch: loadCategories
+    refetch: loadCategories,
   };
 
   return (
@@ -206,7 +210,7 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
 export function useCategories() {
   const context = useContext(CategoryContext);
   if (context === undefined) {
-    throw new Error('useCategories must be used within a CategoryProvider');
+    throw new Error("useCategories must be used within a CategoryProvider");
   }
   return context;
-} 
+}
