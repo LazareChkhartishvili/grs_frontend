@@ -14,8 +14,8 @@ const Section = () => {
     <div>
       <MobileNavbar />
       <Header />
-      <Works title={"test2"} />
-      <Works title={"test3"} />
+      <Works title={"test2"} items={[]} />
+      <Works title={"test3"} items={[]} />
       <Subscribe />
       <ReviewSlider />
       <Blog withBanner={false} withSlider={true} />

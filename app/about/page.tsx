@@ -13,7 +13,7 @@ const About = () => {
       <div className="mt-40">
         <Rehabilitation />
         <Category />
-        <Works title={"test"} />
+        <Works title={"test"} items={[]} />
         <div className="py-10">
           <h1 className="text-[#3D334A] text-[32px] md:text-[64px] leading-[100%] tracking-[-3%]  text-center">
             Наша цель
