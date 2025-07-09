@@ -43,7 +43,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
         categories,
         loading,
         error,
-        firstCategory: categories[0]
+        firstCategory: categories[0],
       });
     }, [categories, loading, error]);
 
@@ -131,7 +131,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
             console.log("🎯 Rendering category:", {
               id: category.id,
               _id: category._id,
-              title: category.title
+              title: category.title,
             });
 
             const backgroundImageUrl =
@@ -155,7 +155,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                     console.log("🖱️ Category clicked:", {
                       id: category.id,
                       _id: category._id,
-                      title: category.title
+                      title: category.title,
                     });
                     handleCategoryClick(category._id, category.title, e);
                   }}
@@ -173,7 +173,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                       className="mx-auto rounded-[14px] p-[4px] md:w-[443px] md:h-[153px]"
                     />
                     <div className="flex items-center justify-between bg-white py-2 md:py-4 px-4 mx-[4px] rounded-[20px] text-black group-hover:bg-gray-50 transition-colors duration-300">
-                      <h4 className="text-[14px] md:text-[24px] bg-gradient-to-r from-[#734ea4] to-[#3f1a70] bg-clip-text text-transparent font-playfair font-semibold">
+                      <h4 className="text-[14px] md:text-[24px] bg-gradient-to-r from-[#734ea4] to-[#3f1a70] bg-clip-text  font-playfair font-semibold">
                         {category.title}
                       </h4>
                       <div

@@ -49,7 +49,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
           <Link href={"/article"}>
-            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden md:flex">
+            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden :flex">
               <div className="relative min-w-[300px] max-w-[690px]">
                 <Image
                   src={featuredBlog.imageUrl}
@@ -116,7 +116,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         ) : (
           <div
             ref={scrollRef}
-            className="flex md:hidden overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory"
+            className="flex lg:hidden overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory"
           >
             {otherBlogs.map((item) => (
               <Link key={item.id} href={"/article"}>
