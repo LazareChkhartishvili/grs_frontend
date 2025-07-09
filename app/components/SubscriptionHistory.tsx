@@ -6,7 +6,7 @@ const orders = [
     id: 1,
     date: "22.10.2023",
     status: "Выполнен",
-    statusColor: "bg-[#FFE9A8] text-[#7A6B2F]",
+    statusColor: "bg-[#F3D57F] text-white",
     action: "ОТМЕНИТЬ ПОДПИСКУ",
     actionColor: "text-[#F36B6B]",
     product: {
@@ -22,7 +22,7 @@ const orders = [
     id: 2,
     date: "22.10.2023",
     status: "Ожидает оплаты",
-    statusColor: "bg-[#D4BAFC] text-[#846FA0]",
+    statusColor: "bg-[#D4BAFC] text-white",
     action: null,
     product: {
       title: "ПОЯСНИЧНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА",
@@ -75,12 +75,12 @@ const SubscriptionHistory: React.FC = () => {
         {orders.map((order) => (
           <div
             key={order.id}
-            className={`relative bg-white rounded-[20px] p-6 shadow-md ${
+            className={`relative bg-white md:w-full md:h-auto rounded-[20px] p-6 shadow-md ${
               order.faded ? "opacity-30 grayscale" : ""
             }`}
           >
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-lg md:text-xl text-[#3D334A]">
+              <span className="font-bold text-lg md:text-[24px] text-[#3D334A]">
                 ЗАКАЗ ОТ {order.date}
               </span>
               {order.action && !order.faded && (
@@ -89,9 +89,9 @@ const SubscriptionHistory: React.FC = () => {
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4 mb-16">
               <span
-                className={`px-4 py-1 rounded-[8px] text-xs md:text-sm font-bold ${order.statusColor}`}
+                className={`px-4 py-1 rounded-[8px] font-[Pt] text-xs md:text-sm font-bold ${order.statusColor}`}
               >
                 {order.status}
               </span>
@@ -99,16 +99,16 @@ const SubscriptionHistory: React.FC = () => {
             <div className="flex items-center gap-4">
               <Image
                 src={order.product.image}
-                width={80}
-                height={80}
+                width={120}
+                height={120}
                 alt={order.product.title}
-                className="rounded-[10px] object-cover"
+                className="rounded-[20px] object-cover"
               />
               <div className="flex-1">
-                <div className="text-[#B1A1D9] font-bold text-base md:text-lg uppercase">
+                <div className="text-[#B1A1D9] font-bold text-base md:text-lg uppercase leading-[120%] tracking-[-3%] max-w-[275px]">
                   {order.product.title}
                 </div>
-                <div className="text-[#846FA0] text-sm md:text-base mb-2">
+                <div className="text-[#846FA0] font-[Pt] text-sm md:text-base mb-2">
                   {order.product.description}
                 </div>
               </div>
