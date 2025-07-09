@@ -125,7 +125,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
       <div className="relative md:mt-10 mt-2">
         <div
           ref={sliderRef}
-          className="flex items-start gap-[14px] md:gap-[26px] overflow-x-auto scrollbar-hide overflow-y-visible md:overflow-hidden scroll-smooth"
+          className="flex items-start  gap-[14px] md:gap-[26px] overflow-x-auto scrollbar-hide overflow-y-visible md:overflow-hidden scroll-smooth"
         >
           {categories.map((category) => {
             console.log("🎯 Rendering category:", {
@@ -162,7 +162,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                   className="group cursor-pointer transform transition-transform duration-300"
                 >
                   <div
-                    className="bg-cover rounded-[20px] w-[240px] h-[140px] md:w-[455px] md:h-[230px]"
+                    className="bg-conic  rounded-[20px] w-[240px] h-[140px] md:w-[455px] md:h-[230px]"
                     style={{ backgroundImage: `url(${backgroundImageUrl})` }}
                   >
                     <Image
@@ -173,7 +173,17 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                       className="mx-auto rounded-[14px] p-[4px] md:w-[443px] md:h-[153px]"
                     />
                     <div className="flex items-center justify-between bg-white py-2 md:py-4 px-4 mx-[4px] rounded-[20px] text-black group-hover:bg-gray-50 transition-colors duration-300">
-                      <h4 className="text-[14px] md:text-[24px] bg-gradient-to-r from-[#734ea4] to-[#3f1a70] bg-clip-text  font-playfair font-semibold">
+                      <h4
+                        className="text-[24px] bg-conic md:text-[28px] font-bold overflow-hidden whitespace-nowrap text-ellipsis max-w-[390px]"
+                        style={{
+                          backgroundImage: `url(${backgroundImageUrl})`,
+                          WebkitBackgroundClip: "text",
+                          backgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundSize: "conic",
+                          backgroundPosition: "center",
+                        }}
+                      >
                         {category.title}
                       </h4>
                       <div
