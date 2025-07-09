@@ -23,17 +23,17 @@ const PersonInfo: React.FC<Props> = ({ user }) => {
     {
       icon: <CgMail size={20} color="#846FA0" />,
       text: user.email,
-      label: "Эл. почта"
+      label: "Эл. почта",
     },
     {
       icon: <MdOutlineLocationOn size={20} color="#846FA0" />,
       text: user.location,
-      label: "Местоположение"
+      label: "Местоположение",
     },
     {
       icon: <FaPhone size={15} color="#846FA0" />,
       text: user.phone,
-      label: "Телефон"
+      label: "Телефон",
     },
   ];
 
@@ -55,7 +55,7 @@ const PersonInfo: React.FC<Props> = ({ user }) => {
             {personalLinks.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 {item.icon}
-                <span className="text-[#846FA0] text-[14px] md:text-[18px] leading-[120%]">
+                <span className="text-[#846FA0] font-[Pt] text-[14px] md:text-[18px] leading-[120%]">
                   {item.label}: {item.text}
                 </span>
               </div>

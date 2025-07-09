@@ -45,14 +45,10 @@ const PersonGoals: React.FC<Props> = ({ goals }) => {
             Давайте поставим цель
           </h2>
         </div>
-        <p className="mt-5 px-5 py-3.5 bg-[#3D334A33] rounded-[10px] text-[14px] font-medium backdrop-blur-[20px] text-center mb-2">
+        <p className="mt-2.5 md:mb-[19px] px-5 py-3.5 font-[Pt] md:text-[18px] bg-[#3D334A33] rounded-[10px] text-[14px] font-medium backdrop-blur-[20px] text-center mb-2">
           Регулярные занятия помогут вам сохранить мотивацию. Настройте
           уведомления и мы поможем вам не забыть о занятии.
         </p>
-        <div className="mb-3 text-white px-5">
-          <p>Текущая серия: {goals.currentStreak} дней</p>
-          <p>Рекорд: {goals.recordStreak} дней подряд</p>
-        </div>
         <button
           onClick={() => setIsOpen(true)}
           className="bg-white text-[#3D334A] py-[17px] pr-[43px] rounded-[10px] text-[18px] leading-[100%] tracking-[-1%] w-full"

@@ -30,12 +30,6 @@ const ChallengeCard = ({
       />
     )}
     <div className="flex flex-col justify-between h-[65px] md:h-auto">
-      <Image
-        src={"/assets/images/workWomen1/png"}
-        width={20}
-        height={20}
-        alt="ads"
-      />
       <h2 className="text-[#3D334A] text-[14px] md:text-[24px] leading-[90%] tracking-[-1%] uppercase">
         {title}
       </h2>

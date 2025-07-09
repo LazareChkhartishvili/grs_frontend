@@ -10,10 +10,10 @@ const ContinueWatchingBanner = () => {
           ВЫ не завершили просмотр видеоупражнения. ПРодолжить?
         </h1>
         <button
-          className="flex items-center mt-10 cursor-pointer bg-white py-[17px] w-[290px] px-10 text-[#3D334A] justify-between rounded-[10px]
+          className="flex items-center  mt-10 cursor-pointer bg-white py-[17px] w-[370px] px-10 text-[#3D334A] justify-between rounded-[10px]
         "
         >
-          Продолжить просмотр <GoArrowRight size={20} />
+          Продолжить просмотр <GoArrowRight size={20} className="mb-1" />
         </button>
         <Image
           src={"/assets/images/laptop.png"}

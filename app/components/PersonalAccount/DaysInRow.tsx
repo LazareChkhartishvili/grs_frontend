@@ -16,7 +16,7 @@ const DaysInRow: React.FC<DaysInRowProps> = ({
   timer = "00:00:00",
 }) => {
   return (
-    <div className="border-2 border-[#D4BAFC] rounded-[10px] p-5 md:w-full">
+    <div className="border-2 border-[#D4BAFC] rounded-[10px] p-5 md:w-full flex flex-col justify-between">
       <div className="flex items-start gap-2.5 mb-10">
         <Image
           src={"/assets/images/personalEnergy.png"}
@@ -28,7 +28,7 @@ const DaysInRow: React.FC<DaysInRowProps> = ({
           <h4 className="text-[#D4BAFC] text-[18px] md:text-[24px] tracking-[-3%]">
             {currentStreak} ДНЯ ПОДРЯД
           </h4>
-          <span className="text-[#846FA0] font-medium md:text-[18px] leading-[120%]">
+          <span className="text-[#846FA0] font-[Pt] font-medium md:text-[18px] leading-[120%]">
             Рекорд: {recordStreak} дней подряд
           </span>
         </div>

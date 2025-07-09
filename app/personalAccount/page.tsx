@@ -12,6 +12,13 @@ import Statistics from "../components/Statistics";
 import DaysInRow from "../components/PersonalAccount/DaysInRow";
 import ContinueWatchingBanner from "../components/PersonalAccount/ContinueWatchingBanner";
 import { useAuth } from "../context/AuthContext";
+import { MdOutlinePlayLesson } from "react-icons/md";
+import { FaArrowRightLong, FaRegClock } from "react-icons/fa6";
+import { FaRegCheckCircle, FaStar } from "react-icons/fa";
+import WorksSlider from "../components/WorksSlider";
+import { chapterSliderInfo } from "../chapter/page";
+import { users } from "../data/dummyUsers";
+import SubscriptionHistory from "../components/SubscriptionHistory";
 
 const tabItems = [
   { label: "Описание", href: "#description" },
@@ -26,9 +33,9 @@ const dummyData = {
     calendarIntegration: "google",
   },
   statistics: [
-    { label: "Общее время", text: "24:00:00" },
-    { label: "Упражнения", text: "150 упражнений" },
-    { label: "Среднее время", text: "00:45:00" },
+    { label: "Общее время", text: "24:00:00", icon: FaRegCheckCircle },
+    { label: "Упражнения", text: "150 упражнений", icon: FaStar },
+    { label: "Среднее время", text: "00:45:00", icon: FaRegCheckCircle },
   ],
   achievements: [
     {
@@ -103,7 +110,7 @@ const PersonalAccountContent: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen md:px-10">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-[#3D334A] mb-4">
             Пользователь не найден
@@ -117,66 +124,44 @@ const PersonalAccountContent: React.FC = () => {
   const renderTabContent = () => {
     if (activeTab === 0) {
       return (
-        <div className="flex flex-col gap-6 mt-8 bg-[#F9F7FE] mb-5">
+        <div className="flex flex-col gap-6 mt-8 bg-[#F9F7FE] mb-5 md:m-10 md:p-10 md:rounded-[40px]">
           {myCourses.map((course) => (
             <div
               key={course.id}
               className="flex flex-col md:flex-row bg-white rounded-2xl p-6 items-center gap-6"
             >
               <div className="flex-1 flex flex-col gap-4">
-                <span className="bg-[#E9DFF6] text-[#846FA0] text-xs font-bold px-3 py-1 rounded-md w-fit mb-2">
+                <span className="bg-[#E9DFF6] text-[#3D334A] md:text-[18px] px-2.5 py-1 rounded-[8px] w-fit mb-2">
                   {course.category}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-bold text-[#3D334A] leading-tight">
+                <h2 className="text-2xl md:text-[48px] md:font-bold text-[#3D334A] leading-[100%] ">
                   {course.title}
                 </h2>
-                <p className="text-[#846FA0] text-base md:text-lg">
+                <p className="text-[#846FA0] text-base md:text-[32px] font-bold font-[Pt] leading-[100%]">
                   {course.description}
                 </p>
-                <div className="flex items-center gap-8 mt-4">
-                  <div className="flex items-center gap-2 text-[#846FA0] text-sm">
-                    <span className="inline-block bg-[#E9DFF6] p-2 rounded-full">
-                      <svg
-                        width="20"
-                        height="20"
-                        fill="none"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M10 18.333A8.333 8.333 0 1 1 10 1.667a8.333 8.333 0 0 1 0 16.666Zm0-15A6.667 6.667 0 1 0 10 16.667 6.667 6.667 0 0 0 10 3.333Zm.833 6.667V5.833h-1.666v5h5v-1.666h-3.334Z"
-                          fill="#846FA0"
-                        />
-                      </svg>
-                    </span>
-                    {course.duration}
+                <div className="flex items-center mt-4 justify-between font-[Pt] font-medium">
+                  <div className="flex items-center gap-8">
+                    <div className="flex items-center gap-2 text-[#846FA0] text-sm">
+                      <span className="inline-block  bg-[#D4BAFC] p-2 rounded-full">
+                        <FaRegClock size={22} color="white" />
+                      </span>
+                      <span className="font-medium text-[20px] leading-[100%] text-[#3D334A]">
+                        {course.duration}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[#846FA0] text-sm">
+                      <span className="inline-block bg-[#D4BAFC] p-2 rounded-full">
+                        <MdOutlinePlayLesson size={22} color="white" />
+                      </span>
+                      <span className="font-medium text-[20px] leading-[100%] text-[#3D334A]">
+                        {course.lessons}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[#846FA0] text-sm">
-                    <span className="inline-block bg-[#E9DFF6] p-2 rounded-full">
-                      <svg
-                        width="20"
-                        height="20"
-                        fill="none"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M4.167 3.333h11.666A1.667 1.667 0 0 1 17.5 5v10a1.667 1.667 0 0 1-1.667 1.667H4.167A1.667 1.667 0 0 1 2.5 15V5a1.667 1.667 0 0 1 1.667-1.667Zm0 1.667V5v10h11.666V5H4.167Zm2.5 3.333h6.666v1.667H6.667V8.333Zm0 3.334h4.166v1.666H6.667v-1.666Z"
-                          fill="#846FA0"
-                        />
-                      </svg>
-                    </span>
-                    {course.lessons}
-                  </div>
-                  <div className="flex items-center gap-2 text-[#846FA0] text-sm cursor-pointer">
+                  <div className="flex items-center gap-2 text-[#3D334A] text-[20px] cursor-pointer">
                     Продолжить просмотр
-                    <svg width="20" height="20" fill="none" viewBox="0 0 20 20">
-                      <path
-                        d="M7.5 5l5 5-5 5"
-                        stroke="#846FA0"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <FaArrowRightLong />
                   </div>
                 </div>
               </div>
@@ -193,17 +178,9 @@ const PersonalAccountContent: React.FC = () => {
         </div>
       );
     } else if (activeTab === 1) {
-      return (
-        <div className="mt-8 text-lg text-[#846FA0]">
-          Здесь будет дополнительная информация.
-        </div>
-      );
+      return null;
     } else if (activeTab === 2) {
-      return (
-        <div className="mt-8 text-lg text-[#846FA0]">
-          Здесь будет демо-видео или другая информация.
-        </div>
-      );
+      return <SubscriptionHistory />;
     }
     return null;
   };
@@ -213,10 +190,19 @@ const PersonalAccountContent: React.FC = () => {
       <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
       <MobileNavbar />
       <ContinueWatchingBanner />
+      <div className="mx-2 md:mx-10 md:mt-10 mt-0  flex flex-col gap-3 md:flex-row-reverse">
+        <PersonGoals goals={dummyData.goals} />
+        <DaysInRow
+          currentStreak={dummyData.goals.currentStreak}
+          recordStreak={dummyData.goals.recordStreak}
+          multiplier={2}
+          timer="18:45:24"
+        />
+      </div>
       <div className="md:mt-10 mb-[100px]">
         <PersonInfo user={user} />
         {/* Tabs with click handler */}
-        <div className="cursor-pointer">
+        <div className="cursor-pointer px-10">
           <div
             className={`md:col-span-2 order-2 md:order-1 bg-[rgba(233,223,246,1)] md:p-[40px] p-4 rounded-[20px] flex md:gap-[40px] gap-6 items-center relative`}
           >
@@ -243,19 +229,18 @@ const PersonalAccountContent: React.FC = () => {
           </div>
         </div>
         {/* Tab content */}
-        {renderTabContent()}
-        {/* div */}
-        <div className="mx-2 md:mx-10 md:mt-10 mt-0 flex flex-col gap-3 md:flex-row-reverse">
-          <PersonGoals goals={dummyData.goals} />
-          <DaysInRow
-            currentStreak={dummyData.goals.currentStreak}
-            recordStreak={dummyData.goals.recordStreak}
-            multiplier={2}
-            timer="18:45:24"
-          />
-        </div>
-        <Statistics statistics={dummyData.statistics} />
-        <Achievements achievements={dummyData.achievements} />
+        {activeTab === 2 ? (
+          <SubscriptionHistory />
+        ) : activeTab === 1 ? (
+          <Achievements achievements={users[0].achievements} alwaysShowAll />
+        ) : (
+          <>
+            {renderTabContent()}
+            <WorksSlider title="Рекомендуем" works={chapterSliderInfo} />
+            <Statistics statistics={users[0].statistics} />
+            <Achievements achievements={users[0].achievements} />
+          </>
+        )}
       </div>
     </div>
   );
