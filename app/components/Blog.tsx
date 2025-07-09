@@ -1,4 +1,3 @@
-// Blog.tsx
 "use client";
 import React, { useRef, useState, useMemo } from "react";
 import Banner from "./Banner";

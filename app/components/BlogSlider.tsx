@@ -49,19 +49,19 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
           <Link href={"/article"}>
-            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center hidden :flex">
+            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center ">
               <div className="relative min-w-[300px] max-w-[690px]">
                 <Image
                   src={featuredBlog.imageUrl}
                   width={694}
                   height={232}
                   alt="featuredBlogImage"
-                  className=" md:h-[232px] object-cover rounded-t-[20px]"
+                  className=" md:h-[232px] object-cover rounded-[20px]"
                 />
-                <p className="text-[#3D334A] tracking-[0%] md:mt-[29px] mt-3 md:mb-5 mb-2 text-[16px] md:text-[32px] leading-[120%] font-semibold px-3">
+                <p className="text-[#3D334A] tracking-[0%] md:mt-[10px] mt-0 md:mb-2 mb-2 text-[16px] md:text-[32px] leading-[120%] font-semibold px-3">
                   {featuredBlog.description}
                 </p>
-                <p className="mt-5 text-[#846FA0] font-medium leading-[120%] tracking-[0%] px-5">
+                <p className="mt-0 text-[#846FA0] font-medium leading-[120%] tracking-[0%] px-3">
                   {featuredBlog.subText}
                 </p>
                 <div className="flex items-center gap-1.5 flex-col absolute top-2 right-2">
@@ -116,7 +116,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         ) : (
           <div
             ref={scrollRef}
-            className="flex lg:hidden overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory"
+            className="flex overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory"
           >
             {otherBlogs.map((item) => (
               <Link key={item.id} href={"/article"}>
