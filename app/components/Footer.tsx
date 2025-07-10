@@ -8,7 +8,7 @@ import { FacebookIcon } from "./socialIcons/FacebookIcon";
 
 export const Footer: FC = () => {
   return (
-    <footer className="bg-[#F9F7FE] rounded-[20px] mt-10 px-8 pt-8 pb-4 text-[#3D334A]">
+    <footer className="bg-[#F9F7FE] rounded-[20px]  px-8 pt-8 pb-4 text-[#3D334A]">
       {/* კონსულტაციის ფორმა */}
       <div className="mb-8">
         <h2 className="h1-bowler text-[#3D334A] mb-4">

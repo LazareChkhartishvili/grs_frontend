@@ -44,7 +44,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
   };
 
   return (
-    <div className="md:mt-[50px] mt-5 w-full font-[Pt]">
+    <div className="w-full font-[Pt]">
       <div className="flex md:flex-row flex-col gap-2.5 mb-10 w-full px-0">
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
