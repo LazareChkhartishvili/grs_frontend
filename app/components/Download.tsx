@@ -1,15 +1,19 @@
+"use client";
 import Image from "next/image";
 import React from "react";
+import { useI18n } from "../context/I18nContext";
 
 const Download = () => {
+  const { t } = useI18n();
+
   return (
     <div className="my-6 px-2 md:px-5">
       <section className="bg-[rgba(249,247,254,1)] rounded-[30px] md:pl-10 md:pt-10 flex flex-col md:flex-row md:justify-between ">
         <div className="flex flex-col justify-between md:pb-10 pl-4 py-4  pb-4">
-          <p className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] bg-cover text-transparent bg-clip-text md:text-[64px] text-[20px] leading-[100%] tracking-[-3%]">
-            Возможность <br /> взаимодействия <br />
-            на разных платформах
-          </p>
+          <p 
+            className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] bg-cover text-transparent bg-clip-text md:text-[64px] text-[20px] leading-[100%] tracking-[-3%]"
+            dangerouslySetInnerHTML={{ __html: t('download.title') }}
+          />
 
           <div className="flex gap-[8.6px] mt-4">
             <div className="md:w-[204px] md:h-[68px] w-[80px] h-[26px] cursor-pointer">

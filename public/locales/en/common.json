@@ -1,0 +1,37 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "rehabilitation": "Rehabilitation",
+    "professional": "Professional Development", 
+    "blog": "Blog",
+    "categories": "Categories",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
+  },
+  "buttons": {
+    "subscribe": "Subscribe",
+    "continue_watching": "Continue Watching",
+    "buy_subscription": "Buy Subscription",
+    "read_more": "Read More",
+    "show_all": "View All",
+    "send_request": "Send Request",
+    "take_test": "Take Test",
+    "continue": "Continue",
+    "back": "Back",
+    "show_more": "Show More"
+  },
+  "common": {
+    "months": "months",
+    "price_per_month": "$/month",
+    "videos": "Videos",
+    "exercises": "Exercises",
+    "courses": "Courses",
+    "minutes": "minutes",
+    "hours": "hours",
+    "loading": "Loading...",
+    "error": "Error",
+    "subscription_plans": "Subscription Plans"
+  }
+} 

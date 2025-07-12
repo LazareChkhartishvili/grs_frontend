@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import WorksSlider from "./WorksSlider";
+import { useI18n } from "../context/I18nContext";
 
 interface Exercise {
   _id: string;
@@ -33,6 +34,8 @@ interface WorksProps {
 }
 
 const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
+  const { t } = useI18n();
+
   // Transform sets to work with existing WorksSlider component
   const works = items.map((set) => ({
     id: set._id,
@@ -52,7 +55,7 @@ const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
         href="sets"
         className="text-[14px] md:px-10 px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
       >
-        ყველა {works.length} სეტი →
+        {t('works.all_sets', { count: works.length.toString() })}
       </Link>
     </div>
   );

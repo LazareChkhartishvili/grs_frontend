@@ -6,9 +6,11 @@ import SliderArrows from "./SliderArrows";
 import CourseSlider from "./CourseSlider";
 import { useCourses } from "../hooks/useCourses";
 import Banner from "./Banner";
+import { useI18n } from "../context/I18nContext";
 
 const Professional = () => {
   const { courses, loading, error } = useCourses();
+  const { t } = useI18n();
 
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -31,26 +33,22 @@ const Professional = () => {
       />
       <div className="md:p-10 px-5">
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
-          Профразвитие
+          {t('professional.title')}
         </h1>
         <p className="text-[#846FA0] text-[18px] font-[Pt] font-medium md:max-w-[1320px] md:text-[24px] leading-[120%] md:leading-[100%] mb-5">
-          Раздел обучение и профессиональное развитие в области реабилитации,
-          физиотерапии и лечебно-восстановительного массажа -это коллаборация с
-          Израильскими специалистами и центрами обучения, например, таким как
-          Колледжем медицинского массажа, основателем руководителем которого
-          является доктор Аарон Яакоби.
+          {t('professional.description')}
         </p>
         <Link
           className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
           href="professional"
         >
-          Изучить →
+          {t('professional.learn_more')}
         </Link>
         <hr className="md:mt-10 mt-5 bg-[#D5D1DB] text-[#D5D1DB]" />
         <div className="bg-[#F9F7FE] mt-4 md:mt-[50px] md:mb-[45px] rounded-2xl">
           <div className="flex items-center justify-between md:mb-[10px]">
             <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
-              Курсы
+              {t('professional.courses.title')}
             </h1>
             <SliderArrows
               onScrollLeft={scrollLeft}
@@ -64,7 +62,7 @@ const Professional = () => {
             </div>
           ) : error ? (
             <div className="text-center py-10">
-              <p className="text-red-500 mb-2">შეცდომა კურსების ჩატვირთვაში</p>
+              <p className="text-red-500 mb-2">{t('professional.courses.error')}</p>
               <p className="text-gray-500 text-sm">{error}</p>
             </div>
           ) : (
@@ -80,7 +78,7 @@ const Professional = () => {
             href={"/allCourse"}
             className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
           >
-            Все {courses.length} курсов →
+            {t('professional.courses.all_courses', { count: courses.length.toString() })}
           </Link>
         </div>
       </div>

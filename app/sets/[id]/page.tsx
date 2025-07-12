@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useI18n } from "../../context/I18nContext";
 
 interface Video {
   id: string;
@@ -27,6 +28,7 @@ interface Set {
 
 const SetDetails = () => {
   const params = useParams();
+  const { t } = useI18n();
   const [set, setSet] = useState<Set | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -74,7 +76,7 @@ const SetDetails = () => {
   if (error || !set) {
     return (
       <div className="text-center py-10">
-        <p className="text-red-500 mb-2">შეცდომა სეტის ჩატვირთვაში</p>
+        <p className="text-red-500 mb-2">{t('error_loading')}</p>
         <p className="text-gray-500 text-sm">{error}</p>
       </div>
     );
@@ -115,14 +117,14 @@ const SetDetails = () => {
             {/* სეტის ინფორმაცია და ვიდეოების სია */}
             <div className="lg:col-span-1">
               <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                <h3 className="text-xl font-semibold mb-4">გამოწერის გეგმები</h3>
+                <h3 className="text-xl font-semibold mb-4">{t('common.subscription_plans')}</h3>
                 <div className="space-y-3">
                   {set.subscriptionPlans.map((plan, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm"
                     >
-                      <span className="text-gray-700">{plan.period} თვე</span>
+                      <span className="text-gray-700">{plan.period} {t('months')}</span>
                       <span className="font-semibold text-purple-600">
                         {plan.price} ₾
                       </span>
@@ -132,7 +134,7 @@ const SetDetails = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-4">ვიდეოები</h3>
+                <h3 className="text-xl font-semibold mb-4">{t('videos')}</h3>
                 <div className="space-y-2">
                   {set.videos.map((video, index) => (
                     <button

@@ -1,0 +1,37 @@
+{
+  "navigation": {
+    "home": "Главная",
+    "about": "О нас",
+    "rehabilitation": "Реабилитация",
+    "professional": "Профразвитие", 
+    "blog": "Блог",
+    "categories": "Категории",
+    "contact": "Контакты",
+    "login": "Войти",
+    "register": "Регистрация"
+  },
+  "buttons": {
+    "subscribe": "Подписаться",
+    "continue_watching": "Продолжить просмотр",
+    "buy_subscription": "Приобрести подписку",
+    "read_more": "Подробнее",
+    "show_all": "Смотреть все",
+    "send_request": "Отправить заявку",
+    "take_test": "Пройти тестирование",
+    "continue": "Продолжить",
+    "back": "Назад",
+    "show_more": "Показать ещё"
+  },
+  "common": {
+    "months": "месяцев",
+    "price_per_month": "₽/мес",
+    "videos": "Видео",
+    "exercises": "Упражнения",
+    "courses": "Курсы",
+    "minutes": "минут",
+    "hours": "часов",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "subscription_plans": "Планы подписки"
+  }
+} 
