@@ -12,7 +12,7 @@ type Props = {
 
 const Statistics: React.FC<Props> = ({ statistics }) => {
   return (
-    <div className="bg-[#F9F7FE] p-4 md:p-10 mt-2 md:mt-5">
+    <div className="bg-[#F9F7FE] p-4 md:p-10 md:px-10 md:mx-10 rounded-[20px] mt-2 md:mt-5">
       <h1 className="text-[#3D334A] text-[18px] md:mb-10 mb-4 leading-[120%] tracking-[-3%] md:text-[40px]">
         Статистика
       </h1>
@@ -29,10 +29,12 @@ const Statistics: React.FC<Props> = ({ statistics }) => {
                   {item.label}
                 </h2>
                 {Icon && (
-                  <Icon className="text-[#3D334A] w-6 h-6 hidden md:block" />
+                  <Icon className="text-[#D4BAFC] w-6 h-6 hidden md:block" />
                 )}
               </div>
-              <p className="text-[#846FA0] leading-[120%] mt-3">{item.text}</p>
+              <p className="text-[#846FA0] leading-[120%] mt-3 font-[Pt]">
+                {item.text}
+              </p>
             </div>
           );
         })}

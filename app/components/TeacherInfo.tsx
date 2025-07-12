@@ -24,15 +24,15 @@ const TeacherInfo = () => {
 
             {/*  */}
             <div className="flex flex-col gap-5 mt-5 md:flex-row">
-              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px] md:w-[218px] md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
+              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px]  md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
                 <PiStudent color="#D4BAFC" size={28} />
                 <h5 className="text-[#D4BAFC]">Курсы преподавателя</h5>
               </div>
-              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px] md:w-[218px] md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
+              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px] md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
                 <PiStudent color="#D4BAFC" size={28} />
                 <h5 className="text-[#D4BAFC]">Курсы преподавателя</h5>
               </div>
-              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px] md:w-[218px] md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
+              <div className="rounded-[20px] border border-[#E2CCFF] w-[343px] md:py-10 md:h-[158px] py-6 flex items-center justify-center flex-col">
                 <PiStudent color="#D4BAFC" size={28} />
                 <h5 className="text-[#D4BAFC]">Курсы преподавателя</h5>
               </div>

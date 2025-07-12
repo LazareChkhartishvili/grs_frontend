@@ -1,30 +1,34 @@
-type TabItem = {
+interface TabItem {
   label: string;
-  href: string;
-};
+  href?: string;
+}
 
-type TabsProps = {
+interface TabsProps {
   items: TabItem[];
-  className?: string; // სურვილისამებრ, დამატებითი კლასებისთვის
-};
+  activeTabIndex: number;
+  onTabClick: (index: number) => void;
+}
 
 import React from "react";
 
-const Tabs = ({ items, className = "" }: TabsProps) => {
+const Tabs: React.FC<TabsProps> = ({ items, activeTabIndex, onTabClick }) => {
   return (
-    <div
-      className={`md:col-span-2 order-2 md:order-1 bg-[rgba(233,223,246,1)] md:p-[40px] p-4 rounded-[20px] flex md:gap-[40px] gap-6 items-center relative ${className}`}
-    >
-      {items.map((item, index) => (
-        <div className="relative group" key={index}>
-          <a
-            href={item.href}
-            className="text-[rgba(132,111,160,1)] md:text-2xl text-[14px] leading-[90%] md:leading-[120%] tracking-[0%] uppercase group-hover:text-[rgba(61,51,74,1)]"
-          >
-            {item.label}
-          </a>
-          <div className="absolute left-0 -bottom-[42px] h-[2px] w-full bg-[rgba(61,51,74,1)] scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></div>
-        </div>
+    <div className="md:col-span-2 order-2 md:order-1 bg-[rgba(233,223,246,1)] md:p-[40px] p-4 rounded-[20px] flex md:gap-[40px] gap-6 items-center relative">
+      {items.map((item, idx) => (
+        <button
+          key={item.label}
+          onClick={() => onTabClick(idx)}
+          className={`text-[rgba(132,111,160,1)] md:text-2xl text-[14px] leading-[90%] md:leading-[120%] tracking-[0%] uppercase transition-all duration-200 px-2 pb-2 relative
+            ${
+              activeTabIndex === idx
+                ? "text-[rgba(61,51,74,1)] font-bold after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-[rgba(61,51,74,1)] after:rounded-full"
+                : "hover:text-[rgba(61,51,74,1)]"
+            }
+          `}
+          style={{ background: "none", border: "none", outline: "none" }}
+        >
+          {item.label}
+        </button>
       ))}
     </div>
   );

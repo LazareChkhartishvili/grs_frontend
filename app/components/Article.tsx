@@ -1,5 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import { CiBookmark } from "react-icons/ci";
+
+import { FaShare } from "react-icons/fa";
+import { MdStar } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 
 const Article = () => {
   return (
@@ -90,23 +95,11 @@ const Article = () => {
                 Ортопедия
               </button>
               <div className="flex justify-between items-center gap-[6px]">
-                <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                  <Image
-                    className=" w-[14px] h-[18px]"
-                    src="/public/arrow-icon.png"
-                    alt=""
-                    width={14}
-                    height={18}
-                  />
+                <div className=" w-[40px] h-[40px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                  <CiBookmark className="" />
                 </div>
-                <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                  <Image
-                    className=" w-[14px] h-[18px]"
-                    src="/public/arrow-icon.png"
-                    alt=""
-                    width={14}
-                    height={18}
-                  />
+                <div className=" w-[40px] h-[40px] rounded-[6px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                  <FaShare />
                 </div>
               </div>
             </div>
@@ -554,50 +547,20 @@ const Article = () => {
           </h2>
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-[4.16px] md:gap-6">
-              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <Image
-                  src="/public/star-icon.png"
-                  alt="reabilitation hand picture"
-                  className="w-full h-full rounded-[10px] object-cover"
-                  width={55.55}
-                  height={50.7}
-                />
+              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden flex items-center justify-center bg-yellow-50">
+                <MdStar className="text-yellow-400 w-full h-full" />
               </div>
-              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <Image
-                  src="/public/star-icon.png"
-                  alt="reabilitation hand picture"
-                  className="w-full h-full rounded-[10px] object-cover"
-                  width={55.55}
-                  height={50.7}
-                />
+              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden flex items-center justify-center bg-yellow-50">
+                <MdStar className="text-yellow-400 w-full h-full" />
               </div>
-              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <Image
-                  src="/public/star-icon.png"
-                  alt="reabilitation hand picture"
-                  className="w-full h-full rounded-[10px] object-cover"
-                  width={55.55}
-                  height={50.7}
-                />
+              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden flex items-center justify-center bg-yellow-50">
+                <MdStar className="text-yellow-400 w-full h-full" />
               </div>
-              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <Image
-                  src="/public/star-icon.png"
-                  alt="reabilitation hand picture"
-                  className="w-full h-full rounded-[10px] object-cover"
-                  width={55.55}
-                  height={50.7}
-                />
+              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden flex items-center justify-center bg-yellow-50">
+                <MdStar className="text-yellow-400 w-full h-full" />
               </div>
-              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden">
-                <Image
-                  src="/public/star-icon.png"
-                  alt="reabilitation hand picture"
-                  className="w-full h-full rounded-[10px] object-cover"
-                  width={55.55}
-                  height={50.7}
-                />
+              <div className="max-w-[55.5px] max-h-[50.7px] rounded-[10px] overflow-hidden flex items-center justify-center bg-yellow-50">
+                <MdStar className="text-yellow-400 w-full h-full" />
               </div>
             </div>
             <div className="flex flex-col md:justify-center items-center gap-[4.16px]">
@@ -644,14 +607,8 @@ const Article = () => {
           <hr className=" h-[2px] w-full bg-[rgba(249,247,254,1)] mt-[40px] border-none md:mb-5 mb-0" />
           <div className=" flex flex-col gap-5">
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
-              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <Image
-                  src="/public/avatar.jpg"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                  width={50}
-                  height={50}
-                />
+              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <FaUserCircle className="text-gray-400 w-full h-full object-cover" />
               </div>
 
               <div className="flex-1">
@@ -669,14 +626,8 @@ const Article = () => {
               </div>
             </div>
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
-              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <Image
-                  src="/public/avatar.jpg"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                  width={50}
-                  height={50}
-                />
+              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <FaUserCircle className="text-gray-400 w-full h-full object-cover" />
               </div>
 
               <div className="flex-1">
@@ -694,14 +645,8 @@ const Article = () => {
               </div>
             </div>
             <div className="flex gap-5 items-start max-w-[650px] bg-[rgba(249,247,254,1)] rounded-[20px] p-4">
-              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden">
-                <Image
-                  src="/public/avatar.jpg"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                  width={50}
-                  height={50}
-                />
+              <div className="w-[50px] h-[50px] rounded-[10px] bg-gray-300 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <FaUserCircle className="text-gray-400 w-full h-full object-cover" />
               </div>
 
               <div className="flex-1">
@@ -733,23 +678,11 @@ const Article = () => {
               Ортопедия
             </button>
             <div className="flex justify-between items-center gap-[6px]">
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px]  hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <CiBookmark className="w-[14px] h-[18px]" />
               </div>
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <FaShare />
               </div>
             </div>
           </div>
@@ -762,23 +695,11 @@ const Article = () => {
               Ортопедия
             </button>
             <div className="flex justify-between items-center gap-[6px]">
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <CiBookmark className="w-[14px] h-[18px]" />
               </div>
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <FaShare />
               </div>
             </div>
           </div>
@@ -791,35 +712,17 @@ const Article = () => {
               Ортопедия
             </button>
             <div className="flex justify-between items-center gap-[6px]">
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <CiBookmark className="w-[14px] h-[18px]" />
               </div>
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px]  hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <FaShare />
               </div>
             </div>
           </div>
         </div>
 
-        <Image
-          src="/public/mobileAppPic.png"
-          alt="mobile app ilustration"
-          className="mx-[17.5px] mb-5"
-          width={14}
-          height={18}
-        />
+        {/* <MdPhoneIphone className="w-[40px] h-[40px] text-purple-400 mx-[17.5px] mb-5" /> */}
 
         <div className=" w-[335px] bg-[rgba(255,255,255,1)] p-5 flex flex-col justify-between rounded-[20px] h-[249px] mb-5">
           <p>Как физиотерапия остеопороза снижает риск переломов</p>
@@ -828,23 +731,11 @@ const Article = () => {
               Ортопедия
             </button>
             <div className="flex justify-between items-center gap-[6px]">
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <CiBookmark className="w-[14px] h-[18px]" />
               </div>
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] rounded-[6px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <FaShare />
               </div>
             </div>
           </div>
@@ -857,35 +748,17 @@ const Article = () => {
               Ортопедия
             </button>
             <div className="flex justify-between items-center gap-[6px]">
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <CiBookmark className="w-[14px] h-[18px]" />
               </div>
-              <div className=" w-[40px] h-[40px] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
-                <Image
-                  className=" w-[14px] h-[18px]"
-                  src="/public/arrow-icon.png"
-                  alt=""
-                  width={14}
-                  height={18}
-                />
+              <div className=" w-[40px] h-[40px] hover:scale-105 duration-500 cursor-pointer hover:bg-[#dbc9f2] rounded-[6px] bg-[rgba(233,223,246,1)] flex items-center justify-center">
+                <FaShare />
               </div>
             </div>
           </div>
         </div>
 
-        <Image
-          src="/public/mobileAppPic.png"
-          alt="mobile app ilustration"
-          className="mx-[17.5px] mb-5"
-          width={14}
-          height={18}
-        />
+        {/* <MdPhoneIphone className="w-[40px] h-[40px] text-purple-400 mx-[17.5px] mb-5" /> */}
       </div>
     </main>
   );

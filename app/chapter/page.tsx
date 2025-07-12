@@ -7,7 +7,7 @@ import Subscribe from "../components/Subscribe";
 import ReviewSlider from "../components/ReviewSlider";
 import Blog from "../components/Blog";
 
-const chapterSliderInfo = [
+export const chapterSliderInfo = [
   {
     id: "1",
     title: "Ортопедия",

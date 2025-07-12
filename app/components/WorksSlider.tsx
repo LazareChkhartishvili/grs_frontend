@@ -66,11 +66,11 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
                   className="w-full h-[212px] object-cover rounded mb-6"
                 />
                 <div className="mb-2.5">
-                  <span className="px-2 py-1 bg-[#D4BAFC] rounded-[6px] text-white text-[14px] leading-[90%] uppercase">
+                  <span className="px-2 py-1 bg-[#D4BAFC] rounded-[6px] text-[#3D334A] text-[14px] leading-[90%] uppercase truncate max-w-[120px] block">
                     {work.categoryName}
                   </span>
                 </div>
-                <p className="line-clamp-4 text-[#3D334A] leading-[120%] text-[24px] font-bold mb-4">
+                <p className="line-clamp-4 font-[Pt] text-[#3D334A] leading-[120%] text-[24px] font-bold mb-4">
                   {work.description}
                 </p>
               </div>

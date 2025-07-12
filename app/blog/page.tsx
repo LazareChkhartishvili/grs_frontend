@@ -12,7 +12,7 @@ const BlogRoute = () => {
       <DesktopNavbar menuItems={defaultMenuItems} blogBg={true} />
       <MobileNavbar />
       <Header variant="blog" />
-      <div className="flex flex-col gap-20">
+      <div className="flex flex-col">
         <Blog withBanner={false} withSlider={false} layoutType="default" />
         <Blog withBanner={false} withSlider={false} layoutType="other" />
         <Blog withBanner={false} withSlider={false} layoutType="default" />

@@ -42,24 +42,25 @@ const Home = () => {
 
   // ყველა სეტის შეგროვება კატეგორიებიდან და საბკატეგორიებიდან
   const allSets = categories.reduce((acc: Set[], category) => {
-    const categorySets = (category.sets || []).map(set => ({
-      ...set as Set,
-      categoryName: category.title
+    const categorySets = (category.sets || []).map((set) => ({
+      ...(set as Set),
+      categoryName: category.title,
     }));
-    
-    const subcategorySets = category.subcategories?.reduce((subAcc: Set[], subcategory) => {
-      const setsWithCategory = (subcategory.sets || []).map(set => ({
-        ...set as Set,
-        categoryName: category.title
-      }));
-      return [...subAcc, ...setsWithCategory];
-    }, []) || [];
+
+    const subcategorySets =
+      category.subcategories?.reduce((subAcc: Set[], subcategory) => {
+        const setsWithCategory = (subcategory.sets || []).map((set) => ({
+          ...(set as Set),
+          categoryName: category.title,
+        }));
+        return [...subAcc, ...setsWithCategory];
+      }, []) || [];
 
     return [...acc, ...categorySets, ...subcategorySets];
   }, []);
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen overflow-x-hidden">
       <Header />
       <div>
         <Rehabilitation />
@@ -77,7 +78,7 @@ const Home = () => {
         />
 
         <Professional />
-        <Blog withBanner={true} withSlider={true} />
+        <Blog withBanner={true} withSlider={true} layoutType="default" />
         <MarketPlace />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg1.jpg"
