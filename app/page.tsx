@@ -11,6 +11,7 @@ import Blog from "./components/Blog";
 import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
+import { useI18n } from "./context/I18nContext";
 
 interface Exercise {
   _id: string;
@@ -37,6 +38,7 @@ interface Set {
 
 const Home = () => {
   const { categories } = useCategories();
+  const { t } = useI18n();
 
   // ყველა სეტის შეგროვება კატეგორიებიდან და საბკატეგორიებიდან
   const allSets = categories.reduce((acc: Set[], category) => {
@@ -62,11 +64,11 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category />
-        <Works title="Упражнения" items={allSets} />
+        <Works title={('Exercises')} items={allSets} />
         <Subscribe
           backgroundImage="/assets/images/bluebg.jpg"
-          title="Приобретите подписку для получения доступа к контенту платформы"
-          buttonText="Приобрести подписку"
+          titleKey="subscription.title"
+          buttonTextKey="buttons.subscribe"
           buttonTextColor="#3D334A"
           buttonBgColor="#FFFFFF"
           containerStyles="custom-class"
@@ -79,8 +81,8 @@ const Home = () => {
         <MarketPlace />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg1.jpg"
-          title="Пройдите тест и подберите подходящий вам комплекс упражнений"
-          buttonText="ПРОиТИ ТЕСТИРОВАНИЕ"
+          titleKey="subscription.test_title"
+          buttonTextKey="buttons.take_test"
           buttonTextColor="#3D334A"
           buttonBgColor="#FFFFFF"
           containerStyles="custom-class"
@@ -91,9 +93,9 @@ const Home = () => {
         <Reviews />
         <Subscribe
           backgroundImage=""
-          title="поделитесь вашими впечатлениями"
-          subTitle="Пройдите небольшой опрос и оставьте пожелания о работе с нашей платформой"
-          buttonText="пройти опрос"
+          titleKey="subscription.feedback_title"
+          subTitleKey="subscription.feedback_subtitle"
+          buttonTextKey="buttons.take_survey"
           buttonTextColor="#3D334A"
           buttonBgColor="#FFFFFF"
           containerStyles="custom-class"

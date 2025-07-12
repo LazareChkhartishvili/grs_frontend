@@ -5,6 +5,7 @@ import Banner from "./Banner";
 import SliderArrows from "./SliderArrows";
 import GridLayouts, { LayoutType } from "./GridLayouts";
 import { blogItem } from "./BlogItems";
+import { useI18n } from "../context/I18nContext";
 
 interface BlogProps {
   withBanner: boolean;
@@ -20,6 +21,7 @@ const Blog: React.FC<BlogProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const blogsPerPage = 4;
+  const { t } = useI18n();
 
   const totalPages = useMemo(() => {
     const otherBlogs = blogItem.slice(1);
@@ -59,7 +61,7 @@ const Blog: React.FC<BlogProps> = ({
         {withSlider && (
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
-              Блог
+              {t('blog.title')}
             </h2>
             <SliderArrows
               onScrollLeft={scrollLeft}
