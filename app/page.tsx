@@ -58,7 +58,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen overflow-x-hidden">
       <Header />
       <div>
         <Rehabilitation />

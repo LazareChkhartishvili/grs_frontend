@@ -22,14 +22,21 @@ const Banner: React.FC<BannerProps> = ({
         className="rounded-t-[20px] mb-4 flex-col md:mb-0 md:pl-10 flex items-start justify-center md:justify-normal pt-6 w-full h-[97px] md:h-[150px] bg-cover bg-center"
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       >
-        <div className="flex items-start gap-2">
-          <Image src={logoUrl} width={189} height={66} alt="logo" />
+        <div className="flex items-start gap-2 justify-center mx-auto -mt-6 md:mx-0 md:-mt-0">
+          <Image
+            src={logoUrl}
+            width={189}
+            height={66}
+            alt="logo"
+            className="w-[105px] h-10 md:w-[189px] md:h-[66px]"
+          />
           {icon && (
             <Image
               src={icon}
               alt="icon"
               width={iconWidth}
               height={iconHeight}
+              className="w-[166px] h-[19px] md:max-w-[269px] md:min-w-[170px] md:min-h-[32px] md:max-h-[50px]"
             />
           )}
         </div>
@@ -38,7 +45,7 @@ const Banner: React.FC<BannerProps> = ({
           alt="icon"
           width={13}
           height={13}
-          className="items-end justify-end ml-48 -mt-4"
+          className="items-end justify-end md:ml-48 ml-[150px] -mt-4"
         />
       </div>
     </div>

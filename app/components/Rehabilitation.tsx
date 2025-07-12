@@ -14,7 +14,7 @@ const Rehabilitation = () => {
         <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
           Реабилитация
         </h1>
-        <p className="text-[#846FA0] font-[Pt] text-[18px] md:text-[32px] font-medium leading-[120%] md:leading-[100%] md:mb-5">
+        <p className="text-[#846FA0] font-[Pt] text-[18px] md:text-[32px] font-medium leading-[120%] md:leading-[100%] mb-5">
           Современные израильские методики реабилитации для восстановления и
           поддержания подвижности и трудоспособности
         </p>

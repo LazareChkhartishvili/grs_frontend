@@ -192,17 +192,28 @@ const Header: React.FC<HeaderProps> = ({
                   СОВРЕМЕННЫЕ ИЗРАИЛЬСКИЕ МЕТОДИКИ РЕАБИЛИТАЦИИ
                 </h2>
                 {currentSlide === 1 && (
-                  <motion.p
-                    key={currentSlide}
-                    initial={{ opacity: 0, x: -100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    exit={{ opacity: 0, x: -100 }}
-                    className="leading-[120%] md:px-5 text-[32px] font-medium md:max-w-[592px] md:mt-[92px] font-[Pt] "
-                  >
-                    Для восстановления и поддержания подвижности и
-                    трудоспособности
-                  </motion.p>
+                  <>
+                    <motion.p
+                      key={currentSlide}
+                      initial={{ opacity: 0, x: -100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="leading-[120%] hidden md:flex md:px-5 text-[32px] font-medium md:max-w-[592px] md:mt-[92px] font-[Pt] "
+                    >
+                      Для восстановления и поддержания подвижности и
+                      трудоспособности
+                    </motion.p>
+                    <div className="flex md:hidden flex-col items-end justify-end h-[680px]">
+                      <p className="text-[32px] leading-[100%] tracking-[-3%] text-white font-medium">
+                        СОВРЕМЕННЫЕ ИЗРАИЛЬСКИЕ МЕТОДИКИ РЕАБИЛИТАЦИИ
+                      </p>
+                      <span className="font-[Pt] font-medium leading-[100%]">
+                        Для восстановления и поддержания подвижности и
+                        трудоспособности
+                      </span>
+                    </div>
+                  </>
                 )}
               </div>
             )}
@@ -219,7 +230,7 @@ const Header: React.FC<HeaderProps> = ({
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     >
                       <>
-                        <section className="mt-[150px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
+                        <section className="mt-[50px] md:mt-[29px] mx-2 md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
                           {/* პირველი ბარათი */}
                           <motion.div
                             initial={{ opacity: 0, x: -100 }}
@@ -271,7 +282,7 @@ const Header: React.FC<HeaderProps> = ({
                             <h2 className="text-[20px] md:text-[40px] leading-[120%] tracking-[-3%]">
                               Реабилитация
                             </h2>
-                            <p className="leading-[120%] font-medium md:max-w-[719px] text-[24px] font-[Pt] ">
+                            <p className="leading-[120%] font-[Pt] font-medium md:max-w-[719px] text-[24px] ">
                               Современные израильские методики реабилитации по
                               направлениям ортопедия, неврология,
                               посттравматическая реабилитация походки и др.
@@ -467,7 +478,7 @@ const Header: React.FC<HeaderProps> = ({
             )}
 
             {variant == "default" && (
-              <div className="flex md:hidden mt-28 mx-auto items-center justify-center gap-2">
+              <div className="flex md:hidden mt-60 mx-auto items-center justify-center gap-2">
                 <div className="bg-[#3D334A] p-4 rounded-[20px] w-[176px] h-[166px]">
                   Изучить подробнее
                 </div>
