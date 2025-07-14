@@ -7,9 +7,8 @@ import SliderArrows from "../components/SliderArrows";
 import WorksSlider from "../components/WorksSlider";
 import Subscribe from "../components/Subscribe";
 import ReviewSlider from "../components/ReviewSlider";
-import BlogSlider from "../components/BlogSlider";
 import Professional from "../components/Professional";
-
+import Blog from "../components/Blog";
 export default function CategoriesPage() {
   const homePageWorks = [
     {
@@ -93,9 +92,8 @@ export default function CategoriesPage() {
       {/* Header Section */}
       <Header variant="categories" />
       <div className="md:pt-[100px] pt-[400px]">
-        <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
+        <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6 md:mb-10">
           <div className=" flex items-center justify-between">
-            წ
             <div className="flex flex-col gap-5">
               <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
                 Разделы
@@ -172,9 +170,30 @@ export default function CategoriesPage() {
         </div>
         {/*  */}
         <WorksSlider title="Комплексы" works={homePageWorks} />
-        <Subscribe />
-        <ReviewSlider />
-        <BlogSlider currentPage={1} blogsPerPage={6} />
+        <div className="md:my-10">
+          <Subscribe
+            backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
+            titleKey="subscription.title"
+            buttonTextKey="buttons.subscribe"
+            buttonTextColor="#3D334A"
+            buttonBgColor="#FFFFFF"
+            containerStyles="custom-class"
+            titleStyles="text-white"
+            buttonStyles="hover:opacity-80"
+            bgCenter={true}
+          />
+        </div>
+        <div className="md:mb-10">
+          {" "}
+          <ReviewSlider />
+        </div>
+        <div
+          className="md:mb-10
+        "
+        >
+          {" "}
+          <Blog withBanner={false} withSlider={true} layoutType="default" />
+        </div>
         <Professional />
       </div>
     </div>

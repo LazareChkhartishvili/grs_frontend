@@ -33,22 +33,30 @@ const Professional = () => {
       />
       <div className="md:p-10 px-5">
         <h1 className="text-[20px] md:mt-10 md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
-          {t('professional.title')}
+          {typeof t("professional.title") === "string"
+            ? t("professional.title")
+            : "Professional Development"}
         </h1>
         <p className="text-[#846FA0] text-[18px] font-[Pt] font-medium md:max-w-[1320px] md:text-[24px] leading-[120%] md:leading-[100%] mb-5">
-          {t('professional.description')}
+          {typeof t("professional.description") === "string"
+            ? t("professional.description")
+            : ""}
         </p>
         <Link
           className="text-[14px] md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
           href="professional"
         >
-          {t('professional.learn_more')}
+          {typeof t("professional.learn_more") === "string"
+            ? t("professional.learn_more")
+            : ""}
         </Link>
         <hr className="md:mt-10 mt-5 bg-[#D5D1DB] text-[#D5D1DB]" />
         <div className="bg-[#F9F7FE] mt-4 md:mt-[50px] md:mb-[45px] rounded-2xl">
           <div className="flex items-center justify-between md:mb-[10px]">
             <h1 className="text-[20px] md:text-[40px] md:tracking-[-3%] text-[#3D334A] leading-[120%] mb-2.5 md:mb-5">
-              {t('professional.courses.title')}
+              {typeof t("professional.courses.title") === "string"
+                ? t("professional.courses.title")
+                : "Courses"}
             </h1>
             <SliderArrows
               onScrollLeft={scrollLeft}
@@ -62,7 +70,11 @@ const Professional = () => {
             </div>
           ) : error ? (
             <div className="text-center py-10">
-              <p className="text-red-500 mb-2">{t('professional.courses.error')}</p>
+              <p className="text-red-500 mb-2">
+                {typeof t("professional.courses.error") === "string"
+                  ? t("professional.courses.error")
+                  : "Error loading courses"}
+              </p>
               <p className="text-gray-500 text-sm">{error}</p>
             </div>
           ) : (
@@ -78,7 +90,13 @@ const Professional = () => {
             href={"/allCourse"}
             className="md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
           >
-            {t('professional.courses.all_courses', { count: courses.length.toString() })}
+            {typeof t("professional.courses.all_courses", {
+              count: courses.length.toString(),
+            }) === "string"
+              ? t("professional.courses.all_courses", {
+                  count: courses.length.toString(),
+                })
+              : `All ${courses.length} courses`}
           </Link>
         </div>
       </div>

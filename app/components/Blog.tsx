@@ -45,7 +45,7 @@ const Blog: React.FC<BlogProps> = ({
   const canScrollRight = currentPage < totalPages - 1;
 
   return (
-    <div className="bg-[#F9F7FE] md:px-10 md:pb-10">
+    <div className="bg-[#F9F7FE] md:pb-10 md:mx-5 md:rounded-[20px]">
       {withBanner && (
         <Banner
           backgroundUrl="/assets/images/blog.png"
@@ -56,11 +56,11 @@ const Blog: React.FC<BlogProps> = ({
         />
       )}
 
-      <div className="py-5 px-6 ">
+      <div className="py-5 px-6">
         {withSlider && (
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
-              {t('blog.title')}
+              {typeof t("blog.title") === "string" ? t("blog.title") : "Blog"}
             </h2>
             <SliderArrows
               onScrollLeft={scrollLeft}

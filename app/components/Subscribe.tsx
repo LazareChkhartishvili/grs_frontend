@@ -19,6 +19,7 @@ interface SubscribeProps {
   title?: string;
   buttonText?: string;
   subTitle?: string;
+  bgCenter?: boolean;
 }
 
 const Subscribe = ({
@@ -32,6 +33,7 @@ const Subscribe = ({
   buttonStyles = "",
   subTitleKey,
   bgColor = "",
+  bgCenter = false,
   // Fallback props
   title = "Приобретите подписку для получения доступа к контенту платформы",
   buttonText = "Приобрести подписку",
@@ -41,7 +43,9 @@ const Subscribe = ({
   return (
     <div className={`mb-6 md:mb-10 mt-10 md:mt-0 md:px-5 ${containerStyles}`}>
       <div
-        className={` w-[359px] md:w-full md:h-[424px] rounded-[20px] md:px-5 mx-auto md:mx-0 p-4 gap-5`}
+        className={` w-[359px] md:w-full md:h-[424px] ${
+          bgCenter && "bg-center"
+        } rounded-[20px] md:px-5 mx-auto md:mx-0 p-4 gap-5`}
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundColor: bgColor,
@@ -51,9 +55,13 @@ const Subscribe = ({
           <h1
             className={`mb-5 text-[#3D334A] text-[20px] md:text-[64px] md:max-w-[1308px] md:pr-[52px] tracking-[-3%] md:pt-[48px] leading-[100%] ${titleStyles}`}
           >
-            {titleKey ? t(titleKey) : title}
+            {titleKey && typeof t(titleKey) === "string" ? t(titleKey) : title}
           </h1>
-          <p className="text-[#3D334A]">{subTitleKey ? t(subTitleKey) : subTitle}</p>
+          <p className="text-[#3D334A]">
+            {subTitleKey && typeof t(subTitleKey) === "string"
+              ? t(subTitleKey)
+              : subTitle}
+          </p>
         </div>
         <div
           className={`flex items-center cursor-pointer md:mt-[70px] mt-10 rounded-[10px] gap-5 px-[15px] w-[327px] md:w-[562px]`}

@@ -9,6 +9,7 @@ import Professional from "../components/Professional";
 import Tabs from "../components/Tabs";
 import Modal from "../components/Modal";
 import { useState, useRef, useEffect } from "react";
+import ReactPlayer from "react-player";
 import { CiLock } from "react-icons/ci";
 
 const Complex = () => {
@@ -43,7 +44,7 @@ const Complex = () => {
   ];
   return (
     <div>
-      <Header variant="complex" />
+      <Header variant="complex" onPriceClick={() => setPopoverOpen(true)} />
       <div className="">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:mt-40 px-4">
           <Tabs
@@ -96,11 +97,7 @@ const Complex = () => {
                       10 упражнений
                     </span>
                   </div>
-                  <button
-                    ref={playBtnRef}
-                    onClick={() => setPopoverOpen((v) => !v)}
-                    className="relative z-10"
-                  >
+                  <button ref={playBtnRef} className="relative z-10">
                     <CiPlay1
                       size={20}
                       color="white"
@@ -110,11 +107,11 @@ const Complex = () => {
                   {popoverOpen && (
                     <div
                       ref={popoverRef}
-                      className="absolute right-0 top-full mt-2 bg-white shadow-lg rounded-2xl p-0 min-w-[320px] max-w-[90vw] border border-purple-200 z-20 flex flex-col items-stretch"
+                      className="absolute right-0 -top-72 mt-2 bg-white shadow-lg rounded-2xl p-0 min-w-[320px] max-w-[90vw] border border-purple-200 z-20 flex flex-col items-stretch"
                     >
                       {/* 1 месяц */}
                       <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)]">
-                        <span className="font-bold text-[18px] leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        <span className="font-bold cursor-pointer text-[18px] leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
                           1 месяц
                         </span>
                         <span className="text-[16px] text-[rgba(132,111,160,1)] font-medium">
@@ -123,33 +120,33 @@ const Complex = () => {
                       </div>
                       {/* 3 месяца - highlight */}
                       <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)] bg-[rgba(132,111,160,0.08)]">
-                        <span className="font-bold text-[18px] leading-[120%] tracking-[-2%] text-[rgba(132,111,160,1)] uppercase">
+                        <span className="font-bold cursor-pointer text-[18px] leading-[120%] tracking-[-2%] text-[rgba(132,111,160,1)] uppercase">
                           3 месяца
                         </span>
                         <div className="flex flex-col items-end">
-                          <span className="text-[20px] font-bold text-[rgba(132,111,160,1)] leading-[120%]">
+                          <span className="text-[20px] cursor-pointer font-bold text-[rgba(132,111,160,1)] leading-[120%]">
                             350 ₽/мес
                           </span>
-                          <span className="text-[14px] text-[rgba(132,111,160,0.5)] line-through font-medium">
+                          <span className="text-[14px] cursor-pointer text-[rgba(132,111,160,0.5)] line-through font-medium">
                             350 ₽/мес
                           </span>
                         </div>
                       </div>
                       {/* 6 месяцев */}
                       <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)]">
-                        <span className="font-bold text-[18px] leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        <span className="font-bold text-[18px] cursor-pointer leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
                           6 месяцев
                         </span>
-                        <span className="text-[16px] text-[rgba(132,111,160,1)] font-medium">
+                        <span className="text-[16px] cursor-pointer text-[rgba(132,111,160,1)] font-medium">
                           500 ₽/мес
                         </span>
                       </div>
                       {/* 12 месяцев */}
                       <div className="flex justify-between items-center px-6 py-4">
-                        <span className="font-bold text-[18px] leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        <span className="font-bold text-[18px] cursor-pointer leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
                           12 месяцев
                         </span>
-                        <span className="text-[16px] text-[rgba(132,111,160,1)] font-medium">
+                        <span className="text-[16px] cursor-pointer text-[rgba(132,111,160,1)] font-medium">
                           500 ₽/мес
                         </span>
                       </div>
@@ -193,16 +190,165 @@ const Complex = () => {
               </div>
             </section>
           )}
-          {activeTabIndex === 1 && (
-            <div className="text-lg text-[rgba(61,51,74,1)]">
-              Дополнительная информация о комплексе...
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20">
+            <div className="order-3 md:order-2 p-4 md:p-[40px] md:mb-20 bg-[rgba(249,247,254,1)] rounded-[20px] md:rounded-[30px]">
+              {activeTabIndex === 1 && (
+                <div className="text-lg text-[rgba(61,51,74,1)] md:px-10 md:py-5 bg-[#F9F7FE] rounded-[20px]">
+                  <h1 className="md:text-[40px] leading-[120%] tracking-[-3%] text-[#3D334A]">
+                    Дополнительно
+                  </h1>
+                  <p className="font-[Pt] text-[18px] leading-[120%] text-[#846FA0] mt-10">
+                    В краткосрочной перспективе бездействие может усилить
+                    депрессию или тревогу. Это также может повлиять на то, как
+                    организм перерабатывает жиры и сахара в рационе, и привести
+                    к некоторому увеличению веса, если вы не сжигаете достаточно
+                    калорий.
+                  </p>
+                  <p className="font-[Pt] text-[18px] leading-[120%] text-[#846FA0] mt-5">
+                    В долгосрочной перспективе малоподвижный образ жизни
+                    увеличивает риск смертности от сердечно-сосудистых
+                    заболеваний, диабета и рака. Помимо увеличения шансов
+                    умереть от этих причин, это также снижает качество жизни
+                    из-за усиления боли в коленях, более высокого уровня
+                    депрессии и снижения когнитивных функций.
+                  </p>
+                  <ul className="list-disc mx-5 flex flex-col gap-[10px] mt-5">
+                    <li className="font-[Pt] text-[18px] leading-[140%] tracking-[-1%] text-[#846FA0]">
+                      Элемент списка
+                    </li>
+                    <li className="font-[Pt] text-[18px] leading-[140%] tracking-[-1%] text-[#846FA0]">
+                      Элемент списка
+                    </li>
+                    <li className="font-[Pt] text-[18px] leading-[140%] tracking-[-1%] text-[#846FA0]">
+                      Элемент списка
+                    </li>
+                    <li className="font-[Pt] text-[18px] leading-[140%] tracking-[-1%] text-[#846FA0]">
+                      Элемент списка
+                    </li>
+                    <li className="font-[Pt] text-[18px] leading-[140%] tracking-[-1%] text-[#846FA0]">
+                      Элемент списка
+                    </li>
+                  </ul>
+                </div>
+              )}
+              {activeTabIndex === 2 && (
+                <div className="text-lg text-[rgba(61,51,74,1)]">
+                  <h1 className="md:text-[40px] leading-[120%] tracking-[-3%] mb-5">
+                    Демо-видео
+                  </h1>
+                  <div className="rounded-[15px] overflow-hidden shadow-lg">
+                    <ReactPlayer
+                      src="/videos/hero.mp4"
+                      controls
+                      width="100%"
+                      height="360px"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-          {activeTabIndex === 2 && (
-            <div className="text-lg text-[rgba(61,51,74,1)]">
-              Демо-видео комплекса или другая информация...
+            <div className="order-1 md:order-3 flex flex-col md:gap-4 gap-5">
+              <div className="relative  bg-[url('/assets/images/blog.png')] bg-cover bg-center bg-no-repeat p-5 rounded-[10px] flex justify-between items-center">
+                <div className="flex md:flex-row md:gap-[40px] flex-col  md:items-center">
+                  <h3 className="text-[rgba(255,255,255,1))] md:text-2xl text-[18px] leading-[120%] tracking-[-3%] uppercase">
+                    Начальный уровень
+                  </h3>
+                  <span className="text-[rgba(132,111,160,1)] md:text-[14px] text-xs leading-[90%] tracking-[0%] uppercase">
+                    10 упражнений
+                  </span>
+                </div>
+                <button ref={playBtnRef} className="relative z-10">
+                  <CiPlay1
+                    size={20}
+                    color="white"
+                    className="hover:text-[#846FA0] hover:text-2xl hover:scale-125"
+                  />
+                </button>
+                {popoverOpen && (
+                  <div
+                    ref={popoverRef}
+                    className="absolute right-0 -top-72 mt-2 bg-white shadow-lg rounded-2xl p-0 min-w-[320px] max-w-[90vw] border border-purple-200 z-20 flex flex-col items-stretch"
+                  >
+                    {/* 1 месяц */}
+                    <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)]">
+                      <span className="font-bold cursor-pointer text-[18px] leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        1 месяц
+                      </span>
+                      <span className="text-[16px] text-[rgba(132,111,160,1)] font-medium">
+                        100 ₽/мес
+                      </span>
+                    </div>
+                    {/* 3 месяца - highlight */}
+                    <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)] bg-[rgba(132,111,160,0.08)]">
+                      <span className="font-bold cursor-pointer text-[18px] leading-[120%] tracking-[-2%] text-[rgba(132,111,160,1)] uppercase">
+                        3 месяца
+                      </span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-[20px] cursor-pointer font-bold text-[rgba(132,111,160,1)] leading-[120%]">
+                          350 ₽/мес
+                        </span>
+                        <span className="text-[14px] cursor-pointer text-[rgba(132,111,160,0.5)] line-through font-medium">
+                          350 ₽/мес
+                        </span>
+                      </div>
+                    </div>
+                    {/* 6 месяцев */}
+                    <div className="flex justify-between items-center px-6 py-4 border-b border-[rgba(132,111,160,0.12)]">
+                      <span className="font-bold text-[18px] cursor-pointer leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        6 месяцев
+                      </span>
+                      <span className="text-[16px] cursor-pointer text-[rgba(132,111,160,1)] font-medium">
+                        500 ₽/мес
+                      </span>
+                    </div>
+                    {/* 12 месяцев */}
+                    <div className="flex justify-between items-center px-6 py-4">
+                      <span className="font-bold text-[18px] cursor-pointer leading-[120%] tracking-[-2%] text-[rgba(61,51,74,1)] uppercase">
+                        12 месяцев
+                      </span>
+                      <span className="text-[16px] cursor-pointer text-[rgba(132,111,160,1)] font-medium">
+                        500 ₽/мес
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-[rgba(249,247,254,1)]  p-5 rounded-[10px] flex justify-between items-center">
+                <div className="flex md:flex-row md:gap-[40px] flex-col  md:items-center">
+                  <h3 className="text-[rgba(132,111,160,1)] md:text-2xl text-[18px] leading-[120%] tracking-[-3%] uppercase">
+                    Средний уровень
+                  </h3>
+                  <span className="text-[rgba(132,111,160,1)] md:text-[14px] text-xs leading-[90%] tracking-[0%] uppercase">
+                    10 упражнений
+                  </span>
+
+                  <CiLock
+                    color="#846FA0"
+                    className="absolute right-8"
+                    size={24}
+                  />
+                </div>
+                {/* <Image src="../../public/block-icon.png" alt="block icon" /> */}
+                <CiPlay1 width={19.28} height={25.44} />
+              </div>
+              <div className="bg-[rgba(249,247,254,1)]  p-5 rounded-[10px] flex justify-between items-center">
+                <div className="flex md:flex-row md:gap-[40px] flex-col md:items-center">
+                  <h3 className="text-[rgba(132,111,160,1)] md:text-2xl text-[18px] leading-[120%] tracking-[-3%] uppercase">
+                    Продвинутый уровень
+                  </h3>
+                  <span className="text-[rgba(132,111,160,1)] md:text-[14px] text-xs leading-[90%] tracking-[0%] uppercase">
+                    10 упражнений
+                  </span>
+                  <CiLock
+                    color="#846FA0"
+                    className="absolute right-8"
+                    size={24}
+                  />
+                </div>
+              </div>
             </div>
-          )}
+          </section>
         </div>
         <Subscribe />
         <ReviewSlider />
