@@ -7,8 +7,8 @@ import SliderArrows from "../../components/SliderArrows";
 import WorksSlider from "../../components/WorksSlider";
 import Subscribe from "../../components/Subscribe";
 import ReviewSlider from "../../components/ReviewSlider";
-import BlogSlider from "../../components/BlogSlider";
 import Professional from "../../components/Professional";
+import Blog from "@/app/components/Blog";
 
 export default function CategoriesPage({
   params,
@@ -121,15 +121,17 @@ export default function CategoriesPage({
         </div>
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
-          <WorksSlider
-            title={`${selectedCategory.title}-ის სეტები`}
-            works={formattedSets}
-          />
+          <div>
+            <WorksSlider
+              title={`${selectedCategory.title}-ის სეტები`}
+              works={formattedSets}
+            />
+          </div>
         )}
 
         <Subscribe />
         <ReviewSlider />
-        <BlogSlider currentPage={1} blogsPerPage={6} />
+        <Blog withBanner={false} withSlider={true} layoutType="default" />
         <Professional />
       </div>
     </div>
