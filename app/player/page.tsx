@@ -3,7 +3,7 @@ import React, { useRef, useLayoutEffect, useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import Image from "next/image";
-
+import ReactPlayer from "react-player";
 // ----- Types -----
 type Step = {
   step: number;
@@ -19,7 +19,6 @@ type Exercise = {
   status: ExerciseStatus;
 };
 
-// ----- Data -----
 const exercises: Exercise[] = [
   {
     id: 1,
@@ -145,17 +144,47 @@ const statusMap = {
   },
 };
 
+const tasksInfo = [
+  {
+    id: 1,
+    bgColor: "#F3D57F",
+    textColor: "#3D334A",
+    title: "Упражнение 1",
+    subText: "Обще-восстановительный, поддерживающий комплекс",
+  },
+  {
+    id: 1,
+    bgColor: "#F3D57F",
+    title: "Упражнение 2",
+    textColor: "#3D334A",
+    subText: "Обще-восстановительный, поддерживающий комплекс",
+  },
+  {
+    id: 1,
+    bgColor: "#D4BAFC",
+    textColor: "#FFFFFF",
+    title: "Упражнение 3",
+    subText: "Обще-восстановительный, поддерживающий комплекс",
+  },
+  {
+    id: 1,
+    bgColor: "#F9F7FE",
+    title: "Упражнение 4",
+    textColor: "#3D334A",
+    subText: "Обще-восстановительный, поддерживающий комплекс",
+  },
+];
+
 const numberTextColor = "rgba(61, 51, 74, 1)";
 const mobileNumberBg = "rgba(213, 209, 219, 1)";
-const markerSize = 48; // px
-const markerOffset = 32; // px, ბარათის padding-top
+const markerSize = 48;
+const markerOffset = 32;
 
 const Player = () => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [centers, setCenters] = useState<number[]>([]);
 
   useLayoutEffect(() => {
-    // ვპოულობთ თითოეული ნომრის ცენტრის top პოზიციას მშობლის მიმართ
     setCenters(
       cardRefs.current.map((el) =>
         el ? el.offsetTop + markerOffset + markerSize / 2 : 0
@@ -165,8 +194,42 @@ const Player = () => {
   return (
     <div>
       <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
-      <section className="w-full flex flex-col items-center bg-[#F9F7FE] min-h-screen py-6 px-2">
-        <div className="relative w-full max-w-3xl flex flex-col gap-6">
+      <ReactPlayer
+        src="/videos/hero.mp4"
+        controls
+        width="1400px"
+        height="800px"
+        className="mx-auto rounded-[30px]"
+      />
+      <div className="flex items-center md:m-5 gap-5 mx-auto justify-center">
+        {tasksInfo.map((item) => {
+          return (
+            <div key={item.id} className="flex flex-row items-center">
+              <div
+                className="md:p-5 flex flex-col items-start rounded-[20px]"
+                style={{ backgroundColor: item.bgColor }}
+              >
+                <h1
+                  style={{ color: item.textColor }}
+                  className="text-[18px] leading-[100%] tracking-[-1%]"
+                >
+                  {item.title}
+                </h1>
+                <p
+                  style={{ color: item.textColor }}
+                  className="font-[Pt] w-[295px] font-medium leading-[120%]"
+                >
+                  {item.subText}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* bg-[#F9F7FE] */}
+      <section className="w-full bg-[#F9F7FE] md:mx-5 rounded-[30px] md:mb-10 flex flex-col items-center min-h-screen py-6 px-2 md:px-5">
+        <div className="relative w-full flex flex-col gap-6">
           {/* Desktop: ვერტიკალური ხაზის სეგმენტები */}
           <div
             className="hidden md:block absolute left-[22px] w-[6px] z-0"
@@ -201,7 +264,6 @@ const Player = () => {
                 cardRefs.current[idx] = el;
               }}
             >
-              {/* Desktop: ნომერი ზუსტად ხაზის ცენტრში */}
               <div
                 className="hidden md:block absolute left-0 z-10"
                 style={{
@@ -315,7 +377,9 @@ const Player = () => {
                             }`}
                           >
                             {step.list.map((item, i) => (
-                              <li key={i}>{item}</li>
+                              <li key={i} className="font-[Pt]">
+                                {item}
+                              </li>
                             ))}
                           </ol>
                         </div>
