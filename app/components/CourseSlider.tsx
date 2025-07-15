@@ -61,7 +61,7 @@ const CourseSlider: React.FC<CourseSliderProps> = ({
         {displayCourses.map((course) => (
           <div
             key={course.id}
-            className="bg-white rounded-[20px] p-1.5 pb-4 w-[248px] md:w-[690px] md:h-[518px]"
+            className="bg-white rounded-[20px] p-1.5 pb-4 w-[248px] md:w-[690px]"
           >
             {/* Mobile image */}
             <Image
