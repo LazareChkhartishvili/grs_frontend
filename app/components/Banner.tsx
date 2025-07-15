@@ -36,7 +36,7 @@ const Banner: React.FC<BannerProps> = ({
               alt="icon"
               width={iconWidth}
               height={iconHeight}
-              className="w-[166px] h-[19px] md:max-w-[269px] md:min-w-[170px] md:min-h-[32px] md:max-h-[50px]"
+              className="hidden md:flex md:max-w-[269px] md:min-w-[170px] md:min-h-[32px] md:max-h-[50px]"
             />
           )}
         </div>

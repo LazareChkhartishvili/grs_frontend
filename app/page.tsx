@@ -11,7 +11,7 @@ import Blog from "./components/Blog";
 import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
-import { useI18n } from "./context/I18nContext";
+// import { useI18n } from "./context/I18nContext";
 
 interface Exercise {
   _id: string;
@@ -38,7 +38,7 @@ interface Set {
 
 const Home = () => {
   const { categories } = useCategories();
-  const { t } = useI18n();
+  // const { t } = useI18n();
 
   // ყველა სეტის შეგროვება კატეგორიებიდან და საბკატეგორიებიდან
   const allSets = categories.reduce((acc: Set[], category) => {
@@ -65,9 +65,9 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category />
-        <Works title={('Exercises')} items={allSets} />
+        <Works title={"Exercises"} items={allSets} />
         <Subscribe
-          backgroundImage="/assets/images/bluebg.jpg"
+          backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"
           buttonTextKey="buttons.subscribe"
           buttonTextColor="#3D334A"
@@ -75,6 +75,7 @@ const Home = () => {
           containerStyles="custom-class"
           titleStyles="text-white"
           buttonStyles="hover:opacity-80"
+          bgCenter={true}
         />
 
         <Professional />

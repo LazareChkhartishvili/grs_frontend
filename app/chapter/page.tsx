@@ -65,7 +65,7 @@ const Chapter = () => {
       </div>
       <Subscribe />
       <ReviewSlider />
-      <Blog withBanner={false} withSlider={false} />
+      <Blog withBanner={false} withSlider={true} layoutType="default" />
     </div>
   );
 };

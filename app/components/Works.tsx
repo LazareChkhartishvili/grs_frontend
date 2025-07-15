@@ -53,15 +53,29 @@ interface WorksProps {
 const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
   const { t, locale } = useI18n();
 
+  // Helper to get localized string from object or string
+  const getLocalized = (value: unknown): string => {
+    if (typeof value === "string") return value;
+    if (
+      value &&
+      typeof value === "object" &&
+      locale in value &&
+      typeof (value as Record<string, unknown>)[locale] === "string"
+    ) {
+      return (value as Record<string, string>)[locale];
+    }
+    return "";
+  };
+
   // Transform sets to work with existing WorksSlider component
   const works = items.map((set) => ({
     id: set._id,
-    title: set.exercises[0]?.video?.name || "", // თუ პირველ ვიდეოს აქვს სახელი, გამოვიყენოთ ის
-    description: set.description[locale] || set.description.ka || set.description.en || set.description.ru,
-    image: "/assets/images/workMan.png",
+    title: getLocalized(set.title),
+    description: getLocalized(set.description),
+    image: "/assets/images/workMan.png", // Default image
     exerciseCount: set.exercises.length,
-    categoryName: set.categoryName || "ორთოპედია",
-    monthlyPrice: set.monthlyPrice || 920
+    categoryName: getLocalized(set.categoryName) || "ორთოპედია", // Default
+    monthlyPrice: set.monthlyPrice || 920, // Default price
   }));
 
   return (
@@ -72,7 +86,10 @@ const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
         href="sets"
         className="text-[14px] md:px-10 px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"
       >
-        {t('works.all_sets', { count: works.length.toString() })}
+        {typeof t("works.all_sets", { count: works.length.toString() }) ===
+        "string"
+          ? t("works.all_sets", { count: works.length.toString() })
+          : `All ${works.length} sets`}
       </Link>
     </div>
   );

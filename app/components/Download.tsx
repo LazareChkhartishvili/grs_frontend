@@ -10,9 +10,14 @@ const Download = () => {
     <div className="my-6 px-2 md:px-5">
       <section className="bg-[rgba(249,247,254,1)] rounded-[30px] md:pl-10 md:pt-10 flex flex-col md:flex-row md:justify-between ">
         <div className="flex flex-col justify-between md:pb-10 pl-4 py-4  pb-4">
-          <p 
+          <p
             className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] bg-cover text-transparent bg-clip-text md:text-[64px] text-[20px] leading-[100%] tracking-[-3%]"
-            dangerouslySetInnerHTML={{ __html: t('download.title') }}
+            dangerouslySetInnerHTML={{
+              __html:
+                typeof t("download.title") === "string"
+                  ? t("download.title")
+                  : "Download",
+            }}
           />
 
           <div className="flex gap-[8.6px] mt-4">

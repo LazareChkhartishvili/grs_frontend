@@ -9,7 +9,7 @@ import TeacherInfo from "../components/TeacherInfo";
 const About = () => {
   return (
     <div>
-      <Header />
+      <Header variant="default" />
       <div className="mt-40">
         <Rehabilitation />
         <Category />
@@ -19,8 +19,8 @@ const About = () => {
             Наша цель
           </h1>
           <div className="md:m-10 m-5">
-            <div className="bg-[#F9F7FE] md:py-[34px] md:pl-10 mb-5 p-4 rounded-[15px]">
-              <p className="text-[#3D334A] leading-[120%] md:text-[24px] text-[14px] font-medium">
+            <div className="bg-[#F9F7FE]  md:py-[34px] md:pl-10 mb-5 p-4 rounded-[15px]">
+              <p className="text-[#3D334A] font-[Pt] leading-[120%] md:text-[24px] text-[14px] font-medium">
                 Мы нацелены на постоянное расширение списка направлений
                 реабилитации и персонализацию программ реабилитации, и будем
                 рады обратной связи с нашими пользователями, чтобы определиться
@@ -30,7 +30,7 @@ const About = () => {
             </div>
             <div className="flex md:flex-row flex-col items-center gap-5">
               <div className="bg-[#F9F7FE] md:p-10 p-4 rounded-[15px]">
-                <p className="text-[#3D334A] leading-[120%] md:text-[24px] text-[14px] font-medium">
+                <p className="text-[#3D334A] font-[Pt] leading-[120%] md:text-[24px] text-[14px] font-medium">
                   Мы обеспечим вам возможность бесплатных консультаций с
                   квалифицированными кураторами нашей платформы, а также
                   возможность консультаций с ведущими специалистами в клиниках
@@ -38,7 +38,7 @@ const About = () => {
                 </p>
               </div>
               <div className="bg-[#F9F7FE] md:p-10 p-4 rounded-[15px]">
-                <p className="text-[#3D334A] leading-[120%] md:text-[24px] text-[14px] font-medium">
+                <p className="text-[#3D334A] font-[Pt] leading-[120%] md:text-[24px] text-[14px] font-medium">
                   Мы обеспечим вам возможность бесплатных консультаций с
                   квалифицированными кураторами нашей платформы, а также
                   возможность консультаций с ведущими специалистами в клиниках

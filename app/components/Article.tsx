@@ -87,7 +87,7 @@ const Article = () => {
         </div>
       </div>
 
-      <div className="md:max-w-[690px] w-[690px]    mt-0 ">
+      <div className="md:max-w-[890px] w-[890px]    mt-0 ">
         <section className=" bg-[rgba(255,255,255,1)] rounded-[20px] p-4">
           <header className=" hidden md:flex flex-col gap-[30px]">
             <div className="flex justify-between items-center ">

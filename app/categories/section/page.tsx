@@ -19,7 +19,9 @@ const Section = () => {
       <Works title={"test3"} items={[]} />
       <Subscribe />
       <ReviewSlider />
-      <Blog withBanner={false} withSlider={true} />
+      <div className="md:my-10">
+        <Blog withBanner={false} withSlider={true} />
+      </div>
       <Professional />
     </div>
   );

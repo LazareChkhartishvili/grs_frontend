@@ -32,8 +32,8 @@ const reviewSliderItems = [
 
 const ReviewSlider = () => {
   return (
-    <div className="">
-      <div className="flex items-center justify-between py-5 px-6 md:py-[50px] md:px-15">
+    <div className="bg-[#F9F7FE] md:mx-5 md:rounded-[20px] pb-10">
+      <div className="flex items-center  justify-between py-5 px-6 md:py-[50px] md:px-15">
         <h1 className="text-[20px] leadig-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
           ОТЗЫВЫ О GRS
         </h1>
@@ -47,7 +47,7 @@ const ReviewSlider = () => {
         />
       </div>
 
-      <div className="py-5 px-4 md:py-10 md:px-5 bg-[#F9F7FE] rounded-[30px] w-full overflow-x-auto md:overglow-x-hidden">
+      <div className="px-4 md:px-5  rounded-[30px] w-full overflow-x-auto md:overglow-x-hidden">
         <div className="flex gap-5 w-max flex-nowrap">
           {reviewSliderItems.map((item, index) => (
             <div

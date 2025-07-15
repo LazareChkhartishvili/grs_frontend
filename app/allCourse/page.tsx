@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import React, { useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
@@ -19,7 +20,11 @@ const AllCourse = () => {
     error,
   } = useCourses(selectedCategory || undefined);
   // const router = useRouter();
+  // const router = useRouter();
 
+  // useEffect(() => {
+  //   router.push("/allCourse/1");
+  // }, [router]);
   // useEffect(() => {
   //   router.push("/allCourse/1");
   // }, [router]);

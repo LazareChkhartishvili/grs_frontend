@@ -28,6 +28,7 @@ interface HeaderProps {
     | "category-detail";
   title?: string;
   info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  onPriceClick?: () => void;
 }
 
 export const defaultMenuItems: MenuItem[] = [
@@ -60,6 +61,7 @@ const Header: React.FC<HeaderProps> = ({
   variant = "default",
   title,
   // info,
+  onPriceClick,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
 
@@ -479,9 +481,11 @@ const Header: React.FC<HeaderProps> = ({
 
             {variant == "default" && (
               <div className="flex md:hidden mt-60 mx-auto items-center justify-center gap-2">
-                <div className="bg-[#3D334A] p-4 rounded-[20px] w-[176px] h-[166px]">
-                  Изучить подробнее
-                </div>
+                <Link href={"/about"}>
+                  <div className="bg-[#3D334A] p-4 rounded-[20px] w-[176px] h-[166px]">
+                    Изучить подробнее
+                  </div>
+                </Link>
                 <div className="bg-[url('/assets/images/categorySliderBgs/bg1.jpg')] bg-cover bg-center p-4 rounded-[20px] w-[176px] h-[166px] ">
                   В каталог
                 </div>
@@ -520,21 +524,28 @@ const Header: React.FC<HeaderProps> = ({
                         <div className="purp1">purpple1</div>
                         <div className={`white-cutout `}>
                           {variant !== "complex" && (
-                            <div className={`bg-[#3D334A] p-5 -mt-8 `}>
-                              <h3 className="text-[24px] ">
-                                Изучить подробнее
-                              </h3>
-                            </div>
+                            <Link href={"/about"}>
+                              <div
+                                className={`bg-[#3D334A] p-5 -mt-8 hover:scale-105 duration-700`}
+                              >
+                                <h3 className="text-[24px] ">
+                                  Изучить подробнее
+                                </h3>
+                              </div>
+                            </Link>
                           )}
                           {variant == "default" && (
                             <Link href={"/chapter"}>
-                              <div className="bg-[url('/assets/images/marketPlace.png')] bg-cover p-5 -mt-8">
+                              <div className="bg-[url('/assets/images/marketPlace.png')] hover:scale-105 duration-700 bg-cover p-5 -mt-8">
                                 <h3 className="text-[24px]">В каталог</h3>
                               </div>
                             </Link>
                           )}
                           {variant == "complex" && (
-                            <div className="bg-[url('/assets/images/categoryHeader.png')]  p-5 -mt-8 ">
+                            <div
+                              className="bg-[url('/assets/images/categoryHeader.png')] hover:scale-105 duration-700 p-5 -mt-8 cursor-pointer"
+                              onClick={onPriceClick}
+                            >
                               <h3 className="text-[42px] leading-[90%] uppercase">
                                 500 ₽
                               </h3>
