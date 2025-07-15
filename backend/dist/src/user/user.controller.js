@@ -18,7 +18,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const user_schema_1 = require("../schemas/user.schema");
 let InstructorController = class InstructorController {
-    userModel;
     constructor(userModel) {
         this.userModel = userModel;
     }

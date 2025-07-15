@@ -16,7 +16,6 @@ exports.VideoController = void 0;
 const common_1 = require("@nestjs/common");
 const video_service_1 = require("./video.service");
 let VideoController = class VideoController {
-    videoService;
     constructor(videoService) {
         this.videoService = videoService;
     }

@@ -4,33 +4,63 @@ import { Document, Types } from 'mongoose';
 export type SetDocument = Set & Document;
 
 interface Exercise {
+  _id: Types.ObjectId;
+  videoId: Types.ObjectId;
   repetitions: number;
   sets: number;
   restTime: number;
   duration: number;
   order: number;
-  videoId?: Types.ObjectId; // ვიდეოს ID
 }
 
 @Schema({ timestamps: true })
 export class Set {
+  @Prop({ type: Types.ObjectId, auto: true })
+  _id: Types.ObjectId;
+
+  @Prop({ required: true })
+  setId: string;
+
   @Prop({ required: true })
   name: string;
 
-  @Prop()
-  description: string;
+  @Prop({ required: true, type: Object })
+  title: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
 
-  @Prop({ required: true, default: 920 }) // დეფოლტ ფასი 920 ლარი
-  monthlyPrice: number;
+  @Prop({ type: Object })
+  description?: {
+    ka?: string;
+    en?: string;
+    ru?: string;
+  };
 
-  @Prop({ required: true })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Video' }], required: true })
+  videos: Types.ObjectId[];
+
+  @Prop({
+    type: [{
+      _id: { type: Types.ObjectId, auto: true },
+      videoId: { type: Types.ObjectId, ref: 'Video' },
+      repetitions: { type: Number, default: 1 },
+      sets: { type: Number, default: 1 },
+      restTime: { type: Number, default: 0 },
+      duration: { type: Number, default: 0 },
+      order: { type: Number }
+    }],
+    required: true,
+    default: []
+  })
+  exercises: Exercise[];
+
+  @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
   categoryId: Types.ObjectId;
 
-  @Prop()
-  subcategoryId: Types.ObjectId;
-
-  @Prop({ required: true })
-  setNumber: string; // e.g. "001", "002" etc.
+  @Prop({ type: Types.ObjectId, ref: 'SubCategory' })
+  subcategoryId?: Types.ObjectId;
 
   @Prop({ default: true })
   isActive: boolean;
@@ -38,112 +68,32 @@ export class Set {
   @Prop({ default: 0 })
   sortOrder: number;
 
-  @Prop([
-    {
-      _id: { type: Types.ObjectId, auto: true },
-      repetitions: { type: Number, default: 1 },
-      sets: { type: Number, default: 1 },
-      restTime: { type: Number, default: 0 },
-      duration: { type: Number, default: 0 },
-      order: { type: Number, default: 0 },
-      videoId: { type: Types.ObjectId }, // ვიდეოს ID
-      video: {
-        type: Types.ObjectId,
-        ref: 'Video',
-      },
-    },
-  ])
-  exercises: Exercise[];
-
-  @Prop([
-    {
-      period: { type: Number, required: true },
-      price: { type: Number, required: true },
-    },
-  ])
-  subscriptionPlans: { period: number; price: number }[];
-
-  @Prop({ default: 0 })
-  totalCalories: number;
-
-  @Prop([String])
-  tags: string[];
-
-  @Prop([String])
-  targetMuscles: string[];
-
-  @Prop([String])
-  equipment: string[];
-
   @Prop({ default: false })
   isPublic: boolean;
 
-  @Prop({ default: false })
-  isFeatured: boolean;
-
   @Prop({ default: 0 })
-  usageCount: number;
+  viewCount: number;
 
-  @Prop({ default: 0 })
-  rating: number;
-
-  @Prop({ default: 0 })
-  reviewsCount: number;
-
-  @Prop([{ type: Types.ObjectId, ref: 'Set' }])
-  relatedSets: Types.ObjectId[];
-
-  @Prop([{ type: Types.ObjectId, ref: 'Set' }])
-  prerequisites: Types.ObjectId[];
-
-  @Prop([String])
-  goals: string[];
-
-  @Prop({ default: 'all' })
-  targetGender: string;
-
-  @Prop([String])
-  suitableConditions: string[];
-
-  @Prop([String])
-  contraindicatedConditions: string[];
-
-  @Prop({ default: 0 })
-  totalDuration: number;
-
-  @Prop({ default: 'medium' })
-  difficulty: string;
-
-  @Prop({ default: 'beginner' })
-  level: string;
-
-  @Prop([
-    {
-      day: { type: Number },
-      time: { type: String },
-    },
-  ])
-  schedule: { day: number; time: string }[];
+  @Prop({ required: true, default: 920 })
+  monthlyPrice: number;
 }
 
 export const SetSchema = SchemaFactory.createForClass(Set);
 
-// ინდექსები უკეთესი წარმადობისთვის
-SetSchema.index({ categoryId: 1 });
-SetSchema.index({ subcategoryId: 1 });
+// ინდექსები
+SetSchema.index({ setId: 1 });
 SetSchema.index({ isActive: 1 });
 SetSchema.index({ sortOrder: 1 });
 SetSchema.index({ isPublic: 1 });
-SetSchema.index({ isFeatured: 1 });
-SetSchema.index({ difficulty: 1 });
-SetSchema.index({ level: 1 });
+SetSchema.index({ categoryId: 1 });
+SetSchema.index({ subcategoryId: 1 });
 
 // ტექსტური ძებნის ინდექსი
 SetSchema.index({
-  name: 'text',
-  description: 'text',
-  tags: 'text',
-  targetMuscles: 'text',
-  equipment: 'text',
-  goals: 'text',
+  'title.ka': 'text',
+  'title.en': 'text',
+  'title.ru': 'text',
+  'description.ka': 'text',
+  'description.en': 'text',
+  'description.ru': 'text'
 });

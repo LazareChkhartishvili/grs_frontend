@@ -18,7 +18,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const subcategory_schema_1 = require("../schemas/subcategory.schema");
 let SubCategoryService = class SubCategoryService {
-    subcategoryModel;
     constructor(subcategoryModel) {
         this.subcategoryModel = subcategoryModel;
     }

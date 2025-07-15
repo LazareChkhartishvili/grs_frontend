@@ -18,7 +18,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const video_schema_1 = require("../schemas/video.schema");
 let VideoService = class VideoService {
-    videoModel;
     constructor(videoModel) {
         this.videoModel = videoModel;
     }

@@ -16,7 +16,6 @@ exports.SubCategoryController = void 0;
 const common_1 = require("@nestjs/common");
 const subcategory_service_1 = require("./subcategory.service");
 let SubCategoryController = class SubCategoryController {
-    subcategoryService;
     constructor(subcategoryService) {
         this.subcategoryService = subcategoryService;
     }

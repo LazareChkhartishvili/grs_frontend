@@ -2,30 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CategoryItem } from "../context/CategoryContext";
-
-// Import the BackendCategory type structure
-interface BackendCategory {
-  _id: string;
-  id: number;
-  name: string;
-  description?: string;
-  image?: string;
-  backgroundImage?: string;
-  subcategories?: Array<{
-    _id: string;
-    name: string;
-    description?: string;
-    categoryId?: string;
-    exercises?: unknown[];
-    image?: string;
-    isActive?: boolean;
-    sortOrder?: number;
-    createdAt?: string;
-    updatedAt?: string;
-    __v?: number;
-  }>;
-  sets?: unknown[]; // Added for the new structure
-}
+import { Category, Subcategory, Set } from "../types/category";
 
 interface UseCategoriesReturn {
   categories: CategoryItem[];
@@ -107,58 +84,48 @@ export function useCategories(): UseCategoriesReturn {
       setError(null);
 
       const { apiRequest, API_CONFIG } = await import("../config/api");
-
-      const endpoint = "/api/categories/full-structure";
+      const endpoint = API_CONFIG.ENDPOINTS.CATEGORIES;
       console.log("📡 API Endpoint:", `${API_CONFIG.BASE_URL}${endpoint}`);
 
-      const backendCategories: BackendCategory[] = await apiRequest<
-        BackendCategory[]
-      >(endpoint);
+      const backendCategories: Category[] = await apiRequest<Category[]>(endpoint);
 
       if (!Array.isArray(backendCategories)) {
         throw new Error("API response is not an array");
       }
 
-      const transformedCategories: CategoryItem[] = backendCategories.map(
-        (category, index) => {
-          const transformed = {
-            id: category.id || index + 1,
-            _id: category._id,
-            title: category.name || `Category ${index + 1}`,
-            backgroundImage:
-              category.backgroundImage || "/assets/images/blog.png",
-            categoryImage:
-              category.image || "/assets/images/services/category.png",
-            items: category.subcategories?.map((sub) => sub.name) || [],
-            subcategories:
-              category.subcategories?.map((subRaw: Record<string, unknown>) => {
-                const sub = subRaw as { [key: string]: unknown };
-                return {
-                  id: parseInt((sub._id as string).slice(-8), 16),
-                  name: sub.name as string,
-                  description: sub.description as string | undefined,
-                  sets:
-                    "sets" in sub && Array.isArray(sub.sets)
-                      ? (sub.sets as import("../types/exercise").Set[])
-                      : Array.isArray(sub.exercises)
-                      ? (sub.exercises as import("../types/exercise").Set[])
-                      : [],
-                };
-              }) || [],
-            sets: (category.sets as import("../types/exercise").Set[]) || [],
-          };
-          return transformed;
-        }
-      );
+      console.log("📦 Received categories:", backendCategories);
 
+      const transformedCategories: CategoryItem[] = backendCategories
+        .filter(category => category.isActive)
+        .map((category, index) => ({
+          id: index + 1,
+          _id: category._id,
+          title: category.name,
+          backgroundImage: "/assets/images/blog.png", // დროებითი
+          categoryImage: "/assets/images/services/category.png", // დროებითი
+          items: category.subcategories?.map(sub => sub.name) || [],
+          subcategories: category.subcategories
+            ?.filter(sub => sub.isActive)
+            ?.map(sub => ({
+              id: parseInt(sub._id.slice(-8), 16),
+              _id: sub._id,
+              name: sub.name,
+              nameGe: sub.nameGe,
+              nameRu: sub.nameRu,
+              image: sub.image,
+              categoryId: sub.categoryId,
+              sets: sub.sets || [],
+            })) || [],
+          sets: category.sets || [],
+        }));
+
+      console.log("✨ Transformed categories:", transformedCategories);
       setCategories(transformedCategories);
     } catch (err) {
       console.error("❌ Error fetching categories:", err);
       const fallbackCategories = getFallbackCategories();
       setCategories(fallbackCategories);
-      setError(
-        err instanceof Error ? err.message : "API Error - using fallback data"
-      );
+      setError(err instanceof Error ? err.message : "API Error - using fallback data");
     } finally {
       setLoading(false);
     }

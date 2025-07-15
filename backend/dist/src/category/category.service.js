@@ -18,10 +18,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const category_schema_1 = require("../schemas/category.schema");
 let CategoryService = class CategoryService {
-    categoryModel;
-    subcategoryModel;
-    setModel;
-    videoModel;
     constructor(categoryModel, subcategoryModel, setModel, videoModel) {
         this.categoryModel = categoryModel;
         this.subcategoryModel = subcategoryModel;
@@ -53,37 +49,33 @@ let CategoryService = class CategoryService {
             .find({ isActive: true })
             .lean()
             .exec();
-        const sets = await this.setModel.find({ isActive: true }).lean().exec();
-        const videoIds = sets
-            .flatMap((set) => set.exercises?.map((ex) => ex.videoId))
-            .filter(Boolean);
+        const sets = await this.setModel
+            .find({ isActive: true })
+            .populate('categoryId')
+            .populate('subcategoryId')
+            .lean()
+            .exec();
+        const videoIds = sets.flatMap((set) => set.videos || []);
         const videos = await this.videoModel
-            .find({ _id: { $in: videoIds } })
-            .select('_id name url categoryCode setId sequence resolution format duration')
+            .find({ _id: { $in: videoIds }, isActive: true })
             .lean()
             .exec();
         const populatedSets = sets.map((set) => ({
             ...set,
-            exercises: set.exercises?.map((exercise) => {
-                if (exercise.videoId) {
-                    const video = videos.find((v) => String(v._id) === String(exercise.videoId));
-                    return {
-                        ...exercise,
-                        video: video || null,
-                    };
-                }
-                return exercise;
-            }),
+            videos: (set.videos || []).map((videoId) => {
+                const video = videos.find((v) => String(v._id) === String(videoId));
+                return video || null;
+            }).filter(Boolean),
         }));
         return categories.map((category) => {
             const categorySubcategories = subcategories
                 .filter((sub) => String(sub.categoryId) === String(category._id))
                 .map((subcategory) => ({
                 ...subcategory,
-                sets: populatedSets.filter((set) => String(set.categoryId) === String(category._id) &&
-                    String(set.subcategoryId) === String(subcategory._id)),
+                sets: populatedSets.filter((set) => String(set.subcategoryId?._id) === String(subcategory._id)),
             }));
-            const categorySets = populatedSets.filter((set) => String(set.categoryId) === String(category._id) && !set.subcategoryId);
+            const categorySets = populatedSets.filter((set) => String(set.categoryId?._id) === String(category._id) &&
+                !set.subcategoryId);
             return {
                 ...category,
                 subcategories: categorySubcategories,

@@ -13,24 +13,6 @@ exports.ExerciseSchema = exports.Exercise = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Exercise = class Exercise {
-    name;
-    description;
-    duration;
-    difficulty;
-    instructions;
-    images;
-    videos;
-    categoryId;
-    subcategoryId;
-    imageData;
-    imageMimeType;
-    imageSize;
-    isActive;
-    sortOrder;
-    repetitions;
-    sets;
-    restTime;
-    calories;
 };
 exports.Exercise = Exercise;
 __decorate([

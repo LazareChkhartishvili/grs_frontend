@@ -13,9 +13,6 @@ exports.ArticleSchema = exports.Article = exports.TableOfContentItem = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let TableOfContentItem = class TableOfContentItem {
-    id;
-    title;
-    anchor;
 };
 exports.TableOfContentItem = TableOfContentItem;
 __decorate([
@@ -34,25 +31,6 @@ exports.TableOfContentItem = TableOfContentItem = __decorate([
     (0, mongoose_1.Schema)()
 ], TableOfContentItem);
 let Article = class Article {
-    title;
-    content;
-    excerpt;
-    slug;
-    categoryId;
-    authorId;
-    mainImage;
-    images;
-    readTimeMinutes;
-    commentsCount;
-    viewsCount;
-    isPublished;
-    isFeatured;
-    publishedAt;
-    tableOfContents;
-    tags;
-    relatedArticleIds;
-    metaTitle;
-    metaDescription;
 };
 exports.Article = Article;
 __decorate([

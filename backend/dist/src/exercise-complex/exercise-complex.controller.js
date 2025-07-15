@@ -16,7 +16,6 @@ exports.ExerciseComplexController = void 0;
 const common_1 = require("@nestjs/common");
 const exercise_complex_service_1 = require("./exercise-complex.service");
 let ExerciseComplexController = class ExerciseComplexController {
-    exerciseComplexService;
     constructor(exerciseComplexService) {
         this.exerciseComplexService = exerciseComplexService;
     }

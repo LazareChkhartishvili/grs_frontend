@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { CategoryProvider } from "../context/CategoryContext";
 import { Footer } from "./Footer";
+import CategoryProvider from "../context/CategoryContext";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -9,7 +9,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
 
   return (
-    <CategoryProvider>
+    <CategoryProvider value={{ categories: [], loading: false, error: null, refetch: async () => {} }}>
       {children}
       {!hideFooter && <Footer />}
     </CategoryProvider>

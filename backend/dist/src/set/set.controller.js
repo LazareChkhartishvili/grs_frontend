@@ -16,7 +16,6 @@ exports.SetController = void 0;
 const common_1 = require("@nestjs/common");
 const set_service_1 = require("./set.service");
 let SetController = class SetController {
-    setService;
     constructor(setService) {
         this.setService = setService;
     }

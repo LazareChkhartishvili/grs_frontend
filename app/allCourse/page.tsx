@@ -1,28 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
 import CourseSlider from "../components/CourseSlider";
 import { CiSearch } from "react-icons/ci";
 import { useCourses } from "../hooks/useCourses";
-import { useCategories } from "../context/CategoryContext";
-import { useRouter } from "next/navigation";
+import { useCategory } from "../context/CategoryContext";
+// import { useRouter } from "next/navigation";
 
 const AllCourse = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const { categories, loading: categoriesLoading } = useCategories();
+  const { categories, loading: categoriesLoading } = useCategory();
   const {
     courses,
     loading: coursesLoading,
     error,
   } = useCourses(selectedCategory || undefined);
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    router.push("/allCourse/1");
-  }, [router]);
+  // useEffect(() => {
+  //   router.push("/allCourse/1");
+  // }, [router]);
 
   const loading = categoriesLoading || coursesLoading;
 

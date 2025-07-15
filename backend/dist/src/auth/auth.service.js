@@ -20,12 +20,10 @@ const mongoose_2 = require("mongoose");
 const bcrypt = require("bcrypt");
 const user_schema_1 = require("../schemas/user.schema");
 let AuthService = class AuthService {
-    userModel;
-    jwtService;
-    verificationCodes = new Map();
     constructor(userModel, jwtService) {
         this.userModel = userModel;
         this.jwtService = jwtService;
+        this.verificationCodes = new Map();
     }
     generateVerificationCode() {
         return Math.floor(100000 + Math.random() * 900000).toString();

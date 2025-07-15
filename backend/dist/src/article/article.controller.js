@@ -16,7 +16,6 @@ exports.CommentController = exports.ArticleController = void 0;
 const common_1 = require("@nestjs/common");
 const article_service_1 = require("./article.service");
 let ArticleController = class ArticleController {
-    articleService;
     constructor(articleService) {
         this.articleService = articleService;
     }
@@ -166,7 +165,6 @@ exports.ArticleController = ArticleController = __decorate([
     __metadata("design:paramtypes", [article_service_1.ArticleService])
 ], ArticleController);
 let CommentController = class CommentController {
-    articleService;
     constructor(articleService) {
         this.articleService = articleService;
     }

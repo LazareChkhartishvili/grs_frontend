@@ -13,9 +13,6 @@ exports.CommentSchema = exports.Comment = exports.CommentAuthor = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let CommentAuthor = class CommentAuthor {
-    name;
-    email;
-    avatar;
 };
 exports.CommentAuthor = CommentAuthor;
 __decorate([
@@ -34,12 +31,6 @@ exports.CommentAuthor = CommentAuthor = __decorate([
     (0, mongoose_1.Schema)()
 ], CommentAuthor);
 let Comment = class Comment {
-    articleId;
-    author;
-    content;
-    isApproved;
-    parentCommentId;
-    publishedAt;
 };
 exports.Comment = Comment;
 __decorate([

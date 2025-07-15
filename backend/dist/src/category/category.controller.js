@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
 const category_schema_1 = require("../schemas/category.schema");
 let CategoryController = class CategoryController {
-    categoryService;
     constructor(categoryService) {
         this.categoryService = categoryService;
     }

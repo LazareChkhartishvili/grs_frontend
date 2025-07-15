@@ -104,9 +104,9 @@ export function useCourses(categoryId?: number): UseCoursesReturn {
       setError(null);
 
       // Import API function dynamically
-      const { apiRequest } = await import("../config/api");
+      const { apiRequest, API_CONFIG } = await import("../config/api");
 
-      let endpoint = "/api/courses";
+      let endpoint = API_CONFIG.ENDPOINTS.COURSES;
       if (categoryId) {
         endpoint += `?categoryId=${categoryId}`;
       }

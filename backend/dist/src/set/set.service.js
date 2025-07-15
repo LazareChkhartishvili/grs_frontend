@@ -25,8 +25,6 @@ const hasVideoId = (exercise) => {
         exercise.videoId instanceof mongoose_2.Types.ObjectId);
 };
 let SetService = class SetService {
-    setModel;
-    videoModel;
     constructor(setModel, videoModel) {
         this.setModel = setModel;
         this.videoModel = videoModel;

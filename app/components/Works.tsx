@@ -7,20 +7,37 @@ import { useI18n } from "../context/I18nContext";
 
 interface Exercise {
   _id: string;
-  title: string;
-  description: string;
+  title: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
+  description: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
   difficulty: string;
   videoId?: string;
   video?: {
     url: string;
     duration: number;
+    name?: string; // დავამატოთ name ველი
   };
 }
 
 interface Set {
   _id: string;
-  title: string;
-  description: string;
+  title: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
+  description: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
   exercises: Exercise[];
   categoryId: string;
   subcategoryId?: string;
@@ -34,17 +51,17 @@ interface WorksProps {
 }
 
 const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   // Transform sets to work with existing WorksSlider component
   const works = items.map((set) => ({
     id: set._id,
-    title: set.title,
-    description: set.description,
-    image: "/assets/images/workMan.png", // Default image
+    title: set.exercises[0]?.video?.name || "", // თუ პირველ ვიდეოს აქვს სახელი, გამოვიყენოთ ის
+    description: set.description[locale] || set.description.ka || set.description.en || set.description.ru,
+    image: "/assets/images/workMan.png",
     exerciseCount: set.exercises.length,
-    categoryName: set.categoryName || "ორთოპედია", // დროებით ჩავსვათ დეფოლტი
-    monthlyPrice: set.monthlyPrice || 920 // დეფოლტ ფასი
+    categoryName: set.categoryName || "ორთოპედია",
+    monthlyPrice: set.monthlyPrice || 920
   }));
 
   return (

@@ -91,7 +91,7 @@ export class SetService {
     setId: string,
     updateData: Partial<SetModel>,
   ): Promise<SetDocument> {
-    const updatePayload = { ...updateData } as {
+    const updatePayload = { ...updateData } as unknown as {
       categoryId?: string | Types.ObjectId;
       subcategoryId?: string | Types.ObjectId;
       videos?: string[];

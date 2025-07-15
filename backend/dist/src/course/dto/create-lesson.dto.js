@@ -12,15 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateLessonDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateLessonDto {
-    title;
-    description;
-    videoUrl;
-    duration;
-    order;
-    exercises;
-    materials;
-    transcript;
-    isActive;
 }
 exports.CreateLessonDto = CreateLessonDto;
 __decorate([

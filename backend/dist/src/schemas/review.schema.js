@@ -13,11 +13,6 @@ exports.ReviewSchema = exports.Review = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Review = class Review {
-    course;
-    user;
-    rating;
-    comment;
-    isActive;
 };
 exports.Review = Review;
 __decorate([

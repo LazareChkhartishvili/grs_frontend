@@ -43,7 +43,7 @@ export declare class AuthService {
             email: string;
             phone: string;
             location: string;
-            image: string | undefined;
+            image: string;
         };
     }>;
 }

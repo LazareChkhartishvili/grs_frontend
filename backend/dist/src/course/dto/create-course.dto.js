@@ -12,20 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCourseDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateCourseDto {
-    title;
-    description;
-    instructor;
-    image;
-    price;
-    duration;
-    difficulty;
-    level;
-    category;
-    subcategory;
-    tags;
-    requirements;
-    objectives;
-    isActive;
 }
 exports.CreateCourseDto = CreateCourseDto;
 __decorate([

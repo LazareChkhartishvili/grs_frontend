@@ -17,10 +17,11 @@ export const API_CONFIG = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
   BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   ENDPOINTS: {
-    CATEGORIES: "/api/categories/with-subcategories",
+    CATEGORIES: "/api/categories/full-structure",
     MAIN_CATEGORIES: "/api/categories",
     COMPLEXES: "/api/complexes",
     EXERCISES: "/api/exercises",
+    COURSES: "/api/courses",
     AUTH: {
       LOGIN: "/api/auth/login",
       REGISTER: "/api/auth/register",

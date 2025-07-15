@@ -13,13 +13,6 @@ exports.SubCategorySchema = exports.SubCategory = exports.Exercise = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Exercise = class Exercise {
-    name;
-    description;
-    duration;
-    difficulty;
-    instructions;
-    images;
-    videos;
 };
 exports.Exercise = Exercise;
 __decorate([
@@ -54,14 +47,6 @@ exports.Exercise = Exercise = __decorate([
     (0, mongoose_1.Schema)()
 ], Exercise);
 let SubCategory = class SubCategory {
-    name;
-    description;
-    image;
-    categoryId;
-    categoryCode;
-    isActive;
-    exercises;
-    sortOrder;
 };
 exports.SubCategory = SubCategory;
 __decorate([

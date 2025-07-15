@@ -3,32 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useI18n } from "../../context/I18nContext";
-
-interface Video {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  thumbnail: string;
-  duration?: number;
-}
-
-interface SubscriptionPlan {
-  period: number;
-  price: number;
-}
-
-interface Set {
-  id: string;
-  name: string;
-  description: string;
-  videos: Video[];
-  subscriptionPlans: SubscriptionPlan[];
-}
+import { Set } from "../../types/category";
+import { apiRequest } from "../../config/api";
+import VideoPlayer from "../../components/VideoPlayer";
+import VideoList from "../../components/VideoList";
 
 const SetDetails = () => {
-  const params = useParams();
   const { t } = useI18n();
+  const params = useParams();
   const [set, setSet] = useState<Set | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,13 +20,7 @@ const SetDetails = () => {
     const fetchSet = async () => {
       try {
         setLoading(true);
-        setError(null);
-
-        const { apiRequest, API_CONFIG } = await import("../../config/api");
-        const endpoint = API_CONFIG.ENDPOINTS.SETS.BY_ID(params.id as string);
-
-        console.log("🔗 Fetching set from:", endpoint);
-
+        const endpoint = `/api/sets/${params.id}`;
         const data = await apiRequest<Set>(endpoint);
         setSet(data);
         
@@ -54,7 +30,7 @@ const SetDetails = () => {
         }
       } catch (err) {
         console.error("❌ Error fetching set:", err);
-        setError(err instanceof Error ? err.message : "Error loading set");
+        setError(t('errors.failed_to_load'));
       } finally {
         setLoading(false);
       }
@@ -63,24 +39,11 @@ const SetDetails = () => {
     if (params.id) {
       fetchSet();
     }
-  }, [params.id]);
+  }, [params.id, t]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center py-10">
-        <div className="animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent"></div>
-      </div>
-    );
-  }
-
-  if (error || !set) {
-    return (
-      <div className="text-center py-10">
-        <p className="text-red-500 mb-2">{t('error_loading')}</p>
-        <p className="text-gray-500 text-sm">{error}</p>
-      </div>
-    );
-  }
+  if (loading) return <div>{t('loading')}...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!set) return <div>{t('errors.set_not_found')}</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -93,24 +56,7 @@ const SetDetails = () => {
             {/* ვიდეო ფლეიერი */}
             <div className="lg:col-span-2">
               {selectedVideo !== null && set.videos[selectedVideo] && (
-                <div className="aspect-w-16 aspect-h-9 mb-4">
-                  <video
-                    src={set.videos[selectedVideo].url}
-                    controls
-                    className="rounded-lg w-full h-full object-cover"
-                    poster={set.videos[selectedVideo].thumbnail}
-                  />
-                </div>
-              )}
-              {selectedVideo !== null && set.videos[selectedVideo] && (
-                <div className="mb-6">
-                  <h3 className="text-xl font-semibold mb-2">
-                    {set.videos[selectedVideo].title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {set.videos[selectedVideo].description}
-                  </p>
-                </div>
+                <VideoPlayer video={set.videos[selectedVideo]} />
               )}
             </div>
 
@@ -133,30 +79,11 @@ const SetDetails = () => {
                 </div>
               </div>
 
-              <div>
-                <h3 className="text-xl font-semibold mb-4">{t('videos')}</h3>
-                <div className="space-y-2">
-                  {set.videos.map((video, index) => (
-                    <button
-                      key={video.id}
-                      onClick={() => setSelectedVideo(index)}
-                      className={`w-full text-left p-3 rounded-lg transition-colors duration-200 ${
-                        selectedVideo === index
-                          ? "bg-purple-100 text-purple-700"
-                          : "bg-gray-50 hover:bg-gray-100"
-                      }`}
-                    >
-                      <div className="font-medium">{video.title}</div>
-                      {video.duration && (
-                        <div className="text-sm text-gray-500">
-                          {Math.floor(video.duration / 60)}:
-                          {(video.duration % 60).toString().padStart(2, "0")}
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <VideoList
+                videos={set.videos}
+                selectedVideo={selectedVideo}
+                onVideoSelect={setSelectedVideo}
+              />
             </div>
           </div>
         </div>

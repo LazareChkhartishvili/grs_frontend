@@ -23,12 +23,6 @@ const user_schema_1 = require("../schemas/user.schema");
 const category_schema_1 = require("../schemas/category.schema");
 const subcategory_schema_1 = require("../schemas/subcategory.schema");
 let CourseService = class CourseService {
-    courseModel;
-    lessonModel;
-    reviewModel;
-    userModel;
-    categoryModel;
-    subCategoryModel;
     constructor(courseModel, lessonModel, reviewModel, userModel, categoryModel, subCategoryModel) {
         this.courseModel = courseModel;
         this.lessonModel = lessonModel;

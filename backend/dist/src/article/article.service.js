@@ -19,8 +19,6 @@ const mongoose_2 = require("mongoose");
 const article_schema_1 = require("../schemas/article.schema");
 const comment_schema_1 = require("../schemas/comment.schema");
 let ArticleService = class ArticleService {
-    articleModel;
-    commentModel;
     constructor(articleModel, commentModel) {
         this.articleModel = articleModel;
         this.commentModel = commentModel;

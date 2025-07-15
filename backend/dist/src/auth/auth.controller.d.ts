@@ -28,7 +28,7 @@ export declare class AuthController {
             email: string;
             phone: string;
             location: string;
-            image: string | undefined;
+            image: string;
         };
     }>;
     sendVerificationCode({ email }: {

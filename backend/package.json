@@ -18,7 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:sets:monthly-price": "ts-node scripts/add-monthly-price.ts"
+    "migrate:sets:monthly-price": "ts-node scripts/add-monthly-price.ts",
+    "migrate:sets:update-categories": "ts-node scripts/update-category-codes.ts",
+    "migrate:sets:update-videos": "ts-node scripts/update-set-videos.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -34,11 +36,11 @@
     "class-validator": "^0.14.0",
     "dotenv": "^17.0.1",
     "mongodb": "^6.17.0",
-    "mongoose": "^7.6.3",
+    "mongoose": "^7.8.7",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.1"
   },

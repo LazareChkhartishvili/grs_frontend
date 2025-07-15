@@ -4,14 +4,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './subcategory/subcategory.module';
-import { SetModule } from './set/set.module';
 import { VideoModule } from './video/video.module';
+import { SetModule } from './set/set.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { ExerciseComplexModule } from './exercise-complex/exercise-complex.module';
-import { CourseModule } from './course/course.module';
 import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { MigrationModule } from './migration/migration.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
@@ -20,14 +21,15 @@ import { UserModule } from './user/user.module';
     ),
     CategoryModule,
     SubCategoryModule,
-    SetModule,
     VideoModule,
+    SetModule,
     ExerciseModule,
     ExerciseComplexModule,
-    CourseModule,
     ArticleModule,
     AuthModule,
     UserModule,
+    MigrationModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

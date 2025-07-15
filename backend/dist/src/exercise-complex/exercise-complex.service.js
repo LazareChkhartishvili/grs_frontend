@@ -19,8 +19,6 @@ const mongoose_2 = require("mongoose");
 const exercise_complex_schema_1 = require("../schemas/exercise-complex.schema");
 const exercise_schema_1 = require("../schemas/exercise.schema");
 let ExerciseComplexService = class ExerciseComplexService {
-    exerciseComplexModel;
-    exerciseModel;
     constructor(exerciseComplexModel, exerciseModel) {
         this.exerciseComplexModel = exerciseComplexModel;
         this.exerciseModel = exerciseModel;

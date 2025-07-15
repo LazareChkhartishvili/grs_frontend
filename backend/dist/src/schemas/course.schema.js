@@ -13,26 +13,6 @@ exports.CourseSchema = exports.Course = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Course = class Course {
-    title;
-    description;
-    instructor;
-    image;
-    price;
-    duration;
-    level;
-    language;
-    category;
-    subcategory;
-    lessons;
-    rating;
-    reviewsCount;
-    isPublished;
-    lessonsCount;
-    studentsCount;
-    tags;
-    requirements;
-    objectives;
-    isActive;
 };
 exports.Course = Course;
 __decorate([

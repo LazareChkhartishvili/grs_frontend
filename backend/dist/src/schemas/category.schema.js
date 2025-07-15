@@ -14,16 +14,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const exercise_schema_1 = require("./exercise.schema");
 let Category = class Category {
-    name;
-    description;
-    image;
-    code;
-    sequence;
-    parentId;
-    level;
-    isActive;
-    exercises;
-    sortOrder;
 };
 exports.Category = Category;
 __decorate([

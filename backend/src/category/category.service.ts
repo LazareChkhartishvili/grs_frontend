@@ -54,54 +54,47 @@ export class CategoryService {
       .exec();
 
     // 3. ვიღებთ ყველა აქტიურ სეტს
-    const sets = await this.setModel.find({ isActive: true }).lean().exec();
+    const sets = await this.setModel
+      .find({ isActive: true })
+      .populate('categoryId')
+      .populate('subcategoryId')
+      .lean()
+      .exec();
 
     // 4. ვიღებთ ყველა ვიდეოს სეტებისთვის
-    const videoIds = sets
-      .flatMap((set) => set.exercises?.map((ex) => ex.videoId))
-      .filter(Boolean);
-
+    const videoIds = sets.flatMap((set) => set.videos || []);
     const videos = await this.videoModel
-      .find({ _id: { $in: videoIds } })
-      .select(
-        '_id name url categoryCode setId sequence resolution format duration',
-      )
+      .find({ _id: { $in: videoIds }, isActive: true })
       .lean()
       .exec();
 
     // 5. ვაპოპულირებთ სეტებს ვიდეოებით
     const populatedSets = sets.map((set) => ({
       ...set,
-      exercises: set.exercises?.map((exercise) => {
-        if (exercise.videoId) {
-          const video = videos.find(
-            (v) => String(v._id) === String(exercise.videoId),
-          );
-          return {
-            ...exercise,
-            video: video || null,
-          };
-        }
-        return exercise;
-      }),
+      videos: (set.videos || []).map((videoId) => {
+        const video = videos.find((v) => String(v._id) === String(videoId));
+        return video || null;
+      }).filter(Boolean),
     }));
 
     // 6. ვაწყობთ საბოლოო სტრუქტურას
     return categories.map((category) => {
+      // ვფილტრავთ სუბკატეგორიებს ამ კატეგორიისთვის
       const categorySubcategories = subcategories
         .filter((sub) => String(sub.categoryId) === String(category._id))
         .map((subcategory) => ({
           ...subcategory,
+          // ვფილტრავთ სეტებს სუბკატეგორიისთვის
           sets: populatedSets.filter(
-            (set) =>
-              String(set.categoryId) === String(category._id) &&
-              String(set.subcategoryId) === String(subcategory._id),
+            (set) => String(set.subcategoryId?._id) === String(subcategory._id)
           ),
         }));
 
+      // ვფილტრავთ სეტებს რომლებიც პირდაპირ კატეგორიას ეკუთვნის (არა სუბკატეგორიას)
       const categorySets = populatedSets.filter(
-        (set) =>
-          String(set.categoryId) === String(category._id) && !set.subcategoryId,
+        (set) => 
+          String(set.categoryId?._id) === String(category._id) && 
+          !set.subcategoryId
       );
 
       return {

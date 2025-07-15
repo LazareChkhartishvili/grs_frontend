@@ -1,95 +1,93 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type VideoDocument = Video & Document;
 
-@Schema({ timestamps: true, collection: 'videos' })
+@Schema({
+  timestamps: true,
+  collection: 'videos',
+  versionKey: false,
+  autoIndex: true,
+  strict: true
+})
 export class Video {
-  @Prop({ type: Types.ObjectId, auto: true })
-  _id: Types.ObjectId;
+  @Prop({ required: true, unique: true })
+  videoId: string;
+
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, required: true },
+      ru: { type: String, required: true }
+    }
+  })
+  title: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
+
+  @Prop({
+    type: {
+      ka: String,
+      en: String,
+      ru: String
+    }
+  })
+  description?: {
+    ka?: string;
+    en?: string;
+    ru?: string;
+  };
+
+  @Prop({
+    type: {
+      hd: { type: String, required: true },
+      sd: { type: String, required: true }
+    }
+  })
+  urls: {
+    hd: string;
+    sd: string;
+  };
 
   @Prop({ required: true })
-  name: string;
+  categoryCode: string;
 
   @Prop({ required: true })
-  categoryCode: string; // "01", "02", etc.
-
-  @Prop({ type: Types.ObjectId, ref: 'Category' })
-  categoryId?: Types.ObjectId;
-
-  @Prop({ required: true })
-  setId: string; // "001", "002", etc.
-
-  @Prop({ required: true })
-  url: string;
-
-  @Prop({ required: true })
-  sequence: string; // "2.1.1.2", "2.1.1.3", etc.
-
-  @Prop({ required: true, default: '1080p' })
-  resolution: string;
-
-  @Prop({ required: true, default: 'm4v' })
-  format: string;
-
-  @Prop({ type: Number, default: null })
-  fileSize?: number;
-
-  @Prop({ type: Number, default: null })
-  duration?: number;
+  sequence: string;
 
   @Prop({ default: true })
   isActive: boolean;
 
-  @Prop()
-  title?: string;
-
-  @Prop()
-  description?: string;
-
-  @Prop()
-  thumbnailUrl?: string;
-
-  @Prop([String])
-  tags?: string[];
-
-  @Prop()
-  transcript?: string;
+  @Prop({ default: 0 })
+  sortOrder: number;
 
   @Prop({ default: 0 })
-  viewsCount: number;
-
-  @Prop({ default: 0 })
-  likesCount: number;
-
-  @Prop()
-  mimeType?: string;
+  viewCount: number;
 
   @Prop({ default: false })
   isPublic: boolean;
 
-  @Prop({ default: false })
-  isProcessed: boolean;
-
   @Prop({ default: 0 })
-  sortOrder: number;
+  duration: number;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);
 
-// Indexes for better performance
-VideoSchema.index({ categoryCode: 1 });
-VideoSchema.index({ setId: 1 });
-VideoSchema.index({ sequence: 1 });
-VideoSchema.index({ resolution: 1 });
-VideoSchema.index({ format: 1 });
+// ინდექსები
+VideoSchema.index({ videoId: 1 });
 VideoSchema.index({ isActive: 1 });
+VideoSchema.index({ sortOrder: 1 });
+VideoSchema.index({ categoryCode: 1 });
+VideoSchema.index({ sequence: 1 });
 
-// Text search index
+// ტექსტური ძებნის ინდექსი
 VideoSchema.index({
-  name: 'text',
-  sequence: 'text',
-  url: 'text',
-  title: 'text',
-  description: 'text',
+  'title.ka': 'text',
+  'title.en': 'text',
+  'title.ru': 'text',
+  'description.ka': 'text',
+  'description.en': 'text',
+  'description.ru': 'text'
 });

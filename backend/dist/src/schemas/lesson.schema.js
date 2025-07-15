@@ -13,16 +13,6 @@ exports.LessonSchema = exports.Lesson = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let Lesson = class Lesson {
-    title;
-    description;
-    videoUrl;
-    duration;
-    order;
-    course;
-    exercises;
-    isActive;
-    materials;
-    transcript;
 };
 exports.Lesson = Lesson;
 __decorate([

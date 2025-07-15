@@ -19,7 +19,6 @@ const create_course_dto_1 = require("./dto/create-course.dto");
 const update_course_dto_1 = require("./dto/update-course.dto");
 const create_lesson_dto_1 = require("./dto/create-lesson.dto");
 let CourseController = class CourseController {
-    courseService;
     constructor(courseService) {
         this.courseService = courseService;
     }
