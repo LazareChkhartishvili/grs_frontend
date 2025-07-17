@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({
       className={`md:m-5 rounded-[20px] ${
         variant == "rehabilitation" && "h-[438px]"
       } ${variant == "default" && "h-[838px]"} ${
-        variant == "blog" && "h-[518px]"
+        variant == "blog" && "h-[218px] md:h-[518px]"
       } ${variant == "category-detail" && "h-[338px]"}`}
     >
       <div className="relative w-full rounded-[20px]">

@@ -4,23 +4,25 @@ import Banner from "./Banner";
 import SliderArrows from "./SliderArrows";
 import GridLayouts, { LayoutType } from "./GridLayouts";
 import { blogItem } from "./BlogItems";
-import { useI18n } from "../context/I18nContext";
+// import { useI18n } from "../context/I18nContext";
 
 interface BlogProps {
   withBanner: boolean;
   withSlider: boolean;
   layoutType?: LayoutType;
+  title: string;
 }
 
 const Blog: React.FC<BlogProps> = ({
   withBanner,
   withSlider,
   layoutType = "default",
+  title = "Blog",
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const blogsPerPage = 4;
-  const { t } = useI18n();
+  // const { t } = useI18n();
 
   const totalPages = useMemo(() => {
     const otherBlogs = blogItem.slice(1);
@@ -56,11 +58,11 @@ const Blog: React.FC<BlogProps> = ({
         />
       )}
 
-      <div className="py-5 px-6">
+      <div className="py-5 md:px-6">
         {withSlider && (
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[20px] leading-[120%] text-[#3D334A] md:text-[40px] md:tracking-[-3%]">
-              {typeof t("blog.title") === "string" ? t("blog.title") : "Blog"}
+              {title}
             </h2>
             <SliderArrows
               onScrollLeft={scrollLeft}

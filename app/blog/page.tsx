@@ -13,10 +13,30 @@ const BlogRoute = () => {
       <MobileNavbar />
       <Header variant="blog" />
       <div className="flex flex-col">
-        <Blog withBanner={false} withSlider={false} layoutType="default" />
-        <Blog withBanner={false} withSlider={false} layoutType="other" />
-        <Blog withBanner={false} withSlider={false} layoutType="default" />
-        <Blog withBanner={false} withSlider={false} layoutType="thirdGrid" />
+        <Blog
+          withBanner={false}
+          withSlider={false}
+          layoutType="default"
+          title=""
+        />
+        <Blog
+          withBanner={false}
+          withSlider={false}
+          layoutType="other"
+          title="Популярные статьи"
+        />
+        <Blog
+          withBanner={false}
+          withSlider={false}
+          layoutType="default"
+          title="Неврология"
+        />
+        <Blog
+          withBanner={false}
+          withSlider={false}
+          layoutType="thirdGrid"
+          title="Ортопедия"
+        />
       </div>
     </div>
   );

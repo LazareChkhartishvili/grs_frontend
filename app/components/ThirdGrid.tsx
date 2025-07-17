@@ -76,7 +76,7 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
                   {orderedBlogs[1].description}
                 </p>
                 <div className="px-3 pb-3 font-[Bowler] mt-1">
-                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
+                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%]  rounded-[6px] text-[14px] uppercase">
                     {orderedBlogs[1].category}
                   </span>
                 </div>
@@ -93,7 +93,7 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
                   {orderedBlogs[2].description}
                 </p>
                 <div className="px-3 pb-3 font-[Bowler] mt-1">
-                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
+                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%]  rounded-[6px] text-[14px] uppercase">
                     {orderedBlogs[2].category}
                   </span>
                 </div>
@@ -110,7 +110,7 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
                   {orderedBlogs[3].description}
                 </p>
                 <div className="px-3 pb-3 font-[Bowler] mt-1">
-                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
+                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%]  rounded-[6px] text-[14px] uppercase">
                     {orderedBlogs[3].category}
                   </span>
                 </div>
@@ -137,7 +137,7 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
                   {orderedBlogs[1].subText}
                 </p>
                 <div className="px-3 pb-3 font-[Bowler] mt-1">
-                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
+                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] rounded-[6px] text-[14px] uppercase">
                     {orderedBlogs[4].category}
                   </span>
                 </div>
@@ -154,7 +154,7 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
                   {orderedBlogs[5].description}
                 </p>
                 <div className="px-3 pb-3 font-[Bowler] mt-1">
-                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
+                  <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] rounded-[6px] text-[14px] uppercase">
                     {orderedBlogs[5].category}
                   </span>
                 </div>
@@ -180,17 +180,17 @@ const ThirdGrid: React.FC<ThirdGridProps> = ({}) => {
             <p className="text-[#3D334A] text-[18px] leading-[120%] line-clamp-2 font-bold">
               {blog.description}
             </p>
-            <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
+            <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
               {blog.category}
             </span>
-            <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase mt-2 inline-block">
+            <span className="text-[#3D334A] hidden font-[Bowler] p-1.5 leading-[90%]  rounded-[6px] text-[14px] uppercase mt-2 md:inline-block">
               {blog.subText}
             </span>
             <div className="flex items-center gap-1.5 mt-3">
-              <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
+              <div className="w-10 h-10  rounded-[6px] flex justify-center items-center">
                 <CiBookmark className="w-[14.2px] h-[18.68px] text-black" />
               </div>
-              <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
+              <div className="w-10 h-10  rounded-[6px] flex justify-center items-center">
                 <IoIosShareAlt className="w-[14.2px] h-[18.68px] text-black" />
               </div>
             </div>

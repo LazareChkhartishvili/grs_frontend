@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { CiLock } from "react-icons/ci";
 import Blog from "../components/Blog";
+import Works from "../components/Works";
 
 const Complex = () => {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -248,7 +249,17 @@ const Complex = () => {
         </div>
         <Subscribe />
         <ReviewSlider />
-        <Blog withBanner={false} withSlider={true} layoutType="default" />
+        <div className="md:my-10">
+          <Works title="Может понравиться" />
+        </div>
+        <div className="md:my-10">
+          <Blog
+            withBanner={false}
+            withSlider={true}
+            layoutType="default"
+            title={"GRS МЕДИА"}
+          />
+        </div>
 
         <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
           <div className="flex flex-col items-center justify-center min-w-[250px] min-h-[120px]">

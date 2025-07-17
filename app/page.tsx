@@ -79,7 +79,12 @@ const Home = () => {
         />
 
         <Professional />
-        <Blog withBanner={true} withSlider={true} layoutType="default" />
+        <Blog
+          withBanner={true}
+          withSlider={true}
+          layoutType="default"
+          title={"Blog"}
+        />
         <MarketPlace />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg1.jpg"

@@ -19,8 +19,18 @@ export default function SingleCurse() {
   return (
     <>
       <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+
       <div className="bg-[#FAF7FF] flex flex-col items-center py-6 px-2 w-full text-[#302A3A]">
         {/* Responsive wrapper: row on md+, column on mobile */}
+        <div className="w-full md:px-10">
+          <Image
+            src={"/assets/images/singlecourse.png"}
+            alt="courseBg"
+            width={1400}
+            height={517}
+            className="w-full h-[517px] object-cover mb-10 rounded-[40px]"
+          />
+        </div>
         <div className="w-full  flex flex-col md:flex-row gap-6">
           {/* მარცხენა ქარდი */}
           <div
@@ -29,7 +39,7 @@ export default function SingleCurse() {
           >
             <div className="flex items-center gap-4 pb-[18px]">
               <Image
-                src="/avatar.jpg"
+                src="/assets/images/someone.png"
                 alt="avatar"
                 width={50}
                 height={50}
