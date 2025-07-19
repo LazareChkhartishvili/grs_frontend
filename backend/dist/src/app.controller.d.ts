@@ -1,7 +1,10 @@
 import { AppService } from './app.service';
+import { Model } from 'mongoose';
+import { UserDocument } from './schemas/user.schema';
 export declare class AppController {
     private readonly appService;
-    constructor(appService: AppService);
+    private userModel;
+    constructor(appService: AppService, userModel: Model<UserDocument>);
     getHello(): string;
     getTest(): {
         message: string;
@@ -19,6 +22,20 @@ export declare class AppController {
             sets: string;
         };
     };
+    getUsersCount(): Promise<{
+        count: number;
+        users: {
+            id: any;
+            name: string;
+            email: string;
+            createdAt: Date;
+        }[];
+        error?: undefined;
+    } | {
+        error: any;
+        count?: undefined;
+        users?: undefined;
+    }>;
     seedData(): {
         message: string;
         examples: {

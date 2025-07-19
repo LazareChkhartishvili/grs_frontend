@@ -7,9 +7,9 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
-  // CORS კონფიგურაცია
+  // CORS კონფიგურაცია - ყველა origin-ის უშვება დეველოპმენტისთვის
   app.enableCors({
-    origin: ['http://localhost:3000'], // ფრონტენდის URL
+    origin: true, // ყველა origin-ის უშვება
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

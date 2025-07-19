@@ -1,9 +1,15 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from './schemas/user.schema';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    @InjectModel(User.name) private userModel: Model<UserDocument>
+  ) {}
 
   @Get()
   getHello(): string {
@@ -29,6 +35,26 @@ export class AppController {
         sets: '/api/sets',
       },
     };
+  }
+
+  // მომხმარებლების შემოწმება
+  @Get('users-count')
+  async getUsersCount() {
+    try {
+      const count = await this.userModel.countDocuments();
+      const users = await this.userModel.find().select('name email createdAt').limit(5);
+      return {
+        count,
+        users: users.map(user => ({
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          createdAt: user.createdAt
+        }))
+      };
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 
   // სწრაფი მონაცემების შექმნისთვის

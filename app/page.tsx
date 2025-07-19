@@ -11,53 +11,16 @@ import Blog from "./components/Blog";
 import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
+import { useAllExercises } from "./hooks/useExercises";
 // import { useI18n } from "./context/I18nContext";
 
-interface Exercise {
-  _id: string;
-  title: string;
-  description: string;
-  difficulty: string;
-  videoId?: string;
-  video?: {
-    url: string;
-    duration: number;
-  };
-}
-
-interface Set {
-  _id: string;
-  title: string;
-  description: string;
-  exercises: Exercise[];
-  categoryId: string;
-  subcategoryId?: string;
-  categoryName?: string;
-  monthlyPrice: number;
-}
-
 const Home = () => {
-  const { categories } = useCategories();
+  const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
+  const { exercises, loading: exercisesLoading, error: exercisesError } = useAllExercises();
   // const { t } = useI18n();
 
-  // ყველა სეტის შეგროვება კატეგორიებიდან და საბკატეგორიებიდან
-  const allSets = categories.reduce((acc: Set[], category) => {
-    const categorySets = (category.sets || []).map((set) => ({
-      ...(set as Set),
-      categoryName: category.title,
-    }));
-
-    const subcategorySets =
-      category.subcategories?.reduce((subAcc: Set[], subcategory) => {
-        const setsWithCategory = (subcategory.sets || []).map((set) => ({
-          ...(set as Set),
-          categoryName: category.title,
-        }));
-        return [...subAcc, ...setsWithCategory];
-      }, []) || [];
-
-    return [...acc, ...categorySets, ...subcategorySets];
-  }, []);
+  console.log("📊 Categories loaded:", { count: categories.length, loading: categoriesLoading, error: categoriesError });
+  console.log("🏃‍♂️ Exercises loaded:", { count: exercises.length, loading: exercisesLoading, error: exercisesError });
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden">
@@ -65,7 +28,7 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category />
-        <Works title={"Exercises"} items={allSets} />
+        <Works title={"Exercises"} items={exercises} />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"
@@ -75,9 +38,7 @@ const Home = () => {
           containerStyles="custom-class"
           titleStyles="text-white"
           buttonStyles="hover:opacity-80"
-          bgCenter={true}
         />
-
         <Professional />
         <Blog
           withBanner={true}

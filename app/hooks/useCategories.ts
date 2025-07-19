@@ -1,87 +1,116 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CategoryItem } from "../context/CategoryContext";
-import { Category, Subcategory, Set } from "../types/category";
+
+// ბექენდის API რესპონსისთვის - exact structure
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
+  _id: string;
+}
+
+interface BackendCategory {
+  _id: string;
+  name: LocalizedString;
+  description?: LocalizedString;
+  image?: string | null;
+  subcategories: string[]; // ObjectId arrays from backend
+  sets: string[]; // ObjectId arrays from backend
+  isActive: boolean;
+  isPublished: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 interface UseCategoriesReturn {
-  categories: CategoryItem[];
+  categories: BackendCategory[];
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
 }
 
-function getFallbackCategories(): CategoryItem[] {
+function getFallbackCategories(): BackendCategory[] {
   return [
     {
-      id: 1,
       _id: "fallback_1",
-      title: "Ортопедия",
-      backgroundImage: "/assets/images/blog.png",
-      categoryImage: "/assets/images/services/category.png",
-      items: [
-        "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА",
-        "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА",
-        "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ",
-        "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ",
-      ],
-      subcategories: [
-        { id: 1, name: "ШЕЙНЫЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
-        { id: 2, name: "ГРУДНОЙ ОТДЕЛ ПОЗВОНОЧНИКА" },
-        { id: 3, name: "ПРОБЛЕМЫ ВЕРХНИХ КОНЕЧНОСТЕЙ" },
-        { id: 4, name: "ПРОБЛЕМЫ НИЖНИХ КОНЕЧНОСТЕЙ" },
-      ],
+      name: {
+        ka: "ორთოპედია",
+        en: "Orthopedics", 
+        ru: "Ортопедия",
+        _id: "fallback_name_1"
+      },
+      description: {
+        ka: "ძვლებისა და სახსრების მკურნალობა",
+        en: "Treatment of bones and joints",
+        ru: "Лечение костей и суставов",
+        _id: "fallback_desc_1"
+      },
+      image: "/assets/images/services/category.png",
+      subcategories: [],
+      sets: [],
+      isActive: true,
+      isPublished: true,
+      sortOrder: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      __v: 0
     },
     {
-      id: 2,
-      _id: "fallback_2",
-      title: "Терапия",
-      backgroundImage: "/assets/images/blog.png",
-      categoryImage: "/assets/images/services/course2.png",
-      items: [
-        "КАРДИОЛОГИЯ",
-        "НЕВРОЛОГИЯ",
-        "ЭНДОКРИНОЛОГИЯ",
-        "ГАСТРОЭНТЕРОЛОГИЯ",
-      ],
-      subcategories: [
-        { id: 5, name: "КАРДИОЛОГИЯ" },
-        { id: 6, name: "НЕВРОЛОГИЯ" },
-        { id: 7, name: "ЭНДОКРИНОЛОГИЯ" },
-        { id: 8, name: "ГАСТРОЭНТЕРОЛОГИЯ" },
-      ],
+      _id: "fallback_2", 
+      name: {
+        ka: "თერაპია",
+        en: "Therapy",
+        ru: "Терапия",
+        _id: "fallback_name_2"
+      },
+      description: {
+        ka: "მკურნალობა მედიკამენტებით",
+        en: "Treatment with medications",
+        ru: "Лечение медикаментами",
+        _id: "fallback_desc_2"
+      },
+      image: "/assets/images/services/course2.png",
+      subcategories: [],
+      sets: [],
+      isActive: true,
+      isPublished: true,
+      sortOrder: 2,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      __v: 0
     },
     {
-      id: 3,
       _id: "fallback_3",
-      title: "Хирургия",
-      backgroundImage: "/assets/images/blog.png",
-      categoryImage: "/assets/images/services/cousre1.png",
-      items: [
-        "ОБЩАЯ ХИРУРГИЯ",
-        "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ",
-        "НЕЙРОХИРУРГИЯ",
-        "КАРДИОХИРУРГИЯ",
-      ],
-      subcategories: [
-        { id: 9, name: "ОБЩАЯ ХИРУРГИЯ" },
-        { id: 10, name: "ПЛАСТИЧЕСКАЯ ХИРУРГИЯ" },
-        { id: 11, name: "НЕЙРОХИРУРГИЯ" },
-        { id: 12, name: "КАРДИОХИРУРГИЯ" },
-      ],
-    },
+      name: {
+        ka: "ქირურგია",
+        en: "Surgery", 
+        ru: "Хирургия",
+        _id: "fallback_name_3"
+      },
+      description: {
+        ka: "ოპერაციული ჩარევა",
+        en: "Surgical intervention",
+        ru: "Хирургическое вмешательство", 
+        _id: "fallback_desc_3"
+      },
+      image: "/assets/images/services/cousre1.png",
+      subcategories: [],
+      sets: [],
+      isActive: true,
+      isPublished: true,
+      sortOrder: 3,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      __v: 0
+    }
   ];
 }
 
-function getLocaleString(value: unknown, locale: string): string {
-  if (typeof value === "object" && value !== null && locale in value) {
-    return (value as Record<string, string>)[locale];
-  }
-  return typeof value === "string" ? value : "";
-}
-
 export function useCategories(): UseCategoriesReturn {
-  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [categories, setCategories] = useState<BackendCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -90,71 +119,53 @@ export function useCategories(): UseCategoriesReturn {
       setLoading(true);
       setError(null);
 
+      console.log("🚀 Starting fetchCategories...");
+
       const { apiRequest, API_CONFIG } = await import("../config/api");
       const endpoint = API_CONFIG.ENDPOINTS.CATEGORIES;
-      console.log("📡 API Endpoint:", `${API_CONFIG.BASE_URL}${endpoint}`);
+      const fullUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
+      
+      console.log("📡 API Request Details:", {
+        endpoint,
+        baseUrl: API_CONFIG.BASE_URL,
+        fullUrl,
+        timestamp: new Date().toISOString()
+      });
 
-      const backendCategories: Category[] = await apiRequest<Category[]>(endpoint);
+      const backendCategories: BackendCategory[] = await apiRequest<BackendCategory[]>(endpoint);
+
+      console.log("📦 Raw API Response:", {
+        data: backendCategories,
+        type: typeof backendCategories,
+        isArray: Array.isArray(backendCategories),
+        length: backendCategories?.length,
+        firstItem: backendCategories?.[0]
+      });
 
       if (!Array.isArray(backendCategories)) {
         throw new Error("API response is not an array");
       }
 
-      // Get locale from localStorage or default to 'ru'
-      let locale = "ru";
-      if (typeof window !== "undefined") {
-        const storedLocale = localStorage.getItem("locale");
-        if (storedLocale && ["ka", "ru", "en"].includes(storedLocale)) {
-          locale = storedLocale;
-        }
-      }
+      console.log("✅ Using raw backend data without transformation");
 
-      const transformedCategories: CategoryItem[] = backendCategories.map(
-        (category, index) => {
-          const transformed = {
-            id: category.id || index + 1,
-            _id: category._id,
-            title:
-              getLocaleString(category.name, locale) || `Category ${index + 1}`,
-            backgroundImage:
-              category.backgroundImage || "/assets/images/blog.png",
-            categoryImage:
-              category.image || "/assets/images/services/category.png",
-            items:
-              category.subcategories?.map((sub) =>
-                getLocaleString(sub.name, locale)
-              ) || [],
-            subcategories:
-              category.subcategories?.map((subRaw: Record<string, unknown>) => {
-                const sub = subRaw as { [key: string]: unknown };
-                return {
-                  id: parseInt((sub._id as string).slice(-8), 16),
-                  name: getLocaleString(sub.name, locale),
-                  description:
-                    getLocaleString(sub.description, locale) ||
-                    (sub.description as string | undefined),
-                  sets:
-                    "sets" in sub && Array.isArray(sub.sets)
-                      ? (sub.sets as import("../types/exercise").Set[])
-                      : Array.isArray(sub.exercises)
-                      ? (sub.exercises as import("../types/exercise").Set[])
-                      : [],
-                };
-              }) || [],
-            sets: (category.sets as import("../types/exercise").Set[]) || [],
-          };
-          return transformed;
-        }
-      );
-
-      setCategories(transformedCategories);
+      // აღარ გავაკეთებთ ტრანსფორმაციას - raw data-ს ვიყენებთ
+      setCategories(backendCategories);
+      
     } catch (err) {
       console.error("❌ Error fetching categories:", err);
+      console.error("❌ Error details:", {
+        message: err instanceof Error ? err.message : 'Unknown error',
+        stack: err instanceof Error ? err.stack : undefined,
+        timestamp: new Date().toISOString()
+      });
+      
       const fallbackCategories = getFallbackCategories();
+      console.log("🔄 Using fallback categories:", fallbackCategories);
       setCategories(fallbackCategories);
       setError(err instanceof Error ? err.message : "API Error - using fallback data");
     } finally {
       setLoading(false);
+      console.log("🏁 fetchCategories completed");
     }
   };
 
@@ -178,11 +189,11 @@ import useSWR from 'swr';
 export function useCategoriesSWR() {
   const fetcher = async () => {
     const { apiRequest } = await import('../config/api');
-    return apiRequest<BackendCategory[]>('/api/categories/complete-hierarchy');
+    return apiRequest<BackendCategory[]>('/categories');
   };
 
   const { data, error, isLoading, mutate } = useSWR(
-    '/api/categories/complete-hierarchy',
+    '/categories',
     fetcher,
     {
       revalidateOnFocus: false,

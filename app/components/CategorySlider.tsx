@@ -19,13 +19,30 @@ const backgrounds = [
 ];
 
 const getValidImageUrl = (
-  url: string | undefined,
+  url: string | null | undefined,
   fallback: string
 ): string => {
   if (!url) return fallback;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
   if (url.startsWith("/")) return url;
+  if (url.startsWith("data:")) return url;
   return fallback;
+};
+
+// Helper function to get text by locale
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
+  _id: string;
+}
+
+const getLocalizedText = (localizedString: LocalizedString | string | null | undefined, locale: string = 'ru'): string => {
+  if (typeof localizedString === 'string') return localizedString;
+  if (typeof localizedString === 'object' && localizedString) {
+    return localizedString[locale as keyof LocalizedString] || localizedString.ru || localizedString.en || localizedString.ka || '';
+  }
+  return '';
 };
 
 interface CategorySliderProps {
@@ -37,15 +54,24 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
     const { categories, loading, error } = useCategories();
     const [clickedCategory, setClickedCategory] = useState<string | null>(null);
 
-    // დებაგ ლოგები
+    // Get current locale
+    const [locale, setLocale] = useState('ru');
     useEffect(() => {
-      console.log("🔍 Categories Data:", {
-        categories,
-        loading,
-        error,
-        firstCategory: categories[0],
-      });
-    }, [categories, loading, error]);
+      if (typeof window !== "undefined") {
+        const storedLocale = localStorage.getItem("locale");
+        if (storedLocale && ["ka", "ru", "en"].includes(storedLocale)) {
+          setLocale(storedLocale);
+        }
+      }
+    }, []);
+
+    console.log("🔍 Categories Data:", {
+      categories,
+      loading,
+      error,
+      firstCategory: categories[0],
+      locale
+    });
 
     useImperativeHandle(ref, () => sliderRef.current as HTMLDivElement);
 
@@ -127,22 +153,24 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
           ref={sliderRef}
           className="flex items-start  gap-[14px] md:gap-[26px] overflow-x-auto scrollbar-hide overflow-y-visible md:overflow-hidden scroll-smooth"
         >
-          {categories.map((category) => {
+          {categories.map((category, index) => {
+            const categoryTitle = getLocalizedText(category.name, locale);
+            
             console.log("🎯 Rendering category:", {
-              id: category.id,
               _id: category._id,
-              title: category.title,
+              name: category.name,
+              title: categoryTitle,
+              locale,
+              sortOrder: category.sortOrder
             });
 
-            const backgroundImageUrl =
-              backgrounds[category.id % backgrounds.length];
+            const backgroundImageUrl = backgrounds[index % backgrounds.length];
             const categoryImageUrl = getValidImageUrl(
-              category.categoryImage,
+              category.image,
               "/assets/images/services/category.png"
             );
 
-            const hasSubcategories =
-              category.subcategories && category.subcategories.length > 0;
+            const hasSubcategories = category.subcategories && category.subcategories.length > 0;
 
             return (
               <div
@@ -153,11 +181,11 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                   href={`/categories/${category._id}`}
                   onClick={(e) => {
                     console.log("🖱️ Category clicked:", {
-                      id: category.id,
                       _id: category._id,
-                      title: category.title,
+                      title: categoryTitle,
+                      name: category.name
                     });
-                    handleCategoryClick(category._id, category.title, e);
+                    handleCategoryClick(category._id, categoryTitle, e);
                   }}
                   className="group cursor-pointer transform transition-transform duration-300"
                 >
@@ -169,7 +197,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                       src={categoryImageUrl}
                       width={232}
                       height={82}
-                      alt={category.title}
+                      alt={categoryTitle}
                       className="mx-auto rounded-[14px] p-[4px] md:w-[443px] md:h-[153px]"
                     />
                     <div className="flex items-center justify-between bg-white py-2 md:py-4 px-4 mx-[4px] rounded-[20px] text-black group-hover:bg-gray-50 transition-colors duration-300">
@@ -184,7 +212,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                           backgroundPosition: "center",
                         }}
                       >
-                        {category.title}
+                        {categoryTitle}
                       </h4>
                       <div
                         className="bg-[#E9DFF6] w-6 h-6 flex items-center justify-center rounded group-hover:bg-[#D4BAFC] transition-colors cursor-pointer relative z-20 dropdown-arrow"
@@ -217,7 +245,7 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                   </div>
                 </Link>
                 <SubcategoryDropdown
-                  subcategories={category.subcategories || []}
+                  subcategories={[]} // subcategories ცარიელია backend-ში
                   isOpen={isDropdownOpen(category._id)}
                   onClose={handleDropdownClose}
                 />

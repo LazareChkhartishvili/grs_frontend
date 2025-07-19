@@ -8,13 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const user_schema_1 = require("./schemas/user.schema");
 let AppController = class AppController {
-    constructor(appService) {
+    constructor(appService, userModel) {
         this.appService = appService;
+        this.userModel = userModel;
     }
     getHello() {
         return this.appService.getHello();
@@ -36,6 +43,24 @@ let AppController = class AppController {
                 sets: '/api/sets',
             },
         };
+    }
+    async getUsersCount() {
+        try {
+            const count = await this.userModel.countDocuments();
+            const users = await this.userModel.find().select('name email createdAt').limit(5);
+            return {
+                count,
+                users: users.map(user => ({
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    createdAt: user.createdAt
+                }))
+            };
+        }
+        catch (error) {
+            return { error: error.message };
+        }
     }
     seedData() {
         return {
@@ -67,6 +92,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getTest", null);
 __decorate([
+    (0, common_1.Get)('users-count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "getUsersCount", null);
+__decorate([
     (0, common_1.Post)('seed-data'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -74,6 +105,8 @@ __decorate([
 ], AppController.prototype, "seedData", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService])
+    __param(1, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
+    __metadata("design:paramtypes", [app_service_1.AppService,
+        mongoose_2.Model])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

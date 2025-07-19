@@ -16,6 +16,7 @@ const user_module_1 = require("./user/user.module");
 const category_module_1 = require("./category/category.module");
 const set_module_1 = require("./set/set.module");
 const exercise_module_1 = require("./exercise/exercise.module");
+const user_schema_1 = require("./schemas/user.schema");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,6 +24,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forRoot('mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db'),
+            mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             category_module_1.CategoryModule,

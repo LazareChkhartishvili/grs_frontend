@@ -11,32 +11,47 @@ interface RegistrationData {
   verificationCode?: string;
 }
 
+// Public endpoints რომელთაც authorization არ სჭირდება
+const PUBLIC_ENDPOINTS = [
+  '/categories',
+  '/sets',
+  '/exercises',
+  '/test',
+  '/users-count'
+];
+
+function isPublicEndpoint(endpoint: string): boolean {
+  return PUBLIC_ENDPOINTS.some(publicEndpoint => 
+    endpoint.startsWith(publicEndpoint)
+  );
+}
+
 // API Configuration
 export const API_CONFIG = {
   // შეცვალე შენი backend URL-ით
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
-  // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   ENDPOINTS: {
-    CATEGORIES: "/api/categories/full-structure",
-    MAIN_CATEGORIES: "/api/categories",
+    CATEGORIES: "/categories",
+    MAIN_CATEGORIES: "/categories",
     COMPLEXES: "/api/complexes",
-    EXERCISES: "/api/exercises",
+    EXERCISES: "/exercises",
     COURSES: "/api/courses",
     AUTH: {
-      LOGIN: "/api/auth/login",
-      REGISTER: "/api/auth/register",
-      LOGOUT: "/api/auth/logout",
-      REFRESH_TOKEN: "/api/auth/refresh-token",
-      SEND_VERIFICATION: "/api/auth/send-verification",
-      VERIFY_CODE: "/api/auth/verify-code",
-      RESEND_CODE: "/api/auth/resend-code",
+      LOGIN: "/auth/login",
+      REGISTER: "/auth/register",
+      LOGOUT: "/auth/logout",
+      REFRESH_TOKEN: "/auth/refresh-token",
+      SEND_VERIFICATION: "/auth/send-verification",
+      VERIFY_CODE: "/auth/verify-code",
+      RESEND_CODE: "/auth/resend-code",
     },
     SETS: {
-      ALL: "/api/sets",
-      BY_CATEGORY: (categoryId: string) => `/api/sets/category/${categoryId}`,
+      ALL: "/sets",
+      BY_CATEGORY: (categoryId: string) => `/sets/category/${categoryId}`,
       BY_SUBCATEGORY: (subcategoryId: string) =>
-        `/api/sets/subcategory/${subcategoryId}`,
-      BY_ID: (id: string) => `/api/sets/${id}`,
+        `/sets/subcategory/${subcategoryId}`,
+      BY_ID: (id: string) => `/sets/${id}`,
     },
   },
 
@@ -53,15 +68,20 @@ export async function apiRequest<T>(
 ): Promise<T> {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
 
+  // ვიწყებთ base headers-ით
+  const headers: Record<string, string> = {
+    ...API_CONFIG.HEADERS,
+  };
+
+  // მხოლოდ protected endpoints-ისთვის ვუმატებთ Authorization header-ს
+  if (!isPublicEndpoint(endpoint) && 
+      typeof window !== "undefined" && 
+      localStorage.getItem("token")) {
+    headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  }
+
   const config: RequestInit = {
-    headers: {
-      ...API_CONFIG.HEADERS,
-      ...(localStorage.getItem("token")
-        ? {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }
-        : {}),
-    },
+    headers,
     ...options,
   };
 
