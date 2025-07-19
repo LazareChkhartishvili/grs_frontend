@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({
   menuItems = defaultMenuItems,
   variant = "default",
   title,
-  // info,
+  info,
   onPriceClick,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
@@ -375,33 +375,48 @@ const Header: React.FC<HeaderProps> = ({
                       />
                     </div>
                     <h3 className="text-white text-sm font-medium font-[Pt]">
-                      {title}
+                      {info?.subcategoriesCount || 0} საბკატეგორია
                     </h3>
                   </motion.div>
 
                   {/* მეორე და მესამე ბარათები */}
                   <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full font-[Pt]">
-                    {categoryDetailItems.slice(1).map((item) => (
-                      <motion.div
-                        initial={{ opacity: 0, x: -100 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                        key={item.id}
-                        className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
-                      >
-                        <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
-                          <Image
-                            src={item.image}
-                            alt={item.text}
-                            width={30}
-                            height={30}
-                          />
-                        </div>
-                        <h3 className="text-white text-sm font-medium">
-                          {item.text}
-                        </h3>
-                      </motion.div>
-                    ))}
+                    <motion.div
+                      initial={{ opacity: 0, x: -100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                    >
+                      <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                        <Image
+                          src={categoryDetailItems[1].image}
+                          alt={categoryDetailItems[1].text}
+                          width={30}
+                          height={30}
+                        />
+                      </div>
+                      <h3 className="text-white text-sm font-medium">
+                        {info?.setsCount || 0} კომპლექსი
+                      </h3>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                    >
+                      <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                        <Image
+                          src={categoryDetailItems[2].image}
+                          alt={categoryDetailItems[2].text}
+                          width={30}
+                          height={30}
+                        />
+                      </div>
+                      <h3 className="text-white text-sm font-medium">
+                        {info?.exercisesCount || 0} სავარჯიშო
+                      </h3>
+                    </motion.div>
                   </div>
                 </section>
 

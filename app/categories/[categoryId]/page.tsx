@@ -22,6 +22,8 @@ export default function CategoriesPage({
   // ახლა სრული მონაცემები გვაქვს
   const selectedCategory = categoryData?.category;
 
+  console.log(categoryData);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
@@ -61,14 +63,25 @@ export default function CategoriesPage({
   const getLocale = () => {
     if (typeof window !== "undefined") {
       const storedLocale = localStorage.getItem("locale");
-      return (storedLocale && ["ka", "ru", "en"].includes(storedLocale)) ? storedLocale : 'ru';
+      return storedLocale && ["ka", "ru", "en"].includes(storedLocale)
+        ? storedLocale
+        : "ru";
     }
-    return 'ru';
+    return "ru";
   };
 
-  const getLocalizedText = (field: { ka: string; en: string; ru: string } | undefined, locale: string = 'ru'): string => {
-    if (!field) return '';
-    return field[locale as keyof typeof field] || field.ru || field.en || field.ka || '';
+  const getLocalizedText = (
+    field: { ka: string; en: string; ru: string } | undefined,
+    locale: string = "ru"
+  ): string => {
+    if (!field) return "";
+    return (
+      field[locale as keyof typeof field] ||
+      field.ru ||
+      field.en ||
+      field.ka ||
+      ""
+    );
   };
 
   const locale = getLocale();
@@ -79,6 +92,15 @@ export default function CategoriesPage({
 
   // ვაერთიანებთ ყველა სეტს ერთ სიაში
   const allSets = [...directSets, ...subcategorySets];
+
+  // ამოვიღოთ რაოდენობები
+  const setsCount = categoryData?.sets?.length || 0;
+  const subcategoriesCount = categoryData?.subcategories?.length || 0;
+  const exercisesCount =
+    categoryData?.sets?.reduce(
+      (total, set) => total + (set.exercises?.length || 0),
+      0
+    ) || 0;
 
   // გარდავქმნით ყველა სეტს WorksSlider-ის ფორმატში
   const formattedSets = allSets.map((set) => ({
@@ -94,7 +116,15 @@ export default function CategoriesPage({
 
   return (
     <div className="">
-      <Header variant="categories" title={getLocalizedText(selectedCategory?.name, locale)} />
+      <Header
+        variant="categories"
+        title={getLocalizedText(selectedCategory?.name, locale)}
+        info={{
+          setsCount,
+          subcategoriesCount,
+          exercisesCount,
+        }}
+      />
       <div className="md:pt-[100px] pt-[400px]">
         <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
           <div className="flex items-center justify-between mb-[20px]">
@@ -103,7 +133,7 @@ export default function CategoriesPage({
                 საბკატეგორიები
               </h1>
               <span className="text-[#D4BAFC] text-[24px] leading-[90%] uppercase">
-                {selectedCategory?.subcategories?.length || 0} საბკატეგორია
+                {subcategoriesCount} საბკატეგორია
               </span>
             </div>
             <div>
@@ -146,16 +176,18 @@ export default function CategoriesPage({
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
-            <WorksSlider
-              title={"კომპლექსები"}
-              works={formattedSets}
-            />
+            <WorksSlider title={"კომპლექსები"} works={formattedSets} />
           </div>
         )}
 
         <Subscribe />
         <ReviewSlider />
-        <Blog withBanner={false} withSlider={true} layoutType="default" title={getLocalizedText(selectedCategory?.name, locale)} />
+        <Blog
+          withBanner={false}
+          withSlider={true}
+          layoutType="default"
+          title={getLocalizedText(selectedCategory?.name, locale)}
+        />
         <Professional />
       </div>
     </div>
