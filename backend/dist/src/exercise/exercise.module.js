@@ -12,7 +12,9 @@ const mongoose_1 = require("@nestjs/mongoose");
 const exercise_controller_1 = require("./exercise.controller");
 const exercise_service_1 = require("./exercise.service");
 const exercise_schema_1 = require("../schemas/exercise.schema");
-const exercise_complex_schema_1 = require("../schemas/exercise-complex.schema");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
 let ExerciseModule = class ExerciseModule {
 };
 exports.ExerciseModule = ExerciseModule;
@@ -20,13 +22,29 @@ exports.ExerciseModule = ExerciseModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: exercise_schema_1.Exercise.name, schema: exercise_schema_1.ExerciseSchema },
-                { name: exercise_complex_schema_1.ExerciseComplex.name, schema: exercise_complex_schema_1.ExerciseComplexSchema },
+                { name: exercise_schema_1.Exercise.name, schema: exercise_schema_1.ExerciseSchema }
             ]),
+            platform_express_1.MulterModule.register({
+                storage: (0, multer_1.diskStorage)({
+                    destination: './uploads',
+                    filename: (req, file, callback) => {
+                        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                        callback(null, file.fieldname + '-' + uniqueSuffix + (0, path_1.extname)(file.originalname));
+                    },
+                }),
+                fileFilter: (req, file, callback) => {
+                    if (file.mimetype.startsWith('video/') || file.mimetype.startsWith('image/')) {
+                        callback(null, true);
+                    }
+                    else {
+                        callback(new Error('მხოლოდ ვიდეო და სურათის ფაილებია დაშვებული'), false);
+                    }
+                },
+            }),
         ],
         controllers: [exercise_controller_1.ExerciseController],
         providers: [exercise_service_1.ExerciseService],
-        exports: [exercise_service_1.ExerciseService],
+        exports: [exercise_service_1.ExerciseService]
     })
 ], ExerciseModule);
 //# sourceMappingURL=exercise.module.js.map

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import React, { useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";

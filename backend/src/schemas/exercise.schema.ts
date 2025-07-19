@@ -3,78 +3,124 @@ import { Document, Types } from 'mongoose';
 
 export type ExerciseDocument = Exercise & Document;
 
-// სავარჯიშოს ძირითადი სქემა
-@Schema({ timestamps: true })
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
+}
+
+@Schema({ 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+})
 export class Exercise {
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, default: '' },
+      ru: { type: String, default: '' }
+    },
+    required: true
+  })
+  name: LocalizedString;
+
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, default: '' },
+      ru: { type: String, default: '' }
+    },
+    required: true
+  })
+  description: LocalizedString;
+
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, default: '' },
+      ru: { type: String, default: '' }
+    },
+    required: true
+  })
+  recommendations: LocalizedString;
+
   @Prop({ required: true })
-  name: string;
+  videoUrl: string;
 
-  @Prop()
-  description?: string;
+  @Prop({ required: true })
+  thumbnailUrl: string;
 
-  @Prop()
-  duration?: number; // წუთებში
+  @Prop({ required: true })
+  videoDuration: string;
 
-  @Prop({ enum: ['easy', 'medium', 'hard'], default: 'medium' })
-  difficulty: string;
+  @Prop({ required: true })
+  duration: string;
 
-  @Prop()
-  instructions?: string;
+  @Prop({ 
+    type: String, 
+    enum: ['easy', 'medium', 'hard'], 
+    required: true 
+  })
+  difficulty: 'easy' | 'medium' | 'hard';
 
-  @Prop([String])
-  images?: string[];
+  @Prop({ required: true })
+  repetitions: string;
 
-  @Prop([String])
-  videos?: string[];
+  @Prop({ required: true })
+  sets: string;
 
-  // რომელ კატეგორიას ეკუთვნის (სავალდებულო)
-  @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
-  categoryId: Types.ObjectId;
+  @Prop({ required: true })
+  restTime: string;
 
-  // რომელ სუბკატეგორიას ეკუთვნის (არასავალდებულო)
-  @Prop({ type: Types.ObjectId, ref: 'SubCategory', default: null })
-  subcategoryId?: Types.ObjectId;
-
-  // ფოტოს blob მონაცემები (თუ ლოკალურად ინახება)
-  @Prop()
-  imageData?: string; // Base64 encoded image data
-
-  @Prop()
-  imageMimeType?: string; // image/jpeg, image/png, etc.
-
-  @Prop()
-  imageSize?: number; // ფაილის ზომა bytes-ში
-
-  // isActive - რომ შევძლოთ სავარჯიშოს დროებით გამორთვა
   @Prop({ default: true })
   isActive: boolean;
 
-  // sortOrder - სავარჯიშოების დახარისხებისთვის
+  @Prop({ default: false })
+  isPublished: boolean;
+
   @Prop({ default: 0 })
   sortOrder: number;
 
-  // repetitions - განმეორებების რაოდენობა
-  @Prop()
-  repetitions?: number;
+  @Prop({ type: Types.ObjectId, ref: 'Set', required: true })
+  setId: Types.ObjectId;
 
-  // sets - სეტების რაოდენობა
-  @Prop()
-  sets?: number;
+  @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
+  categoryId: Types.ObjectId;
 
-  // rest - დასვენების დრო წამებში
-  @Prop()
-  restTime?: number;
-
-  // calories - კალორიები რომელიც იწვის
-  @Prop()
-  calories?: number;
+  @Prop({ type: Types.ObjectId, ref: 'Category' })
+  subCategoryId?: Types.ObjectId;
 }
 
 export const ExerciseSchema = SchemaFactory.createForClass(Exercise);
 
-// ინდექსები უკეთესი performanceისთვის
+// ვირტუალური ველები
+ExerciseSchema.virtual('set', {
+  ref: 'Set',
+  localField: 'setId',
+  foreignField: '_id',
+  justOne: true
+});
+
+ExerciseSchema.virtual('category', {
+  ref: 'Category',
+  localField: 'categoryId',
+  foreignField: '_id',
+  justOne: true
+});
+
+ExerciseSchema.virtual('subcategory', {
+  ref: 'Category',
+  localField: 'subCategoryId',
+  foreignField: '_id',
+  justOne: true
+});
+
+// ინდექსები
+ExerciseSchema.index({ setId: 1 });
 ExerciseSchema.index({ categoryId: 1 });
-ExerciseSchema.index({ subcategoryId: 1 });
+ExerciseSchema.index({ subCategoryId: 1 });
 ExerciseSchema.index({ isActive: 1 });
-ExerciseSchema.index({ difficulty: 1 });
-ExerciseSchema.index({ sortOrder: 1 }); 
+ExerciseSchema.index({ isPublished: 1 });
+ExerciseSchema.index({ sortOrder: 1 });
+ExerciseSchema.index({ difficulty: 1 }); 

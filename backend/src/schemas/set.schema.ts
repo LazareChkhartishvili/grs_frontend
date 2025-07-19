@@ -3,97 +3,138 @@ import { Document, Types } from 'mongoose';
 
 export type SetDocument = Set & Document;
 
-interface Exercise {
-  _id: Types.ObjectId;
-  videoId: Types.ObjectId;
-  repetitions: number;
-  sets: number;
-  restTime: number;
-  duration: number;
-  order: number;
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
 }
 
-@Schema({ timestamps: true })
+interface Level {
+  exerciseCount: number;
+  isLocked: boolean;
+}
+
+interface Price {
+  monthly: number;
+  threeMonths: number;
+  sixMonths: number;
+  yearly: number;
+}
+
+interface Levels {
+  beginner: Level;
+  intermediate: Level;
+  advanced: Level;
+}
+
+@Schema({ 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+})
 export class Set {
-  @Prop({ type: Types.ObjectId, auto: true })
-  _id: Types.ObjectId;
-
-  @Prop({ required: true })
-  setId: string;
-
-  @Prop({ required: true })
-  name: string;
-
-  @Prop({ required: true, type: Object })
-  title: {
-    ka: string;
-    en: string;
-    ru: string;
-  };
-
-  @Prop({ type: Object })
-  description?: {
-    ka?: string;
-    en?: string;
-    ru?: string;
-  };
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Video' }], required: true })
-  videos: Types.ObjectId[];
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, required: true },
+      ru: { type: String, required: true }
+    },
+    required: true
+  })
+  name: LocalizedString;
 
   @Prop({
-    type: [{
-      _id: { type: Types.ObjectId, auto: true },
-      videoId: { type: Types.ObjectId, ref: 'Video' },
-      repetitions: { type: Number, default: 1 },
-      sets: { type: Number, default: 1 },
-      restTime: { type: Number, default: 0 },
-      duration: { type: Number, default: 0 },
-      order: { type: Number }
-    }],
-    required: true,
-    default: []
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, required: true },
+      ru: { type: String, required: true }
+    },
+    required: true
   })
-  exercises: Exercise[];
+  description: LocalizedString;
 
-  @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
-  categoryId: Types.ObjectId;
+  @Prop({ required: true })
+  thumbnailImage: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'SubCategory' })
-  subcategoryId?: Types.ObjectId;
+  @Prop({ type: Number, default: 0 })
+  totalExercises: number;
+
+  @Prop({ type: String, default: "00:00" })
+  totalDuration: string;
+
+  @Prop({ type: Number, default: 3 })
+  difficultyLevels: number;
+
+  @Prop({
+    type: {
+      beginner: {
+        exerciseCount: { type: Number, default: 0 },
+        isLocked: { type: Boolean, default: false }
+      },
+      intermediate: {
+        exerciseCount: { type: Number, default: 0 },
+        isLocked: { type: Boolean, default: true }
+      },
+      advanced: {
+        exerciseCount: { type: Number, default: 0 },
+        isLocked: { type: Boolean, default: true }
+      }
+    },
+    required: true,
+    _id: false
+  })
+  levels: Levels;
+
+  @Prop({
+    type: {
+      monthly: { type: Number, required: true },
+      threeMonths: { type: Number, required: true },
+      sixMonths: { type: Number, required: true },
+      yearly: { type: Number, required: true }
+    },
+    required: true,
+    _id: false
+  })
+  price: Price;
 
   @Prop({ default: true })
   isActive: boolean;
 
+  @Prop({ default: false })
+  isPublished: boolean;
+
   @Prop({ default: 0 })
   sortOrder: number;
 
-  @Prop({ default: false })
-  isPublic: boolean;
+  @Prop({ type: Types.ObjectId, ref: 'Category', required: true })
+  categoryId: Types.ObjectId;
 
-  @Prop({ default: 0 })
-  viewCount: number;
-
-  @Prop({ required: true, default: 920 })
-  monthlyPrice: number;
+  @Prop({ type: Types.ObjectId, ref: 'Category' })
+  subCategoryId?: Types.ObjectId;
 }
 
 export const SetSchema = SchemaFactory.createForClass(Set);
 
-// ინდექსები
-SetSchema.index({ setId: 1 });
-SetSchema.index({ isActive: 1 });
-SetSchema.index({ sortOrder: 1 });
-SetSchema.index({ isPublic: 1 });
-SetSchema.index({ categoryId: 1 });
-SetSchema.index({ subcategoryId: 1 });
-
-// ტექსტური ძებნის ინდექსი
-SetSchema.index({
-  'title.ka': 'text',
-  'title.en': 'text',
-  'title.ru': 'text',
-  'description.ka': 'text',
-  'description.en': 'text',
-  'description.ru': 'text'
+// ვირტუალური ველები
+SetSchema.virtual('category', {
+  ref: 'Category',
+  localField: 'categoryId',
+  foreignField: '_id',
+  justOne: true
 });
+
+SetSchema.virtual('subcategory', {
+  ref: 'Category',
+  localField: 'subCategoryId',
+  foreignField: '_id',
+  justOne: true
+});
+
+// ინდექსები
+SetSchema.index({ categoryId: 1 });
+SetSchema.index({ subCategoryId: 1 });
+SetSchema.index({ isActive: 1 });
+SetSchema.index({ isPublished: 1 });
+SetSchema.index({ sortOrder: 1 });
+SetSchema.index({ 'price.monthly': 1 });
+SetSchema.index({ 'levels.beginner.isLocked': 1 }); 

@@ -1,58 +1,57 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Exercise } from './exercise.schema';
 
 export type CategoryDocument = Category & Document;
 
-// ინტერფეისი კატეგორიებისთვის სუბკატეგორიებით
-export interface CategoryWithSubcategories extends CategoryDocument {
-  subcategories: CategoryDocument[];
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
 }
 
 @Schema({ timestamps: true })
 export class Category {
-  @Prop({ required: true })
-  name: string;
+  @Prop({
+    type: {
+      ka: { type: String, required: true },
+      en: { type: String, required: true },
+      ru: { type: String, required: true }
+    },
+    required: true
+  })
+  name: LocalizedString;
 
-  @Prop()
-  description?: string;
+  @Prop({
+    type: {
+      ka: String,
+      en: String,
+      ru: String
+    }
+  })
+  description?: LocalizedString;
 
   @Prop()
   image?: string;
 
-  // კატეგორიის უნიკალური კოდი
-  @Prop()
-  code?: string;
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Category' }] })
+  subcategories?: Types.ObjectId[];
 
-  // sequence - იერარქიული სტრუქტურის მაჩვენებელი (მაგ: "1.1.1")
-  @Prop({ unique: true })
-  sequence?: string;
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Set' }] })
+  sets?: Types.ObjectId[];
 
-  // parentId - თუ null-ია, მაშინ ეს არის ძირითადი კატეგორია
-  // თუ parentId-ს აქვს მნიშვნელობა, მაშინ ეს არის სუბკატეგორია
-  @Prop({ type: Types.ObjectId, ref: 'Category', default: null })
-  parentId?: Types.ObjectId;
-
-  // level - რომ გავიგოთ რამდენი დონის კატეგორიაა (0 - ძირითადი, 1 - სუბ, 2 - ქვე-სუბ...)
-  @Prop({ default: 0 })
-  level: number;
-
-  // isActive - რომ შევძლოთ კატეგორიის დროებით გამორთვა
   @Prop({ default: true })
   isActive: boolean;
 
-  // exercises - მხოლოდ იმ შემთხვევაში, თუ ამ კატეგორიას აქვს სავარჯიშოები
-  @Prop({ type: [Exercise], default: [] })
-  exercises?: Exercise[];
-
-  // sortOrder - კატეგორიების დახარისხებისთვის
   @Prop({ default: 0 })
   sortOrder: number;
+
+  @Prop({ default: false })
+  isPublished: boolean;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
 
-CategorySchema.index({ parentId: 1 });
-CategorySchema.index({ level: 1 });
+// ინდექსები ოპტიმიზაციისთვის
 CategorySchema.index({ isActive: 1 });
 CategorySchema.index({ sortOrder: 1 });
+CategorySchema.index({ isPublished: 1 }); 

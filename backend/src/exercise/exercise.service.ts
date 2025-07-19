@@ -2,213 +2,129 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
-import {
-  ExerciseComplex,
-  ExerciseComplexDocument,
-} from '../schemas/exercise-complex.schema';
+import { CreateExerciseDto } from './dto/create-exercise.dto';
 
 @Injectable()
 export class ExerciseService {
   constructor(
-    @InjectModel(Exercise.name)
-    private exerciseModel: Model<ExerciseDocument>,
-    @InjectModel(ExerciseComplex.name)
-    private exerciseComplexModel: Model<ExerciseComplexDocument>,
+    @InjectModel(Exercise.name) private exerciseModel: Model<ExerciseDocument>
   ) {}
 
-  // ყველა სავარჯიშოს მიღება
-  async getAllExercises(): Promise<ExerciseDocument[]> {
+  async create(createExerciseDto: CreateExerciseDto): Promise<Exercise> {
+    const exercise = new this.exerciseModel({
+      ...createExerciseDto,
+      setId: new Types.ObjectId(createExerciseDto.setId),
+      categoryId: new Types.ObjectId(createExerciseDto.categoryId),
+      subCategoryId: createExerciseDto.subCategoryId 
+        ? new Types.ObjectId(createExerciseDto.subCategoryId) 
+        : undefined
+    });
+    return exercise.save();
+  }
+
+  async findAll(query: { setId?: string; categoryId?: string; subCategoryId?: string } = {}): Promise<Exercise[]> {
+    const filter: any = {};
+    
+    if (query.setId) {
+      filter.setId = new Types.ObjectId(query.setId);
+    }
+    
+    if (query.categoryId) {
+      filter.categoryId = new Types.ObjectId(query.categoryId);
+    }
+    
+    if (query.subCategoryId) {
+      filter.subCategoryId = new Types.ObjectId(query.subCategoryId);
+    }
+
     return this.exerciseModel
-      .find({ isActive: true })
-      .populate('categoryId', 'name description')
-      .populate('subcategoryId', 'name description')
-      .sort({ sortOrder: 1 })
+      .find(filter)
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .sort({ sortOrder: 1, createdAt: -1 })
       .exec();
   }
 
-  // კონკრეტული კატეგორიის სავარჯიშოები
-  async getExercisesByCategory(
-    categoryId: string,
-  ): Promise<ExerciseDocument[]> {
-    return this.exerciseModel
-      .find({ categoryId, isActive: true })
-      .populate('subcategoryId', 'name description')
-      .sort({ sortOrder: 1 })
-      .exec();
-  }
-
-  // კონკრეტული სუბკატეგორიის სავარჯიშოები
-  async getExercisesBySubcategory(
-    subcategoryId: string,
-  ): Promise<ExerciseDocument[]> {
-    return this.exerciseModel
-      .find({ subcategoryId, isActive: true })
-      .populate('categoryId', 'name description')
-      .sort({ sortOrder: 1 })
-      .exec();
-  }
-
-  // კონკრეტული სავარჯიშოს მიღება
-  async getExerciseById(exerciseId: string): Promise<ExerciseDocument> {
+  async findOne(id: string): Promise<Exercise> {
     const exercise = await this.exerciseModel
-      .findById(exerciseId)
-      .populate('categoryId', 'name description')
-      .populate('subcategoryId', 'name description')
+      .findById(id)
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
       .exec();
 
     if (!exercise) {
-      throw new NotFoundException('სავარჯიშო ვერ მოიძებნა');
+      throw new NotFoundException(`Exercise with ID ${id} not found`);
     }
 
     return exercise;
   }
 
-  // სავარჯიშოს შექმნა (და კომპლექსში დამატება თუ complexId მოცემულია)
-  async createExercise(exerciseData: {
-    name: string;
-    description?: string;
-    duration?: number;
-    difficulty?: string;
-    instructions?: string;
-    images?: string[];
-    videos?: string[];
-    categoryId: string;
-    subcategoryId?: string;
-    repetitions?: number;
-    sets?: number;
-    restTime?: number;
-    calories?: number;
-    imageData?: string;
-    imageMimeType?: string;
-    imageSize?: number;
-    complexId?: string; // კომპლექსის ID
-  }): Promise<{
-    exercise: ExerciseDocument;
-    complex?: ExerciseComplexDocument;
-  }> {
-    // პირველ ჯერ ვქმნით სავარჯიშოს
-    const { complexId, ...exerciseCreateData } = exerciseData;
-    const exercise = new this.exerciseModel(exerciseCreateData);
-    const savedExercise = await exercise.save();
-
-    // თუ complexId მოცემულია, ვამატებთ კომპლექსში
-    if (complexId) {
-      const complex = await this.exerciseComplexModel
-        .findById(complexId)
-        .exec();
-
-      if (!complex) {
-        throw new NotFoundException('კომპლექსი ვერ მოიძებნა');
-      }
-
-      if (!complex.exerciseIds) {
-        complex.exerciseIds = [];
-      }
-
-      const exerciseObjectId = new Types.ObjectId(savedExercise._id as string);
-      if (!complex.exerciseIds.includes(exerciseObjectId)) {
-        complex.exerciseIds.push(exerciseObjectId);
-        complex.exerciseCount = complex.exerciseIds.length;
-      }
-
-      const updatedComplex = await complex.save();
-
-      return {
-        exercise: savedExercise,
-        complex: updatedComplex,
-      };
+  async update(id: string, updateExerciseDto: Partial<CreateExerciseDto>): Promise<Exercise> {
+    const updateData: any = { ...updateExerciseDto };
+    
+    if (updateExerciseDto.setId) {
+      updateData.setId = new Types.ObjectId(updateExerciseDto.setId);
+    }
+    
+    if (updateExerciseDto.categoryId) {
+      updateData.categoryId = new Types.ObjectId(updateExerciseDto.categoryId);
+    }
+    
+    if (updateExerciseDto.subCategoryId) {
+      updateData.subCategoryId = new Types.ObjectId(updateExerciseDto.subCategoryId);
     }
 
-    return { exercise: savedExercise };
-  }
-
-  // სავარჯიშოს განახლება
-  async updateExercise(
-    exerciseId: string,
-    updateData: Partial<Exercise>,
-  ): Promise<ExerciseDocument> {
     const exercise = await this.exerciseModel
-      .findByIdAndUpdate(exerciseId, updateData, { new: true })
-      .populate('categoryId', 'name description')
-      .populate('subcategoryId', 'name description')
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
       .exec();
 
     if (!exercise) {
-      throw new NotFoundException('სავარჯიშო ვერ მოიძებნა');
+      throw new NotFoundException(`Exercise with ID ${id} not found`);
     }
 
     return exercise;
   }
 
-  // სავარჯიშოს წაშლა
-  async deleteExercise(exerciseId: string): Promise<void> {
-    const exercise = await this.exerciseModel.findById(exerciseId).exec();
-
-    if (!exercise) {
-      throw new NotFoundException('სავარჯიშო ვერ მოიძებნა');
+  async remove(id: string): Promise<void> {
+    const result = await this.exerciseModel.findByIdAndDelete(id).exec();
+    
+    if (!result) {
+      throw new NotFoundException(`Exercise with ID ${id} not found`);
     }
-
-    exercise.isActive = false;
-    await exercise.save();
   }
 
-  // სირთულის მიხედვით ძიება
-  async getExercisesByDifficulty(
-    difficulty: string,
-  ): Promise<ExerciseDocument[]> {
+  async findBySet(setId: string): Promise<Exercise[]> {
     return this.exerciseModel
-      .find({ difficulty, isActive: true })
-      .populate('categoryId', 'name description')
-      .populate('subcategoryId', 'name description')
-      .sort({ sortOrder: 1 })
+      .find({ setId: new Types.ObjectId(setId) })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .sort({ sortOrder: 1, createdAt: -1 })
       .exec();
   }
 
-  // ძიება სახელით
-  async searchExercises(searchTerm: string): Promise<ExerciseDocument[]> {
+  async findByCategory(categoryId: string): Promise<Exercise[]> {
     return this.exerciseModel
-      .find({
-        $and: [
-          { isActive: true },
-          {
-            $or: [
-              { name: { $regex: searchTerm, $options: 'i' } },
-              { description: { $regex: searchTerm, $options: 'i' } },
-              { instructions: { $regex: searchTerm, $options: 'i' } },
-            ],
-          },
-        ],
-      })
-      .populate('categoryId', 'name description')
-      .populate('subcategoryId', 'name description')
-      .sort({ sortOrder: 1 })
+      .find({ categoryId: new Types.ObjectId(categoryId) })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .sort({ sortOrder: 1, createdAt: -1 })
       .exec();
   }
 
-  // კატეგორიები თავიანთი სავარჯიშოებით
-  async getCategoriesWithExercises(): Promise<any[]> {
-    const exercises = await this.exerciseModel
-      .find({ isActive: true })
-      .populate('categoryId', 'name description image')
-      .populate('subcategoryId', 'name description')
-      .sort({ sortOrder: 1 })
+  async findByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<Exercise[]> {
+    return this.exerciseModel
+      .find({ difficulty, isActive: true, isPublished: true })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .sort({ sortOrder: 1, createdAt: -1 })
       .exec();
-
-    // Group by category
-    const grouped = exercises.reduce((acc, exercise) => {
-      const categoryId = (
-        exercise.categoryId as unknown as { _id: string }
-      )._id.toString();
-      if (!acc[categoryId]) {
-        acc[categoryId] = {
-          category: exercise.categoryId,
-          exercises: [],
-        };
-      }
-      acc[categoryId].exercises.push(exercise);
-      return acc;
-    }, {});
-
-    return Object.values(grouped);
   }
-}
+} 

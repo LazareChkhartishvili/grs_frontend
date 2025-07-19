@@ -1,21 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
+const mongodb_1 = require("mongodb");
 const MONGODB_URI = 'mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db';
 async function clearCollections() {
     try {
-        await mongoose_1.default.connect(MONGODB_URI);
-        console.log('📦 მონაცემთა ბაზასთან კავშირი დამყარებულია');
-        await mongoose_1.default.connection.db.collection('videos').deleteMany({});
-        console.log('✅ ვიდეოების კოლექცია გასუფთავდა');
-        await mongoose_1.default.connection.db.collection('sets').deleteMany({});
-        console.log('✅ სეტების კოლექცია გასუფთავდა');
-        console.log('\n✨ კოლექციები წარმატებით გასუფთავდა');
-        process.exit(0);
+        const client = await mongodb_1.MongoClient.connect(MONGODB_URI);
+        const db = client.db('grs-db');
+        const collections = ['categories', 'sets', 'exercises'];
+        for (const collectionName of collections) {
+            try {
+                await db.collection(collectionName).drop();
+                console.log(`Collection ${collectionName} dropped successfully`);
+            }
+            catch (err) {
+                if (err.code === 26) {
+                    console.log(`Collection ${collectionName} does not exist`);
+                }
+                else {
+                    console.error(`Error dropping collection ${collectionName}:`, err);
+                }
+            }
+        }
+        for (const collectionName of collections) {
+            try {
+                const collection = db.collection(collectionName);
+                await collection.dropIndexes();
+                console.log(`Indexes for ${collectionName} dropped successfully`);
+            }
+            catch (err) {
+                console.error(`Error dropping indexes for ${collectionName}:`, err);
+            }
+        }
+        await client.close();
+        console.log('Database cleanup completed');
     }
-    catch (error) {
-        console.error('❌ კრიტიკული შეცდომა:', error);
-        process.exit(1);
+    catch (err) {
+        console.error('Error connecting to database:', err);
     }
 }
 clearCollections();

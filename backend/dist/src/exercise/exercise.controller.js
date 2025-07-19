@@ -14,113 +14,196 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExerciseController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const exercise_service_1 = require("./exercise.service");
 let ExerciseController = class ExerciseController {
     constructor(exerciseService) {
         this.exerciseService = exerciseService;
     }
-    async getAllExercises() {
-        return this.exerciseService.getAllExercises();
+    async create(files, data) {
+        try {
+            console.log('Received data:', data);
+            console.log('Video URL from request:', data.videoUrl);
+            console.log('Video URL type:', typeof data.videoUrl);
+            const parsedData = {
+                ...data,
+                name: JSON.parse(data.name),
+                description: JSON.parse(data.description),
+                recommendations: JSON.parse(data.recommendations),
+            };
+            if (!parsedData.name.ka || !parsedData.description.ka || !parsedData.recommendations.ka) {
+                throw new common_1.BadRequestException('ქართული ენის ველები სავალდებულოა');
+            }
+            let videoUrl = '';
+            let thumbnailUrl = '';
+            console.log('Processing video URL...');
+            if (data.videoUrl) {
+                if (Array.isArray(data.videoUrl)) {
+                    videoUrl = data.videoUrl[0]?.trim() || '';
+                    console.log('Video URL array found, using first URL:', videoUrl);
+                }
+                else if (typeof data.videoUrl === 'string' && data.videoUrl.trim()) {
+                    videoUrl = data.videoUrl.trim();
+                    console.log('Video URL string found:', videoUrl);
+                }
+                else {
+                    console.log('Video URL validation failed:', 'exists:', !!data.videoUrl, 'is array:', Array.isArray(data.videoUrl), 'is string:', typeof data.videoUrl === 'string', 'has content:', data.videoUrl?.trim?.());
+                }
+            }
+            if (data.thumbnailUrl) {
+                if (Array.isArray(data.thumbnailUrl)) {
+                    thumbnailUrl = data.thumbnailUrl[0]?.trim() || '';
+                    console.log('Thumbnail URL array found, using first URL:', thumbnailUrl);
+                }
+                else if (typeof data.thumbnailUrl === 'string' && data.thumbnailUrl.trim()) {
+                    thumbnailUrl = data.thumbnailUrl.trim();
+                    console.log('Thumbnail URL string found:', thumbnailUrl);
+                }
+                else {
+                    console.log('Thumbnail URL validation failed:', 'exists:', !!data.thumbnailUrl, 'is array:', Array.isArray(data.thumbnailUrl), 'is string:', typeof data.thumbnailUrl === 'string', 'has content:', data.thumbnailUrl?.trim?.());
+                }
+            }
+            if (files && files.length > 0) {
+                console.log('Processing files:', files.length, 'files found');
+                const videoFile = files.find(f => f.mimetype.startsWith('video/'));
+                const imageFile = files.find(f => f.mimetype.startsWith('image/'));
+                if (videoFile) {
+                    videoUrl = videoFile.path;
+                    console.log('Video file found, using path:', videoUrl);
+                }
+                if (imageFile) {
+                    thumbnailUrl = imageFile.path;
+                }
+            }
+            if (!videoUrl) {
+                console.log('Final video URL check failed - videoUrl is empty');
+                throw new common_1.BadRequestException('ვიდეოს URL ან ფაილი სავალდებულოა');
+            }
+            if (!thumbnailUrl) {
+                throw new common_1.BadRequestException('სურათის URL ან ფაილი სავალდებულოა');
+            }
+            return await this.exerciseService.create({
+                ...parsedData,
+                videoUrl,
+                thumbnailUrl,
+            });
+        }
+        catch (error) {
+            if (error instanceof common_1.BadRequestException) {
+                throw error;
+            }
+            throw new common_1.BadRequestException(error.message);
+        }
     }
-    async getExerciseById(id) {
-        return this.exerciseService.getExerciseById(id);
+    findAll(query) {
+        return this.exerciseService.findAll(query);
     }
-    async getExercisesByCategory(categoryId) {
-        return this.exerciseService.getExercisesByCategory(categoryId);
+    findBySet(setId) {
+        return this.exerciseService.findBySet(setId);
     }
-    async getExercisesBySubcategory(subcategoryId) {
-        return this.exerciseService.getExercisesBySubcategory(subcategoryId);
+    findByCategory(categoryId) {
+        return this.exerciseService.findByCategory(categoryId);
     }
-    async getExercisesByDifficulty(difficulty) {
-        return this.exerciseService.getExercisesByDifficulty(difficulty);
+    findByDifficulty(difficulty) {
+        return this.exerciseService.findByDifficulty(difficulty);
     }
-    async searchExercises(searchTerm) {
-        return this.exerciseService.searchExercises(searchTerm);
+    findOne(id) {
+        return this.exerciseService.findOne(id);
     }
-    async getCategoriesWithExercises() {
-        return this.exerciseService.getCategoriesWithExercises();
+    async update(id, data, files) {
+        try {
+            const updateData = { ...data };
+            if (data.name)
+                updateData.name = JSON.parse(data.name);
+            if (data.description)
+                updateData.description = JSON.parse(data.description);
+            if (data.recommendations)
+                updateData.recommendations = JSON.parse(data.recommendations);
+            if (files && files.length > 0) {
+                const videoFile = files.find(f => f.mimetype.startsWith('video/'));
+                const imageFile = files.find(f => f.mimetype.startsWith('image/'));
+                if (videoFile) {
+                    updateData.videoUrl = videoFile.path;
+                }
+                if (imageFile) {
+                    updateData.thumbnailUrl = imageFile.path;
+                }
+            }
+            return this.exerciseService.update(id, updateData);
+        }
+        catch (error) {
+            if (error.name === 'SyntaxError') {
+                throw new common_1.BadRequestException('არასწორი JSON ფორმატი ლოკალიზებულ ველებში');
+            }
+            throw error;
+        }
     }
-    async createExercise(exerciseData) {
-        return this.exerciseService.createExercise(exerciseData);
-    }
-    async updateExercise(id, updateData) {
-        return this.exerciseService.updateExercise(id, updateData);
-    }
-    async deleteExercise(id) {
-        await this.exerciseService.deleteExercise(id);
-        return { message: 'სავარჯიშო წარმატებით წაიშალა' };
+    remove(id) {
+        return this.exerciseService.remove(id);
     }
 };
 exports.ExerciseController = ExerciseController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
+    __param(0, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Array, Object]),
     __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getAllExercises", null);
+], ExerciseController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('set/:setId'),
+    __param(0, (0, common_1.Param)('setId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getExerciseById", null);
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findBySet", null);
 __decorate([
     (0, common_1.Get)('category/:categoryId'),
     __param(0, (0, common_1.Param)('categoryId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getExercisesByCategory", null);
-__decorate([
-    (0, common_1.Get)('subcategory/:subcategoryId'),
-    __param(0, (0, common_1.Param)('subcategoryId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getExercisesBySubcategory", null);
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findByCategory", null);
 __decorate([
     (0, common_1.Get)('difficulty/:difficulty'),
     __param(0, (0, common_1.Param)('difficulty')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getExercisesByDifficulty", null);
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findByDifficulty", null);
 __decorate([
-    (0, common_1.Get)('search/:searchTerm'),
-    __param(0, (0, common_1.Param)('searchTerm')),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "searchExercises", null);
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Get)('by-categories/grouped'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "getCategoriesWithExercises", null);
-__decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "createExercise", null);
-__decorate([
-    (0, common_1.Put)(':id'),
+    (0, common_1.Patch)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String, Object, Array]),
     __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "updateExercise", null);
+], ExerciseController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], ExerciseController.prototype, "deleteExercise", null);
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "remove", null);
 exports.ExerciseController = ExerciseController = __decorate([
     (0, common_1.Controller)('exercises'),
     __metadata("design:paramtypes", [exercise_service_1.ExerciseService])

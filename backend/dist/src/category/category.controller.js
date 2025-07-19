@@ -15,92 +15,94 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryController = void 0;
 const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
-const category_schema_1 = require("../schemas/category.schema");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
     }
-    async findAll() {
+    create(createCategoryDto) {
+        return this.categoryService.create(createCategoryDto);
+    }
+    findAll() {
         return this.categoryService.findAll();
     }
-    async findAllWithSubcategories() {
-        return this.categoryService.findAllWithSubcategories();
-    }
-    async findAllWithFullStructure() {
-        return this.categoryService.findAllWithFullStructure();
-    }
-    async findOne(id) {
+    findOne(id) {
         return this.categoryService.findOne(id);
     }
-    async create(category) {
-        return this.categoryService.create(category);
+    getCategorySets(id) {
+        return this.categoryService.getCategorySets(id);
     }
-    async update(id, category) {
-        return this.categoryService.update(id, category);
+    update(id, updateCategoryDto) {
+        return this.categoryService.update(id, updateCategoryDto);
     }
-    async delete(id) {
-        return this.categoryService.delete(id);
+    remove(id) {
+        return this.categoryService.remove(id);
     }
-    async createSubcategories(id, subcategories) {
-        return this.categoryService.createSubcategories(id, subcategories);
+    addSubcategory(id, subcategoryId) {
+        return this.categoryService.addSubcategory(id, subcategoryId);
+    }
+    addSet(id, setId) {
+        return this.categoryService.addSet(id, setId);
     }
 };
 exports.CategoryController = CategoryController;
 __decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "create", null);
+__decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.Get)('with-subcategories'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "findAllWithSubcategories", null);
-__decorate([
-    (0, common_1.Get)('full-structure'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "findAllWithFullStructure", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)(':id/sets'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [category_schema_1.Category]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "create", null);
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "getCategorySets", null);
 __decorate([
-    (0, common_1.Put)(':id'),
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, category_schema_1.Category]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "delete", null);
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "remove", null);
 __decorate([
-    (0, common_1.Post)(':id/subcategories'),
+    (0, common_1.Post)(':id/subcategories/:subcategoryId'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('subcategoryId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Array]),
-    __metadata("design:returntype", Promise)
-], CategoryController.prototype, "createSubcategories", null);
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "addSubcategory", null);
+__decorate([
+    (0, common_1.Post)(':id/sets/:setId'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('setId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], CategoryController.prototype, "addSet", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, common_1.Controller)('categories'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])

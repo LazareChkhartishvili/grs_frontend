@@ -16,89 +16,122 @@ let Set = class Set {
 };
 exports.Set = Set;
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, auto: true }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Set.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
-], Set.prototype, "setId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({
+        type: {
+            ka: { type: String, required: true },
+            en: { type: String, required: true },
+            ru: { type: String, required: true }
+        },
+        required: true
+    }),
+    __metadata("design:type", Object)
 ], Set.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, type: Object }),
-    __metadata("design:type", Object)
-], Set.prototype, "title", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: Object }),
+    (0, mongoose_1.Prop)({
+        type: {
+            ka: { type: String, required: true },
+            en: { type: String, required: true },
+            ru: { type: String, required: true }
+        },
+        required: true
+    }),
     __metadata("design:type", Object)
 ], Set.prototype, "description", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Video' }], required: true }),
-    __metadata("design:type", Array)
-], Set.prototype, "videos", void 0);
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", String)
+], Set.prototype, "thumbnailImage", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 0 }),
+    __metadata("design:type", Number)
+], Set.prototype, "totalExercises", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, default: "00:00" }),
+    __metadata("design:type", String)
+], Set.prototype, "totalDuration", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 3 }),
+    __metadata("design:type", Number)
+], Set.prototype, "difficultyLevels", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        type: [{
-                _id: { type: mongoose_2.Types.ObjectId, auto: true },
-                videoId: { type: mongoose_2.Types.ObjectId, ref: 'Video' },
-                repetitions: { type: Number, default: 1 },
-                sets: { type: Number, default: 1 },
-                restTime: { type: Number, default: 0 },
-                duration: { type: Number, default: 0 },
-                order: { type: Number }
-            }],
+        type: {
+            beginner: {
+                exerciseCount: { type: Number, default: 0 },
+                isLocked: { type: Boolean, default: false }
+            },
+            intermediate: {
+                exerciseCount: { type: Number, default: 0 },
+                isLocked: { type: Boolean, default: true }
+            },
+            advanced: {
+                exerciseCount: { type: Number, default: 0 },
+                isLocked: { type: Boolean, default: true }
+            }
+        },
         required: true,
-        default: []
+        _id: false
     }),
-    __metadata("design:type", Array)
-], Set.prototype, "exercises", void 0);
+    __metadata("design:type", Object)
+], Set.prototype, "levels", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category', required: true }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Set.prototype, "categoryId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'SubCategory' }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Set.prototype, "subcategoryId", void 0);
+    (0, mongoose_1.Prop)({
+        type: {
+            monthly: { type: Number, required: true },
+            threeMonths: { type: Number, required: true },
+            sixMonths: { type: Number, required: true },
+            yearly: { type: Number, required: true }
+        },
+        required: true,
+        _id: false
+    }),
+    __metadata("design:type", Object)
+], Set.prototype, "price", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: true }),
     __metadata("design:type", Boolean)
 ], Set.prototype, "isActive", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Set.prototype, "isPublished", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
     __metadata("design:type", Number)
 ], Set.prototype, "sortOrder", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: false }),
-    __metadata("design:type", Boolean)
-], Set.prototype, "isPublic", void 0);
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category', required: true }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Set.prototype, "categoryId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 0 }),
-    __metadata("design:type", Number)
-], Set.prototype, "viewCount", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ required: true, default: 920 }),
-    __metadata("design:type", Number)
-], Set.prototype, "monthlyPrice", void 0);
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Set.prototype, "subCategoryId", void 0);
 exports.Set = Set = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true })
+    (0, mongoose_1.Schema)({
+        timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    })
 ], Set);
 exports.SetSchema = mongoose_1.SchemaFactory.createForClass(Set);
-exports.SetSchema.index({ setId: 1 });
-exports.SetSchema.index({ isActive: 1 });
-exports.SetSchema.index({ sortOrder: 1 });
-exports.SetSchema.index({ isPublic: 1 });
-exports.SetSchema.index({ categoryId: 1 });
-exports.SetSchema.index({ subcategoryId: 1 });
-exports.SetSchema.index({
-    'title.ka': 'text',
-    'title.en': 'text',
-    'title.ru': 'text',
-    'description.ka': 'text',
-    'description.en': 'text',
-    'description.ru': 'text'
+exports.SetSchema.virtual('category', {
+    ref: 'Category',
+    localField: 'categoryId',
+    foreignField: '_id',
+    justOne: true
 });
+exports.SetSchema.virtual('subcategory', {
+    ref: 'Category',
+    localField: 'subCategoryId',
+    foreignField: '_id',
+    justOne: true
+});
+exports.SetSchema.index({ categoryId: 1 });
+exports.SetSchema.index({ subCategoryId: 1 });
+exports.SetSchema.index({ isActive: 1 });
+exports.SetSchema.index({ isPublished: 1 });
+exports.SetSchema.index({ sortOrder: 1 });
+exports.SetSchema.index({ 'price.monthly': 1 });
+exports.SetSchema.index({ 'levels.beginner.isLocked': 1 });
 //# sourceMappingURL=set.schema.js.map

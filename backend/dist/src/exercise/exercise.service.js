@@ -17,145 +17,112 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const exercise_schema_1 = require("../schemas/exercise.schema");
-const exercise_complex_schema_1 = require("../schemas/exercise-complex.schema");
 let ExerciseService = class ExerciseService {
-    constructor(exerciseModel, exerciseComplexModel) {
+    constructor(exerciseModel) {
         this.exerciseModel = exerciseModel;
-        this.exerciseComplexModel = exerciseComplexModel;
     }
-    async getAllExercises() {
+    async create(createExerciseDto) {
+        const exercise = new this.exerciseModel({
+            ...createExerciseDto,
+            setId: new mongoose_2.Types.ObjectId(createExerciseDto.setId),
+            categoryId: new mongoose_2.Types.ObjectId(createExerciseDto.categoryId),
+            subCategoryId: createExerciseDto.subCategoryId
+                ? new mongoose_2.Types.ObjectId(createExerciseDto.subCategoryId)
+                : undefined
+        });
+        return exercise.save();
+    }
+    async findAll(query = {}) {
+        const filter = {};
+        if (query.setId) {
+            filter.setId = new mongoose_2.Types.ObjectId(query.setId);
+        }
+        if (query.categoryId) {
+            filter.categoryId = new mongoose_2.Types.ObjectId(query.categoryId);
+        }
+        if (query.subCategoryId) {
+            filter.subCategoryId = new mongoose_2.Types.ObjectId(query.subCategoryId);
+        }
         return this.exerciseModel
-            .find({ isActive: true })
-            .populate('categoryId', 'name description')
-            .populate('subcategoryId', 'name description')
-            .sort({ sortOrder: 1 })
+            .find(filter)
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
+            .sort({ sortOrder: 1, createdAt: -1 })
             .exec();
     }
-    async getExercisesByCategory(categoryId) {
-        return this.exerciseModel
-            .find({ categoryId, isActive: true })
-            .populate('subcategoryId', 'name description')
-            .sort({ sortOrder: 1 })
-            .exec();
-    }
-    async getExercisesBySubcategory(subcategoryId) {
-        return this.exerciseModel
-            .find({ subcategoryId, isActive: true })
-            .populate('categoryId', 'name description')
-            .sort({ sortOrder: 1 })
-            .exec();
-    }
-    async getExerciseById(exerciseId) {
+    async findOne(id) {
         const exercise = await this.exerciseModel
-            .findById(exerciseId)
-            .populate('categoryId', 'name description')
-            .populate('subcategoryId', 'name description')
+            .findById(id)
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
             .exec();
         if (!exercise) {
-            throw new common_1.NotFoundException('სავარჯიშო ვერ მოიძებნა');
+            throw new common_1.NotFoundException(`Exercise with ID ${id} not found`);
         }
         return exercise;
     }
-    async createExercise(exerciseData) {
-        const { complexId, ...exerciseCreateData } = exerciseData;
-        const exercise = new this.exerciseModel(exerciseCreateData);
-        const savedExercise = await exercise.save();
-        if (complexId) {
-            const complex = await this.exerciseComplexModel
-                .findById(complexId)
-                .exec();
-            if (!complex) {
-                throw new common_1.NotFoundException('კომპლექსი ვერ მოიძებნა');
-            }
-            if (!complex.exerciseIds) {
-                complex.exerciseIds = [];
-            }
-            const exerciseObjectId = new mongoose_2.Types.ObjectId(savedExercise._id);
-            if (!complex.exerciseIds.includes(exerciseObjectId)) {
-                complex.exerciseIds.push(exerciseObjectId);
-                complex.exerciseCount = complex.exerciseIds.length;
-            }
-            const updatedComplex = await complex.save();
-            return {
-                exercise: savedExercise,
-                complex: updatedComplex,
-            };
+    async update(id, updateExerciseDto) {
+        const updateData = { ...updateExerciseDto };
+        if (updateExerciseDto.setId) {
+            updateData.setId = new mongoose_2.Types.ObjectId(updateExerciseDto.setId);
         }
-        return { exercise: savedExercise };
-    }
-    async updateExercise(exerciseId, updateData) {
+        if (updateExerciseDto.categoryId) {
+            updateData.categoryId = new mongoose_2.Types.ObjectId(updateExerciseDto.categoryId);
+        }
+        if (updateExerciseDto.subCategoryId) {
+            updateData.subCategoryId = new mongoose_2.Types.ObjectId(updateExerciseDto.subCategoryId);
+        }
         const exercise = await this.exerciseModel
-            .findByIdAndUpdate(exerciseId, updateData, { new: true })
-            .populate('categoryId', 'name description')
-            .populate('subcategoryId', 'name description')
+            .findByIdAndUpdate(id, updateData, { new: true })
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
             .exec();
         if (!exercise) {
-            throw new common_1.NotFoundException('სავარჯიშო ვერ მოიძებნა');
+            throw new common_1.NotFoundException(`Exercise with ID ${id} not found`);
         }
         return exercise;
     }
-    async deleteExercise(exerciseId) {
-        const exercise = await this.exerciseModel.findById(exerciseId).exec();
-        if (!exercise) {
-            throw new common_1.NotFoundException('სავარჯიშო ვერ მოიძებნა');
+    async remove(id) {
+        const result = await this.exerciseModel.findByIdAndDelete(id).exec();
+        if (!result) {
+            throw new common_1.NotFoundException(`Exercise with ID ${id} not found`);
         }
-        exercise.isActive = false;
-        await exercise.save();
     }
-    async getExercisesByDifficulty(difficulty) {
+    async findBySet(setId) {
         return this.exerciseModel
-            .find({ difficulty, isActive: true })
-            .populate('categoryId', 'name description')
-            .populate('subcategoryId', 'name description')
-            .sort({ sortOrder: 1 })
+            .find({ setId: new mongoose_2.Types.ObjectId(setId) })
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
+            .sort({ sortOrder: 1, createdAt: -1 })
             .exec();
     }
-    async searchExercises(searchTerm) {
+    async findByCategory(categoryId) {
         return this.exerciseModel
-            .find({
-            $and: [
-                { isActive: true },
-                {
-                    $or: [
-                        { name: { $regex: searchTerm, $options: 'i' } },
-                        { description: { $regex: searchTerm, $options: 'i' } },
-                        { instructions: { $regex: searchTerm, $options: 'i' } },
-                    ],
-                },
-            ],
-        })
-            .populate('categoryId', 'name description')
-            .populate('subcategoryId', 'name description')
-            .sort({ sortOrder: 1 })
+            .find({ categoryId: new mongoose_2.Types.ObjectId(categoryId) })
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
+            .sort({ sortOrder: 1, createdAt: -1 })
             .exec();
     }
-    async getCategoriesWithExercises() {
-        const exercises = await this.exerciseModel
-            .find({ isActive: true })
-            .populate('categoryId', 'name description image')
-            .populate('subcategoryId', 'name description')
-            .sort({ sortOrder: 1 })
+    async findByDifficulty(difficulty) {
+        return this.exerciseModel
+            .find({ difficulty, isActive: true, isPublished: true })
+            .populate('set', 'name description')
+            .populate('category', 'name')
+            .populate('subcategory', 'name')
+            .sort({ sortOrder: 1, createdAt: -1 })
             .exec();
-        const grouped = exercises.reduce((acc, exercise) => {
-            const categoryId = exercise.categoryId._id.toString();
-            if (!acc[categoryId]) {
-                acc[categoryId] = {
-                    category: exercise.categoryId,
-                    exercises: [],
-                };
-            }
-            acc[categoryId].exercises.push(exercise);
-            return acc;
-        }, {});
-        return Object.values(grouped);
     }
 };
 exports.ExerciseService = ExerciseService;
 exports.ExerciseService = ExerciseService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(exercise_schema_1.Exercise.name)),
-    __param(1, (0, mongoose_1.InjectModel)(exercise_complex_schema_1.ExerciseComplex.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], ExerciseService);
 //# sourceMappingURL=exercise.service.js.map

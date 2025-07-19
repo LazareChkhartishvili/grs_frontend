@@ -1,35 +1,32 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  // Swagger კონფიგურაცია
-  const config = new DocumentBuilder()
-    .setTitle('GRS API')
-    .setDescription('Georgian Rehabilitation System API დოკუმენტაცია')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
-
-  // Global API prefix
-  app.setGlobalPrefix('api');
-
-  // CORS კონფიგურაცია frontend-ისთვის
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  
+  // CORS კონფიგურაცია
   app.enableCors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: ['http://localhost:3000'], // ფრონტენდის URL
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // ახალი პორტი conflicts-ის ასაცილებლად
-  const port = process.env.PORT || 4000;
-  await app.listen(port);
-  console.log(`GRS Backend is running on: http://localhost:${port}`);
-  console.log(`API Base URL: http://localhost:${port}/api`);
-  console.log(`Swagger Documentation: http://localhost:${port}/api/docs`);
+  // სტატიკური ფაილების მხარდაჭერა
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads',
+  });
+
+  // ვალიდაციის pipe
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+  }));
+
+  await app.listen(4000);
+  console.log('Application is running on: http://localhost:4000');
 }
 bootstrap();

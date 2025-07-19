@@ -11,17 +11,11 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const category_module_1 = require("./category/category.module");
-const subcategory_module_1 = require("./subcategory/subcategory.module");
-const video_module_1 = require("./video/video.module");
-const set_module_1 = require("./set/set.module");
-const exercise_module_1 = require("./exercise/exercise.module");
-const exercise_complex_module_1 = require("./exercise-complex/exercise-complex.module");
-const article_module_1 = require("./article/article.module");
 const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
-const migration_module_1 = require("./migration/migration.module");
-const course_module_1 = require("./course/course.module");
+const category_module_1 = require("./category/category.module");
+const set_module_1 = require("./set/set.module");
+const exercise_module_1 = require("./exercise/exercise.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,17 +23,11 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forRoot('mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db'),
-            category_module_1.CategoryModule,
-            subcategory_module_1.SubCategoryModule,
-            video_module_1.VideoModule,
-            set_module_1.SetModule,
-            exercise_module_1.ExerciseModule,
-            exercise_complex_module_1.ExerciseComplexModule,
-            article_module_1.ArticleModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
-            migration_module_1.MigrationModule,
-            course_module_1.CourseModule,
+            category_module_1.CategoryModule,
+            set_module_1.SetModule,
+            exercise_module_1.ExerciseModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

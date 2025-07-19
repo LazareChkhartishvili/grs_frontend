@@ -18,129 +18,92 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const category_schema_1 = require("../schemas/category.schema");
 let CategoryService = class CategoryService {
-    constructor(categoryModel, subcategoryModel, setModel, videoModel) {
+    constructor(categoryModel) {
         this.categoryModel = categoryModel;
-        this.subcategoryModel = subcategoryModel;
-        this.setModel = setModel;
-        this.videoModel = videoModel;
     }
-    async findAll() {
-        return this.categoryModel.find({ isActive: true }).exec();
-    }
-    async findAllWithSubcategories() {
-        const categories = await this.categoryModel.find({ isActive: true }).exec();
-        const subcategories = await this.subcategoryModel
-            .find({ isActive: true })
-            .exec();
-        return categories.map((category) => {
-            const categorySubcategories = subcategories.filter((sub) => sub.categoryId?.toString() === category._id.toString());
-            return {
-                ...category.toObject(),
-                subcategories: categorySubcategories,
-            };
-        });
-    }
-    async findAllWithFullStructure() {
-        const categories = await this.categoryModel
-            .find({ isActive: true })
-            .lean()
-            .exec();
-        const subcategories = await this.subcategoryModel
-            .find({ isActive: true })
-            .lean()
-            .exec();
-        const sets = await this.setModel
-            .find({ isActive: true })
-            .populate('categoryId')
-            .populate('subcategoryId')
-            .lean()
-            .exec();
-        const videoIds = sets.flatMap((set) => set.videos || []);
-        const videos = await this.videoModel
-            .find({ _id: { $in: videoIds }, isActive: true })
-            .lean()
-            .exec();
-        const populatedSets = sets.map((set) => ({
-            ...set,
-            videos: (set.videos || []).map((videoId) => {
-                const video = videos.find((v) => String(v._id) === String(videoId));
-                return video || null;
-            }).filter(Boolean),
-        }));
-        return categories.map((category) => {
-            const categorySubcategories = subcategories
-                .filter((sub) => String(sub.categoryId) === String(category._id))
-                .map((subcategory) => ({
-                ...subcategory,
-                sets: populatedSets.filter((set) => String(set.subcategoryId?._id) === String(subcategory._id)),
-            }));
-            const categorySets = populatedSets.filter((set) => String(set.categoryId?._id) === String(category._id) &&
-                !set.subcategoryId);
-            return {
-                ...category,
-                subcategories: categorySubcategories,
-                sets: categorySets,
-            };
-        });
-    }
-    async findOne(id) {
-        const category = await this.categoryModel.findById(id).exec();
-        if (!category) {
-            throw new common_1.NotFoundException('კატეგორია ვერ მოიძებნა');
-        }
-        return category;
-    }
-    async create(categoryData) {
-        const category = new this.categoryModel(categoryData);
+    async create(createCategoryDto) {
+        const category = new this.categoryModel(createCategoryDto);
         return category.save();
     }
-    async update(id, categoryData) {
-        const category = await this.categoryModel
-            .findByIdAndUpdate(id, categoryData, { new: true })
+    async findAll() {
+        return this.categoryModel.find()
+            .populate('subcategories')
+            .populate('sets')
+            .exec();
+    }
+    async findOne(id) {
+        const category = await this.categoryModel.findById(id)
+            .populate('subcategories')
+            .populate('sets')
             .exec();
         if (!category) {
-            throw new common_1.NotFoundException('კატეგორია ვერ მოიძებნა');
+            throw new common_1.NotFoundException('Category not found');
         }
         return category;
     }
-    async delete(id) {
-        const category = await this.categoryModel.findById(id).exec();
+    async getCategorySets(id) {
+        const category = await this.categoryModel.findById(id)
+            .populate({
+            path: 'sets',
+            populate: {
+                path: 'exercises'
+            }
+        })
+            .exec();
         if (!category) {
-            throw new common_1.NotFoundException('კატეგორია ვერ მოიძებნა');
+            throw new common_1.NotFoundException('Category not found');
         }
-        category.isActive = false;
-        await category.save();
+        return category.sets;
     }
-    async createSubcategories(parentId, subcategories) {
-        const parentCategory = await this.categoryModel.findById(parentId).exec();
-        if (!parentCategory) {
-            throw new common_1.NotFoundException('მშობელი კატეგორია ვერ მოიძებნა');
+    async update(id, updateCategoryDto) {
+        const category = await this.categoryModel
+            .findByIdAndUpdate(id, updateCategoryDto, { new: true })
+            .exec();
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
         }
-        const createdSubcategories = [];
-        for (const subcategory of subcategories) {
-            const newSubcategory = new this.categoryModel({
-                ...subcategory,
-                parentId: new mongoose_2.Types.ObjectId(parentId),
-                level: parentCategory.level + 1,
-                sequence: `${parentCategory.sequence || '1'}.${createdSubcategories.length + 1}`,
-                isActive: true,
-            });
-            const savedSubcategory = await newSubcategory.save();
-            createdSubcategories.push(savedSubcategory);
+        return category;
+    }
+    async remove(id) {
+        const category = await this.categoryModel.findByIdAndDelete(id).exec();
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
         }
-        return createdSubcategories;
+        return category;
+    }
+    async addSubcategory(categoryId, subcategoryId) {
+        const category = await this.categoryModel.findById(categoryId);
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
+        }
+        if (!category.subcategories) {
+            category.subcategories = [];
+        }
+        if (!category.subcategories.includes(new mongoose_2.Types.ObjectId(subcategoryId))) {
+            category.subcategories.push(new mongoose_2.Types.ObjectId(subcategoryId));
+            await category.save();
+        }
+        return category;
+    }
+    async addSet(categoryId, setId) {
+        const category = await this.categoryModel.findById(categoryId);
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
+        }
+        if (!category.sets) {
+            category.sets = [];
+        }
+        if (!category.sets.includes(new mongoose_2.Types.ObjectId(setId))) {
+            category.sets.push(new mongoose_2.Types.ObjectId(setId));
+            await category.save();
+        }
+        return category;
     }
 };
 exports.CategoryService = CategoryService;
 exports.CategoryService = CategoryService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(category_schema_1.Category.name)),
-    __param(1, (0, mongoose_1.InjectModel)('SubCategory')),
-    __param(2, (0, mongoose_1.InjectModel)('Set')),
-    __param(3, (0, mongoose_1.InjectModel)('Video')),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model,
-        mongoose_2.Model,
-        mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], CategoryService);
 //# sourceMappingURL=category.service.js.map

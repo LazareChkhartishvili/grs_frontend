@@ -1,31 +1,18 @@
-import { Model } from 'mongoose';
-import { Set as SetModel, SetDocument } from '../schemas/set.schema';
-import { VideoDocument } from '../schemas/video.schema';
+import { Model, Types } from 'mongoose';
+import { Set, SetDocument } from '../schemas/set.schema';
+import { CreateSetDto } from './dto/create-set.dto';
 export declare class SetService {
     private setModel;
-    private videoModel;
-    constructor(setModel: Model<SetDocument>, videoModel: Model<VideoDocument>);
-    createSet(setData: {
-        name: string;
-        description?: string;
-        monthlyPrice: number;
-        categoryId: string;
-        subcategoryId?: string;
-        setNumber: string;
-        videos?: string[];
-        subscriptionPlans: {
-            period: number;
-            price: number;
-        }[];
-    }): Promise<SetDocument>;
-    updateSet(setId: string, updateData: Partial<SetModel>): Promise<SetDocument>;
-    deleteSet(setId: string): Promise<void>;
-    getSetById(setId: string): Promise<SetDocument>;
-    getAllSets(): Promise<SetDocument[]>;
-    getSetsByCategory(categoryId: string): Promise<SetDocument[]>;
-    getSetsBySubcategory(subcategoryId: string): Promise<SetDocument[]>;
-    addVideosToSet(setId: string, videoIds: string[]): Promise<SetDocument>;
-    removeVideosFromSet(setId: string, videoIds: string[]): Promise<SetDocument>;
-    reorderSetVideos(setId: string, videoIds: string[]): Promise<SetDocument>;
-    linkVideosToSet(setId: string): Promise<SetDocument>;
+    constructor(setModel: Model<SetDocument>);
+    create(createSetDto: CreateSetDto): Promise<Set>;
+    update(id: string, updateSetDto: Partial<CreateSetDto>): Promise<Set>;
+    findAll(query: {
+        categoryId?: string;
+        subCategoryId?: string;
+    }): Promise<Omit<Omit<import("mongoose").Document<unknown, {}, SetDocument> & Set & import("mongoose").Document<any, any, any> & {
+        _id: Types.ObjectId;
+    }, never>, never>[]>;
+    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, SetDocument> & Set & import("mongoose").Document<any, any, any> & {
+        _id: Types.ObjectId;
+    }>;
 }

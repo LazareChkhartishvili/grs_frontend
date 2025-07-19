@@ -1,14 +1,13 @@
 import { CategoryService } from './category.service';
-import { Category } from '../schemas/category.schema';
 export declare class CategoryController {
     private readonly categoryService;
     constructor(categoryService: CategoryService);
-    findAll(): Promise<Category[]>;
-    findAllWithSubcategories(): Promise<Category[]>;
-    findAllWithFullStructure(): Promise<Category[]>;
-    findOne(id: string): Promise<Category>;
-    create(category: Category): Promise<Category>;
-    update(id: string, category: Category): Promise<Category>;
-    delete(id: string): Promise<void>;
-    createSubcategories(id: string, subcategories: Partial<Category>[]): Promise<Category[]>;
+    create(createCategoryDto: any): Promise<import("../schemas/category.schema").Category>;
+    findAll(): Promise<import("../schemas/category.schema").Category[]>;
+    findOne(id: string): Promise<import("../schemas/category.schema").Category>;
+    getCategorySets(id: string): Promise<import("mongoose").Types.ObjectId[]>;
+    update(id: string, updateCategoryDto: any): Promise<import("../schemas/category.schema").Category>;
+    remove(id: string): Promise<import("../schemas/category.schema").Category>;
+    addSubcategory(id: string, subcategoryId: string): Promise<import("../schemas/category.schema").Category>;
+    addSet(id: string, setId: string): Promise<import("../schemas/category.schema").Category>;
 }

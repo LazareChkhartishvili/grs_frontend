@@ -1,41 +1,43 @@
 import { Document, Types } from 'mongoose';
 export type SetDocument = Set & Document;
-interface Exercise {
-    _id: Types.ObjectId;
-    videoId: Types.ObjectId;
-    repetitions: number;
-    sets: number;
-    restTime: number;
-    duration: number;
-    order: number;
+interface LocalizedString {
+    ka: string;
+    en: string;
+    ru: string;
+}
+interface Level {
+    exerciseCount: number;
+    isLocked: boolean;
+}
+interface Price {
+    monthly: number;
+    threeMonths: number;
+    sixMonths: number;
+    yearly: number;
+}
+interface Levels {
+    beginner: Level;
+    intermediate: Level;
+    advanced: Level;
 }
 export declare class Set {
-    _id: Types.ObjectId;
-    setId: string;
-    name: string;
-    title: {
-        ka: string;
-        en: string;
-        ru: string;
-    };
-    description?: {
-        ka?: string;
-        en?: string;
-        ru?: string;
-    };
-    videos: Types.ObjectId[];
-    exercises: Exercise[];
-    categoryId: Types.ObjectId;
-    subcategoryId?: Types.ObjectId;
+    name: LocalizedString;
+    description: LocalizedString;
+    thumbnailImage: string;
+    totalExercises: number;
+    totalDuration: string;
+    difficultyLevels: number;
+    levels: Levels;
+    price: Price;
     isActive: boolean;
+    isPublished: boolean;
     sortOrder: number;
-    isPublic: boolean;
-    viewCount: number;
-    monthlyPrice: number;
+    categoryId: Types.ObjectId;
+    subCategoryId?: Types.ObjectId;
 }
-export declare const SetSchema: import("mongoose").Schema<Set, import("mongoose").Model<Set, any, any, any, Document<unknown, any, Set> & Set & Required<{
+export declare const SetSchema: import("mongoose").Schema<Set, import("mongoose").Model<Set, any, any, any, Document<unknown, any, Set> & Set & {
     _id: Types.ObjectId;
-}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Set, Document<unknown, {}, import("mongoose").FlatRecord<Set>> & import("mongoose").FlatRecord<Set> & Required<{
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Set, Document<unknown, {}, import("mongoose").FlatRecord<Set>> & import("mongoose").FlatRecord<Set> & {
     _id: Types.ObjectId;
-}>>;
+}>;
 export {};

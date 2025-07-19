@@ -12,56 +12,59 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategorySchema = exports.Category = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-const exercise_schema_1 = require("./exercise.schema");
 let Category = class Category {
 };
 exports.Category = Category;
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({
+        type: {
+            ka: { type: String, required: true },
+            en: { type: String, required: true },
+            ru: { type: String, required: true }
+        },
+        required: true
+    }),
+    __metadata("design:type", Object)
 ], Category.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
+    (0, mongoose_1.Prop)({
+        type: {
+            ka: String,
+            en: String,
+            ru: String
+        }
+    }),
+    __metadata("design:type", Object)
 ], Category.prototype, "description", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Category.prototype, "image", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Category.prototype, "code", void 0);
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Category' }] }),
+    __metadata("design:type", Array)
+], Category.prototype, "subcategories", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ unique: true }),
-    __metadata("design:type", String)
-], Category.prototype, "sequence", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category', default: null }),
-    __metadata("design:type", mongoose_2.Types.ObjectId)
-], Category.prototype, "parentId", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ default: 0 }),
-    __metadata("design:type", Number)
-], Category.prototype, "level", void 0);
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Set' }] }),
+    __metadata("design:type", Array)
+], Category.prototype, "sets", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: true }),
     __metadata("design:type", Boolean)
 ], Category.prototype, "isActive", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: [exercise_schema_1.Exercise], default: [] }),
-    __metadata("design:type", Array)
-], Category.prototype, "exercises", void 0);
-__decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
     __metadata("design:type", Number)
 ], Category.prototype, "sortOrder", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Category.prototype, "isPublished", void 0);
 exports.Category = Category = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Category);
 exports.CategorySchema = mongoose_1.SchemaFactory.createForClass(Category);
-exports.CategorySchema.index({ parentId: 1 });
-exports.CategorySchema.index({ level: 1 });
 exports.CategorySchema.index({ isActive: 1 });
 exports.CategorySchema.index({ sortOrder: 1 });
+exports.CategorySchema.index({ isPublished: 1 });
 //# sourceMappingURL=category.schema.js.map

@@ -1,39 +1,19 @@
 import { Model } from 'mongoose';
 import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
-import { ExerciseComplexDocument } from '../schemas/exercise-complex.schema';
+import { CreateExerciseDto } from './dto/create-exercise.dto';
 export declare class ExerciseService {
     private exerciseModel;
-    private exerciseComplexModel;
-    constructor(exerciseModel: Model<ExerciseDocument>, exerciseComplexModel: Model<ExerciseComplexDocument>);
-    getAllExercises(): Promise<ExerciseDocument[]>;
-    getExercisesByCategory(categoryId: string): Promise<ExerciseDocument[]>;
-    getExercisesBySubcategory(subcategoryId: string): Promise<ExerciseDocument[]>;
-    getExerciseById(exerciseId: string): Promise<ExerciseDocument>;
-    createExercise(exerciseData: {
-        name: string;
-        description?: string;
-        duration?: number;
-        difficulty?: string;
-        instructions?: string;
-        images?: string[];
-        videos?: string[];
-        categoryId: string;
-        subcategoryId?: string;
-        repetitions?: number;
-        sets?: number;
-        restTime?: number;
-        calories?: number;
-        imageData?: string;
-        imageMimeType?: string;
-        imageSize?: number;
-        complexId?: string;
-    }): Promise<{
-        exercise: ExerciseDocument;
-        complex?: ExerciseComplexDocument;
-    }>;
-    updateExercise(exerciseId: string, updateData: Partial<Exercise>): Promise<ExerciseDocument>;
-    deleteExercise(exerciseId: string): Promise<void>;
-    getExercisesByDifficulty(difficulty: string): Promise<ExerciseDocument[]>;
-    searchExercises(searchTerm: string): Promise<ExerciseDocument[]>;
-    getCategoriesWithExercises(): Promise<any[]>;
+    constructor(exerciseModel: Model<ExerciseDocument>);
+    create(createExerciseDto: CreateExerciseDto): Promise<Exercise>;
+    findAll(query?: {
+        setId?: string;
+        categoryId?: string;
+        subCategoryId?: string;
+    }): Promise<Exercise[]>;
+    findOne(id: string): Promise<Exercise>;
+    update(id: string, updateExerciseDto: Partial<CreateExerciseDto>): Promise<Exercise>;
+    remove(id: string): Promise<void>;
+    findBySet(setId: string): Promise<Exercise[]>;
+    findByCategory(categoryId: string): Promise<Exercise[]>;
+    findByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<Exercise[]>;
 }

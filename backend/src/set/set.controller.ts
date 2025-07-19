@@ -1,92 +1,28 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Patch } from '@nestjs/common';
 import { SetService } from './set.service';
-import { Set } from '../schemas/set.schema';
+import { CreateSetDto } from './dto/create-set.dto';
 
 @Controller('sets')
 export class SetController {
   constructor(private readonly setService: SetService) {}
 
   @Post()
-  async createSet(
-    @Body()
-    setData: {
-      name: string;
-      description?: string;
-      monthlyPrice: number;
-      categoryId: string;
-      subcategoryId?: string;
-      setNumber: string;
-      videos?: string[];
-      subscriptionPlans: { period: number; price: number }[];
-    },
-  ) {
-    return this.setService.createSet(setData);
+  create(@Body() createSetDto: CreateSetDto) {
+    return this.setService.create(createSetDto);
   }
 
-  @Put(':id')
-  async updateSet(@Param('id') id: string, @Body() updateData: Partial<Set>) {
-    return this.setService.updateSet(id, updateData);
-  }
-
-  @Delete(':id')
-  async deleteSet(@Param('id') id: string) {
-    return this.setService.deleteSet(id);
-  }
-
-  @Get(':id')
-  async getSet(@Param('id') id: string) {
-    return this.setService.getSetById(id);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateSetDto: Partial<CreateSetDto>) {
+    return this.setService.update(id, updateSetDto);
   }
 
   @Get()
-  async getAllSets() {
-    return this.setService.getAllSets();
+  findAll(@Query() query: { categoryId?: string; subCategoryId?: string }) {
+    return this.setService.findAll(query);
   }
 
-  @Get('category/:categoryId')
-  async getSetsByCategory(@Param('categoryId') categoryId: string) {
-    return this.setService.getSetsByCategory(categoryId);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.setService.findOne(id);
   }
-
-  @Get('subcategory/:subcategoryId')
-  async getSetsBySubcategory(@Param('subcategoryId') subcategoryId: string) {
-    return this.setService.getSetsBySubcategory(subcategoryId);
-  }
-
-  @Post(':id/videos')
-  async addVideosToSet(
-    @Param('id') id: string,
-    @Body('videoIds') videoIds: string[],
-  ) {
-    return this.setService.addVideosToSet(id, videoIds);
-  }
-
-  @Delete(':id/videos')
-  async removeVideosFromSet(
-    @Param('id') id: string,
-    @Body('videoIds') videoIds: string[],
-  ) {
-    return this.setService.removeVideosFromSet(id, videoIds);
-  }
-
-  @Put(':id/videos/reorder')
-  async reorderSetVideos(
-    @Param('id') id: string,
-    @Body('videoIds') videoIds: string[],
-  ) {
-    return this.setService.reorderSetVideos(id, videoIds);
-  }
-
-  @Post(':id/link-videos')
-  async linkVideosToSet(@Param('id') id: string) {
-    return this.setService.linkVideosToSet(id);
-  }
-}
+} 

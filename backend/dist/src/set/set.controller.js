@@ -15,42 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetController = void 0;
 const common_1 = require("@nestjs/common");
 const set_service_1 = require("./set.service");
+const create_set_dto_1 = require("./dto/create-set.dto");
 let SetController = class SetController {
     constructor(setService) {
         this.setService = setService;
     }
-    async createSet(setData) {
-        return this.setService.createSet(setData);
+    create(createSetDto) {
+        return this.setService.create(createSetDto);
     }
-    async updateSet(id, updateData) {
-        return this.setService.updateSet(id, updateData);
+    update(id, updateSetDto) {
+        return this.setService.update(id, updateSetDto);
     }
-    async deleteSet(id) {
-        return this.setService.deleteSet(id);
+    findAll(query) {
+        return this.setService.findAll(query);
     }
-    async getSet(id) {
-        return this.setService.getSetById(id);
-    }
-    async getAllSets() {
-        return this.setService.getAllSets();
-    }
-    async getSetsByCategory(categoryId) {
-        return this.setService.getSetsByCategory(categoryId);
-    }
-    async getSetsBySubcategory(subcategoryId) {
-        return this.setService.getSetsBySubcategory(subcategoryId);
-    }
-    async addVideosToSet(id, videoIds) {
-        return this.setService.addVideosToSet(id, videoIds);
-    }
-    async removeVideosFromSet(id, videoIds) {
-        return this.setService.removeVideosFromSet(id, videoIds);
-    }
-    async reorderSetVideos(id, videoIds) {
-        return this.setService.reorderSetVideos(id, videoIds);
-    }
-    async linkVideosToSet(id) {
-        return this.setService.linkVideosToSet(id);
+    findOne(id) {
+        return this.setService.findOne(id);
     }
 };
 exports.SetController = SetController;
@@ -58,82 +38,31 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "createSet", null);
+    __metadata("design:paramtypes", [create_set_dto_1.CreateSetDto]),
+    __metadata("design:returntype", void 0)
+], SetController.prototype, "create", null);
 __decorate([
-    (0, common_1.Put)(':id'),
+    (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "updateSet", null);
+    __metadata("design:returntype", void 0)
+], SetController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "deleteSet", null);
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], SetController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "getSet", null);
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "getAllSets", null);
-__decorate([
-    (0, common_1.Get)('category/:categoryId'),
-    __param(0, (0, common_1.Param)('categoryId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "getSetsByCategory", null);
-__decorate([
-    (0, common_1.Get)('subcategory/:subcategoryId'),
-    __param(0, (0, common_1.Param)('subcategoryId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "getSetsBySubcategory", null);
-__decorate([
-    (0, common_1.Post)(':id/videos'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('videoIds')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Array]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "addVideosToSet", null);
-__decorate([
-    (0, common_1.Delete)(':id/videos'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('videoIds')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Array]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "removeVideosFromSet", null);
-__decorate([
-    (0, common_1.Put)(':id/videos/reorder'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('videoIds')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Array]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "reorderSetVideos", null);
-__decorate([
-    (0, common_1.Post)(':id/link-videos'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "linkVideosToSet", null);
+    __metadata("design:returntype", void 0)
+], SetController.prototype, "findOne", null);
 exports.SetController = SetController = __decorate([
     (0, common_1.Controller)('sets'),
     __metadata("design:paramtypes", [set_service_1.SetService])

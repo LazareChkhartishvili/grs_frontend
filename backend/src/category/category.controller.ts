@@ -1,62 +1,53 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { Category } from '../schemas/category.schema';
 
 @Controller('categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Post()
+  create(@Body() createCategoryDto: any) {
+    return this.categoryService.create(createCategoryDto);
+  }
+
   @Get()
-  async findAll(): Promise<Category[]> {
+  findAll() {
     return this.categoryService.findAll();
   }
 
-  @Get('with-subcategories')
-  async findAllWithSubcategories(): Promise<Category[]> {
-    return this.categoryService.findAllWithSubcategories();
-  }
-
-  @Get('full-structure')
-  async findAllWithFullStructure(): Promise<Category[]> {
-    return this.categoryService.findAllWithFullStructure();
-  }
-
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Category> {
+  findOne(@Param('id') id: string) {
     return this.categoryService.findOne(id);
   }
 
-  @Post()
-  async create(@Body() category: Category): Promise<Category> {
-    return this.categoryService.create(category);
+  @Get(':id/sets')
+  getCategorySets(@Param('id') id: string) {
+    return this.categoryService.getCategorySets(id);
   }
 
-  @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() category: Category,
-  ): Promise<Category> {
-    return this.categoryService.update(id, category);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCategoryDto: any) {
+    return this.categoryService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
-    return this.categoryService.delete(id);
+  remove(@Param('id') id: string) {
+    return this.categoryService.remove(id);
   }
 
-  @Post(':id/subcategories')
-  async createSubcategories(
+  @Post(':id/subcategories/:subcategoryId')
+  addSubcategory(
     @Param('id') id: string,
-    @Body() subcategories: Partial<Category>[]
-  ): Promise<Category[]> {
-    return this.categoryService.createSubcategories(id, subcategories);
+    @Param('subcategoryId') subcategoryId: string,
+  ) {
+    return this.categoryService.addSubcategory(id, subcategoryId);
+  }
+
+  @Post(':id/sets/:setId')
+  addSet(
+    @Param('id') id: string,
+    @Param('setId') setId: string,
+  ) {
+    return this.categoryService.addSet(id, setId);
   }
 }

@@ -1,165 +1,107 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Category, CategoryDocument } from '../schemas/category.schema';
-import { SetDocument } from '../schemas/set.schema';
-import { VideoDocument } from '../schemas/video.schema';
-import { SubCategory } from '../schemas/subcategory.schema';
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
-    @InjectModel('SubCategory') private subcategoryModel: Model<SubCategory>,
-    @InjectModel('Set') private setModel: Model<SetDocument>,
-    @InjectModel('Video') private videoModel: Model<VideoDocument>,
+    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>
   ) {}
 
-  async findAll(): Promise<Category[]> {
-    return this.categoryModel.find({ isActive: true }).exec();
-  }
-
-  async findAllWithSubcategories(): Promise<Category[]> {
-    const categories = await this.categoryModel.find({ isActive: true }).exec();
-
-    const subcategories = await this.subcategoryModel
-      .find({ isActive: true })
-      .exec();
-
-    return categories.map((category) => {
-      const categorySubcategories = subcategories.filter(
-        (sub) => sub.categoryId?.toString() === category._id.toString(),
-      );
-
-      return {
-        ...category.toObject(),
-        subcategories: categorySubcategories,
-      };
-    });
-  }
-
-  async findAllWithFullStructure(): Promise<Category[]> {
-    // 1. ვიღებთ ყველა აქტიურ კატეგორიას
-    const categories = await this.categoryModel
-      .find({ isActive: true })
-      .lean()
-      .exec();
-
-    // 2. ვიღებთ ყველა სუბკატეგორიას
-    const subcategories = await this.subcategoryModel
-      .find({ isActive: true })
-      .lean()
-      .exec();
-
-    // 3. ვიღებთ ყველა აქტიურ სეტს
-    const sets = await this.setModel
-      .find({ isActive: true })
-      .populate('categoryId')
-      .populate('subcategoryId')
-      .lean()
-      .exec();
-
-    // 4. ვიღებთ ყველა ვიდეოს სეტებისთვის
-    const videoIds = sets.flatMap((set) => set.videos || []);
-    const videos = await this.videoModel
-      .find({ _id: { $in: videoIds }, isActive: true })
-      .lean()
-      .exec();
-
-    // 5. ვაპოპულირებთ სეტებს ვიდეოებით
-    const populatedSets = sets.map((set) => ({
-      ...set,
-      videos: (set.videos || []).map((videoId) => {
-        const video = videos.find((v) => String(v._id) === String(videoId));
-        return video || null;
-      }).filter(Boolean),
-    }));
-
-    // 6. ვაწყობთ საბოლოო სტრუქტურას
-    return categories.map((category) => {
-      // ვფილტრავთ სუბკატეგორიებს ამ კატეგორიისთვის
-      const categorySubcategories = subcategories
-        .filter((sub) => String(sub.categoryId) === String(category._id))
-        .map((subcategory) => ({
-          ...subcategory,
-          // ვფილტრავთ სეტებს სუბკატეგორიისთვის
-          sets: populatedSets.filter(
-            (set) => String(set.subcategoryId?._id) === String(subcategory._id)
-          ),
-        }));
-
-      // ვფილტრავთ სეტებს რომლებიც პირდაპირ კატეგორიას ეკუთვნის (არა სუბკატეგორიას)
-      const categorySets = populatedSets.filter(
-        (set) => 
-          String(set.categoryId?._id) === String(category._id) && 
-          !set.subcategoryId
-      );
-
-      return {
-        ...category,
-        subcategories: categorySubcategories,
-        sets: categorySets,
-      };
-    });
-  }
-
-  async findOne(id: string): Promise<Category> {
-    const category = await this.categoryModel.findById(id).exec();
-    if (!category) {
-      throw new NotFoundException('კატეგორია ვერ მოიძებნა');
-    }
-    return category;
-  }
-
-  async create(categoryData: Partial<Category>): Promise<Category> {
-    const category = new this.categoryModel(categoryData);
+  async create(createCategoryDto: any): Promise<Category> {
+    const category = new this.categoryModel(createCategoryDto);
     return category.save();
   }
 
-  async update(id: string, categoryData: Partial<Category>): Promise<Category> {
-    const category = await this.categoryModel
-      .findByIdAndUpdate(id, categoryData, { new: true })
+  async findAll(): Promise<Category[]> {
+    return this.categoryModel.find()
+      .populate('subcategories')
+      .populate('sets')
       .exec();
+  }
+
+  async findOne(id: string): Promise<Category> {
+    const category = await this.categoryModel.findById(id)
+      .populate('subcategories')
+      .populate('sets')
+      .exec();
+    
     if (!category) {
-      throw new NotFoundException('კატეგორია ვერ მოიძებნა');
+      throw new NotFoundException('Category not found');
     }
     return category;
   }
 
-  async delete(id: string): Promise<void> {
-    const category = await this.categoryModel.findById(id).exec();
+  async getCategorySets(id: string) {
+    const category = await this.categoryModel.findById(id)
+      .populate({
+        path: 'sets',
+        populate: {
+          path: 'exercises'
+        }
+      })
+      .exec();
+    
     if (!category) {
-      throw new NotFoundException('კატეგორია ვერ მოიძებნა');
+      throw new NotFoundException('Category not found');
     }
-    category.isActive = false;
-    await category.save();
+
+    return category.sets;
   }
 
-  async createSubcategories(
-    parentId: string,
-    subcategories: Partial<Category>[],
-  ): Promise<Category[]> {
-    const parentCategory = await this.categoryModel.findById(parentId).exec();
-    if (!parentCategory) {
-      throw new NotFoundException('მშობელი კატეგორია ვერ მოიძებნა');
+  async update(id: string, updateCategoryDto: any): Promise<Category> {
+    const category = await this.categoryModel
+      .findByIdAndUpdate(id, updateCategoryDto, { new: true })
+      .exec();
+    
+    if (!category) {
+      throw new NotFoundException('Category not found');
     }
-
-    const createdSubcategories: CategoryDocument[] = [];
-    for (const subcategory of subcategories) {
-      const newSubcategory = new this.categoryModel({
-        ...subcategory,
-        parentId: new Types.ObjectId(parentId),
-        level: parentCategory.level + 1,
-        sequence: `${parentCategory.sequence || '1'}.${createdSubcategories.length + 1}`,
-        isActive: true,
-      });
-
-      const savedSubcategory = await newSubcategory.save();
-      createdSubcategories.push(savedSubcategory);
-    }
-
-    return createdSubcategories;
+    return category;
   }
-}
+
+  async remove(id: string): Promise<Category> {
+    const category = await this.categoryModel.findByIdAndDelete(id).exec();
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+    return category;
+  }
+
+  async addSubcategory(categoryId: string, subcategoryId: string): Promise<Category> {
+    const category = await this.categoryModel.findById(categoryId);
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    if (!category.subcategories) {
+      category.subcategories = [];
+    }
+
+    if (!category.subcategories.includes(new Types.ObjectId(subcategoryId))) {
+      category.subcategories.push(new Types.ObjectId(subcategoryId));
+      await category.save();
+    }
+
+    return category;
+  }
+
+  async addSet(categoryId: string, setId: string): Promise<Category> {
+    const category = await this.categoryModel.findById(categoryId);
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    if (!category.sets) {
+      category.sets = [];
+    }
+
+    if (!category.sets.includes(new Types.ObjectId(setId))) {
+      category.sets.push(new Types.ObjectId(setId));
+      await category.save();
+    }
+
+    return category;
+  }
+} 
