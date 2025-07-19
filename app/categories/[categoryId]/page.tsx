@@ -73,16 +73,23 @@ export default function CategoriesPage({
 
   const locale = getLocale();
 
-  // გარდავქმნით სეტებს WorksSlider-ის ფორმატში
-  const formattedSets = categoryData?.sets?.map((set) => ({
+  // ტექნიკურად ვფილტრავთ სეტებს წყაროს მიხედვით
+  const directSets = categoryData?.sets?.filter(set => !set.subCategoryId) || [];
+  const subcategorySets = categoryData?.sets?.filter(set => set.subCategoryId) || [];
+
+  // ვაერთიანებთ ყველა სეტს ერთ სიაში
+  const allSets = [...directSets, ...subcategorySets];
+
+  // გარდავქმნით ყველა სეტს WorksSlider-ის ფორმატში
+  const formattedSets = allSets.map((set) => ({
     id: set._id,
-    title: getLocalizedText(set?.title, locale),
+    title: getLocalizedText(set?.name, locale),
     description: getLocalizedText(set?.description, locale),
-    image: "/assets/images/workMan.png",
+    image: set.thumbnailImage || "/assets/images/workMan.png",
     exerciseCount: set.exercises?.length || 0,
     categoryName: getLocalizedText(selectedCategory?.name, locale),
-    price: `${set.monthlyPrice || 920}₾/თვე`,
-    monthlyPrice: set.monthlyPrice || 920,
+    price: `${set.price?.monthly || 920}₾/თვე`,
+    monthlyPrice: set.price?.monthly || 920,
   }));
 
   return (
@@ -112,24 +119,24 @@ export default function CategoriesPage({
           </div>
 
           <div className="flex flex-row items-center gap-[28px] overflow-x-auto">
-            {selectedCategory?.subcategories?.map((subcategory) => (
+            {categoryData?.subcategories?.map((subcategory) => (
               <div
                 key={subcategory._id}
                 className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px]"
               >
                 <Image
-                  src={"/assets/images/category1.png"}
+                  src={subcategory.image || "/assets/images/category1.png"}
                   width={542}
                   height={181}
-                  alt={subcategory.name || ""}
+                  alt={getLocalizedText(subcategory.name as { ka: string; en: string; ru: string }, locale)}
                   className="w-full h-[181px] object-cover rounded-[15px]"
                 />
                 <div className="flex items-center justify-between mt-[22px]">
                   <h1 className="text-[#3D334A] w-[342px] text-[28px] leading-[100%]">
-                    სავარჯიშოები
+                    {getLocalizedText(subcategory.name as { ka: string; en: string; ru: string }, locale)}
                   </h1>
                   <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                    {selectedCategory?.sets?.length || 0} სეტი
+                    {subcategorySets.filter(set => set.subCategoryId === subcategory._id).length} სეტი
                   </span>
                 </div>
               </div>

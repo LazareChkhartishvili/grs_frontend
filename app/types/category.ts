@@ -34,15 +34,40 @@ export interface SubscriptionPlan {
 
 export interface Set {
   _id: string;
-  title: MultiLanguageField;
-  description: MultiLanguageField;
-  videos: Video[];
-  exercises?: Exercise[];
+  name: LocalizedString;
+  description: LocalizedString;
+  thumbnailImage: string;
+  totalExercises: number;
+  totalDuration: string;
+  difficultyLevels: number;
+  levels: {
+    beginner: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+    intermediate: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+    advanced: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+  };
+  price: {
+    monthly: number;
+    threeMonths: number;
+    sixMonths: number;
+    yearly: number;
+  };
   isActive: boolean;
+  isPublished: boolean;
   sortOrder: number;
-  monthlyPrice?: number;
-  categoryId?: string;
-  subcategoryId?: string;
+  categoryId: string;
+  subCategoryId?: string;
+  exercises?: Exercise[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Exercise {
