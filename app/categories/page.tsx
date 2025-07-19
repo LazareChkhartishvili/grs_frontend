@@ -158,7 +158,12 @@ export default function CategoriesPage() {
         "
         >
           {" "}
-          <Blog withBanner={false} withSlider={true} layoutType="default" />
+          <Blog
+            withBanner={false}
+            withSlider={true}
+            layoutType="default"
+            title={""}
+          />
         </div>
         <Professional />
       </div>

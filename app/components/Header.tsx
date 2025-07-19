@@ -25,7 +25,8 @@ interface HeaderProps {
     | "category"
     | "blog"
     | "categories"
-    | "category-detail";
+    | "category-detail"
+    | "section";
   title?: string;
   info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   onPriceClick?: () => void;
@@ -92,7 +93,9 @@ const Header: React.FC<HeaderProps> = ({
         variant == "rehabilitation" && "h-[438px]"
       } ${variant == "default" && "h-[838px]"} ${
         variant == "blog" && "h-[218px] md:h-[518px]"
-      } ${variant == "category-detail" && "h-[338px]"}`}
+      } ${variant == "category-detail" && "h-[338px]"} ${
+        variant == "section" && "h-[838px]"
+      }`}
     >
       <div className="relative w-full rounded-[20px]">
         {variant !== "blog" && variant !== "category-detail" && (
@@ -430,6 +433,80 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             )}
 
+            {variant == "section" && (
+              <div className="mb-5 md:mb-0 mx-auto">
+                <section className="mt-[122px] md:mt-[450px] mx-auto md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
+                  {/* პირველი ბარათი */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                  >
+                    <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                      <Image
+                        src={categoryDetailItems[0].image}
+                        alt={categoryDetailItems[0].text}
+                        width={30}
+                        height={30}
+                      />
+                    </div>
+                    <h3 className="text-white text-sm font-medium font-[Pt] relative z-10">
+                      {info?.subcategoriesCount || 0} საბკატეგორია
+                    </h3>
+                  </motion.div>
+
+                  {/* მეორე და მესამე ბარათები */}
+                  <div className="flex flex-row gap-2 mt-2 md:mt-0 w-full font-[Pt]">
+                    <motion.div
+                      initial={{ opacity: 0, x: -100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                    >
+                      <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                        <Image
+                          src={categoryDetailItems[1].image}
+                          alt={categoryDetailItems[1].text}
+                          width={30}
+                          height={30}
+                        />
+                      </div>
+                      <h3 className="text-white text-sm font-medium relative z-10">
+                        {info?.setsCount || 0} კომპლექსი
+                      </h3>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="flex items-center gap-2.5 bg-[rgba(61,51,74,0.3)] px-2.5 rounded-[12px] h-[64px] w-full md:w-[246px]"
+                    >
+                      <div className="bg-[rgba(255,255,255,0.2)] w-[46px] h-[46px] justify-center items-center flex rounded-[8px]">
+                        <Image
+                          src={categoryDetailItems[2].image}
+                          alt={categoryDetailItems[2].text}
+                          width={30}
+                          height={30}
+                        />
+                      </div>
+                      <h3 className="text-white text-sm font-medium relative z-10">
+                        {info?.exercisesCount || 0} სავარჯიშო
+                      </h3>
+                    </motion.div>
+                  </div>
+                </section>
+
+                <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
+                  <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[73.2px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[90px] mt-2">
+                    <h2 className="text-[20px] md:text-[40px] font-[Pt] leading-[120%] tracking-[-3%]">
+                      {title}
+                    </h2>
+                  </div>
+                </section>
+              </div>
+            )}
+
             {variant == "complex" && (
               <div className="mb-5 md:mb-0 mx-auto">
                 <section className="mt-[122px] md:mt-[150px] mx-auto md:mx-5 flex flex-col md:flex-row md:items-center md:gap-2">
@@ -509,7 +586,8 @@ const Header: React.FC<HeaderProps> = ({
 
             {variant !== "category" &&
               variant !== "category-detail" &&
-              variant !== "categories" && (
+              variant !== "categories" &&
+              variant !== "section" && (
                 <header className="header">
                   <div
                     className={`absolute w-full ${
@@ -593,7 +671,8 @@ const Header: React.FC<HeaderProps> = ({
             {/* Desktop Navigation Arrows */}
             {variant !== "category-detail" &&
               variant !== "categories" &&
-              variant !== "complex" && (
+              variant !== "complex" &&
+              variant !== "section" && (
                 <div
                   className={`hidden absolute md:flex flex-row items-center right-10 ${
                     variant == "rehabilitation" ? "bottom-14" : "bottom-84"
@@ -642,7 +721,8 @@ const Header: React.FC<HeaderProps> = ({
             {/* Mobile Navigation Arrows */}
             {variant !== "category-detail" &&
               variant !== "categories" &&
-              variant !== "complex" && (
+              variant !== "complex" &&
+              variant !== "section" && (
                 <div
                   className={`hidden absolute flex-row items-center right-5 bottom-5 ${
                     variant == "rehabilitation" ? "bottom-14" : "bottom-5"
