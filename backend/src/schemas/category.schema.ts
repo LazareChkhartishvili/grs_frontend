@@ -36,6 +36,9 @@ export class Category {
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Category' }] })
   subcategories?: Types.ObjectId[];
 
+  @Prop({ type: Types.ObjectId, ref: 'Category' })
+  parentId?: Types.ObjectId;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Set' }] })
   sets?: Types.ObjectId[];
 

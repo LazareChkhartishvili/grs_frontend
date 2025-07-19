@@ -10,6 +10,7 @@ export declare class Category {
     description?: LocalizedString;
     image?: string;
     subcategories?: Types.ObjectId[];
+    parentId?: Types.ObjectId;
     sets?: Types.ObjectId[];
     isActive: boolean;
     sortOrder: number;

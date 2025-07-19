@@ -1,3 +1,9 @@
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
+}
+
 export interface MultiLanguageField {
   ka: string;
   en: string;
@@ -31,6 +37,7 @@ export interface Set {
   title: MultiLanguageField;
   description: MultiLanguageField;
   videos: Video[];
+  exercises?: Exercise[];
   isActive: boolean;
   sortOrder: number;
   monthlyPrice?: number;
@@ -47,30 +54,31 @@ export interface Exercise {
 
 export interface Subcategory {
   _id: string;
-  name: string;
-  nameGe: string;
-  nameRu: string;
-  image: string;
-  categoryId: string;
+  name: LocalizedString;
+  description?: LocalizedString;
+  image?: string;
+  parentId: string;
+  subcategories?: Category[];
+  sets?: string[];
   isActive: boolean;
   sortOrder: number;
-  sets: Set[];
-  createdAt: string;
-  updatedAt: string;
+  isPublished: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
+// SubCategory = Category (იგივე სქემაა, მხოლოდ parentId აქვს)
+export type SubCategory = Category;
 
 export interface Category {
   _id: string;
-  name: string;
-  code: string;
-  sequence: string;
-  level: number;
+  name: LocalizedString;
+  description?: LocalizedString;
+  image?: string;
+  parentId?: string;
+  subcategories?: Category[];
+  sets?: string[];
   isActive: boolean;
-  parentId: string | null;
   sortOrder: number;
-  exercises: any[]; // თუ საჭიროა Exercise ინტერფეისიც შეგვიძლია დავამატოთ
-  sets: Set[];
-  subcategories: Subcategory[];
-  createdAt: string;
-  updatedAt: string;
+  isPublished: boolean;
 } 

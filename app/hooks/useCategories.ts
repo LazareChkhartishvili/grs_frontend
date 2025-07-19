@@ -23,6 +23,7 @@ interface BackendCategory {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  parentId?: string; // Added for filtering
 }
 
 interface UseCategoriesReturn {
@@ -148,10 +149,20 @@ export function useCategories(): UseCategoriesReturn {
 
       console.log("✅ Using raw backend data without transformation");
 
-      // აღარ გავაკეთებთ ტრანსფორმაციას - raw data-ს ვიყენებთ
-      setCategories(backendCategories);
+      // ვფილტრავთ მხოლოდ მთავარ კატეგორიებს (საბკატეგორიები ცალკე იჩენება დამოკიდებულ კომპონენტებში)
+      const mainCategories = backendCategories.filter(category => !category.parentId);
       
-    } catch (err) {
+      console.log("🔍 Filtered main categories:", {
+        totalCategories: backendCategories.length,
+        mainCategories: mainCategories.length,
+        subcategories: backendCategories.length - mainCategories.length,
+        filteredCategories: mainCategories
+      });
+
+      // მხოლოდ მთავარ კატეგორიებს ვყენებთ
+      setCategories(mainCategories);
+      
+    } catch (err: unknown) {
       console.error("❌ Error fetching categories:", err);
       console.error("❌ Error details:", {
         message: err instanceof Error ? err.message : 'Unknown error',

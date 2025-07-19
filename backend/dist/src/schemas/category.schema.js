@@ -45,6 +45,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Category.prototype, "subcategories", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Category' }),
+    __metadata("design:type", mongoose_2.Types.ObjectId)
+], Category.prototype, "parentId", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'Set' }] }),
     __metadata("design:type", Array)
 ], Category.prototype, "sets", void 0);
