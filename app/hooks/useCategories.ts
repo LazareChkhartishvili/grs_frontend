@@ -73,6 +73,13 @@ function getFallbackCategories(): CategoryItem[] {
   ];
 }
 
+function getLocaleString(value: unknown, locale: string): string {
+  if (typeof value === "object" && value !== null && locale in value) {
+    return (value as Record<string, string>)[locale];
+  }
+  return typeof value === "string" ? value : "";
+}
+
 export function useCategories(): UseCategoriesReturn {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,33 +100,53 @@ export function useCategories(): UseCategoriesReturn {
         throw new Error("API response is not an array");
       }
 
-      console.log("📦 Received categories:", backendCategories);
+      // Get locale from localStorage or default to 'ru'
+      let locale = "ru";
+      if (typeof window !== "undefined") {
+        const storedLocale = localStorage.getItem("locale");
+        if (storedLocale && ["ka", "ru", "en"].includes(storedLocale)) {
+          locale = storedLocale;
+        }
+      }
 
-      const transformedCategories: CategoryItem[] = backendCategories
-        .filter(category => category.isActive)
-        .map((category, index) => ({
-          id: index + 1,
-          _id: category._id,
-          title: category.name,
-          backgroundImage: "/assets/images/blog.png", // დროებითი
-          categoryImage: "/assets/images/services/category.png", // დროებითი
-          items: category.subcategories?.map(sub => sub.name) || [],
-          subcategories: category.subcategories
-            ?.filter(sub => sub.isActive)
-            ?.map(sub => ({
-              id: parseInt(sub._id.slice(-8), 16),
-              _id: sub._id,
-              name: sub.name,
-              nameGe: sub.nameGe,
-              nameRu: sub.nameRu,
-              image: sub.image,
-              categoryId: sub.categoryId,
-              sets: sub.sets || [],
-            })) || [],
-          sets: category.sets || [],
-        }));
+      const transformedCategories: CategoryItem[] = backendCategories.map(
+        (category, index) => {
+          const transformed = {
+            id: category.id || index + 1,
+            _id: category._id,
+            title:
+              getLocaleString(category.name, locale) || `Category ${index + 1}`,
+            backgroundImage:
+              category.backgroundImage || "/assets/images/blog.png",
+            categoryImage:
+              category.image || "/assets/images/services/category.png",
+            items:
+              category.subcategories?.map((sub) =>
+                getLocaleString(sub.name, locale)
+              ) || [],
+            subcategories:
+              category.subcategories?.map((subRaw: Record<string, unknown>) => {
+                const sub = subRaw as { [key: string]: unknown };
+                return {
+                  id: parseInt((sub._id as string).slice(-8), 16),
+                  name: getLocaleString(sub.name, locale),
+                  description:
+                    getLocaleString(sub.description, locale) ||
+                    (sub.description as string | undefined),
+                  sets:
+                    "sets" in sub && Array.isArray(sub.sets)
+                      ? (sub.sets as import("../types/exercise").Set[])
+                      : Array.isArray(sub.exercises)
+                      ? (sub.exercises as import("../types/exercise").Set[])
+                      : [],
+                };
+              }) || [],
+            sets: (category.sets as import("../types/exercise").Set[]) || [],
+          };
+          return transformed;
+        }
+      );
 
-      console.log("✨ Transformed categories:", transformedCategories);
       setCategories(transformedCategories);
     } catch (err) {
       console.error("❌ Error fetching categories:", err);

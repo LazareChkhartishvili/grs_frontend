@@ -7,9 +7,10 @@ import { defaultMenuItems } from "../components/Header";
 const Teachers = () => {
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
-      <MobileNavbar />
-      <div>
+      <div className="bg-[#F9F7FE]">
+        <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+        <MobileNavbar />
+
         <TeacherInfo />
       </div>
     </div>

@@ -18,8 +18,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
 
   const languages = [
     { code: "ka", label: "KA" },
-    { code: "ru", label: "RU" }, 
-    { code: "en", label: "EN" }
+    { code: "ru", label: "RU" },
+    { code: "en", label: "EN" },
   ];
 
   const handleLanguageChange = (langCode: "ka" | "ru" | "en") => {
@@ -34,7 +34,8 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
         onClick={toggleDropdown}
       >
         <h4 className="text-white">
-          {languages.find(lang => lang.code === locale)?.label || locale.toUpperCase()}
+          {languages.find((lang) => lang.code === locale)?.label ||
+            locale.toUpperCase()}
         </h4>
         <Image
           src={"/assets/images/dropDown.svg"}
@@ -52,7 +53,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
               <button
                 key={lang.code}
                 className="w-full px-4 py-2 text-left text-white hover:bg-white/10 transition-colors duration-150 rounded-md"
-                onClick={() => handleLanguageChange(lang.code as "ka" | "ru" | "en")}
+                onClick={() =>
+                  handleLanguageChange(lang.code as "ka" | "ru" | "en")
+                }
               >
                 {lang.label}
               </button>

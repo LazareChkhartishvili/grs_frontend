@@ -1,25 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
 import CourseSlider from "../components/CourseSlider";
-import { CiSearch } from "react-icons/ci";
 import { useCourses } from "../hooks/useCourses";
-import { useCategory } from "../context/CategoryContext";
+import { CiSearch } from "react-icons/ci";
 // import { useRouter } from "next/navigation";
 
+// --- Demo categories for visual ---
+const demoCategories = [
+  { id: "all", title: "Все категории", active: true },
+  {
+    id: "ortopedia",
+    title: "ОРТОПЕДИЯ",
+    dropdownItems: ["Подкатегория 1", "Подкатегория 2"],
+  },
+  {
+    id: "ortopedia3",
+    title: "ОРТОПЕДИЯ (3)",
+    dropdownItems: ["Вариант 1", "Вариант 2", "Вариант 3"],
+  },
+  { id: "afaziya", title: "АФАЗИЯ И ДИЗАРТРИЯ" },
+  { id: "ozhirenie", title: "ОЖИРЕНИЕ" },
+  { id: "nevrologia", title: "НЕВРОЛОГИЯ" },
+  { id: "covid", title: "РЕАБИЛИТАЦИЯ ПОСЛЕ COVID-19" },
+  { id: "pohodka", title: "РЕАБИЛИТАЦИЯ ПОХОДКИ" },
+  { id: "pozhilyh", title: "РЕАБИЛИТАЦИЯ ДЛЯ ПОЖИЛЫХ" },
+];
+
 const AllCourse = () => {
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const { categories, loading: categoriesLoading } = useCategory();
-  const {
-    courses,
-    loading: coursesLoading,
-    error,
-  } = useCourses(selectedCategory || undefined);
+  // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  // const { categories, loading: categoriesLoading } = useCategories();
+  const { courses, loading: coursesLoading, error } = useCourses(undefined);
   // const router = useRouter();
-  // const router = useRouter();
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdownId(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // useEffect(() => {
   //   router.push("/allCourse/1");
@@ -28,7 +61,7 @@ const AllCourse = () => {
   //   router.push("/allCourse/1");
   // }, [router]);
 
-  const loading = categoriesLoading || coursesLoading;
+  const loading = coursesLoading;
 
   if (loading) {
     return (
@@ -64,44 +97,68 @@ const AllCourse = () => {
         <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%] mb-[61px]">
           Курсы
         </h1>
-        <div className="relative ">
+        <div className="relative mb-6">
           <input
             type="text"
             placeholder="Введите название упражнения"
-            className=" w-full bg-white rounded-[54px] px-[50px] py-[21px] mb-10 text-[#846FA0] text-[19px] font-medium"
+            className="w-full bg-white rounded-[54px] px-[50px] py-[21px] mb-2 text-[#846FA0] text-[19px] font-medium"
           />
           <CiSearch
             color="black"
             size={25}
             className="absolute top-[22px] left-4"
           />
-          <div className="w-full min-h-[264px]  bg-white rounded-[40px] mb-10 p-10 flex flex-wrap flex-row gap-[10px]">
-            {/* ყველა კატეგორია ღილაკი */}
-            <button
-              key="all"
-              onClick={() => setSelectedCategory(null)}
-              className={`text-[#3D334A] text-[19px] mx-auto md:mx-0 rounded-[8px] px-5 h-[33px] transition-colors ${
-                selectedCategory === null ? "bg-[#D4BAFC]" : "bg-[#F9F7FE]"
-              }`}
-            >
-              Все категории
-            </button>
-
-            {/* კატეგორიების ღილაკები */}
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`text-[#3D334A] text-[19px] mx-auto md:mx-0 rounded-[8px] px-5 h-[33px] transition-colors ${
-                  selectedCategory === category.id
-                    ? "bg-[#D4BAFC]"
-                    : "bg-[#F9F7FE]"
-                }`}
-              >
-                {category.title}
-              </button>
-            ))}
-          </div>
+        </div>
+        {/* --- Category bar as in screenshot --- */}
+        <div
+          ref={dropdownRef}
+          className="w-full min-h-[64px] bg-white rounded-[40px] mb-6 p-4 flex flex-wrap gap-2 md:gap-3 items-center"
+        >
+          {demoCategories.map((cat, idx) => {
+            const isDropdown = !!cat.dropdownItems;
+            const isOpen = openDropdownId === cat.id;
+            return (
+              <div key={cat.id} className="relative">
+                <button
+                  className={`text-[#3D334A] text-[13px] md:text-[15px] font-medium rounded-[8px] px-3 md:px-5 h-[33px] transition-colors whitespace-nowrap flex items-center gap-1
+                    ${idx === 0 ? "bg-[#E9DDFB] font-bold" : "bg-[#F9F7FE]"}
+                    ${cat.active ? "shadow-sm" : ""}
+                    ${isOpen ? "ring-2 ring-[#D4BAFC] bg-[#F3D57F]" : ""}
+                  `}
+                  onClick={() => {
+                    if (isDropdown) {
+                      setOpenDropdownId(isOpen ? null : cat.id);
+                    }
+                  }}
+                  type="button"
+                >
+                  {cat.title}
+                  {isDropdown && (
+                    <span
+                      className={`ml-1 text-xs transition-transform ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      ▼
+                    </span>
+                  )}
+                </button>
+                {/* Dropdown menu */}
+                {isDropdown && isOpen && (
+                  <div className="absolute left-0 top-full mt-1 z-20 bg-white rounded-[10px] shadow-lg min-w-[160px] py-2 animate-fade-in">
+                    {cat.dropdownItems.map((item, i) => (
+                      <div
+                        key={i}
+                        className="px-4 py-2 hover:bg-[#F3D57F] cursor-pointer text-[#3D334A] text-[13px]"
+                      >
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div>
           {courses.length > 0 ? (
@@ -116,7 +173,7 @@ const AllCourse = () => {
             </div>
           )}
         </div>
-        <button className="w-[512px] py-4 cursor-pointer rounded-[10px] text-[#3D334A] text-[32px] bg-[#D4BAFC] flex justify-center items-center mx-auto mt-10 ">
+        <button className="w-[512px] py-4 cursor-poer rounded-[10px] text-[#3D334A] text-[32px] bg-[#D4BAFC] flex justify-center items-center mx-auto mt-10 ">
           Показать еще
         </button>
       </div>

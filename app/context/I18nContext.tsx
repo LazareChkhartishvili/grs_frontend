@@ -105,8 +105,9 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children }) => {
       return key;
     }
 
-    // If translation is an object (e.g., {ka, ru, en}), try to return the value for the current locale
+    // If translation is an object (e.g., {ka, ru, en, _id}), try to return the value for the current locale
     if (typeof translation === "object" && translation !== null) {
+      // Remove any non-locale keys (like _id)
       const localeValue = (translation as Record<string, string>)[locale];
       if (typeof localeValue === "string") {
         translation = localeValue;
@@ -126,7 +127,12 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children }) => {
       });
     }
 
-    return translation as string;
+    // Ensure we never return an object
+    if (typeof translation !== "string") {
+      return `[[Invalid translation for key: ${key}]]`;
+    }
+
+    return translation;
   };
 
   return (

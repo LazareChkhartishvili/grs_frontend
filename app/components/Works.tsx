@@ -47,7 +47,7 @@ interface Set {
 
 interface WorksProps {
   title: string;
-  items: Set[];
+  items?: Set[];
 }
 
 const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
@@ -73,13 +73,13 @@ const Works: React.FC<WorksProps> = ({ title, items = [] }) => {
     title: getLocalized(set.title),
     description: getLocalized(set.description),
     image: "/assets/images/workMan.png", // Default image
-    exerciseCount: set.exercises.length,
+    exerciseCount: Array.isArray(set.exercises) ? set.exercises.length : 0,
     categoryName: getLocalized(set.categoryName) || "ორთოპედია", // Default
     monthlyPrice: set.monthlyPrice || 920, // Default price
   }));
 
   return (
-    <div className="bg-[#F9F7FE] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0">
+    <div className="bg-[#F9F7FE] md:rounded-[20px] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0">
       {/* Slider */}
       <WorksSlider title={title} works={works} />
       <Link
