@@ -49,55 +49,53 @@ class PriceDto {
 }
 
 export class CreateSetDto {
-  name: {
-    ka: string;
-    en: string;
-    ru: string;
-  };
+  @ValidateNested()
+  @Type(() => LocalizedStringDto)
+  name: LocalizedStringDto;
 
-  description: {
-    ka: string;
-    en: string;
-    ru: string;
-  };
+  @ValidateNested()
+  @Type(() => LocalizedStringDto)
+  description: LocalizedStringDto;
 
+  @IsString()
   thumbnailImage: string;
 
-  totalExercises: number;
+  @IsOptional()
+  @IsNumber()
+  totalExercises?: number;
 
-  totalDuration: string;
+  @IsOptional()
+  @IsString()
+  totalDuration?: string;
 
-  difficultyLevels: number;
+  @IsOptional()
+  @IsNumber()
+  difficultyLevels?: number;
 
-  levels: {
-    beginner: {
-      exerciseCount: number;
-      isLocked: boolean;
-    };
-    intermediate: {
-      exerciseCount: number;
-      isLocked: boolean;
-    };
-    advanced: {
-      exerciseCount: number;
-      isLocked: boolean;
-    };
-  };
+  @ValidateNested()
+  @Type(() => LevelsDto)
+  levels: LevelsDto;
 
-  price: {
-    monthly: number;
-    threeMonths: number;
-    sixMonths: number;
-    yearly: number;
-  };
+  @ValidateNested()
+  @Type(() => PriceDto)
+  price: PriceDto;
 
-  isActive: boolean;
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
 
-  isPublished: boolean;
+  @IsOptional()
+  @IsBoolean()
+  isPublished?: boolean;
 
-  sortOrder: number;
+  @IsOptional()
+  @IsNumber()
+  sortOrder?: number;
 
+  @IsMongoId()
   categoryId: string;
 
+  @IsOptional()
+  @IsMongoId()
   subCategoryId?: string;
 } 

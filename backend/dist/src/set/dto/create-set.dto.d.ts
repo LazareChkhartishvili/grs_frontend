@@ -1,41 +1,36 @@
+declare class LocalizedStringDto {
+    ka: string;
+    en: string;
+    ru: string;
+}
+declare class LevelDto {
+    exerciseCount: number;
+    isLocked: boolean;
+}
+declare class LevelsDto {
+    beginner: LevelDto;
+    intermediate: LevelDto;
+    advanced: LevelDto;
+}
+declare class PriceDto {
+    monthly: number;
+    threeMonths: number;
+    sixMonths: number;
+    yearly: number;
+}
 export declare class CreateSetDto {
-    name: {
-        ka: string;
-        en: string;
-        ru: string;
-    };
-    description: {
-        ka: string;
-        en: string;
-        ru: string;
-    };
+    name: LocalizedStringDto;
+    description: LocalizedStringDto;
     thumbnailImage: string;
-    totalExercises: number;
-    totalDuration: string;
-    difficultyLevels: number;
-    levels: {
-        beginner: {
-            exerciseCount: number;
-            isLocked: boolean;
-        };
-        intermediate: {
-            exerciseCount: number;
-            isLocked: boolean;
-        };
-        advanced: {
-            exerciseCount: number;
-            isLocked: boolean;
-        };
-    };
-    price: {
-        monthly: number;
-        threeMonths: number;
-        sixMonths: number;
-        yearly: number;
-    };
-    isActive: boolean;
-    isPublished: boolean;
-    sortOrder: number;
+    totalExercises?: number;
+    totalDuration?: string;
+    difficultyLevels?: number;
+    levels: LevelsDto;
+    price: PriceDto;
+    isActive?: boolean;
+    isPublished?: boolean;
+    sortOrder?: number;
     categoryId: string;
     subCategoryId?: string;
 }
+export {};

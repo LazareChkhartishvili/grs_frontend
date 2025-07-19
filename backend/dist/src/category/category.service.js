@@ -55,6 +55,42 @@ let CategoryService = class CategoryService {
         }
         return category.sets;
     }
+    async getCategoryComplete(id) {
+        const category = await this.categoryModel.findById(id)
+            .populate('subcategories')
+            .exec();
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
+        }
+        const sets = await this.categoryModel.db.model('Set').find({
+            categoryId: new mongoose_2.Types.ObjectId(id),
+            isActive: true
+        }).exec();
+        const exercises = await this.categoryModel.db.model('Exercise').find({
+            categoryId: new mongoose_2.Types.ObjectId(id),
+            isActive: true
+        }).exec();
+        const setsWithExercises = await Promise.all(sets.map(async (set) => {
+            const setExercises = await this.categoryModel.db.model('Exercise').find({
+                setId: set._id,
+                isActive: true
+            }).exec();
+            return {
+                ...set.toObject(),
+                exercises: setExercises
+            };
+        }));
+        const subcategories = await this.categoryModel.find({
+            parentId: new mongoose_2.Types.ObjectId(id),
+            isActive: true
+        }).exec();
+        return {
+            category,
+            sets: setsWithExercises,
+            subcategories,
+            exercises
+        };
+    }
     async update(id, updateCategoryDto) {
         const category = await this.categoryModel
             .findByIdAndUpdate(id, updateCategoryDto, { new: true })
@@ -76,14 +112,108 @@ let CategoryService = class CategoryService {
         if (!category) {
             throw new common_1.NotFoundException('Category not found');
         }
+        const subcategory = await this.categoryModel.findById(subcategoryId);
+        if (!subcategory) {
+            throw new common_1.NotFoundException('Subcategory not found');
+        }
         if (!category.subcategories) {
             category.subcategories = [];
         }
         if (!category.subcategories.includes(new mongoose_2.Types.ObjectId(subcategoryId))) {
             category.subcategories.push(new mongoose_2.Types.ObjectId(subcategoryId));
+            subcategory.parentId = new mongoose_2.Types.ObjectId(categoryId);
+            await subcategory.save();
             await category.save();
         }
         return category;
+    }
+    async removeSubcategory(categoryId, subcategoryId) {
+        const category = await this.categoryModel.findById(categoryId);
+        if (!category) {
+            throw new common_1.NotFoundException('Category not found');
+        }
+        if (category.subcategories) {
+            category.subcategories = category.subcategories.filter(id => id.toString() !== subcategoryId);
+            await category.save();
+        }
+        const subcategory = await this.categoryModel.findById(subcategoryId);
+        if (subcategory) {
+            subcategory.parentId = undefined;
+            await subcategory.save();
+        }
+        return category;
+    }
+    async getSubcategories(categoryId) {
+        return this.categoryModel.find({ parentId: new mongoose_2.Types.ObjectId(categoryId), isActive: true })
+            .populate('subcategories')
+            .populate('sets')
+            .exec();
+    }
+    async getSubCategoryById(categoryId, subCategoryId) {
+        const subcategory = await this.categoryModel.findOne({
+            _id: new mongoose_2.Types.ObjectId(subCategoryId),
+            parentId: new mongoose_2.Types.ObjectId(categoryId),
+            isActive: true
+        })
+            .populate('subcategories')
+            .populate('sets')
+            .exec();
+        if (!subcategory) {
+            throw new common_1.NotFoundException('Subcategory not found');
+        }
+        return subcategory;
+    }
+    async updateSubCategory(categoryId, subCategoryId, updateCategoryDto) {
+        const subcategory = await this.categoryModel.findOneAndUpdate({
+            _id: new mongoose_2.Types.ObjectId(subCategoryId),
+            parentId: new mongoose_2.Types.ObjectId(categoryId)
+        }, updateCategoryDto, { new: true }).exec();
+        if (!subcategory) {
+            throw new common_1.NotFoundException('Subcategory not found');
+        }
+        return subcategory;
+    }
+    async getSubCategorySets(categoryId, subCategoryId) {
+        const subcategory = await this.categoryModel.findOne({
+            _id: new mongoose_2.Types.ObjectId(subCategoryId),
+            parentId: new mongoose_2.Types.ObjectId(categoryId),
+            isActive: true
+        }).exec();
+        if (!subcategory) {
+            throw new common_1.NotFoundException('Subcategory not found');
+        }
+        const sets = await this.categoryModel.db.model('Set').find({
+            subCategoryId: new mongoose_2.Types.ObjectId(subCategoryId),
+            isActive: true
+        }).exec();
+        const setsWithExercises = await Promise.all(sets.map(async (set) => {
+            const setExercises = await this.categoryModel.db.model('Exercise').find({
+                setId: set._id,
+                isActive: true
+            }).exec();
+            return {
+                ...set.toObject(),
+                exercises: setExercises
+            };
+        }));
+        return setsWithExercises;
+    }
+    async createSubcategory(parentId, createCategoryDto) {
+        const parentCategory = await this.categoryModel.findById(parentId);
+        if (!parentCategory) {
+            throw new common_1.NotFoundException('Parent category not found');
+        }
+        const subcategory = new this.categoryModel({
+            ...createCategoryDto,
+            parentId: new mongoose_2.Types.ObjectId(parentId)
+        });
+        const savedSubcategory = await subcategory.save();
+        if (!parentCategory.subcategories) {
+            parentCategory.subcategories = [];
+        }
+        parentCategory.subcategories.push(savedSubcategory._id);
+        await parentCategory.save();
+        return savedSubcategory;
     }
     async addSet(categoryId, setId) {
         const category = await this.categoryModel.findById(categoryId);

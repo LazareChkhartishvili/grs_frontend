@@ -18,7 +18,9 @@ exports.CategoryModule = CategoryModule;
 exports.CategoryModule = CategoryModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: category_schema_1.Category.name, schema: category_schema_1.CategorySchema }])
+            mongoose_1.MongooseModule.forFeature([
+                { name: category_schema_1.Category.name, schema: category_schema_1.CategorySchema }
+            ])
         ],
         controllers: [category_controller_1.CategoryController],
         providers: [category_service_1.CategoryService],

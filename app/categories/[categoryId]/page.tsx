@@ -1,6 +1,7 @@
 "use client";
 
-import { useCategories } from "../../hooks/useCategories";
+import { use } from "react";
+import { useCategoryComplete } from "../../hooks/useCategoryComplete";
 import Image from "next/image";
 import Header from "../../components/Header";
 import SliderArrows from "../../components/SliderArrows";
@@ -13,13 +14,13 @@ import Blog from "@/app/components/Blog";
 export default function CategoriesPage({
   params,
 }: {
-  params: { categoryId: string };
+  params: Promise<{ categoryId: string }>;
 }) {
-  const { categoryId } = params;
-  const { categories, loading, error } = useCategories();
+  const { categoryId } = use(params);
+  const { categoryData, loading, error } = useCategoryComplete(categoryId);
 
-  // ვპოულობთ არჩეულ კატეგორიას
-  const selectedCategory = categories.find((cat) => cat._id === categoryId);
+  // ახლა სრული მონაცემები გვაქვს
+  const selectedCategory = categoryData?.category;
 
   if (loading) {
     return (
@@ -56,30 +57,46 @@ export default function CategoriesPage({
     );
   }
 
+  // ვიღებთ ენის პარამეტრს locale storage-იდან
+  const getLocale = () => {
+    if (typeof window !== "undefined") {
+      const storedLocale = localStorage.getItem("locale");
+      return (storedLocale && ["ka", "ru", "en"].includes(storedLocale)) ? storedLocale : 'ru';
+    }
+    return 'ru';
+  };
+
+  const getLocalizedText = (field: { ka: string; en: string; ru: string } | undefined, locale: string = 'ru'): string => {
+    if (!field) return '';
+    return field[locale as keyof typeof field] || field.ru || field.en || field.ka || '';
+  };
+
+  const locale = getLocale();
+
   // გარდავქმნით სეტებს WorksSlider-ის ფორმატში
-  const formattedSets = selectedCategory.sets?.map((set) => ({
+  const formattedSets = categoryData?.sets?.map((set) => ({
     id: set._id,
-    title: set.title,
-    description: set.description,
+    title: getLocalizedText(set?.title, locale),
+    description: getLocalizedText(set?.description, locale),
     image: "/assets/images/workMan.png",
     exerciseCount: set.exercises?.length || 0,
-    categoryName: selectedCategory.title,
+    categoryName: getLocalizedText(selectedCategory?.name, locale),
     price: `${set.monthlyPrice || 920}₾/თვე`,
     monthlyPrice: set.monthlyPrice || 920,
   }));
 
   return (
     <div className="">
-      <Header variant="categories" title={selectedCategory.title} />
+      <Header variant="categories" title={getLocalizedText(selectedCategory?.name, locale)} />
       <div className="md:pt-[100px] pt-[400px]">
         <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-[20px]">
             <div className="flex flex-col gap-5">
               <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
-                {selectedCategory.title}
+                საბკატეგორიები
               </h1>
               <span className="text-[#D4BAFC] text-[24px] leading-[90%] uppercase">
-                {selectedCategory.subcategories.length} საბკატეგორია
+                {selectedCategory?.subcategories?.length || 0} საბკატეგორია
               </span>
             </div>
             <div>
@@ -95,35 +112,35 @@ export default function CategoriesPage({
           </div>
 
           <div className="flex flex-row items-center gap-[28px] overflow-x-auto">
-            {selectedCategory.subcategories.map((subcategory) => (
+            {selectedCategory?.subcategories?.map((subcategory) => (
               <div
-                key={subcategory.id}
+                key={subcategory._id}
                 className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px]"
               >
                 <Image
                   src={"/assets/images/category1.png"}
                   width={542}
                   height={181}
-                  alt={subcategory.name}
+                  alt={subcategory.name || ""}
                   className="w-full h-[181px] object-cover rounded-[15px]"
                 />
                 <div className="flex items-center justify-between mt-[22px]">
                   <h1 className="text-[#3D334A] w-[342px] text-[28px] leading-[100%]">
-                    {subcategory.name}
+                    სავარჯიშოები
                   </h1>
                   <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                    {selectedCategory.sets?.length || 0} სეტი
+                    {selectedCategory?.sets?.length || 0} სეტი
                   </span>
                 </div>
               </div>
-            ))}
+            )) || []}
           </div>
         </div>
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
             <WorksSlider
-              title={`${selectedCategory.title}-ის სეტები`}
+              title={"კომპლექსები"}
               works={formattedSets}
             />
           </div>
@@ -131,7 +148,7 @@ export default function CategoriesPage({
 
         <Subscribe />
         <ReviewSlider />
-        <Blog withBanner={false} withSlider={true} layoutType="default" />
+        <Blog withBanner={false} withSlider={true} layoutType="default" title={getLocalizedText(selectedCategory?.name, locale)} />
         <Professional />
       </div>
     </div>
