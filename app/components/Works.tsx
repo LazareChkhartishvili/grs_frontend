@@ -99,6 +99,14 @@ interface WorksProps {
 const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
   const { t, locale } = useI18n();
 
+  console.log("🏃‍♂️ Works component rendered with:", {
+    title,
+    itemsCount: items.length,
+    exercisesCount: exercises.length,
+    exercises: exercises,
+    locale
+  });
+
   // Helper to get localized string from object or string
   const getLocalized = (value: unknown): string => {
     if (typeof value === "string") return value;
@@ -118,6 +126,33 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
     return localizedString[locale as keyof LocalizedString] || localizedString.ru || localizedString.en || localizedString.ka || '';
   };
 
+  // Helper function to get valid thumbnail URL
+  const getValidThumbnailUrl = (url: string | undefined): string => {
+    console.log("🖼️ getValidThumbnailUrl input:", url);
+    
+    // თუ URL არ არის, ვიყენებთ default-ს
+    if (!url) {
+      console.log("🖼️ No URL provided, using default");
+      return "/assets/images/workMan.png";
+    }
+    
+    // base64 images-ის support
+    if (url.startsWith('data:image')) {
+      console.log("🖼️ Base64 image detected, using it");
+      return url; // base64 image-ს ვიყენებთ
+    }
+    
+    // თუ ვალიდური URL-ია
+    if (url.startsWith('http') || url.startsWith('/')) {
+      console.log("🖼️ Valid URL detected:", url);
+      return url;
+    }
+    
+    // სხვა შემთხვევაში default
+    console.log("🖼️ Invalid URL, using default");
+    return "/assets/images/workMan.png";
+  };
+
   interface WorkItem {
     id: string;
     title: string;
@@ -133,21 +168,30 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
 
   let works: WorkItem[] = [];
 
+  console.log("🔄 Processing data...", { exercisesLength: exercises.length, itemsLength: items.length });
+
   // If exercises are provided, transform them for WorksSlider
   if (exercises.length > 0) {
-    works = exercises.map((exercise) => ({
-      id: exercise._id,
-      title: getLocalizedFromExercise(exercise.name),
-      description: getLocalizedFromExercise(exercise.description),
-      image: exercise.thumbnailUrl || "/assets/images/workMan.png", // Use exercise thumbnail
-      exerciseCount: 1, // Single exercise
-      categoryName: exercise.category ? getLocalizedFromExercise(exercise.category.name) : "ორთოპედია",
-      monthlyPrice: 920, // Default price
-      difficulty: exercise.difficulty,
-      duration: exercise.duration,
-      videoUrl: exercise.videoUrl,
-    }));
+    console.log("📝 Processing exercises...");
+    works = exercises.map((exercise, index) => {
+      console.log(`🏃‍♂️ Processing exercise ${index}:`, exercise);
+      const result = {
+        id: exercise._id,
+        title: getLocalizedFromExercise(exercise.name),
+        description: getLocalizedFromExercise(exercise.description),
+        image: getValidThumbnailUrl(exercise.thumbnailUrl),
+        exerciseCount: 1, // Single exercise
+        categoryName: exercise.category ? getLocalizedFromExercise(exercise.category.name) : "ორთოპედია",
+        monthlyPrice: 920, // Default price
+        difficulty: exercise.difficulty,
+        duration: exercise.duration,
+        videoUrl: exercise.videoUrl,
+      };
+      console.log(`✅ Processed exercise ${index}:`, result);
+      return result;
+    });
   } else if (items.length > 0) {
+    console.log("📝 Processing items (sets)...");
     // Transform sets to work with existing WorksSlider component
     works = items.map((set) => ({
       id: set._id,
@@ -158,7 +202,11 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
       categoryName: getLocalized(set.categoryName) || "ორთოპედია", // Default
       monthlyPrice: set.monthlyPrice || 920, // Default price
     }));
+  } else {
+    console.log("⚠️ No exercises or items to process!");
   }
+
+  console.log("🎯 Final works array:", works);
 
   const linkHref = exercises.length > 0 ? "/exercises" : "/sets";
   const linkText = exercises.length > 0 

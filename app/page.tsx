@@ -21,6 +21,14 @@ const Home = () => {
 
   console.log("📊 Categories loaded:", { count: categories.length, loading: categoriesLoading, error: categoriesError });
   console.log("🏃‍♂️ Exercises loaded:", { count: exercises.length, loading: exercisesLoading, error: exercisesError });
+  console.log("🏃‍♂️ Exercises data:", exercises);
+
+  console.log("🏠 Home component rendering with exercises:", {
+    exercisesCount: exercises.length,
+    exercisesLoading,
+    exercisesError,
+    firstExercise: exercises[0]
+  });
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden">
@@ -28,7 +36,7 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category />
-        <Works title={"Exercises"} items={exercises} />
+        <Works title={"Exercises"} exercises={exercises} />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"

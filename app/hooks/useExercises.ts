@@ -148,6 +148,8 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log("🔴 useExercises hook initialized with options:", options);
+
   const fetchExercises = async () => {
     try {
       setLoading(true);
@@ -157,6 +159,8 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
 
       const { apiRequest, API_CONFIG } = await import("../config/api");
       let endpoint = API_CONFIG.ENDPOINTS.EXERCISES;
+      
+      console.log("🔗 Base endpoint:", endpoint);
       
       // ვქმნით query parameters
       const params = new URLSearchParams();
@@ -179,7 +183,9 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
         timestamp: new Date().toISOString()
       });
 
+      console.log("🔄 About to call apiRequest...");
       const backendExercises: BackendExercise[] = await apiRequest<BackendExercise[]>(endpoint);
+      console.log("✅ apiRequest completed successfully");
 
       console.log("🏃‍♂️ Raw Exercises Response:", {
         data: backendExercises,
@@ -197,6 +203,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
 
       // აღარ გავაკეთებთ ტრანსფორმაციას - raw data-ს ვიყენებთ
       setExercises(backendExercises);
+      console.log("✅ setExercises called with:", backendExercises.length, "exercises");
       
     } catch (err) {
       console.error("❌ Error fetching exercises:", err);
@@ -212,13 +219,28 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
       setError(err instanceof Error ? err.message : "API Error - using fallback exercises data");
     } finally {
       setLoading(false);
-      console.log("🏁 fetchExercises completed");
+      console.log("🏁 fetchExercises completed, loading set to false");
     }
   };
 
   useEffect(() => {
+    console.log("🔄 useEffect triggered, calling fetchExercises");
+    console.log("🔄 useEffect dependencies:", {
+      categoryId: options.categoryId,
+      subCategoryId: options.subCategoryId,
+      setId: options.setId,
+      difficulty: options.difficulty,
+      optionsObject: options
+    });
     fetchExercises();
   }, [options.categoryId, options.subCategoryId, options.setId, options.difficulty]);
+
+  console.log("🔴 useExercises returning:", {
+    exercisesCount: exercises.length,
+    loading,
+    error,
+    exercises: exercises
+  });
 
   return {
     exercises,
@@ -230,7 +252,10 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
 
 // Specific hooks for common use cases
 export function useAllExercises() {
-  return useExercises();
+  console.log("🌟 useAllExercises called!");
+  const result = useExercises();
+  console.log("🌟 useAllExercises returning:", result);
+  return result;
 }
 
 export function useExercisesByCategory(categoryId: string) {
