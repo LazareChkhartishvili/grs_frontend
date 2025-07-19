@@ -52,40 +52,6 @@ export default function CategoriesPage() {
       monthlyPrice: 920,
     },
   ];
-  // const { categories, loading, error } = useCategories();
-
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
-  //         <h2 className="text-2xl font-cinzel font-semibold text-gray-700">
-  //           კატეგორიები იტვირთება...
-  //         </h2>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center">
-  //       <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-xl">
-  //         <div className="text-red-500 text-6xl mb-4">⚠️</div>
-  //         <h2 className="text-2xl font-cinzel font-bold text-red-600 mb-4">
-  //           შეცდომა!
-  //         </h2>
-  //         <p className="text-gray-600 mb-6">{error}</p>
-  //         <button
-  //           onClick={() => window.location.reload()}
-  //           className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-  //         >
-  //           თავიდან ცდა
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="">
