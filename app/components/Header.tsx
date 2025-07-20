@@ -9,6 +9,7 @@ import Image from "next/image";
 import MobileNavbar from "./Navbar/MobileNavbar";
 import DesktopNavbar from "./Navbar/DesktopNavbar";
 import Link from "next/link";
+import { useI18n } from "../context/I18nContext";
 
 export interface MenuItem {
   id: number;
@@ -57,13 +58,21 @@ const complexItems = [
 ];
 
 const Header: React.FC<HeaderProps> = ({
-  menuItems = defaultMenuItems,
   variant = "default",
   title,
   info,
   onPriceClick,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
+  const { t } = useI18n();
+
+  // ლოკალიზებული მენიუ items
+  const localizedMenuItems = [
+    { id: 1, name: t("navigation.all_complexes"), route: "complex" },
+    { id: 2, name: t("navigation.about"), route: "about" },
+    { id: 3, name: t("navigation.blog"), route: "blog" },
+    { id: 4, name: t("navigation.contacts"), route: "contact" },
+  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -178,7 +187,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="relative z-10 ">
             <MobileNavbar />
             {variant !== "category" && variant !== "categories" && (
-              <DesktopNavbar menuItems={menuItems} blogBg={false} />
+              <DesktopNavbar menuItems={localizedMenuItems} blogBg={false} />
             )}
             {/* HeroTitle */}
             {variant == "default" && (

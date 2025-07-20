@@ -23,15 +23,24 @@
     "show_more": "Показать ещё"
   },
   "common": {
-    "months": "месяцев",
-    "price_per_month": "₽/мес",
-    "videos": "Видео",
-    "exercises": "Упражнения",
-    "courses": "Курсы",
+    "months": "месяц",
+    "price_per_month": "₽/месяц",
+    "videos": "видео",
+    "exercises": "упражнения", 
+    "courses": "курсы",
     "minutes": "минут",
     "hours": "часов",
     "loading": "Загрузка...",
     "error": "Ошибка",
-    "subscription_plans": "Планы подписки"
+    "subscription_plans": "Планы подписки",
+    "default_category": "Ортопедия",
+    "category_loading": "Категория загружается...",
+    "category_error": "Ошибка!",
+    "category_not_found": "Категория не найдена",
+    "retry": "Попробовать снова",
+    "subcategories": "Подкатегории",
+    "subcategory": "подкатегория",
+    "sets": "сета",
+    "complexes": "Комплексы"
   }
 } 

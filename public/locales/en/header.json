@@ -1,5 +1,11 @@
 {
   "main_title": "ecosystem of products aimed at forming your health",
+  "navigation": {
+    "all_complexes": "All complexes",
+    "about": "About us",
+    "blog": "Blog",
+    "contacts": "Contacts"
+  },
   "rehabilitation": {
     "title": "MODERN ISRAELI REHABILITATION METHODS",
     "description": "For recovery and maintaining mobility and ability to work",

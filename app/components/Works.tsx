@@ -181,7 +181,7 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
         description: getLocalizedFromExercise(exercise.description),
         image: getValidThumbnailUrl(exercise.thumbnailUrl),
         exerciseCount: 1, // Single exercise
-        categoryName: exercise.category ? getLocalizedFromExercise(exercise.category.name) : "ორთოპედია",
+        categoryName:  t("common.default_category"),
         monthlyPrice: 920, // Default price
         difficulty: exercise.difficulty,
         duration: exercise.duration,
@@ -199,7 +199,7 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
       description: getLocalized(set.description),
       image: "/assets/images/workMan.png", // Default image
       exerciseCount: Array.isArray(set.exercises) ? set.exercises.length : 0,
-      categoryName: getLocalized(set.categoryName) || "ორთოპედია", // Default
+      categoryName: getLocalized(set.categoryName) || t("common.default_category"), // Default
       monthlyPrice: set.monthlyPrice || 920, // Default price
     }));
   } else {
