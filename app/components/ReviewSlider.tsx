@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
 import SliderArrows from "./SliderArrows";
 
 const reviewSliderItems = [
@@ -31,6 +33,30 @@ const reviewSliderItems = [
 ];
 
 const ReviewSlider = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleScrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const scrollAmount = 325; // item width (300) + gap (20) + extra space
+      container.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const scrollAmount = 325; // item width (300) + gap (20) + extra space
+      container.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="bg-[#F9F7FE] md:mx-5 md:rounded-[20px] pb-10">
       <div className="flex items-center  justify-between py-5 px-6 md:py-[50px] md:px-15">
@@ -38,17 +64,16 @@ const ReviewSlider = () => {
           ОТЗЫВЫ О GRS
         </h1>
         <SliderArrows
-          onScrollLeft={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-          onScrollRight={function (): void {
-            throw new Error("Function not implemented.");
-          }}
+          onScrollLeft={handleScrollLeft}
+          onScrollRight={handleScrollRight}
         />
       </div>
 
-      <div className="px-4 md:px-5  rounded-[30px] w-full overflow-x-auto md:overglow-x-hidden">
-        <div className="flex gap-5 w-max flex-nowrap">
+      <div className="px-4 md:px-5  rounded-[30px] w-full overflow-x-auto md:overflow-x-hidden">
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-5 w-max flex-nowrap scroll-smooth"
+        >
           {reviewSliderItems.map((item, index) => (
             <div
               key={index}
