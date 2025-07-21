@@ -23,15 +23,24 @@
     "show_more": "Show More"
   },
   "common": {
-    "months": "months",
-    "price_per_month": "$/month",
-    "videos": "Videos",
-    "exercises": "Exercises",
-    "courses": "Courses",
+    "months": "month",
+    "price_per_month": "₾/month",
+    "videos": "videos",
+    "exercises": "exercises",
+    "courses": "courses", 
     "minutes": "minutes",
     "hours": "hours",
     "loading": "Loading...",
     "error": "Error",
-    "subscription_plans": "Subscription Plans"
+    "subscription_plans": "Subscription plans",
+    "default_category": "Orthopedics",
+    "category_loading": "Category loading...",
+    "category_error": "Error!",
+    "category_not_found": "Category not found",
+    "retry": "Try again",
+    "subcategories": "Subcategories",
+    "subcategory": "subcategory",
+    "sets": "sets",
+    "complexes": "Complexes"
   }
 } 

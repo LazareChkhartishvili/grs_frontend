@@ -32,6 +32,15 @@
     "hours": "საათი",
     "loading": "იტვირთება...",
     "error": "შეცდომა",
-    "subscription_plans": "გამოწერის გეგმები"
+    "subscription_plans": "გამოწერის გეგმები",
+    "default_category": "ორთოპედია",
+    "category_loading": "კატეგორია იტვირთება...",
+    "category_error": "შეცდომა!",
+    "category_not_found": "კატეგორია ვერ მოიძებნა",
+    "retry": "თავიდან ცდა",
+    "subcategories": "საბკატეგორიები",
+    "subcategory": "საბკატეგორია",
+    "sets": "სეტი",
+    "complexes": "კომპლექსები"
   }
 } 

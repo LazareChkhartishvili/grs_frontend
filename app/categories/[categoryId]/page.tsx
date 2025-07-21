@@ -3,6 +3,7 @@
 import { use } from "react";
 import { useCategoryComplete } from "../../hooks/useCategoryComplete";
 import Image from "next/image";
+import Link from "next/link";
 import Header from "../../components/Header";
 import SliderArrows from "../../components/SliderArrows";
 import WorksSlider from "../../components/WorksSlider";
@@ -10,6 +11,7 @@ import Subscribe from "../../components/Subscribe";
 import ReviewSlider from "../../components/ReviewSlider";
 import Professional from "../../components/Professional";
 import Blog from "@/app/components/Blog";
+import { useI18n } from "../../context/I18nContext";
 
 export default function CategoriesPage({
   params,
@@ -18,6 +20,7 @@ export default function CategoriesPage({
 }) {
   const { categoryId } = use(params);
   const { categoryData, loading, error } = useCategoryComplete(categoryId);
+  const { t } = useI18n();
 
   // ახლა სრული მონაცემები გვაქვს
   const selectedCategory = categoryData?.category;
@@ -30,7 +33,7 @@ export default function CategoriesPage({
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
           <h2 className="text-2xl font-cinzel font-semibold text-gray-700">
-            კატეგორია იტვირთება...
+            {t("common.category_loading")}
           </h2>
         </div>
       </div>
@@ -43,16 +46,16 @@ export default function CategoriesPage({
         <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-xl">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
           <h2 className="text-2xl font-cinzel font-bold text-red-600 mb-4">
-            შეცდომა!
+            {t("common.category_error")}
           </h2>
           <p className="text-gray-600 mb-6">
-            {error || "კატეგორია ვერ მოიძებნა"}
+            {error || t("common.category_not_found")}
           </p>
           <button
             onClick={() => window.location.reload()}
             className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
           >
-            თავიდან ცდა
+            {t("common.retry")}
           </button>
         </div>
       </div>
@@ -130,10 +133,10 @@ export default function CategoriesPage({
           <div className="flex items-center justify-between mb-[20px]">
             <div className="flex flex-col gap-5">
               <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
-                საბკატეგორიები
+                {t("common.subcategories")}
               </h1>
               <span className="text-[#D4BAFC] text-[24px] leading-[90%] uppercase">
-                {subcategoriesCount} საბკატეგორია
+                {subcategoriesCount} {t("common.subcategory")}
               </span>
             </div>
             <div>
@@ -150,9 +153,10 @@ export default function CategoriesPage({
 
           <div className="flex flex-row items-center gap-[28px] overflow-x-auto">
             {categoryData?.subcategories?.map((subcategory) => (
-              <div
+              <Link
                 key={subcategory._id}
-                className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px]"
+                href={`/subcategories/${subcategory._id}`}
+                className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px] cursor-pointer hover:shadow-lg transition-shadow"
               >
                 <Image
                   src={subcategory.image || "/assets/images/category1.png"}
@@ -166,17 +170,17 @@ export default function CategoriesPage({
                     {getLocalizedText(subcategory.name as { ka: string; en: string; ru: string }, locale)}
                   </h1>
                   <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                    {subcategorySets.filter(set => set.subCategoryId === subcategory._id).length} სეტი
+                    {subcategorySets.filter(set => set.subCategoryId === subcategory._id).length} {t("common.sets")}
                   </span>
                 </div>
-              </div>
+              </Link>
             )) || []}
           </div>
         </div>
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
-            <WorksSlider title={"კომპლექსები"} works={formattedSets} />
+            <WorksSlider title={t("common.complexes")} works={formattedSets} />
           </div>
         )}
 
