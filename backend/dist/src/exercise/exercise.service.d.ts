@@ -16,4 +16,9 @@ export declare class ExerciseService {
     findBySet(setId: string): Promise<Exercise[]>;
     findByCategory(categoryId: string): Promise<Exercise[]>;
     findByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<Exercise[]>;
+    findPopular(): Promise<Exercise[]>;
+    setPopular(id: string, isPopular: boolean): Promise<Exercise>;
+    bulkSetPopular(exerciseIds: string[], isPopular: boolean): Promise<{
+        modifiedCount: number;
+    }>;
 }

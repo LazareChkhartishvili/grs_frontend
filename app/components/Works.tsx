@@ -104,7 +104,9 @@ const Works: React.FC<WorksProps> = ({ title, items = [], exercises = [] }) => {
     itemsCount: items.length,
     exercisesCount: exercises.length,
     exercises: exercises,
-    locale
+    locale,
+    firstExercise: exercises[0],
+    exercisesNames: exercises.map(ex => ex.name)
   });
 
   // Helper to get localized string from object or string

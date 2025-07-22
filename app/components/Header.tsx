@@ -31,6 +31,7 @@ interface HeaderProps {
   title?: string;
   info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   onPriceClick?: () => void;
+  setData?: any; // set-ის მონაცემები complex variant-ისთვის
 }
 
 export const defaultMenuItems: MenuItem[] = [
@@ -63,6 +64,7 @@ const Header: React.FC<HeaderProps> = ({
   title,
   info,
   onPriceClick,
+  setData,
 }) => {
   const [currentSlide, setCurrentSlide] = useState<0 | 1>(0);
   const { t } = useI18n();
@@ -535,7 +537,7 @@ const Header: React.FC<HeaderProps> = ({
                       />
                     </div>
                     <h3 className="text-white text-sm font-medium font-[Pt]">
-                      {complexItems[0].text}
+                      {setData?.totalExercises || 0} упражнений
                     </h3>
                   </motion.div>
 
@@ -557,9 +559,9 @@ const Header: React.FC<HeaderProps> = ({
                             height={30}
                           />
                         </div>
-                        <h3 className="text-white text-sm font-medium">
-                          {item.text}
-                        </h3>
+                                            <h3 className="text-white text-sm font-medium">
+                      {item.id === 2 ? `${setData?.totalDuration || "00:00"} мин` : item.text}
+                    </h3>
                       </motion.div>
                     ))}
                   </div>
@@ -568,12 +570,10 @@ const Header: React.FC<HeaderProps> = ({
                 <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
                   <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[73.2px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[90px] mt-2">
                     <h2 className="text-[20px] md:text-[40px] font-[Pt] leading-[120%] tracking-[-3%]">
-                      Обще-восстановительный, поддерживающий комплекс
+                      {setData?.name?.ru || setData?.name?.en || setData?.name?.ka || "Обще-восстановительный, поддерживающий комплекс"}
                     </h2>
                     <p className="md:mt-[100px] text-[24px] font-medium leading-[120%] font-[Pt]">
-                      Современные израильские методики реабилитации по
-                      направлениям ортопедия, неврология, посттравматическая
-                      реабилитация походки и др.
+                      {setData?.description?.ru || setData?.description?.en || setData?.description?.ka || "Современные израильские методики реабилитации по направлениям ортопедия, неврология, посттравматическая реабилитация походки и др."}
                     </p>
                   </div>
                 </section>
@@ -649,7 +649,7 @@ const Header: React.FC<HeaderProps> = ({
                               onClick={onPriceClick}
                             >
                               <h3 className="text-[42px] leading-[90%] uppercase">
-                                500 ₽
+                                {setData?.price?.monthly || 500} ₽
                               </h3>
                               <span className="text-[18px] md:mb-[99px] md:mt-1.5 leading-[90%] uppercase">
                                 В месяц

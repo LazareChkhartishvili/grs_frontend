@@ -49,11 +49,11 @@ __decorate([
     __metadata("design:type", Object)
 ], Exercise.prototype, "recommendations", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", String)
 ], Exercise.prototype, "videoUrl", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", String)
 ], Exercise.prototype, "thumbnailUrl", void 0);
 __decorate([
@@ -92,6 +92,10 @@ __decorate([
     (0, mongoose_1.Prop)({ default: false }),
     __metadata("design:type", Boolean)
 ], Exercise.prototype, "isPublished", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Exercise.prototype, "isPopular", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
     __metadata("design:type", Number)

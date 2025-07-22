@@ -72,9 +72,26 @@ export interface Set {
 
 export interface Exercise {
   _id: string;
-  name: string;
-  description: string;
-  // დამატებითი ველები საჭიროების მიხედვით
+  name: LocalizedString;
+  description: LocalizedString;
+  recommendations: LocalizedString;
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  videoDuration: string;
+  duration: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  repetitions: string;
+  sets: string;
+  restTime: string;
+  isActive: boolean;
+  isPublished: boolean;
+  isPopular?: boolean;
+  sortOrder: number;
+  setId: string;
+  categoryId: string;
+  subCategoryId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Subcategory {

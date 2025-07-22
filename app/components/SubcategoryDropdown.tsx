@@ -4,34 +4,79 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 interface Subcategory {
-  id: number;
-  name: string;
-  description?: string;
+  _id: string;
+  name: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
+  description?: {
+    ka: string;
+    en: string;
+    ru: string;
+  };
 }
 
 interface SubcategoryDropdownProps {
   subcategories: Subcategory[];
   isOpen: boolean;
   onClose: () => void;
+  categoryId?: string;
 }
 
 const SubcategoryDropdown = ({
   subcategories,
   isOpen,
   onClose,
+  categoryId,
 }: SubcategoryDropdownProps) => {
   const router = useRouter();
   if (!isOpen || subcategories.length === 0) return null;
+
+  // ვიღებთ ენის პარამეტრს
+  const getLocale = () => {
+    if (typeof window !== "undefined") {
+      const storedLocale = localStorage.getItem("locale");
+      return storedLocale && ["ka", "ru", "en"].includes(storedLocale)
+        ? storedLocale
+        : "ru";
+    }
+    return "ru";
+  };
+
+  const getLocalizedText = (
+    field: { ka: string; en: string; ru: string } | undefined,
+    locale: string = "ru"
+  ): string => {
+    if (!field) return "";
+    return (
+      field[locale as keyof typeof field] ||
+      field.ru ||
+      field.en ||
+      field.ka ||
+      ""
+    );
+  };
+
+  const locale = getLocale();
 
   return (
     <div className="sticky top-[10px] left-[2px] z-[99999] bg-white border border-[#E9DFF6] rounded-[20px] shadow-lg dropdown-content animate-in fade-in-0 zoom-in-95 duration-200 mt-2 w-[240px] md:w-[455px]">
       {subcategories.map((subcategory, index) => (
         <button
-          key={subcategory.id}
+          key={subcategory._id}
           type="button"
           onClick={() => {
             onClose();
-            router.push("/categories/section");
+            // ვქმნით URL-ს პარამეტრებით
+            const url = `/categories/section?subcategoryId=${subcategory._id}${categoryId ? `&categoryId=${categoryId}` : ''}`;
+            console.log("🖱️ Navigating to subcategory:", {
+              subcategoryId: subcategory._id,
+              categoryId,
+              url,
+              name: getLocalizedText(subcategory.name, locale)
+            });
+            router.push(url);
           }}
           className={`
             flex items-center justify-between w-full p-3 md:p-4 cursor-pointer
@@ -47,7 +92,7 @@ const SubcategoryDropdown = ({
           `}
         >
           <span className="text-[#3D334A] font-righteous text-sm md:text-base group-hover:text-[#734ea4] transition-colors duration-200">
-            {subcategory.name}
+            {getLocalizedText(subcategory.name, locale)}
           </span>
           <svg
             width="16"

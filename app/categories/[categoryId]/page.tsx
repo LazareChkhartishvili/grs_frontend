@@ -115,6 +115,8 @@ export default function CategoriesPage({
     categoryName: getLocalizedText(selectedCategory?.name, locale),
     price: `${set.price?.monthly || 920}₾/თვე`,
     monthlyPrice: set.price?.monthly || 920,
+    categoryId: categoryId,
+    subcategoryId: set.subCategoryId || '',
   }));
 
   return (
@@ -155,7 +157,7 @@ export default function CategoriesPage({
             {categoryData?.subcategories?.map((subcategory) => (
               <Link
                 key={subcategory._id}
-                href={`/subcategories/${subcategory._id}`}
+                href={`/categories/section?categoryId=${categoryId}&subcategoryId=${subcategory._id}`}
                 className="mt-[48px] min-w-[558px] bg-white p-2 rounded-[20px] cursor-pointer hover:shadow-lg transition-shadow"
               >
                 <Image
@@ -180,7 +182,7 @@ export default function CategoriesPage({
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
-            <WorksSlider title={t("common.complexes")} works={formattedSets} />
+            <WorksSlider title={t("common.complexes")} works={formattedSets} linkType="section"  title={'gio'}/>
           </div>
         )}
 

@@ -13,24 +13,33 @@ interface WorkItem {
   exerciseCount: number;
   categoryName: string;
   monthlyPrice: number;
+  categoryId?: string;
+  subcategoryId?: string;
 }
 
 interface WorksSliderProps {
   title?: string;
   works: WorkItem[];
+  linkType?: 'sets' | 'complex' | 'section'; // დინამიური ლინკის ტიპი
 }
 
 const WorksSlider: React.FC<WorksSliderProps> = ({
   title = "სეტები",
   works,
+  linkType = 'sets', // default არის sets
 }) => {
   const scroll = (direction: "left" | "right") => {
     const slider = document.getElementById("works-slider");
+    console.log("🖱️ Scroll button clicked:", { direction, slider });
     if (slider) {
+      const scrollAmount = direction === "left" ? -500 : 500;
+      console.log("📜 Scrolling by:", scrollAmount);
       slider.scrollBy({
-        left: direction === "left" ? -500 : 500,
+        left: scrollAmount,
         behavior: "smooth",
       });
+    } else {
+      console.error("❌ Slider element not found!");
     }
   };
 
@@ -48,13 +57,17 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
 
       <div
         id="works-slider"
-        className="overflow-x-auto scrollbar-hide mb-10 md:overflow-hidden"
+        className="overflow-x-auto scrollbar-hide mb-10"
       >
         <div className="flex gap-4">
           {works.map((work) => (
             <Link
               key={work.id}
-              href={`/sets/${work.id}`}
+              href={
+                linkType === 'complex' ? `/complex/${work.id}` : 
+                linkType === 'section' ? `/categories/section?categoryId=${work.categoryId || ''}&subcategoryId=${work.subcategoryId || ''}` :
+                `/sets/${work.id}`
+              }
               className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px] hover:shadow-lg transition-shadow flex flex-col"
             >
               <div className="flex-grow">
@@ -67,7 +80,7 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
                 />
                 <div className="mb-2.5">
                   <span className="px-2 py-1 bg-[#D4BAFC] rounded-[6px] text-[#3D334A] text-[14px] leading-[90%] uppercase truncate max-w-[120px] block">
-                    {work.categoryName}
+                    {/* {work.categoryName} */}
                   </span>
                 </div>
                 <p className="line-clamp-4 font-[Pt] text-[#3D334A] leading-[120%] text-[24px] font-bold mb-4">

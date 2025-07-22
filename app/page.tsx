@@ -12,11 +12,16 @@ import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
 import { useAllExercises } from "./hooks/useExercises";
+  // import { useAllSets } from "./hooks/useSet";
 // import { useI18n } from "./context/I18nContext";
 
 const Home = () => {
   const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
   const { exercises, loading: exercisesLoading, error: exercisesError } = useAllExercises();
+
+  console.log(categories)
+
+
   // const { t } = useI18n();
 
   console.log("📊 Categories loaded:", { count: categories.length, loading: categoriesLoading, error: categoriesError });
@@ -34,7 +39,7 @@ const Home = () => {
     <div className="w-full min-h-screen overflow-x-hidden">
       <Header />
       <div>
-        <Rehabilitation />
+      <Rehabilitation />
         <Category />
         <Works title={"Exercises"} exercises={exercises} />
         <Subscribe

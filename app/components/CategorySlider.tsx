@@ -245,9 +245,10 @@ const CategorySlider = forwardRef<HTMLDivElement, CategorySliderProps>(
                   </div>
                 </Link>
                 <SubcategoryDropdown
-                  subcategories={[]} // subcategories ცარიელია backend-ში
+                  subcategories={[]} // subcategories არ არის populated useCategories hook-ში
                   isOpen={isDropdownOpen(category._id)}
                   onClose={handleDropdownClose}
+                  categoryId={category._id}
                 />
               </div>
             );

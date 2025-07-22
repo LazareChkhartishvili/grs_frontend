@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { apiRequest } from '../config/api';
-import { MultiLanguageField, Set, Subcategory } from '../types/category';
+import { MultiLanguageField, Subcategory } from '../types/category';
+import { BackendSet } from '../types/exercise';
 
 export interface CategoryCompleteData {
   category: {
@@ -10,12 +11,12 @@ export interface CategoryCompleteData {
     description?: MultiLanguageField;
     image?: string;
     subcategories: Subcategory[];
-    sets: Set[];
+    sets: BackendSet[];
     isActive: boolean;
     sortOrder: number;
     isPublished: boolean;
   };
-  sets: Set[];
+  sets: BackendSet[];
   subcategories: Subcategory[];
 }
 

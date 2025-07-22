@@ -9,8 +9,8 @@ export declare class Exercise {
     name: LocalizedString;
     description: LocalizedString;
     recommendations: LocalizedString;
-    videoUrl: string;
-    thumbnailUrl: string;
+    videoUrl?: string;
+    thumbnailUrl?: string;
     videoDuration: string;
     duration: string;
     difficulty: 'easy' | 'medium' | 'hard';
@@ -19,6 +19,7 @@ export declare class Exercise {
     restTime: string;
     isActive: boolean;
     isPublished: boolean;
+    isPopular: boolean;
     sortOrder: number;
     setId: Types.ObjectId;
     categoryId: Types.ObjectId;

@@ -16,15 +16,21 @@ exports.ExerciseController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const exercise_service_1 = require("./exercise.service");
+const streamifier = require("streamifier");
+const multer_1 = require("multer");
+const cloudinary_config_1 = require("../cloudinary.config");
 let ExerciseController = class ExerciseController {
     constructor(exerciseService) {
         this.exerciseService = exerciseService;
     }
-    async create(files, data) {
+    async create(file, data) {
+        console.log('--- [CONTROLLER] ---');
+        console.log('file:', file);
+        console.log('file instanceof File:', file instanceof File);
+        console.log('file originalname:', file?.originalname);
+        console.log('file buffer:', !!file?.buffer);
+        console.log('body:', data);
         try {
-            console.log('Received data:', data);
-            console.log('Video URL from request:', data.videoUrl);
-            console.log('Video URL type:', typeof data.videoUrl);
             const parsedData = {
                 ...data,
                 name: JSON.parse(data.name),
@@ -36,59 +42,45 @@ let ExerciseController = class ExerciseController {
             }
             let videoUrl = '';
             let thumbnailUrl = '';
-            console.log('Processing video URL...');
+            const uploadToCloudinary = (file, resource_type) => {
+                return new Promise((resolve, reject) => {
+                    const uploadStream = cloudinary_config_1.default.uploader.upload_stream({ resource_type }, (error, result) => {
+                        if (error)
+                            return reject(error);
+                        resolve(result.secure_url);
+                    });
+                    streamifier.createReadStream(file.buffer).pipe(uploadStream);
+                });
+            };
+            if (!file || !file.buffer) {
+                throw new common_1.BadRequestException('ფაილი სავალდებულოა და უნდა იყოს სწორი ტიპის');
+            }
+            if (file) {
+                thumbnailUrl = await uploadToCloudinary(file, 'image');
+                console.log('Cloudinary thumbnailUrl:', thumbnailUrl);
+            }
             if (data.videoUrl) {
-                if (Array.isArray(data.videoUrl)) {
-                    videoUrl = data.videoUrl[0]?.trim() || '';
-                    console.log('Video URL array found, using first URL:', videoUrl);
-                }
-                else if (typeof data.videoUrl === 'string' && data.videoUrl.trim()) {
-                    videoUrl = data.videoUrl.trim();
-                    console.log('Video URL string found:', videoUrl);
-                }
-                else {
-                    console.log('Video URL validation failed:', 'exists:', !!data.videoUrl, 'is array:', Array.isArray(data.videoUrl), 'is string:', typeof data.videoUrl === 'string', 'has content:', data.videoUrl?.trim?.());
-                }
+                videoUrl = typeof data.videoUrl === 'string' ? data.videoUrl.trim() : '';
             }
-            if (data.thumbnailUrl) {
-                if (Array.isArray(data.thumbnailUrl)) {
-                    thumbnailUrl = data.thumbnailUrl[0]?.trim() || '';
-                    console.log('Thumbnail URL array found, using first URL:', thumbnailUrl);
-                }
-                else if (typeof data.thumbnailUrl === 'string' && data.thumbnailUrl.trim()) {
-                    thumbnailUrl = data.thumbnailUrl.trim();
-                    console.log('Thumbnail URL string found:', thumbnailUrl);
-                }
-                else {
-                    console.log('Thumbnail URL validation failed:', 'exists:', !!data.thumbnailUrl, 'is array:', Array.isArray(data.thumbnailUrl), 'is string:', typeof data.thumbnailUrl === 'string', 'has content:', data.thumbnailUrl?.trim?.());
-                }
-            }
-            if (files && files.length > 0) {
-                console.log('Processing files:', files.length, 'files found');
-                const videoFile = files.find(f => f.mimetype.startsWith('video/'));
-                const imageFile = files.find(f => f.mimetype.startsWith('image/'));
-                if (videoFile) {
-                    videoUrl = videoFile.path;
-                    console.log('Video file found, using path:', videoUrl);
-                }
-                if (imageFile) {
-                    thumbnailUrl = imageFile.path;
-                }
-            }
-            if (!videoUrl) {
-                console.log('Final video URL check failed - videoUrl is empty');
-                throw new common_1.BadRequestException('ვიდეოს URL ან ფაილი სავალდებულოა');
+            if (data.thumbnailUrl && !thumbnailUrl) {
+                thumbnailUrl = typeof data.thumbnailUrl === 'string' ? data.thumbnailUrl.trim() : '';
             }
             if (!thumbnailUrl) {
-                throw new common_1.BadRequestException('სურათის URL ან ფაილი სავალდებულოა');
+                throw new common_1.BadRequestException('სურათის ატვირთვა სავალდებულოა');
             }
-            return await this.exerciseService.create({
+            console.log('parsedData:', parsedData);
+            console.log('videoUrl:', videoUrl);
+            console.log('thumbnailUrl:', thumbnailUrl);
+            const result = await this.exerciseService.create({
                 ...parsedData,
                 videoUrl,
                 thumbnailUrl,
             });
+            console.log('--- [CONTROLLER] Saved result:', result);
+            return result;
         }
         catch (error) {
+            console.error('❌ Backend error:', error);
             if (error instanceof common_1.BadRequestException) {
                 throw error;
             }
@@ -104,13 +96,23 @@ let ExerciseController = class ExerciseController {
     findByCategory(categoryId) {
         return this.exerciseService.findByCategory(categoryId);
     }
+    findPopular() {
+        return this.exerciseService.findPopular();
+    }
     findByDifficulty(difficulty) {
         return this.exerciseService.findByDifficulty(difficulty);
+    }
+    bulkSetPopular(body) {
+        return this.exerciseService.bulkSetPopular(body.exerciseIds, body.isPopular);
+    }
+    setPopular(id, body) {
+        console.log('🔥 setPopular called with:', { id, body });
+        return this.exerciseService.setPopular(id, body.isPopular);
     }
     findOne(id) {
         return this.exerciseService.findOne(id);
     }
-    async update(id, data, files) {
+    async update(id, data, file) {
         try {
             const updateData = { ...data };
             if (data.name)
@@ -119,15 +121,8 @@ let ExerciseController = class ExerciseController {
                 updateData.description = JSON.parse(data.description);
             if (data.recommendations)
                 updateData.recommendations = JSON.parse(data.recommendations);
-            if (files && files.length > 0) {
-                const videoFile = files.find(f => f.mimetype.startsWith('video/'));
-                const imageFile = files.find(f => f.mimetype.startsWith('image/'));
-                if (videoFile) {
-                    updateData.videoUrl = videoFile.path;
-                }
-                if (imageFile) {
-                    updateData.thumbnailUrl = imageFile.path;
-                }
+            if (file) {
+                updateData.thumbnailUrl = file.path;
             }
             return this.exerciseService.update(id, updateData);
         }
@@ -145,11 +140,11 @@ let ExerciseController = class ExerciseController {
 exports.ExerciseController = ExerciseController;
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
-    __param(0, (0, common_1.UploadedFiles)()),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', { storage: (0, multer_1.memoryStorage)() })),
+    __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ExerciseController.prototype, "create", null);
 __decorate([
@@ -174,12 +169,33 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ExerciseController.prototype, "findByCategory", null);
 __decorate([
+    (0, common_1.Get)('popular'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "findPopular", null);
+__decorate([
     (0, common_1.Get)('difficulty/:difficulty'),
     __param(0, (0, common_1.Param)('difficulty')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ExerciseController.prototype, "findByDifficulty", null);
+__decorate([
+    (0, common_1.Patch)('bulk/popular'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "bulkSetPopular", null);
+__decorate([
+    (0, common_1.Patch)(':id/popular'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ExerciseController.prototype, "setPopular", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -189,12 +205,12 @@ __decorate([
 ], ExerciseController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.UploadedFiles)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, Array]),
+    __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ExerciseController.prototype, "update", null);
 __decorate([

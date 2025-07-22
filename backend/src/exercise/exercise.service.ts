@@ -11,6 +11,9 @@ export class ExerciseService {
   ) {}
 
   async create(createExerciseDto: CreateExerciseDto): Promise<Exercise> {
+    console.log('--- [SERVICE] ---');
+    console.log('createExerciseDto:', createExerciseDto);
+
     const exercise = new this.exerciseModel({
       ...createExerciseDto,
       setId: new Types.ObjectId(createExerciseDto.setId),
@@ -19,7 +22,14 @@ export class ExerciseService {
         ? new Types.ObjectId(createExerciseDto.subCategoryId) 
         : undefined
     });
-    return exercise.save();
+
+    console.log('--- [SERVICE] To be saved:', exercise);
+
+    const saved = await exercise.save();
+
+    console.log('--- [SERVICE] Saved:', saved);
+
+    return saved;
   }
 
   async findAll(query: { setId?: string; categoryId?: string; subCategoryId?: string } = {}): Promise<Exercise[]> {
@@ -126,5 +136,47 @@ export class ExerciseService {
       .populate('subcategory', 'name')
       .sort({ sortOrder: 1, createdAt: -1 })
       .exec();
+  }
+
+  // Popular exercises methods
+  async findPopular(): Promise<Exercise[]> {
+    return this.exerciseModel
+      .find({ isPopular: true, isActive: true, isPublished: true })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .exec();
+  }
+
+  async setPopular(id: string, isPopular: boolean): Promise<Exercise> {
+    console.log('🔥 ExerciseService.setPopular called with:', { id, isPopular });
+    
+    const exercise = await this.exerciseModel
+      .findByIdAndUpdate(id, { isPopular }, { new: true })
+      .populate('set', 'name description')
+      .populate('category', 'name')
+      .populate('subcategory', 'name')
+      .exec();
+
+    console.log('🔥 ExerciseService.setPopular result:', exercise);
+
+    if (!exercise) {
+      throw new NotFoundException(`Exercise with ID ${id} not found`);
+    }
+
+    return exercise;
+  }
+
+  async bulkSetPopular(exerciseIds: string[], isPopular: boolean): Promise<{ modifiedCount: number }> {
+    const objectIds = exerciseIds.map(id => new Types.ObjectId(id));
+    const result = await this.exerciseModel
+      .updateMany(
+        { _id: { $in: objectIds } },
+        { isPopular }
+      )
+      .exec();
+
+    return { modifiedCount: result.modifiedCount };
   }
 } 

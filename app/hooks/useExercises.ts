@@ -15,8 +15,8 @@ interface BackendExercise {
   name: LocalizedString;
   description: LocalizedString;
   recommendations: LocalizedString;
-  videoUrl: string;
-  thumbnailUrl: string;
+  videoUrl?: string;
+  thumbnailUrl?: string;
   videoDuration: string;
   duration: string;
   difficulty: 'easy' | 'medium' | 'hard';
@@ -268,4 +268,85 @@ export function useExercisesBySet(setId: string) {
 
 export function useExercisesByDifficulty(difficulty: 'easy' | 'medium' | 'hard') {
   return useExercises({ difficulty });
+}
+
+// Popular exercises hook
+export function usePopularExercises() {
+  const [exercises, setExercises] = useState<BackendExercise[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  console.log("🌟 usePopularExercises called!");
+
+  const fetchPopularExercises = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      console.log("🏃‍♂️ Starting fetchPopularExercises...");
+
+      const { apiRequest, API_CONFIG } = await import("../config/api");
+      const endpoint = `${API_CONFIG.ENDPOINTS.EXERCISES}/popular`;
+
+      console.log("📡 Popular Exercises API Request Details:", {
+        endpoint,
+        baseUrl: API_CONFIG.BASE_URL,
+        fullUrl: `${API_CONFIG.BASE_URL}${endpoint}`,
+        timestamp: new Date().toISOString()
+      });
+
+      const backendExercises: BackendExercise[] = await apiRequest<BackendExercise[]>(endpoint);
+      console.log("✅ Popular exercises API request completed successfully");
+
+      console.log("🏃‍♂️ Raw Popular Exercises Response:", {
+        data: backendExercises,
+        type: typeof backendExercises,
+        isArray: Array.isArray(backendExercises),
+        length: backendExercises?.length,
+        firstItem: backendExercises?.[0]
+      });
+
+      if (!Array.isArray(backendExercises)) {
+        throw new Error("Popular exercises API response is not an array");
+      }
+
+      setExercises(backendExercises);
+      console.log("✅ setExercises called with:", backendExercises.length, "popular exercises");
+      
+    } catch (err) {
+      console.error("❌ Error fetching popular exercises:", err);
+      console.error("❌ Popular Exercises Error details:", {
+        message: err instanceof Error ? err.message : 'Unknown error',
+        stack: err instanceof Error ? err.stack : undefined,
+        timestamp: new Date().toISOString()
+      });
+      
+      const fallbackExercises = getFallbackExercises();
+      console.log("🔄 Using fallback exercises for popular:", fallbackExercises);
+      setExercises(fallbackExercises);
+      setError(err instanceof Error ? err.message : "API Error - using fallback exercises data");
+    } finally {
+      setLoading(false);
+      console.log("🏁 fetchPopularExercises completed, loading set to false");
+    }
+  };
+
+  useEffect(() => {
+    console.log("🔄 useEffect triggered for popular exercises, calling fetchPopularExercises");
+    fetchPopularExercises();
+  }, []);
+
+  console.log("🌟 usePopularExercises returning:", {
+    exercisesCount: exercises.length,
+    loading,
+    error,
+    exercises: exercises
+  });
+
+  return {
+    exercises,
+    loading,
+    error,
+    refetch: fetchPopularExercises,
+  };
 } 

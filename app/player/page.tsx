@@ -5,14 +5,88 @@ import { defaultMenuItems } from "../components/Header";
 import Image from "next/image";
 import ReactPlayer from "react-player";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
+import { useSearchParams } from "next/navigation";
+import { useCategoryComplete } from "../hooks/useCategoryComplete";
+import { useI18n } from "../context/I18nContext";
 // ----- Types -----
+interface LocalizedString {
+  ka: string;
+  en: string;
+  ru: string;
+  _id: string;
+}
+
+interface BackendExercise {
+  _id: string;
+  name: LocalizedString;
+  description: LocalizedString;
+  recommendations: LocalizedString;
+  videoUrl: string;
+  thumbnailUrl: string;
+  videoDuration: string;
+  duration: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  repetitions: string;
+  sets: string;
+  restTime: string;
+  isActive: boolean;
+  isPublished: boolean;
+  isPopular?: boolean;
+  sortOrder: number;
+  setId: string;
+  categoryId: string;
+  subCategoryId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface BackendSet {
+  _id: string;
+  name: LocalizedString;
+  description: LocalizedString;
+  thumbnailImage: string;
+  totalExercises: number;
+  totalDuration: string;
+  difficultyLevels: number;
+  levels: {
+    beginner: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+    intermediate: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+    advanced: {
+      exerciseCount: number;
+      isLocked: boolean;
+    };
+  };
+  price: {
+    monthly: number;
+    threeMonths: number;
+    sixMonths: number;
+    yearly: number;
+  };
+  isActive: boolean;
+  isPublished: boolean;
+  sortOrder: number;
+  categoryId: string;
+  subCategoryId?: string;
+  exercises?: BackendExercise[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 type Step = {
   step: number;
   title: string;
   list: string[];
   image?: string;
 };
+
 type ExerciseStatus = "done" | "waiting" | "locked";
+
 type Exercise = {
   id: number;
   title: string;
@@ -20,108 +94,40 @@ type Exercise = {
   status: ExerciseStatus;
 };
 
-const exercises: Exercise[] = [
-  {
-    id: 1,
-    title: "УПРАЖНЕНИЕ 1. СГИБАНИЕ КОЛЕН В СУСТАВАХ",
-    steps: [
+// ვქმნით exercises მასივს setData-დან
+const getExercises = (setData: BackendSet | null): Exercise[] => {
+  if (!setData?.exercises) return [];
+
+  return setData.exercises.map((exercise: BackendExercise, index: number) => {
+    // სტატუსის განსაზღვრა
+    let status: ExerciseStatus = "locked";
+    if (index === 0) status = "done";
+    else if (index === 1) status = "waiting";
+
+    // ვქმნით steps მასივს
+    const steps: Step[] = [
       {
         step: 1,
-        title: "Шаг 1: Начальная позиция",
-        list: [
-          "Встаньте прямо, ноги на ширине плеч.",
-          "Руки можно держать вдоль тела или на бедрах для баланса.",
-        ],
-        image: "/assets/images/blog1.png",
+        title: "Описание упражнения",
+        list: [getLocalizedText(exercise.description, "ru")],
+        image: exercise.thumbnailUrl,
       },
       {
         step: 2,
-        title: "Шаг 2: Сгибание колен",
-        list: [
-          "Сгибайте колени до тех пор, пока бедра не будут параллельны полу. Нижняя точка сгибания коленей может быть ниже, но не ниже, чем параллельно полу.",
-          "Верхняя часть движения – возвращение в начальное положение, выпрямление ног до конечной точки.",
-        ],
-        image: "/assets/images/blog1.png",
+        title: "Рекомендации",
+        list: [getLocalizedText(exercise.recommendations, "ru")],
+        image: exercise.thumbnailUrl,
       },
-    ],
-    status: "done",
-  },
-  {
-    id: 2,
-    title: "УПРАЖНЕНИЕ 2. СГИБАНИЕ КОЛЕН В СУСТАВАХ",
-    steps: [
-      {
-        step: 1,
-        title: "Шаг 1: Начальная позиция",
-        list: [
-          "Встаньте прямо, ноги на ширине плеч.",
-          "Руки можно держать вдоль тела или на бедрах для баланса.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-      {
-        step: 2,
-        title: "Шаг 2: Сгибание колен",
-        list: [
-          "Сгибайте колени до тех пор, пока бедра не будут параллельны полу. Нижняя точка сгибания коленей может быть ниже, но не ниже, чем параллельно полу.",
-          "Верхняя часть движения – возвращение в начальное положение, выпрямление ног до конечной точки.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-    ],
-    status: "done",
-  },
-  {
-    id: 3,
-    title: "УПРАЖНЕНИЕ 3. СГИБАНИЕ КОЛЕН В СУСТАВАХ",
-    steps: [
-      {
-        step: 1,
-        title: "Шаг 1: Начальная позиция",
-        list: [
-          "Встаньте прямо, ноги на ширине плеч.",
-          "Руки можно держать вдоль тела или на бедрах для баланса.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-      {
-        step: 2,
-        title: "Шаг 2: Сгибание колен",
-        list: [
-          "Сгибайте колени до тех пор, пока бедра не будут параллельны полу. Нижняя точка сгибания коленей может быть ниже, но не ниже, чем параллельно полу.",
-          "Верхняя часть движения – возвращение в начальное положение, выпрямление ног до конечной точки.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-    ],
-    status: "waiting",
-  },
-  {
-    id: 4,
-    title: "УПРАЖНЕНИЕ 4. СГИБАНИЕ КОЛЕН В СУСТАВАХ",
-    steps: [
-      {
-        step: 1,
-        title: "Шаг 1: Начальная позиция",
-        list: [
-          "Встаньте прямо, ноги на ширине плеч.",
-          "Руки можно держать вдоль тела или на бедрах для баланса.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-      {
-        step: 2,
-        title: "Шаг 2: Сгибание колен",
-        list: [
-          "Сгибайте колени до тех пор, пока бедра не будут параллельны полу. Нижняя точка сгибания коленей может быть ниже, но не ниже, чем параллельно полу.",
-          "Верхняя часть движения – возвращение в начальное положение, выпрямление ног до конечной точки.",
-        ],
-        image: "/assets/images/blog1.png",
-      },
-    ],
-    status: "locked",
-  },
-];
+    ];
+
+    return {
+      id: index + 1,
+      title: `УПРАЖНЕНИЕ ${index + 1}. ${getLocalizedText(exercise.name, "ru").toUpperCase()}`,
+      steps,
+      status,
+    };
+  });
+};
 
 // ----- Status Map -----
 const statusMap = {
@@ -145,43 +151,37 @@ const statusMap = {
   },
 };
 
-const tasksInfo = [
-  {
-    id: 1,
-    bgColor: "#F3D57F",
-    textColor: "#3D334A",
-    title: "Упражнение 1",
-    subText: "Обще-восстановительный, поддерживающий комплекс",
-  },
-  {
-    id: 1,
-    bgColor: "#F3D57F",
-    title: "Упражнение 2",
-    textColor: "#3D334A",
-    subText: "Обще-восстановительный, поддерживающий комплекс",
-  },
-  {
-    id: 1,
-    bgColor: "#D4BAFC",
-    textColor: "#FFFFFF",
-    title: "Упражнение 3",
-    subText: "Обще-восстановительный, поддерживающий комплекс",
-  },
-  {
-    id: 1,
-    bgColor: "#F9F7FE",
-    title: "Упражнение 4",
-    textColor: "#3D334A",
-    subText: "Обще-восстановительный, поддерживающий комплекс",
-  },
-];
+
 
 const numberTextColor = "rgba(61, 51, 74, 1)";
 const mobileNumberBg = "rgba(213, 209, 219, 1)";
 const markerSize = 48;
 const markerOffset = 32;
 
+// ლოკალიზაციის ფუნქცია
+const getLocalizedText = (
+  field: { ka: string; en: string; ru: string } | undefined,
+  locale: string = "ru"
+): string => {
+  if (!field) return "";
+  return (
+    field[locale as keyof typeof field] ||
+    field.ru ||
+    field.en ||
+    field.ka ||
+    ""
+  );
+};
+
 const Player = () => {
+  const searchParams = useSearchParams();
+  const setId = searchParams.get('setId') || '';
+  const { t } = useI18n();
+
+  // ვიღებთ სრულ მონაცემებს
+  const { categoryData, loading } = useCategoryComplete("687c192042e8ebbadd50b8bc");
+  const setData: BackendSet | null = categoryData?.sets?.find((set: BackendSet) => set._id === setId) || null;
+
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [centers, setCenters] = useState<number[]>([]);
 
@@ -192,6 +192,19 @@ const Player = () => {
       )
     );
   }, []);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
+          <h2 className="text-2xl font-cinzel font-semibold text-gray-700">
+            {t("common.loading")}
+          </h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
@@ -207,27 +220,30 @@ const Player = () => {
           />
         </div>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:m-5 md:gap-5 mx-auto justify-center md:w-auto mt-4 md:mt-8">
-          {tasksInfo.map((item) => {
+          {setData?.exercises?.map((exercise, index) => {
+            const bgColors = ["#F3D57F", "#F3D57F", "#D4BAFC", "#F9F7FE"];
+            const textColors = ["#3D334A", "#3D334A", "#FFFFFF", "#3D334A"];
+            
             return (
               <div
-                key={item.id}
+                key={exercise._id}
                 className="flex flex-row items-center md:w-auto mb-2 md:mb-0"
               >
                 <div
                   className="p-3 md:p-5 flex flex-col items-start rounded-[16px] md:rounded-[20px] md:w-auto min-w-0"
-                  style={{ backgroundColor: item.bgColor }}
+                  style={{ backgroundColor: bgColors[index % bgColors.length] }}
                 >
                   <h1
-                    style={{ color: item.textColor }}
+                    style={{ color: textColors[index % textColors.length] }}
                     className="text-[16px] md:text-[18px] leading-[100%] tracking-[-1%] mb-1 md:mb-0"
                   >
-                    {item.title}
+                    {t("common.exercise")} {index + 1}
                   </h1>
                   <p
-                    style={{ color: item.textColor }}
+                    style={{ color: textColors[index % textColors.length] }}
                     className="font-[Pt] w-full md:w-[295px] font-medium leading-[120%] text-sm md:text-base"
                   >
-                    {item.subText}
+                    {getLocalizedText(exercise.name, "ru")}
                   </p>
                 </div>
               </div>
@@ -248,6 +264,7 @@ const Player = () => {
               centers.slice(0, -1).map((center, idx) => {
                 const nextCenter = centers[idx + 1];
                 if (center === 0 || nextCenter === 0) return null;
+                const exercises = getExercises(setData);
                 return (
                   <div
                     key={idx}
@@ -257,7 +274,7 @@ const Player = () => {
                       width: "6px",
                       top: center,
                       height: nextCenter - center,
-                      background: statusMap[exercises[idx + 1].status].line,
+                      background: statusMap[exercises[idx + 1]?.status || "locked"].line,
                       borderRadius: 3,
                     }}
                   />
@@ -265,7 +282,7 @@ const Player = () => {
               })}
           </div>
 
-          {exercises.map((exercise, idx) => (
+          {getExercises(setData).map((exercise, idx) => (
             <div
               key={exercise.id}
               className="relative flex flex-col md:flex-row w-full"

@@ -61,7 +61,7 @@ const Section = () => {
           exercisesCount: 48,
         }}
       />
-      <WorksSlider works={homePageWorks} />
+      <WorksSlider works={homePageWorks} title="Subcategories"/>
       <WorksSlider works={homePageWorks} />
       <Subscribe
         backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"

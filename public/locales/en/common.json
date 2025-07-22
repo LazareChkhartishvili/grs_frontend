@@ -41,6 +41,12 @@
     "subcategories": "Subcategories",
     "subcategory": "subcategory",
     "sets": "sets",
-    "complexes": "Complexes"
+    "complexes": "Complexes",
+    "no_sets_found": "No sets found",
+    "no_sets_description": "No sets have been added to this subcategory yet",
+    "popular_exercises": "Popular Exercises",
+    "loading_exercises": "Loading exercises...",
+    "exercises_error": "Error loading exercises",
+    "set_not_found": "Set not found"
   }
 } 

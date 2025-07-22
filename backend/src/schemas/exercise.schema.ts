@@ -45,10 +45,10 @@ export class Exercise {
   })
   recommendations: LocalizedString;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   videoUrl: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   thumbnailUrl: string;
 
   @Prop({ required: true })
@@ -78,6 +78,9 @@ export class Exercise {
 
   @Prop({ default: false })
   isPublished: boolean;
+
+  @Prop({ default: false })
+  isPopular: boolean;
 
   @Prop({ default: 0 })
   sortOrder: number;

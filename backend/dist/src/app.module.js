@@ -17,12 +17,17 @@ const category_module_1 = require("./category/category.module");
 const set_module_1 = require("./set/set.module");
 const exercise_module_1 = require("./exercise/exercise.module");
 const user_schema_1 = require("./schemas/user.schema");
+const upload_module_1 = require("./upload/upload.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             mongoose_1.MongooseModule.forRoot('mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db'),
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
             auth_module_1.AuthModule,
@@ -30,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             category_module_1.CategoryModule,
             set_module_1.SetModule,
             exercise_module_1.ExerciseModule,
+            upload_module_1.UploadModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
