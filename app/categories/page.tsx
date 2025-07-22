@@ -80,7 +80,7 @@ export default function CategoriesPage() {
             </div>
           </div>
           {/*  */}
-          <div className="flex flex-row items-center gap-[28px]">
+          <div className="flex flex-row items-center gap-[28px] overflow-x-auto whitespace-nowrap scrollbar-hide md:overflow-visible md:whitespace-normal">
             <div className="mt-[48px] w-[558px] bg-white p-2 rounded-[20px] ">
               <Image
                 src={"/assets/images/category1.png"}
@@ -99,7 +99,7 @@ export default function CategoriesPage() {
             </div>
             {/*  */}
 
-            <div className="mt-[48px] w-[558px] bg-white p-2 rounded-[20px]">
+            <div className="mt-[48px] w-[558px] min-w-[320px] md:min-w-[558px] bg-white p-2 rounded-[20px] inline-block align-top">
               <Image
                 src={"/assets/images/category1.png"}
                 width={542}
@@ -116,7 +116,7 @@ export default function CategoriesPage() {
               </div>
             </div>
             {/*  */}
-            <div className="mt-[48px] w-[558px] bg-white p-2 rounded-[20px]">
+            <div className="mt-[48px] w-[558px] min-w-[320px] md:min-w-[558px] bg-white p-2 rounded-[20px] inline-block align-top">
               <Image
                 src={"/assets/images/category1.png"}
                 width={542}
