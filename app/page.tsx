@@ -33,14 +33,9 @@ const Home = () => {
     <div className="w-full min-h-screen overflow-x-hidden">
       <Header />
       <div>
-      <Rehabilitation />
-        <Category />
-        <Works 
-          title={t("common.sets")} 
-          sets={sets} 
-          fromMain={true}
-          linkHref="/allComplex"
-        />
+        <Rehabilitation />
+        <Category bgColor="#F9F7FE" />
+        <Works title={"Sets"} sets={sets} />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"

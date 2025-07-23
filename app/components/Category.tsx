@@ -6,7 +6,7 @@ import CategorySlider from "./CategorySlider";
 import SliderArrows from "./SliderArrows";
 import { useI18n } from "../context/I18nContext";
 
-const Category = () => {
+const Category = ({ bgColor }: { bgColor: string }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
@@ -19,7 +19,10 @@ const Category = () => {
   };
 
   return (
-    <div className="bg-[#F9F7FE] md:mx-5 md:px-10 px-4 md:pb-10">
+    <div
+      style={{ backgroundColor: bgColor }}
+      className="bg-[#F9F7FE] md:mx-5 md:px-10 px-4 md:pb-10"
+    >
       <div className="flex items-center justify-between">
         <h1 className="text-[20px] mt-5 md:text-[40px] pt-10 text-[#3D334A] md:mb-5">
           {typeof t("category.title") === "string"
