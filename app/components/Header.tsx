@@ -85,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({
         setCurrentSlide(0);
       }
     };
-    handleResize(); // პირველივე რენდერზე
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -192,7 +192,11 @@ const Header: React.FC<HeaderProps> = ({
           <div className="relative z-10 ">
             <MobileNavbar />
             {variant !== "category" && variant !== "categories" && (
-              <DesktopNavbar menuItems={localizedMenuItems} blogBg={false} />
+              <DesktopNavbar
+                menuItems={localizedMenuItems}
+                blogBg={false}
+                allCourseBg={false}
+              />
             )}
             {/* HeroTitle */}
             {variant == "default" && (
@@ -559,9 +563,11 @@ const Header: React.FC<HeaderProps> = ({
                             height={30}
                           />
                         </div>
-                                            <h3 className="text-white text-sm font-medium">
-                      {item.id === 2 ? `${setData?.totalDuration || "00:00"} мин` : item.text}
-                    </h3>
+                        <h3 className="text-white text-sm font-medium">
+                          {item.id === 2
+                            ? `${setData?.totalDuration || "00:00"} мин`
+                            : item.text}
+                        </h3>
                       </motion.div>
                     ))}
                   </div>
@@ -570,10 +576,16 @@ const Header: React.FC<HeaderProps> = ({
                 <section className="mx-2 md:mt-5 md:mx-5 max-w-[729px]">
                   <div className="bg-[rgba(61,51,74,0.3)]  rounded-[20px] md:gap-[73.2px] gap-5 flex flex-col pl-[30px] pt-[30px] pb-[90px] mt-2">
                     <h2 className="text-[20px] md:text-[40px] font-[Pt] leading-[120%] tracking-[-3%]">
-                      {setData?.name?.ru || setData?.name?.en || setData?.name?.ka || "Обще-восстановительный, поддерживающий комплекс"}
+                      {setData?.name?.ru ||
+                        setData?.name?.en ||
+                        setData?.name?.ka ||
+                        "Обще-восстановительный, поддерживающий комплекс"}
                     </h2>
                     <p className="md:mt-[100px] text-[24px] font-medium leading-[120%] font-[Pt]">
-                      {setData?.description?.ru || setData?.description?.en || setData?.description?.ka || "Современные израильские методики реабилитации по направлениям ортопедия, неврология, посттравматическая реабилитация походки и др."}
+                      {setData?.description?.ru ||
+                        setData?.description?.en ||
+                        setData?.description?.ka ||
+                        "Современные израильские методики реабилитации по направлениям ортопедия, неврология, посттравматическая реабилитация походки и др."}
                     </p>
                   </div>
                 </section>

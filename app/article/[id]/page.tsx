@@ -16,8 +16,8 @@ export default function ArticlePage() {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      if (!params.id || typeof params.id !== 'string') {
-        setError('Invalid article ID');
+      if (!params.id || typeof params.id !== "string") {
+        setError("Invalid article ID");
         setLoading(false);
         return;
       }
@@ -26,7 +26,9 @@ export default function ArticlePage() {
         const data = await getArticleById(params.id);
         setArticle(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch article');
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch article"
+        );
       } finally {
         setLoading(false);
       }
@@ -49,11 +51,16 @@ export default function ArticlePage() {
 
   return (
     <div className="bg-[#F9F7FE] py-1">
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={true} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={true}
+        allCourseBg={false}
+      />
       <MobileNavbar />
+
       <div className="mx-10">
         <Article article={article} />
       </div>
     </div>
   );
-} 
+}
