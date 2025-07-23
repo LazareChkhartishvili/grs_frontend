@@ -49,8 +49,8 @@ const SetDetails = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">{set.name}</h1>
-          <p className="text-gray-600 mb-6">{set.description}</p>
+          <h1 className="text-3xl font-bold mb-4">{set.name.ka}</h1>
+          <p className="text-gray-600 mb-6">{set.description.ka}</p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* ვიდეო ფლეიერი */}
@@ -65,7 +65,7 @@ const SetDetails = () => {
               <div className="bg-gray-50 rounded-lg p-6 mb-6">
                 <h3 className="text-xl font-semibold mb-4">{t('common.subscription_plans')}</h3>
                 <div className="space-y-3">
-                  {set.subscriptionPlans.map((plan, index) => (
+                  {set.subscriptionPlans.map((plan: any, index: any) => (
                     <div
                       key={index}
                       className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm"

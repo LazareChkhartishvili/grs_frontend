@@ -80,4 +80,12 @@ export class SetService {
       .populate('subcategory')
       .exec();
   }
+
+  async remove(id: string): Promise<void> {
+    const result = await this.setModel.findByIdAndDelete(id).exec();
+
+    if (!result) {
+      throw new NotFoundException(`Set with ID ${id} not found`);
+    }
+  }
 } 

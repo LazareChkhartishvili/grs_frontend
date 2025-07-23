@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 "use client";
 
 import { use } from "react";
@@ -21,6 +22,8 @@ export default function CategoriesPage({
   const { categoryId } = use(params);
   const { categoryData, loading, error } = useCategoryComplete(categoryId);
   const { t } = useI18n();
+
+  console.log(categoryData?.category?._id)
 
   // ახლა სრული მონაცემები გვაქვს
   const selectedCategory = categoryData?.category;
@@ -119,6 +122,8 @@ export default function CategoriesPage({
     subcategoryId: set.subCategoryId || '',
   }));
 
+  console.log(formattedSets)
+
   return (
     <div className="">
       <Header
@@ -182,7 +187,7 @@ export default function CategoriesPage({
 
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
-            <WorksSlider title={t("common.complexes")} works={formattedSets} linkType="section"  title={'gio'}/>
+            <WorksSlider works={formattedSets} linkType="complex"  title={t("common.complexes")} categoryData={categoryData?.category?._id}/>
           </div>
         )}
 

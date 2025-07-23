@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
 import { CiPlay1 } from "react-icons/ci";
@@ -12,28 +13,75 @@ import { CiLock } from "react-icons/ci";
 import Blog from "../../components/Blog";
 import Works from "../../components/Works";
 import { useCategoryComplete } from "../../hooks/useCategoryComplete";
+import { useSet } from "../../hooks/useSet";
 import { useI18n } from "../../context/I18nContext";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
+interface Params {
+  id: string;
+}
 
 interface ComplexPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<Params>;
 }
 
 const Complex = ({ params }: ComplexPageProps) => {
-  const setId = params.id;
+  const resolvedParams = React.use(params);
+  const setId = resolvedParams.id;
   const { t } = useI18n();
+  const searchParams = useSearchParams();
+  const categoryIdFromUrl = searchParams.get("categoryId");
   
-  // ვიყენებთ categoryComplete hook-ს რომ მივიღოთ სრული მონაცემები
-  // ვიყენებთ ნებისმიერი categoryId-ს (მაგ: პირველი კატეგორია)
-  const { categoryData, loading: setLoading, error: setError } = useCategoryComplete("687c192042e8ebbadd50b8bc");
+  console.log("🎯 Complex component initialized:", {
+    setId,
+    categoryIdFromParams: categoryIdFromUrl,
+    hasSearchParams: !!searchParams,
+    allSearchParams: Object.fromEntries(searchParams.entries())
+  });
+
+  // თუ არ არის categoryId URL-ში, მაშინ პირდაპირ set-ს ვიღებთ
+  const shouldUseCategoryComplete = !!categoryIdFromUrl;
   
-  // ვპოულობთ სწორ set-ს categoryData-დან
-  const rawSetData = categoryData?.sets?.find(set => set._id === setId);
+  // Hook-ები conditionally
+  const { categoryData, loading: categoryLoading, error: categoryError } = useCategoryComplete(
+    shouldUseCategoryComplete ? categoryIdFromUrl : ''
+  );
+  
+  // ალტერნატიული: პირდაპირ set-ის მოძიება
+  const { set: directSet, loading: setLoading, error: setError } = useSet(
+    shouldUseCategoryComplete ? '' : setId
+  );
+
+  // საბოლოო loading და error states
+  const loading = shouldUseCategoryComplete ? categoryLoading : setLoading;
+  const error = shouldUseCategoryComplete ? categoryError : setError;
+
+  // Set-ის მონაცემების მიღება
+  let rawSetData;
+  if (shouldUseCategoryComplete && categoryData) {
+    // კატეგორიიდან ვეძებთ set-ს
+    rawSetData = categoryData.sets?.find(set => set._id === setId);
+  } else if (!shouldUseCategoryComplete && directSet) {
+    // პირდაპირ set
+    rawSetData = directSet;
+  }
+  
+  console.log("🎯 Data fetching status:", {
+    setId,
+    categoryId: categoryIdFromUrl,
+    shouldUseCategoryComplete,
+    loading,
+    error,
+    hasCategoryData: !!categoryData,
+    hasDirectSet: !!directSet,
+    setsCount: categoryData?.sets?.length || 0,
+    setFound: !!rawSetData,
+    strategy: shouldUseCategoryComplete ? 'category-complete' : 'direct-set'
+  });
 
   // ვითვლით ჯამურ ხანგრძლივობას
-  const totalDurationInMinutes = rawSetData?.exercises?.reduce((total, exercise) => {
+  const totalDurationInMinutes = rawSetData?.exercises?.reduce((total: number, exercise: any) => {
     const duration = exercise.duration || "0:00";
     const [minutes, seconds] = duration.split(":").map(Number);
     return total + minutes + (seconds || 0) / 60;
@@ -117,7 +165,7 @@ const Complex = ({ params }: ComplexPageProps) => {
   const locale = getLocale();
 
   // Loading state
-  if (setLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
@@ -131,7 +179,7 @@ const Complex = ({ params }: ComplexPageProps) => {
   }
 
   // Error state
-  if (setError || !setData) {
+  if (error || !setData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-xl">
@@ -140,7 +188,7 @@ const Complex = ({ params }: ComplexPageProps) => {
             {t("common.error")}
           </h2>
           <p className="text-gray-600 mb-6">
-            {setError || t("common.set_not_found")}
+            {error || t("common.set_not_found")}
           </p>
           <button
             onClick={() => window.location.reload()}

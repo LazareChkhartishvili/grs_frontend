@@ -1,16 +1,48 @@
 "use client";
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useEffect } from "react";
 import Banner from "./Banner";
 import SliderArrows from "./SliderArrows";
 import GridLayouts, { LayoutType } from "./GridLayouts";
-import { blogItem } from "./BlogItems";
-// import { useI18n } from "../context/I18nContext";
+import { useLanguage } from "../context/I18nContext";
+import { API_CONFIG, apiRequest } from "../config/api";
 
 interface BlogProps {
   withBanner: boolean;
   withSlider: boolean;
   layoutType?: LayoutType;
   title: string;
+}
+
+interface Blog {
+  _id: string;
+  title: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  description: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  excerpt: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  imageUrl: string;
+  articles: Array<{
+    _id: string;
+    title: {
+      [key in "ka" | "en" | "ru"]: string;
+    };
+    excerpt: {
+      [key in "ka" | "en" | "ru"]: string;
+    };
+    author: {
+      name: string;
+      bio?: string;
+      avatar?: string;
+    };
+    readTime: string;
+    viewsCount: number;
+    likesCount: number;
+    createdAt: string;
+  }>;
 }
 
 const Blog: React.FC<BlogProps> = ({
@@ -21,13 +53,35 @@ const Blog: React.FC<BlogProps> = ({
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { language } = useLanguage();
   const blogsPerPage = 4;
-  // const { t } = useI18n();
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const data = await apiRequest<Blog[]>(API_CONFIG.ENDPOINTS.BLOGS.WITH_ARTICLES);
+        setBlogs(data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        setError(error instanceof Error ? error.message : 'Failed to fetch blogs');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  console.log(blogs);
 
   const totalPages = useMemo(() => {
-    const otherBlogs = blogItem.slice(1);
+    const otherBlogs = blogs.slice(1);
     return Math.ceil(otherBlogs.length / blogsPerPage);
-  }, [blogsPerPage]);
+  }, [blogs, blogsPerPage]);
 
   const scrollLeft = (): void => {
     if (currentPage > 0) {
@@ -45,6 +99,14 @@ const Blog: React.FC<BlogProps> = ({
 
   const canScrollLeft = currentPage > 0;
   const canScrollRight = currentPage < totalPages - 1;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="bg-[#F9F7FE] md:pb-10 md:mx-5 md:rounded-[20px]">
@@ -74,10 +136,12 @@ const Blog: React.FC<BlogProps> = ({
         )}
 
         <GridLayouts
+          blogs={blogs}
           layoutType={layoutType}
           scrollRef={scrollRef}
           currentPage={currentPage}
           blogsPerPage={blogsPerPage}
+          language={language}
         />
       </div>
     </div>

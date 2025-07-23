@@ -1,41 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const article_schema_1 = require("../src/schemas/article.schema");
+const blog_schema_1 = require("../src/schemas/blog.schema");
+const MONGODB_URI = 'mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db';
 async function checkDatabase() {
     try {
-        await mongoose_1.default.connect('mongodb+srv://beruashvilig60:Berobero1234!@cluster0.dtwfws3.mongodb.net/grs-db');
+        await (0, mongoose_1.connect)(MONGODB_URI);
         console.log('Connected to MongoDB');
-        const orthopedicsCategory = await mongoose_1.default.connection.db.collection('categories')
-            .findOne({ name: "Orthopedics" });
-        if (!orthopedicsCategory) {
-            console.log('Orthopedics category not found!');
-            return;
+        const ArticleModel = (0, mongoose_1.model)('Article', article_schema_1.ArticleSchema);
+        const BlogModel = (0, mongoose_1.model)('Blog', blog_schema_1.BlogSchema);
+        const articles = await ArticleModel.find();
+        console.log('\nArticles:', articles.length);
+        for (const article of articles) {
+            console.log(`- ${article._id}: ${article.title?.ka || 'No title'} (Blog: ${article.blogId})`);
         }
-        console.log('\nOrthopedics Category:', orthopedicsCategory);
-        const sets = await mongoose_1.default.connection.db.collection('sets')
-            .find({ categoryId: orthopedicsCategory._id.toString() })
-            .toArray();
-        console.log('\nOrthopedics Sets:', sets.length);
-        for (const set of sets) {
-            console.log(`\nSet: ${set.name}`);
-            console.log('Exercise IDs:', set.exercises);
-            const videos = await mongoose_1.default.connection.db.collection('videos')
-                .find({
-                _id: { $in: set.exercises.map(id => mongoose_1.default.Types.ObjectId.createFromHexString(id)) }
-            })
-                .toArray();
-            console.log('Videos found:', videos.length);
-            console.log('Sample video URLs:');
-            videos.slice(0, 3).forEach(video => {
-                console.log(`- ${video.url}`);
-            });
+        const blogs = await BlogModel.find();
+        console.log('\nBlogs:', blogs.length);
+        for (const blog of blogs) {
+            console.log(`- ${blog._id}: ${blog.title?.ka || 'No title'} (Articles: ${blog.articles?.length || 0})`);
+            if (blog.articles?.length > 0) {
+                console.log('  Articles:', blog.articles);
+            }
         }
+        process.exit(0);
     }
     catch (error) {
         console.error('Error:', error);
-    }
-    finally {
-        await mongoose_1.default.disconnect();
+        process.exit(1);
     }
 }
 checkDatabase();

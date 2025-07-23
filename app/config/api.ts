@@ -16,6 +16,8 @@ const PUBLIC_ENDPOINTS = [
   '/categories',
   '/sets',
   '/exercises',
+  '/articles',
+  '/blogs',
   '/test',
   '/users-count'
 ];
@@ -32,6 +34,9 @@ export const API_CONFIG = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_URL || "https://grs-bkbc.onrender.com",
   BASE_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
   ENDPOINTS: {
+    UPLOAD: {
+      IMAGE: "/upload/image"
+    },
     CATEGORIES: "/categories",
     MAIN_CATEGORIES: "/categories",
     COMPLEXES: "/api/complexes",
@@ -45,6 +50,26 @@ export const API_CONFIG = {
       SEND_VERIFICATION: "/auth/send-verification",
       VERIFY_CODE: "/auth/verify-code",
       RESEND_CODE: "/auth/resend-code",
+    },
+    ARTICLES: {
+      ALL: "/articles",
+      JSON: "/articles/json",
+      FEATURED: "/articles/featured",
+      POPULAR: "/articles/popular",
+      SEARCH: "/articles/search",
+      BY_CATEGORY: "/articles/category",
+      LIKE: "/articles/{id}/like",
+      SIMILAR: (id: string) => `/articles/${id}/similar`
+    },
+    BLOGS: {
+      ALL: "/blogs",
+      JSON: "/blogs/json",
+      FEATURED: "/blogs/featured",
+      POPULAR: "/blogs/popular",
+      SEARCH: "/blogs/search",
+      BY_CATEGORY: "/blogs/category",
+      LIKE: "/blogs/{id}/like",
+      WITH_ARTICLES: "/blogs/with-articles"
     },
     SETS: {
       ALL: "/sets",

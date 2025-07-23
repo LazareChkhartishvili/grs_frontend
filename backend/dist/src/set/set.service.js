@@ -78,6 +78,12 @@ let SetService = class SetService {
             .populate('subcategory')
             .exec();
     }
+    async remove(id) {
+        const result = await this.setModel.findByIdAndDelete(id).exec();
+        if (!result) {
+            throw new common_1.NotFoundException(`Set with ID ${id} not found`);
+        }
+    }
 };
 exports.SetService = SetService;
 exports.SetService = SetService = __decorate([

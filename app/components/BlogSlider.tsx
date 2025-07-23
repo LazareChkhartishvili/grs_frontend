@@ -4,13 +4,46 @@ import Image from "next/image";
 import { CiBookmark } from "react-icons/ci";
 import { IoIosShareAlt } from "react-icons/io";
 import React, { useEffect, useState } from "react";
-import { blogItem } from "./BlogItems";
 import Link from "next/link";
+
+interface Blog {
+  _id: string;
+  title: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  description: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  excerpt: {
+    [key in "ka" | "en" | "ru"]: string;
+  };
+  imageUrl: string;
+  articles: Array<{
+    _id: string;
+    title: {
+      [key in "ka" | "en" | "ru"]: string;
+    };
+    excerpt: {
+      [key in "ka" | "en" | "ru"]: string;
+    };
+    author: {
+      name: string;
+      bio?: string;
+      avatar?: string;
+    };
+    readTime: string;
+    viewsCount: number;
+    likesCount: number;
+    createdAt: string;
+  }> | string[];  // Can be either array of objects or array of strings
+}
 
 interface BlogSliderProps {
   scrollRef?: React.RefObject<HTMLDivElement | null>;
   currentPage: number;
   blogsPerPage: number;
+  blogs: Blog[];
+  language: "ka" | "en" | "ru";
 }
 
 const useIsDesktop = (): boolean => {
@@ -32,10 +65,12 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
   scrollRef,
   currentPage,
   blogsPerPage,
+  blogs,
+  language
 }) => {
   const isDesktop = useIsDesktop();
-  const featuredBlog = blogItem[0];
-  const otherBlogs = blogItem.slice(1);
+  const featuredBlog = blogs[0];
+  const otherBlogs = blogs.slice(1);
 
   const getCurrentBlogs = () => {
     const startIndex = currentPage * blogsPerPage;
@@ -43,26 +78,53 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
     return otherBlogs.slice(startIndex, endIndex);
   };
 
+  // Helper function to get article link
+  const getArticleLink = (blog: Blog) => {
+    // Check if blog exists
+    if (!blog) {
+      console.log('Blog is undefined');
+      return '#';
+    }
+
+    // Check if articles array exists and has items
+    if (!Array.isArray(blog.articles) || blog.articles.length === 0) {
+      console.log('Blog articles array is empty or not an array:', blog);
+      return '#';
+    }
+
+    // Get first article ID
+    const firstArticle = blog.articles[0];
+    console.log('First article:', firstArticle);
+    const articleId = typeof firstArticle === 'string' ? firstArticle : firstArticle._id;
+    
+    if (!articleId) {
+      console.log('Article ID is undefined');
+      return '#';
+    }
+
+    return `/article/${articleId}`;
+  };
+
   return (
     <div className="w-full font-[Pt]">
       <div className="flex md:flex-row flex-col gap-2.5 mb-10 w-full px-0">
         {/* Featured Blog */}
         {featuredBlog && isDesktop && (
-          <Link href={"/article"}>
-            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center ">
+          <Link href={getArticleLink(featuredBlog)}>
+            <div className="bg-white md:p-2 md:pb-5 md:h-[518px] w-[280px] md:w-auto flex-shrink-0 rounded-[20px] flex-col justify-between snap-center">
               <div className="relative min-w-[300px] max-w-[690px]">
                 <Image
                   src={featuredBlog.imageUrl}
                   width={694}
                   height={232}
-                  alt="featuredBlogImage"
-                  className=" md:h-[232px] object-cover rounded-[20px]"
+                  alt={featuredBlog.title[language]}
+                  className="md:h-[232px] object-cover rounded-[20px]"
                 />
-                <p className="text-[#3D334A] tracking-[0%] md:mt-[10px] mt-0 md:mb-2 mb-2 text-[16px] md:text-[32px] leading-[120%] font-semibold px-3">
-                  {featuredBlog.description}
+                <p className="text-[#3D334A] tracking-[0%] md:mt-[10px] mt-0 md:mb-2 mb-2 text-[14px] md:text-[24px] leading-[120%] font-semibold px-3">
+                  <div className="line-clamp-2">{featuredBlog.title[language].trim()}</div>
                 </p>
                 <p className="mt-0 text-[#846FA0] font-medium leading-[120%] tracking-[0%] px-3">
-                  {featuredBlog.subText}
+                  {featuredBlog.excerpt[language]}
                 </p>
                 <div className="flex items-center gap-1.5 flex-col absolute top-2 right-2">
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-[#F9F7FE]/30 rounded-[6px] flex justify-center items-center">
@@ -75,7 +137,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
               </div>
               <div className="px-3 pb-3 font-[Bowler] mt-4">
                 <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
-                  {featuredBlog.category}
+                  {featuredBlog.articles?.length || 0} სტატია
                 </span>
               </div>
             </div>
@@ -85,19 +147,16 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         {/* Desktop Grid */}
         {isDesktop ? (
           <div className="relative">
-            <div className="grid grid-cols-2 grid-rows-2 gap-5 ">
-              {getCurrentBlogs().map((item) => (
-                <Link key={item.id} href={"/article"}>
-                  <div
-                    key={item.id}
-                    className="min-w-[200px] max-w-full md:h-[249px] p-5 bg-white flex flex-col justify-between rounded-[20px]"
-                  >
+            <div className="grid grid-cols-2 grid-rows-2 gap-5">
+              {getCurrentBlogs().map((blog) => (
+                <Link key={blog._id} href={getArticleLink(blog)}>
+                  <div className="min-w-[200px] max-w-full md:h-[249px] p-5 bg-white flex flex-col justify-between rounded-[20px]">
                     <p className="text-[#3D334A] text-[18px] leading-[120%] line-clamp-2 font-bold md:text-[24px]">
-                      {item.description}
+                      {blog.title[language]}
                     </p>
                     <div className="flex justify-between items-center mt-3">
                       <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
-                        {item.category}
+                        {blog.articles?.length || 0} სტატია
                       </span>
                       <div className="flex items-center gap-1.5">
                         <div className="w-10 h-10 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
@@ -114,26 +173,23 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
             </div>
           </div>
         ) : (
-          <div
-            ref={scrollRef}
-            className="flex overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory"
-          >
-            {otherBlogs.map((item) => (
-              <Link key={item.id} href={"/article"}>
+          <div ref={scrollRef} className="flex overflow-auto gap-5 flex-row overflow-x-auto snap-x snap-mandatory">
+            {otherBlogs.map((blog) => (
+              <Link key={blog._id} href={getArticleLink(blog)}>
                 <div className="w-[200px] flex-shrink-0 p-3 bg-white flex flex-col justify-between rounded-[10px] snap-center">
                   <Image
-                    src={item.imageUrl}
+                    src={blog.imageUrl}
                     width={189}
                     height={172}
-                    alt="blog"
+                    alt={blog.title[language]}
                     className="flex"
                   />
                   <p className="text-[#3D334A] text-[14px] leading-[120%] mt-2 line-clamp-2">
-                    {item.description}
+                    {blog.title[language]}
                   </p>
                   <div className="flex justify-between items-center mt-2">
                     <span className="text-[#3D334A] font-[Bowler] p-1.5 leading-[90%] bg-[#E9DFF6] rounded-[6px] text-[14px] uppercase">
-                      {item.category}
+                      {blog.articles?.length || 0} სტატია
                     </span>
                     <div className="flex items-center gap-1.5">
                       <div className="w-8 h-8 bg-[#F9F7FE] rounded-[6px] flex justify-center items-center">
@@ -151,10 +207,11 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
         )}
       </div>
       <span className="text-[#D4BAFC] leading-[90%] text-[15px] md:text-[24px] md:px-5 px-0 cursor-pointer">
-        Все 439 статей →
+        ყველა ბლოგი →
       </span>
     </div>
   );
 };
 
 export default BlogSlider;
+

@@ -1,10 +1,10 @@
 import { SetService } from './set.service';
-import { CreateSetDto } from './dto/create-set.dto';
 export declare class SetController {
     private readonly setService;
     constructor(setService: SetService);
-    create(createSetDto: CreateSetDto): Promise<import("../schemas/set.schema").Set>;
-    update(id: string, updateSetDto: Partial<CreateSetDto>): Promise<import("../schemas/set.schema").Set>;
+    private uploadToCloudinary;
+    create(file: Express.Multer.File, createSetDto: any): Promise<import("../schemas/set.schema").Set>;
+    update(id: string, updateSetDto: any, file?: Express.Multer.File): Promise<import("../schemas/set.schema").Set>;
     findAll(query: {
         categoryId?: string;
         subCategoryId?: string;
@@ -14,4 +14,5 @@ export declare class SetController {
     findOne(id: string): Promise<import("mongoose").Document<unknown, {}, import("../schemas/set.schema").SetDocument> & import("../schemas/set.schema").Set & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    remove(id: string): Promise<void>;
 }

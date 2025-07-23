@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
 const set_controller_1 = require("./set.controller");
 const set_service_1 = require("./set.service");
 const set_schema_1 = require("../schemas/set.schema");
@@ -18,7 +20,20 @@ exports.SetModule = SetModule;
 exports.SetModule = SetModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: set_schema_1.Set.name, schema: set_schema_1.SetSchema }])
+            mongoose_1.MongooseModule.forFeature([
+                { name: set_schema_1.Set.name, schema: set_schema_1.SetSchema }
+            ]),
+            platform_express_1.MulterModule.register({
+                storage: (0, multer_1.memoryStorage)(),
+                fileFilter: (req, file, callback) => {
+                    if (file.mimetype.startsWith('image/')) {
+                        callback(null, true);
+                    }
+                    else {
+                        callback(new Error('მხოლოდ სურათის ფაილებია დაშვებული'), false);
+                    }
+                },
+            }),
         ],
         controllers: [set_controller_1.SetController],
         providers: [set_service_1.SetService],

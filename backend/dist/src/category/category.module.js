@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
 const category_schema_1 = require("../schemas/category.schema");
 const category_controller_1 = require("./category.controller");
 const category_service_1 = require("./category.service");
@@ -20,7 +22,18 @@ exports.CategoryModule = CategoryModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([
                 { name: category_schema_1.Category.name, schema: category_schema_1.CategorySchema }
-            ])
+            ]),
+            platform_express_1.MulterModule.register({
+                storage: (0, multer_1.memoryStorage)(),
+                fileFilter: (req, file, callback) => {
+                    if (file.mimetype.startsWith('image/')) {
+                        callback(null, true);
+                    }
+                    else {
+                        callback(new Error('მხოლოდ სურათის ფაილებია დაშვებული'), false);
+                    }
+                },
+            }),
         ],
         controllers: [category_controller_1.CategoryController],
         providers: [category_service_1.CategoryService],

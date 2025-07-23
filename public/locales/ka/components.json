@@ -30,5 +30,17 @@
   },
   "download": {
     "title": "განსხვავებულ <br /> პლატფორმებზე <br /> ურთიერთქმედების შესაძლებლობა"
+  },
+  "article": {
+    "table_of_contents": "სარჩევი",
+    "comments": "კომენტარები",
+    "comment_count": "{{count}} კომენტარი",
+    "read_time": "{{time}} წთ",
+    "rate_article": "შეაფასეთ სტატია",
+    "ratings": "({{count}} შეფასება)",
+    "write_comment": "დაწერეთ კომენტარი",
+    "show_more_comments": "მეტის ჩვენება",
+    "similar_articles": "მსგავსი სტატიები",
+    "no_similar_articles": "მსგავსი სტატიები არ მოიძებნა"
   }
 } 

@@ -19,6 +19,15 @@ export const useI18n = () => {
   return context;
 };
 
+// Add useLanguage hook
+export const useLanguage = () => {
+  const context = useContext(I18nContext);
+  if (!context) {
+    throw new Error("useLanguage must be used within an I18nProvider");
+  }
+  return { language: context.locale };
+};
+
 interface I18nProviderProps {
   children: React.ReactNode;
 }

@@ -18,6 +18,8 @@ const set_module_1 = require("./set/set.module");
 const exercise_module_1 = require("./exercise/exercise.module");
 const user_schema_1 = require("./schemas/user.schema");
 const upload_module_1 = require("./upload/upload.module");
+const article_module_1 = require("./article/article.module");
+const blog_module_1 = require("./blog/blog.module");
 const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
@@ -36,6 +38,8 @@ exports.AppModule = AppModule = __decorate([
             set_module_1.SetModule,
             exercise_module_1.ExerciseModule,
             upload_module_1.UploadModule,
+            article_module_1.ArticleModule,
+            blog_module_1.BlogModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

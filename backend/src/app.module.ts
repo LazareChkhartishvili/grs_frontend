@@ -9,6 +9,8 @@ import { SetModule } from './set/set.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { User, UserSchema } from './schemas/user.schema';
 import { UploadModule } from './upload/upload.module';
+import { ArticleModule } from './article/article.module';
+import { BlogModule } from './blog/blog.module';
 import { ConfigModule } from '@nestjs/config';
 
 
@@ -27,6 +29,8 @@ import { ConfigModule } from '@nestjs/config';
     SetModule,
     ExerciseModule,
     UploadModule,
+    ArticleModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

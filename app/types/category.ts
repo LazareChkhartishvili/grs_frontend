@@ -1,4 +1,4 @@
-interface LocalizedString {
+export interface LocalizedString {
   ka: string;
   en: string;
   ru: string;
@@ -123,4 +123,4 @@ export interface Category {
   isActive: boolean;
   sortOrder: number;
   isPublished: boolean;
-} 
+}

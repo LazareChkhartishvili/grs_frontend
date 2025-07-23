@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
@@ -13,21 +14,25 @@ interface WorkItem {
   exerciseCount: number;
   categoryName: string;
   monthlyPrice: number;
-  categoryId?: string;
   subcategoryId?: string;
+  categoryId: string;
 }
 
 interface WorksSliderProps {
   title?: string;
   works: WorkItem[];
   linkType?: 'sets' | 'complex' | 'section'; // დინამიური ლინკის ტიპი
+  categoryData?: any;
+  fromMain: boolean
 }
 
 const WorksSlider: React.FC<WorksSliderProps> = ({
   title = "სეტები",
   works,
   linkType = 'sets', // default არის sets
+  fromMain,
 }) => {
+  console.log(works)
   const scroll = (direction: "left" | "right") => {
     const slider = document.getElementById("works-slider");
     console.log("🖱️ Scroll button clicked:", { direction, slider });
@@ -64,9 +69,13 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
             <Link
               key={work.id}
               href={
-                linkType === 'complex' ? `/complex/${work.id}` : 
-                linkType === 'section' ? `/categories/section?categoryId=${work.categoryId || ''}&subcategoryId=${work.subcategoryId || ''}` :
-                `/sets/${work.id}`
+                fromMain
+                  ? `/complex/${work.id}?categoryId=${work.categoryId}`
+                  : linkType === 'complex'
+                  ? `/complex/${work.id}`
+                  : linkType === 'section'
+                  ? `/categories/section?categoryId=${work.categoryId || ''}&subcategoryId=${work.subcategoryId || ''}`
+                  : `/sets/${work.id}`
               }
               className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px] hover:shadow-lg transition-shadow flex flex-col"
             >

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
 import Header from "./components/Header";
@@ -12,27 +13,20 @@ import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
 import { useAllExercises } from "./hooks/useExercises";
-  // import { useAllSets } from "./hooks/useSet";
-// import { useI18n } from "./context/I18nContext";
+  import { useAllSets } from "./hooks/useSets";
+import { useI18n } from "./context/I18nContext";
 
 const Home = () => {
-  const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
-  const { exercises, loading: exercisesLoading, error: exercisesError } = useAllExercises();
+  const { categories } = useCategories();
+  const { exercises } = useAllExercises();
+  const { sets } = useAllSets();
+  const { t } = useI18n();
 
-  console.log(categories)
-
-
-  // const { t } = useI18n();
-
-  console.log("📊 Categories loaded:", { count: categories.length, loading: categoriesLoading, error: categoriesError });
-  console.log("🏃‍♂️ Exercises loaded:", { count: exercises.length, loading: exercisesLoading, error: exercisesError });
-  console.log("🏃‍♂️ Exercises data:", exercises);
-
-  console.log("🏠 Home component rendering with exercises:", {
-    exercisesCount: exercises.length,
-    exercisesLoading,
-    exercisesError,
-    firstExercise: exercises[0]
+  console.log("🏠 Home page data:", {
+    setsCount: sets.length,
+    sets: sets.slice(0, 2), // პირველი 2 set-ის ნახვა
+    categoriesCount: categories.length,
+    exercisesCount: exercises.length
   });
 
   return (
@@ -41,7 +35,12 @@ const Home = () => {
       <div>
       <Rehabilitation />
         <Category />
-        <Works title={"Exercises"} exercises={exercises} />
+        <Works 
+          title={t("common.sets")} 
+          sets={sets} 
+          fromMain={true}
+          linkHref="/allComplex"
+        />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"

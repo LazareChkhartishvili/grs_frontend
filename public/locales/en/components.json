@@ -30,5 +30,17 @@
   },
   "download": {
     "title": "Interaction capabilities <br /> across different platforms"
+  },
+  "article": {
+    "table_of_contents": "Table of Contents",
+    "comments": "Comments",
+    "comment_count": "{{count}} comments",
+    "read_time": "{{time}} min read",
+    "rate_article": "Rate Article",
+    "ratings": "{{count}} ratings",
+    "write_comment": "Write a comment",
+    "show_more_comments": "Show More",
+    "similar_articles": "Similar Articles",
+    "no_similar_articles": "No similar articles found"
   }
 } 

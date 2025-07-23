@@ -30,5 +30,17 @@
   },
   "download": {
     "title": "Возможность <br /> взаимодействия <br /> на разных платформах"
+  },
+  "article": {
+    "table_of_contents": "Содержание",
+    "comments": "Комментарии",
+    "comment_count": "{{count}} комментариев",
+    "read_time": "{{time}} мин",
+    "rate_article": "Оцените статью",
+    "ratings": "({{count}} оценок)",
+    "write_comment": "Написать комментарий",
+    "show_more_comments": "Показать больше",
+    "similar_articles": "Похожие статьи",
+    "no_similar_articles": "Похожие статьи не найдены"
   }
 } 

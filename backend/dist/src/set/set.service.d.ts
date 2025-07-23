@@ -15,4 +15,5 @@ export declare class SetService {
     findOne(id: string): Promise<import("mongoose").Document<unknown, {}, SetDocument> & Set & import("mongoose").Document<any, any, any> & {
         _id: Types.ObjectId;
     }>;
+    remove(id: string): Promise<void>;
 }
