@@ -14,13 +14,16 @@ import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
 import { useAllExercises } from "./hooks/useExercises";
   import { useAllSets } from "./hooks/useSets";
-import { useI18n } from "./context/I18nContext";
+// import { useCategoryComplete } from "./hooks/useCategoryComplete";
+// import { useI18n } from "./context/I18nContext";
 
 const Home = () => {
   const { categories } = useCategories();
   const { exercises } = useAllExercises();
+  // const { categoryComplete } = useCategoryComplete();
   const { sets } = useAllSets();
-  const { t } = useI18n();
+
+  // const { t } = useI18n();
 
   console.log("🏠 Home page data:", {
     setsCount: sets.length,
@@ -35,7 +38,7 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category bgColor="#F9F7FE" />
-        <Works title={"Sets"} sets={sets} />
+        <Works title={"Sets"} sets={sets} fromMain={true}/>
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"

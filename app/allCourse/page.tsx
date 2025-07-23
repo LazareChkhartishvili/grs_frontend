@@ -33,7 +33,7 @@ const demoCategories = [
 const AllCourse = () => {
   // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   // const { categories, loading: categoriesLoading } = useCategories();
-  const { courses, loading: coursesLoading, error } = useCourses(undefined);
+  // const { courses, loading: coursesLoading, error } = useCourses(undefined);
   // const router = useRouter();
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -61,33 +61,33 @@ const AllCourse = () => {
   //   router.push("/allCourse/1");
   // }, [router]);
 
-  const loading = coursesLoading;
+  // const loading = coursesLoading;
 
-  if (loading) {
-    return (
-      <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
-          <h2 className="text-2xl font-semibold text-gray-700">
-            მონაცემები იტვირთება...
-          </h2>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
+  //         <h2 className="text-2xl font-semibold text-gray-700">
+  //           მონაცემები იტვირთება...
+  //         </h2>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (error) {
-    return (
-      <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl text-red-600 mb-4">
-            შეცდომა კურსების ჩატვირთვაში
-          </h2>
-          <p className="text-gray-600">{error}</p>
-        </div>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="bg-[#F9F7FE] min-h-screen flex items-center justify-center">
+  //       <div className="text-center">
+  //         <h2 className="text-xl text-red-600 mb-4">
+  //           შეცდომა კურსების ჩატვირთვაში
+  //         </h2>
+  //         <p className="text-gray-600">{error}</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-[#F9F7FE] pb-40">
@@ -161,17 +161,12 @@ const AllCourse = () => {
           })}
         </div>
         <div>
-          {courses.length > 0 ? (
-            courses.map((course) => (
-              <div key={course.id} className="mb-10">
+          
+              <div className="mb-10">
                 <CourseSlider />
               </div>
-            ))
-          ) : (
-            <div className="text-center py-10">
-              <p className="text-gray-500">კურსები ვერ მოიძებნა</p>
-            </div>
-          )}
+           
+          
         </div>
         <button className="w-[512px] py-4 cursor-poer rounded-[10px] text-[#3D334A] text-[32px] bg-[#D4BAFC] flex justify-center items-center mx-auto mt-10 ">
           Показать еще

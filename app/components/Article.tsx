@@ -8,8 +8,7 @@ import { FaShare } from "react-icons/fa";
 import { MdStar } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import Link from "next/link";
-import { useLanguage } from "../context/I18nContext";
-import { useTranslation } from "react-i18next";
+import { useLanguage, useI18n } from "../context/I18nContext";
 
 interface ArticleProps {
   article: ArticleType;
@@ -19,7 +18,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
   const [similarArticles, setSimilarArticles] = useState<ArticleType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguage();
-  const { t } = useTranslation(['components']);
+  const { t } = useI18n();
 
   useEffect(() => {
     const fetchSimilarArticles = async () => {
@@ -113,10 +112,10 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
               </p>
               <div className="flex items-center gap-[30px] pt-[30px]">
                 <span className="text-[rgba(61,51,74,1)] leading-[120%] tracking-[0%] text-[16px] font-medium">
-                  {t('article.comment_count', { count: article.commentsCount || 0 })}
+                  {t('article.comment_count', { count: String(article.commentsCount || 0) })}
                 </span>
                 <span className="text-[rgba(61,51,74,1)] leading-[120%] tracking-[0%] text-[16px] font-medium">
-                  {t('article.read_time', { time: article.readTime })}
+                  {t('article.read_time', { time: String(article.readTime) })}
                 </span>
               </div>
             </section>
@@ -162,7 +161,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
                 4.7
               </h4>
               <span className="md:text-[16px] text-[10px] text-[rgba(213,209,219,1)] leading-[100%] tracking-[-1%]">
-                {t('article.ratings', { count: 26 })}
+                {t('article.ratings', { count: '26' })}
               </span>
             </div>
           </div>

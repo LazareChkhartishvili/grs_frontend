@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
@@ -10,11 +10,12 @@ import { useCategories } from "../hooks/useCategories";
 import { useAllSets } from "../hooks/useSets";
 import { useAllExercises } from "../hooks/useExercises";
 import { useI18n } from "../context/I18nContext";
+import Section from "../components/Section";
 
 const AllComplex = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { locale } = useI18n();
-
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   // Real data hooks
   const { categories, loading: categoriesLoading } = useCategories();
   const { sets, loading: setsLoading } = useAllSets();
@@ -217,25 +218,25 @@ const AllComplex = () => {
           ref={dropdownRef}
           className="w-full px-10 min-h-[64px] bg-white rounded-[40px] mb-6 p-4 flex flex-wrap gap-2 md:gap-3 items-center"
         >
-          {demoCategories.map((cat, idx) => {
-            const isDropdown = !!cat.dropdownItems;
-            const isOpen = openDropdownId === cat.id;
+          {categories.map((cat, idx) => {
+            const isDropdown = !!cat.subcategories;
+            const isOpen = openDropdownId === cat._id;
             return (
-              <div key={cat.id} className="relative">
+              <div key={cat._id} className="relative">
                 <button
                   className={`text-[#3D334A] text-[13px] md:text-[15px] font-medium rounded-[8px] px-3 md:px-5 h-[33px] transition-colors whitespace-nowrap flex items-center gap-1
                   ${idx === 0 ? "bg-[#E9DDFB] font-bold" : "bg-[#F9F7FE]"}
-                  ${cat.active ? "shadow-sm" : ""}
+                  ${cat.isActive ? "shadow-sm" : ""}
                   ${isOpen ? "ring-2 ring-[#D4BAFC] bg-[#F3D57F]" : ""}
                 `}
                   onClick={() => {
                     if (isDropdown) {
-                      setOpenDropdownId(isOpen ? null : cat.id);
+                      setOpenDropdownId(isOpen ? null : cat._id);
                     }
                   }}
                   type="button"
                 >
-                  {cat.title}
+                  {getLocalizedText(cat.name)}
                   {isDropdown && (
                     <span
                       className={`ml-1 text-xs transition-transform ${
@@ -249,7 +250,7 @@ const AllComplex = () => {
                 {/* Dropdown menu */}
                 {isDropdown && isOpen && (
                   <div className="absolute left-0 top-full mt-1 z-20 bg-white rounded-[10px] shadow-lg min-w-[160px] py-2 animate-fade-in">
-                    {cat.dropdownItems.map((item: string, i: number) => (
+                    {cat.subcategories.map((item: string, i: number) => (
                       <div
                         key={i}
                         className="px-4 py-2 hover:bg-[#F3D57F] cursor-pointer text-[#3D334A] text-[13px]"
