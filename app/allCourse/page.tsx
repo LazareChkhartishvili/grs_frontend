@@ -10,32 +10,32 @@ import CategoryFilter from "../components/CategoryFilter";
 // import { useRouter } from "next/navigation";
 
 // --- Demo categories for visual ---
-const demoCategories = [
-  { id: "all", title: "Все категории", active: true },
-  {
-    id: "ortopedia",
-    title: "ОРТОПЕДИЯ",
-    dropdownItems: ["Подкатегория 1", "Подкатегория 2"],
-  },
-  {
-    id: "ortopedia3",
-    title: "ОРТОПЕДИЯ (3)",
-    dropdownItems: ["Вариант 1", "Вариант 2", "Вариант 3"],
-  },
-  { id: "afaziya", title: "АФАЗИЯ И ДИЗАРТРИЯ" },
-  { id: "ozhirenie", title: "ОЖИРЕНИЕ" },
-  { id: "nevrologia", title: "НЕВРОЛОГИЯ" },
-  { id: "covid", title: "РЕАБИЛИТАЦИЯ ПОСЛЕ COVID-19" },
-  { id: "pohodka", title: "РЕАБИЛИТАЦИЯ ПОХОДКИ" },
-  { id: "pozhilyh", title: "РЕАБИЛИТАЦИЯ ДЛЯ ПОЖИЛЫХ" },
-];
+// const demoCategories = [
+//   { id: "all", title: "Все категории", active: true },
+//   {
+//     id: "ortopedia",
+//     title: "ОРТОПЕДИЯ",
+//     dropdownItems: ["Подкатегория 1", "Подкатегория 2"],
+//   },
+//   {
+//     id: "ortopedia3",
+//     title: "ОРТОПЕДИЯ (3)",
+//     dropdownItems: ["Вариант 1", "Вариант 2", "Вариант 3"],
+//   },
+//   { id: "afaziya", title: "АФАЗИЯ И ДИЗАРТРИЯ" },
+//   { id: "ozhirenie", title: "ОЖИРЕНИЕ" },
+//   { id: "nevrologia", title: "НЕВРОЛОГИЯ" },
+//   { id: "covid", title: "РЕАБИЛИТАЦИЯ ПОСЛЕ COVID-19" },
+//   { id: "pohodka", title: "РЕАБИЛИТАЦИЯ ПОХОДКИ" },
+//   { id: "pozhilyh", title: "РЕАБИЛИТАЦИЯ ДЛЯ ПОЖИЛЫХ" },
+// ];
 
 const AllCourse = () => {
   // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   // const { categories, loading: categoriesLoading } = useCategories();
   // const { courses, loading: coursesLoading, error } = useCourses(undefined);
   // const router = useRouter();
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [, setOpenDropdownId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // ბექენდის API რესპონსისთვის - exact structure
 interface LocalizedString {
@@ -19,7 +20,7 @@ interface BackendExercise {
   thumbnailUrl?: string;
   videoDuration: string;
   duration: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   repetitions: string;
   sets: string;
   restTime: string;
@@ -52,7 +53,7 @@ interface UseExercisesOptions {
   categoryId?: string;
   subCategoryId?: string;
   setId?: string;
-  difficulty?: 'easy' | 'medium' | 'hard';
+  difficulty?: "easy" | "medium" | "hard";
 }
 
 interface UseExercisesReturn {
@@ -64,7 +65,7 @@ interface UseExercisesReturn {
 
 function getFallbackExercises(): BackendExercise[] {
   const fallbackDate = new Date().toISOString();
-  
+
   return [
     {
       _id: "fallback_exercise_1",
@@ -72,19 +73,19 @@ function getFallbackExercises(): BackendExercise[] {
         ka: "კისრის გაჭიმვა",
         en: "Neck Stretch",
         ru: "Растяжка шеи",
-        _id: "fallback_name_1"
+        _id: "fallback_name_1",
       },
       description: {
         ka: "კისრის კუნთების გასაჭიმად",
         en: "For stretching neck muscles",
         ru: "Для растяжки мышц шеи",
-        _id: "fallback_desc_1"
+        _id: "fallback_desc_1",
       },
       recommendations: {
         ka: "ნელა და ფრთხილად",
         en: "Slowly and carefully",
         ru: "Медленно и осторожно",
-        _id: "fallback_rec_1"
+        _id: "fallback_rec_1",
       },
       videoUrl: "/videos/neck-stretch.mp4",
       thumbnailUrl: "/assets/images/exercises/neck-stretch.jpg",
@@ -101,7 +102,7 @@ function getFallbackExercises(): BackendExercise[] {
       categoryId: "fallback_category_1",
       createdAt: fallbackDate,
       updatedAt: fallbackDate,
-      __v: 0
+      __v: 0,
     },
     {
       _id: "fallback_exercise_2",
@@ -109,19 +110,19 @@ function getFallbackExercises(): BackendExercise[] {
         ka: "მხრების ვარჯიში",
         en: "Shoulder Exercise",
         ru: "Упражнение для плеч",
-        _id: "fallback_name_2"
+        _id: "fallback_name_2",
       },
       description: {
         ka: "მხრების კუნთების გასაძლიერად",
         en: "For strengthening shoulder muscles",
         ru: "Для укрепления мышц плеч",
-        _id: "fallback_desc_2"
+        _id: "fallback_desc_2",
       },
       recommendations: {
         ka: "თანმიმდევრულად შეასრულეთ",
         en: "Perform consistently",
         ru: "Выполняйте последовательно",
-        _id: "fallback_rec_2"
+        _id: "fallback_rec_2",
       },
       videoUrl: "/videos/shoulder-exercise.mp4",
       thumbnailUrl: "/assets/images/exercises/shoulder-exercise.jpg",
@@ -138,19 +139,21 @@ function getFallbackExercises(): BackendExercise[] {
       categoryId: "fallback_category_1",
       createdAt: fallbackDate,
       updatedAt: fallbackDate,
-      __v: 0
-    }
+      __v: 0,
+    },
   ];
 }
 
-export function useExercises(options: UseExercisesOptions = {}): UseExercisesReturn {
+export function useExercises(
+  options: UseExercisesOptions = {}
+): UseExercisesReturn {
   const [exercises, setExercises] = useState<BackendExercise[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   console.log("🔴 useExercises hook initialized with options:", options);
 
-  const fetchExercises = async () => {
+  const fetchExercises = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -159,32 +162,35 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
 
       const { apiRequest, API_CONFIG } = await import("../config/api");
       let endpoint = API_CONFIG.ENDPOINTS.EXERCISES;
-      
+
       console.log("🔗 Base endpoint:", endpoint);
-      
+
       // ვქმნით query parameters
       const params = new URLSearchParams();
-      if (options.categoryId) params.append('categoryId', options.categoryId);
-      if (options.subCategoryId) params.append('subCategoryId', options.subCategoryId);
-      if (options.setId) params.append('setId', options.setId);
-      
+      if (options.categoryId) params.append("categoryId", options.categoryId);
+      if (options.subCategoryId)
+        params.append("subCategoryId", options.subCategoryId);
+      if (options.setId) params.append("setId", options.setId);
+
       // თუ არის query params, ვუმატებთ endpoint-ს
       if (params.toString()) {
         endpoint = `${endpoint}?${params.toString()}`;
       }
 
       const fullUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
-      
+
       console.log("📡 Exercises API Request Details:", {
         endpoint,
         baseUrl: API_CONFIG.BASE_URL,
         fullUrl,
         options,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       console.log("🔄 About to call apiRequest...");
-      const backendExercises: BackendExercise[] = await apiRequest<BackendExercise[]>(endpoint);
+      const backendExercises: BackendExercise[] = await apiRequest<
+        BackendExercise[]
+      >(endpoint);
       console.log("✅ apiRequest completed successfully");
 
       console.log("🏃‍♂️ Raw Exercises Response:", {
@@ -192,7 +198,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
         type: typeof backendExercises,
         isArray: Array.isArray(backendExercises),
         length: backendExercises?.length,
-        firstItem: backendExercises?.[0]
+        firstItem: backendExercises?.[0],
       });
 
       if (!Array.isArray(backendExercises)) {
@@ -203,25 +209,32 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
 
       // აღარ გავაკეთებთ ტრანსფორმაციას - raw data-ს ვიყენებთ
       setExercises(backendExercises);
-      console.log("✅ setExercises called with:", backendExercises.length, "exercises");
-      
+      console.log(
+        "✅ setExercises called with:",
+        backendExercises.length,
+        "exercises"
+      );
     } catch (err) {
       console.error("❌ Error fetching exercises:", err);
       console.error("❌ Exercises Error details:", {
-        message: err instanceof Error ? err.message : 'Unknown error',
+        message: err instanceof Error ? err.message : "Unknown error",
         stack: err instanceof Error ? err.stack : undefined,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-      
+
       const fallbackExercises = getFallbackExercises();
       console.log("🔄 Using fallback exercises:", fallbackExercises);
       setExercises(fallbackExercises);
-      setError(err instanceof Error ? err.message : "API Error - using fallback exercises data");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "API Error - using fallback exercises data"
+      );
     } finally {
       setLoading(false);
       console.log("🏁 fetchExercises completed, loading set to false");
     }
-  };
+  }, [options]);
 
   useEffect(() => {
     console.log("🔄 useEffect triggered, calling fetchExercises");
@@ -230,16 +243,23 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRet
       subCategoryId: options.subCategoryId,
       setId: options.setId,
       difficulty: options.difficulty,
-      optionsObject: options
+      optionsObject: options,
     });
     fetchExercises();
-  }, [options.categoryId, options.subCategoryId, options.setId, options.difficulty]);
+  }, [
+    options.categoryId,
+    options.subCategoryId,
+    options.setId,
+    options.difficulty,
+    options,
+    fetchExercises,
+  ]);
 
   console.log("🔴 useExercises returning:", {
     exercisesCount: exercises.length,
     loading,
     error,
-    exercises: exercises
+    exercises: exercises,
   });
 
   return {
@@ -264,7 +284,9 @@ export function useExercisesBySet(setId: string) {
   return useExercises({ setId });
 }
 
-export function useExercisesByDifficulty(difficulty: 'easy' | 'medium' | 'hard') {
+export function useExercisesByDifficulty(
+  difficulty: "easy" | "medium" | "hard"
+) {
   return useExercises({ difficulty });
 }
 
@@ -274,29 +296,31 @@ export function usePopularExercises() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
   const fetchPopularExercises = async () => {
     try {
       setLoading(true);
       setError(null);
 
-
       const { apiRequest, API_CONFIG } = await import("../config/api");
       const endpoint = `${API_CONFIG.ENDPOINTS.EXERCISES}/popular`;
 
-      const backendExercises: BackendExercise[] = await apiRequest<BackendExercise[]>(endpoint);
-     
+      const backendExercises: BackendExercise[] = await apiRequest<
+        BackendExercise[]
+      >(endpoint);
 
       if (!Array.isArray(backendExercises)) {
         throw new Error("Popular exercises API response is not an array");
       }
 
       setExercises(backendExercises);
-      
     } catch (err) {
       const fallbackExercises = getFallbackExercises();
       setExercises(fallbackExercises);
-      setError(err instanceof Error ? err.message : "API Error - using fallback exercises data");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "API Error - using fallback exercises data"
+      );
     } finally {
       setLoading(false);
     }
@@ -306,11 +330,10 @@ export function usePopularExercises() {
     fetchPopularExercises();
   }, []);
 
-
   return {
     exercises,
     loading,
     error,
     refetch: fetchPopularExercises,
   };
-} 
+}

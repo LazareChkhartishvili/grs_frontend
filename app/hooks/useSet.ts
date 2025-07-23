@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // ბექენდის API რესპონსისთვის - exact structure
 interface LocalizedString {
@@ -19,7 +19,7 @@ interface BackendExercise {
   thumbnailUrl: string;
   videoDuration: string;
   duration: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   repetitions: string;
   sets: string;
   restTime: string;
@@ -92,20 +92,20 @@ interface UseSetReturn {
 
 function getFallbackSet(): BackendSet {
   const fallbackDate = new Date().toISOString();
-  
+
   return {
     _id: "fallback_set_1",
     name: {
       ka: "კისრის კომპლექსი",
       en: "Neck Complex",
       ru: "Комплекс для шеи",
-      _id: "fallback_name_1"
+      _id: "fallback_name_1",
     },
     description: {
       ka: "კისრის კუნთების გასაძლიერად და გასაჭიმად",
       en: "For strengthening and stretching neck muscles",
       ru: "Для укрепления и растяжки мышц шеи",
-      _id: "fallback_desc_1"
+      _id: "fallback_desc_1",
     },
     thumbnailImage: "/assets/images/workMan.png",
     totalExercises: 8,
@@ -114,13 +114,13 @@ function getFallbackSet(): BackendSet {
     levels: {
       beginner: { exerciseCount: 3, isLocked: false },
       intermediate: { exerciseCount: 3, isLocked: true },
-      advanced: { exerciseCount: 2, isLocked: true }
+      advanced: { exerciseCount: 2, isLocked: true },
     },
     price: {
       monthly: 920,
       threeMonths: 850,
       sixMonths: 750,
-      yearly: 650
+      yearly: 650,
     },
     isActive: true,
     isPublished: true,
@@ -128,7 +128,7 @@ function getFallbackSet(): BackendSet {
     categoryId: "fallback_category_1",
     createdAt: fallbackDate,
     updatedAt: fallbackDate,
-    __v: 0
+    __v: 0,
   };
 }
 
@@ -139,7 +139,8 @@ export function useSet(setId: string): UseSetReturn {
 
   console.log("🔴 useSet hook initialized with setId:", setId);
 
-  const fetchSet = async () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchSet = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -154,7 +155,7 @@ export function useSet(setId: string): UseSetReturn {
         baseUrl: API_CONFIG.BASE_URL,
         fullUrl: `${API_CONFIG.BASE_URL}${endpoint}`,
         setId,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       const backendSet: BackendSet = await apiRequest<BackendSet>(endpoint);
@@ -164,7 +165,7 @@ export function useSet(setId: string): UseSetReturn {
         data: backendSet,
         type: typeof backendSet,
         setId: backendSet?._id,
-        name: backendSet?.name
+        name: backendSet?.name,
       });
 
       if (!backendSet) {
@@ -173,24 +174,27 @@ export function useSet(setId: string): UseSetReturn {
 
       setSet(backendSet);
       console.log("✅ setSet called with:", backendSet);
-      
     } catch (err) {
       console.error("❌ Error fetching set:", err);
       console.error("❌ Set Error details:", {
-        message: err instanceof Error ? err.message : 'Unknown error',
+        message: err instanceof Error ? err.message : "Unknown error",
         stack: err instanceof Error ? err.stack : undefined,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
-      
+
       const fallbackSet = getFallbackSet();
       console.log("🔄 Using fallback set:", fallbackSet);
       setSet(fallbackSet);
-      setError(err instanceof Error ? err.message : "API Error - using fallback set data");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "API Error - using fallback set data"
+      );
     } finally {
       setLoading(false);
       console.log("🏁 fetchSet completed, loading set to false");
     }
-  };
+  }, [setId]);
 
   useEffect(() => {
     if (setId) {
@@ -200,13 +204,13 @@ export function useSet(setId: string): UseSetReturn {
       console.log("⚠️ No setId provided, skipping fetchSet");
       setLoading(false);
     }
-  }, [setId]);
+  }, [fetchSet, setId]);
 
   console.log("🔴 useSet returning:", {
     set: set?._id,
     loading,
     error,
-    hasSet: !!set
+    hasSet: !!set,
   });
 
   return {
@@ -215,5 +219,4 @@ export function useSet(setId: string): UseSetReturn {
     error,
     refetch: fetchSet,
   };
-} 
-
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,7 +30,7 @@ interface HeaderProps {
     | "category-detail"
     | "section";
   title?: string;
-  info?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  info?: any;
   onPriceClick?: () => void;
   setData?: any; // set-ის მონაცემები complex variant-ისთვის
 }

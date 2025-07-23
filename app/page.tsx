@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
 import Header from "./components/Header";
@@ -13,7 +12,7 @@ import Download from "./components/Download";
 import Reviews from "./components/Reviews";
 import { useCategories } from "./hooks/useCategories";
 import { useAllExercises } from "./hooks/useExercises";
-  import { useAllSets } from "./hooks/useSets";
+import { useAllSets } from "./hooks/useSets";
 // import { useCategoryComplete } from "./hooks/useCategoryComplete";
 // import { useI18n } from "./context/I18nContext";
 
@@ -22,8 +21,7 @@ const Home = () => {
   const { exercises } = useAllExercises();
   // const { categoryComplete } = useCategoryComplete();
   const { sets } = useAllSets();
-  console.log(sets, 'Beros setebi')
-
+  console.log(sets, "Beros setebi");
 
   // const { t } = useI18n();
 
@@ -31,7 +29,7 @@ const Home = () => {
     setsCount: sets.length,
     sets: sets.slice(0, 2), // პირველი 2 set-ის ნახვა
     categoriesCount: categories.length,
-    exercisesCount: exercises.length
+    exercisesCount: exercises.length,
   });
 
   return (
@@ -40,7 +38,7 @@ const Home = () => {
       <div>
         <Rehabilitation />
         <Category bgColor="#F9F7FE" />
-        <Works title={"Sets"} sets={sets} fromMain={true}/>
+        <Works title={"Sets"} sets={sets} fromMain={true} />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
           titleKey="subscription.title"
