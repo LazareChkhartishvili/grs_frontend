@@ -139,7 +139,6 @@ export function useSet(setId: string): UseSetReturn {
 
   console.log("🔴 useSet hook initialized with setId:", setId);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchSet = useCallback(async () => {
     try {
       setLoading(true);

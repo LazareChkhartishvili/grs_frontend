@@ -3,12 +3,15 @@ import DesktopNavbar from "../components/Navbar/DesktopNavbar";
 import { defaultMenuItems } from "../components/Header";
 import MobileNavbar from "../components/Navbar/MobileNavbar";
 import ArticleWithSlider from "../components/ArticleWithSlider";
-import Article from "../components/Article";
 
 const page = () => {
   return (
     <div className="bg-[#F9F7FE] py-1">
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={true} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={true}
+        allCourseBg={false}
+      />
       <MobileNavbar />
       <div className="mx-10">
         {/* <Image
@@ -19,7 +22,7 @@ const page = () => {
           className="w-full max-w-full h-[518px] object-cover rounded-[40px] mb-10"
         /> */}
         <ArticleWithSlider />
-        <Article />
+        {/* <Article article={article} /> */}
       </div>
     </div>
   );

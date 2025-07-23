@@ -35,7 +35,6 @@ export function useCategoryComplete(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchCategoryComplete = useCallback(async () => {
     if (!categoryId) return;
 

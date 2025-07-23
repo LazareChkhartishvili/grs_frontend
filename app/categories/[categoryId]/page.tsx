@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { use } from "react";
@@ -93,9 +94,13 @@ export default function CategoriesPage({
 
   // ტექნიკურად ვფილტრავთ სეტებს წყაროს მიხედვით
   const directSets =
-    categoryData?.sets?.filter((set) => !set.subCategoryId) || [];
+    categoryData?.sets?.filter(
+      (set: { subCategoryId: any }) => !set.subCategoryId
+    ) || [];
   const subcategorySets =
-    categoryData?.sets?.filter((set) => set.subCategoryId) || [];
+    categoryData?.sets?.filter(
+      (set: { subCategoryId: any }) => set.subCategoryId
+    ) || [];
 
   // ვაერთიანებთ ყველა სეტს ერთ სიაში
   const allSets = [...directSets, ...subcategorySets];
@@ -105,7 +110,8 @@ export default function CategoriesPage({
   const subcategoriesCount = categoryData?.subcategories?.length || 0;
   const exercisesCount =
     categoryData?.sets?.reduce(
-      (total, set) => total + (set.exercises?.length || 0),
+      (total: any, set: { exercises: string | any[] }) =>
+        total + (set.exercises?.length || 0),
       0
     ) || 0;
 
@@ -190,7 +196,8 @@ export default function CategoriesPage({
                   <span className="text-[#D4BAFC] leading-[120%] font-medium">
                     {
                       subcategorySets.filter(
-                        (set) => set.subCategoryId === subcategory._id
+                        (set: { subCategoryId: string }) =>
+                          set.subCategoryId === subcategory._id
                       ).length
                     }{" "}
                     {t("common.sets")}

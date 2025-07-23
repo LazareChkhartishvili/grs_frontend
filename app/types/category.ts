@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface LocalizedString {
   ka: string;
   en: string;
@@ -33,6 +34,8 @@ export interface SubscriptionPlan {
 }
 
 export interface Set {
+  videos: any;
+  subscriptionPlans: any;
   _id: string;
   name: LocalizedString;
   description: LocalizedString;
@@ -79,7 +82,7 @@ export interface Exercise {
   thumbnailUrl?: string;
   videoDuration: string;
   duration: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   repetitions: string;
   sets: string;
   restTime: string;
