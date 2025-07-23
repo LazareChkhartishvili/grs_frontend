@@ -160,7 +160,11 @@ const AllComplex = () => {
 
   return (
     <div className="bg-[#F9F7FE]">
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={false}
+        allCourseBg={false}
+      />
       <MobileNavbar />
       <h1 className="md:text-[64px] md:px-10 px-5 leading-[100%] tracking-[-3%] text-[#3D334A]">
         {pageTexts.title[locale as keyof typeof pageTexts.title] ||
