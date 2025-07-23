@@ -10,9 +10,14 @@ import { MenuItem } from "../Header";
 interface DesktopNavbarProps {
   menuItems: MenuItem[];
   blogBg: boolean;
+  allCourseBg: boolean;
 }
 
-const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems, blogBg }) => {
+const DesktopNavbar: React.FC<DesktopNavbarProps> = ({
+  menuItems,
+  blogBg,
+  allCourseBg,
+}) => {
   const [language, setLanguage] = useState("RU");
 
   return (
@@ -25,6 +30,11 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems, blogBg }) => {
               ? "bg-[url('/assets/images/blogHeader.jpg')] bg-cover w-[780px] bg-no-repeat bg-fixed bg-center h-[70px]"
               : " bg-gradient-to-br from-[rgba(94,43,143,0.4)] to-[rgba(61,51,74,0.3)] shadow-xl"
           } 
+          ${
+            allCourseBg
+              ? "bg-[url('/assets/images/blueBg.jpg')] bg-cover bg-center h-[70px]"
+              : " bg-gradient-to-br from-[rgba(94,43,143,0.4)] to-[rgba(61,51,74,0.3)] shadow-xl"
+          } 
             border border-white/10`}
         >
           <Link href={"/"}>
@@ -33,7 +43,7 @@ const DesktopNavbar: React.FC<DesktopNavbarProps> = ({ menuItems, blogBg }) => {
           <ul className="flex ml-[89px] mr-[73px] justify-between w-full">
             {menuItems.map(({ id, name, route }) => (
               <Link key={id} href={route}>
-                <li className="text-white text-[18px] hover:text-gray-950 duration-700 font-[Pt] leading-[100%] tracking-[-1%]">
+                <li className="text-white font-bold text-[18px] hover:text-gray-950 duration-700 leading-[100%] tracking-[-1%]">
                   {name}
                 </li>
               </Link>
