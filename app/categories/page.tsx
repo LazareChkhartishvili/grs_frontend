@@ -1,14 +1,12 @@
 "use client";
-
 // import { useCategories } from "../context/CategoryContext";
-import Image from "next/image";
 import Header from "../components/Header";
-import SliderArrows from "../components/SliderArrows";
 import WorksSlider from "../components/WorksSlider";
 import Subscribe from "../components/Subscribe";
 import ReviewSlider from "../components/ReviewSlider";
 import Professional from "../components/Professional";
 import Blog from "../components/Blog";
+import Section from "../components/Section";
 export default function CategoriesPage() {
   const homePageWorks = [
     {
@@ -58,83 +56,8 @@ export default function CategoriesPage() {
       {/* Header Section */}
       <Header variant="categories" />
       <div className="md:pt-[100px] pt-[400px]">
-        <div className="px-10 py-[50px] rounded-[30px] bg-[#F9F7FE] mx-6 md:mb-10">
-          <div className=" flex items-center justify-between">
-            <div className="flex flex-col gap-5">
-              <h1 className="text-[#3D334A] text-[40px] leading-[120%] tracking-[-3%]">
-                Разделы
-              </h1>
-              <span className="text-[#D4BAFC] text-[24px] leading-[90%] uppercase">
-                Смотреть все →
-              </span>
-            </div>
-            <div>
-              <SliderArrows
-                onScrollLeft={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
-                onScrollRight={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
-              />
-            </div>
-          </div>
-          {/*  */}
-          <div className="flex flex-row items-center gap-[28px] overflow-x-auto whitespace-nowrap scrollbar-hide md:overflow-visible md:whitespace-normal">
-            <div className="mt-[48px] w-[558px] bg-white p-2 rounded-[20px] ">
-              <Image
-                src={"/assets/images/category1.png"}
-                width={542}
-                height={181}
-                alt="category1"
-              />
-              <div className="flex items-center justify-between mt-[22px]">
-                <h1 className="text-[#3D334A] w-[342px] text-[28px] leading-[100%]">
-                  Шейный отдел позвоночника
-                </h1>
-                <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                  12 комплексов
-                </span>
-              </div>
-            </div>
-            {/*  */}
-
-            <div className="mt-[48px] w-[558px] min-w-[320px] md:min-w-[558px] bg-white p-2 rounded-[20px] inline-block align-top">
-              <Image
-                src={"/assets/images/category1.png"}
-                width={542}
-                height={181}
-                alt="category1"
-              />
-              <div className="flex items-center justify-between mt-[22px]">
-                <h1 className="text-[#3D334A] w-[342px] text-[28px] leading-[100%]">
-                  Шейный отдел позвоночника
-                </h1>
-                <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                  12 комплексов
-                </span>
-              </div>
-            </div>
-            {/*  */}
-            <div className="mt-[48px] w-[558px] min-w-[320px] md:min-w-[558px] bg-white p-2 rounded-[20px] inline-block align-top">
-              <Image
-                src={"/assets/images/category1.png"}
-                width={542}
-                height={181}
-                alt="category1"
-              />
-              <div className="flex items-center justify-between mt-[22px]">
-                <h1 className="text-[#3D334A] w-[342px] text-[28px] leading-[100%]">
-                  Шейный отдел позвоночника
-                </h1>
-                <span className="text-[#D4BAFC] leading-[120%] font-medium">
-                  12 комплексов
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
         {/*  */}
+        <Section border={0} borderColor="none" />
         <WorksSlider title="Комплексы" works={homePageWorks} />
         <div className="md:my-10">
           <Subscribe

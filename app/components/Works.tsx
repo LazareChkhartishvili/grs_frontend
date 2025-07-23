@@ -56,6 +56,8 @@ interface WorksProps {
   items?: Set[];
   exercises?: BackendExercise[];
   sets?: Set[];
+  border?: number;
+  borderColor?: string;
 }
 
 const Works: React.FC<WorksProps> = ({
@@ -63,6 +65,8 @@ const Works: React.FC<WorksProps> = ({
   items = [],
   exercises = [],
   sets = [],
+  border,
+  borderColor,
 }) => {
   const { t, locale } = useI18n();
 
@@ -209,7 +213,10 @@ const Works: React.FC<WorksProps> = ({
       : `All ${items.length || sets.length} sets`;
 
   return (
-    <div className="bg-[#F9F7FE] md:rounded-[20px] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0">
+    <div
+      style={{ border: `${border}px solid ${borderColor}` }}
+      className="bg-[#F9F7FE] md:rounded-[20px] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0"
+    >
       {/* Slider */}
       <WorksSlider title={title} works={works} />
       <Link

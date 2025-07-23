@@ -47,7 +47,7 @@ const Home = () => {
       <Header />
       <div>
         <Rehabilitation />
-        <Category />
+        <Category bgColor="#F9F7FE" />
         <Works title={"Sets"} sets={sets} />
         <Subscribe
           backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
