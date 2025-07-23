@@ -77,9 +77,8 @@ export function useAllSets(): UseSetsReturn {
       if (!Array.isArray(backendSets)) {
         throw new Error("API response is not an array");
       }
-      const transformedSets = backendSets
-        .filter((set) => set.isPublished)
-        .map(transformSet);
+      // აღარ ვაფილტრავთ isPublished-ით, ყველა სეტს ვაჩვენებთ
+      const transformedSets = backendSets.map(transformSet);
       setSets(transformedSets);
     } catch (err) {
       console.error("❌ Error fetching sets:", err);

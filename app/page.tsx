@@ -22,6 +22,8 @@ const Home = () => {
   const { exercises } = useAllExercises();
   // const { categoryComplete } = useCategoryComplete();
   const { sets } = useAllSets();
+  console.log(sets, 'Beros setebi')
+
 
   // const { t } = useI18n();
 

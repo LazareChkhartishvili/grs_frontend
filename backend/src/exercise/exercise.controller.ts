@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFiles, BadRequestException } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ExerciseService } from './exercise.service';
 import { CreateExerciseDto } from './dto/create-exercise.dto';
 import * as streamifier from 'streamifier';
@@ -11,16 +11,26 @@ import cloudinary from '../cloudinary.config';
 export class ExerciseController {
   constructor(private readonly exerciseService: ExerciseService) {}
 
+  // Helper function to upload to Cloudinary
+  private uploadToCloudinary = (file: Express.Multer.File, resource_type: 'image' | 'video') => {
+    return new Promise<string>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result.secure_url);
+        }
+      );
+      streamifier.createReadStream(file.buffer).pipe(uploadStream);
+    });
+  };
   
   @Post()
-  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
-  async create(@UploadedFile() file: Express.Multer.File, @Body() data: any) {
-    console.log('--- [CONTROLLER] ---');
-    console.log('file:', file);
-    console.log('file instanceof File:', file instanceof File);
-    console.log('file originalname:', file?.originalname);
-    console.log('file buffer:', !!file?.buffer);
-    console.log('body:', data);
+  @UseInterceptors(FilesInterceptor('file', 2, { storage: memoryStorage() }))
+  async create(@UploadedFiles() files: Express.Multer.File[], @Body() data: any) {
+    console.log('--- [CONTROLLER] Create Exercise ---');
+    console.log('Files received:', files?.length);
+    console.log('Body:', data);
 
     try {
       const parsedData = {
@@ -37,55 +47,58 @@ export class ExerciseController {
       let videoUrl = '';
       let thumbnailUrl = '';
 
-      // Cloudinary upload helper
-      const uploadToCloudinary = (file: Express.Multer.File, resource_type: 'image' | 'video') => {
-        return new Promise<string>((resolve, reject) => {
-          const uploadStream = cloudinary.uploader.upload_stream(
-            { resource_type },
-            (error, result) => {
-              if (error) return reject(error);
-              resolve(result.secure_url);
-            }
-          );
-          streamifier.createReadStream(file.buffer).pipe(uploadStream);
-        });
-      };
-
-      if (!file || !file.buffer) {
-        throw new BadRequestException('ფაილი სავალდებულოა და უნდა იყოს სწორი ტიპის');
-      }
-
-      // თუ მოდის ფაილი, ვტვირთავთ Cloudinary-ზე როგორც სურათს
-      if (file) {
-        thumbnailUrl = await uploadToCloudinary(file, 'image');
-        console.log('Cloudinary thumbnailUrl:', thumbnailUrl);
-      }
-
-      // თუ მოდის videoUrl ან thumbnailUrl ტექსტით, ვიყენებთ მას
+      // Handle direct URLs first
       if (data.videoUrl) {
-        videoUrl = typeof data.videoUrl === 'string' ? data.videoUrl.trim() : '';
+        videoUrl = data.videoUrl.trim();
       }
-      if (data.thumbnailUrl && !thumbnailUrl) {
-        thumbnailUrl = typeof data.thumbnailUrl === 'string' ? data.thumbnailUrl.trim() : '';
+      if (data.thumbnailUrl) {
+        thumbnailUrl = data.thumbnailUrl.trim();
       }
 
+      // Handle file uploads
+      if (files && files.length > 0) {
+        for (const file of files) {
+          // Determine if the file is a video or image based on mimetype
+          const isVideo = file.mimetype.startsWith('video/');
+          
+          try {
+            const uploadedUrl = await this.uploadToCloudinary(file, isVideo ? 'video' : 'image');
+            if (isVideo) {
+              videoUrl = uploadedUrl;
+            } else {
+              thumbnailUrl = uploadedUrl;
+            }
+          } catch (error) {
+            console.error(`Error uploading ${isVideo ? 'video' : 'image'} to Cloudinary:`, error);
+            throw new BadRequestException(`Failed to upload ${isVideo ? 'video' : 'image'}`);
+          }
+        }
+      }
+
+      // Validate that we have both thumbnail and video
       if (!thumbnailUrl) {
-        throw new BadRequestException('სურათის ატვირთვა სავალდებულოა');
+        throw new BadRequestException('სურათის ატვირთვა ან URL მითითება სავალდებულოა');
+      }
+      if (!videoUrl) {
+        throw new BadRequestException('ვიდეოს ატვირთვა ან URL მითითება სავალდებულოა');
       }
 
-      console.log('parsedData:', parsedData);
-      console.log('videoUrl:', videoUrl);
-      console.log('thumbnailUrl:', thumbnailUrl);
+      console.log('Final data:', {
+        ...parsedData,
+        videoUrl,
+        thumbnailUrl,
+      });
 
       const result = await this.exerciseService.create({
         ...parsedData,
         videoUrl,
         thumbnailUrl,
       });
-      console.log('--- [CONTROLLER] Saved result:', result);
+
+      console.log('Exercise created successfully:', result);
       return result;
     } catch (error) {
-      console.error('❌ Backend error:', error);
+      console.error('❌ Error creating exercise:', error);
       if (error instanceof BadRequestException) {
         throw error;
       }
@@ -135,13 +148,17 @@ export class ExerciseController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FilesInterceptor('file', 2, { storage: memoryStorage() }))
   async update(
     @Param('id') id: string, 
     @Body() data: any,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFiles() files: Express.Multer.File[]
   ) {
     try {
+      console.log('--- [CONTROLLER] Update Exercise ---');
+      console.log('Files received:', files?.length);
+      console.log('Body:', data);
+
       const updateData: any = { ...data };
 
       // Parse localized fields if they exist
@@ -149,17 +166,43 @@ export class ExerciseController {
       if (data.description) updateData.description = JSON.parse(data.description);
       if (data.recommendations) updateData.recommendations = JSON.parse(data.recommendations);
 
-      // Handle video and thumbnail URLs/files
-      if (file) {
-        updateData.thumbnailUrl = file.path;
+      // Handle direct URLs
+      if (data.videoUrl) {
+        updateData.videoUrl = data.videoUrl.trim();
+      }
+      if (data.thumbnailUrl) {
+        updateData.thumbnailUrl = data.thumbnailUrl.trim();
       }
 
+      // Handle file uploads
+      if (files && files.length > 0) {
+        for (const file of files) {
+          const isVideo = file.mimetype.startsWith('video/');
+          try {
+            const uploadedUrl = await this.uploadToCloudinary(file, isVideo ? 'video' : 'image');
+            if (isVideo) {
+              updateData.videoUrl = uploadedUrl;
+            } else {
+              updateData.thumbnailUrl = uploadedUrl;
+            }
+          } catch (error) {
+            console.error(`Error uploading ${isVideo ? 'video' : 'image'} to Cloudinary:`, error);
+            throw new BadRequestException(`Failed to upload ${isVideo ? 'video' : 'image'}`);
+          }
+        }
+      }
+
+      // For update, we don't require both media types to be present
+      // as the user might want to update only one of them
+
+      console.log('Final update data:', updateData);
       return this.exerciseService.update(id, updateData);
     } catch (error) {
-      if (error.name === 'SyntaxError') {
-        throw new BadRequestException('არასწორი JSON ფორმატი ლოკალიზებულ ველებში');
+      console.error('❌ Error updating exercise:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
       }
-      throw error;
+      throw new BadRequestException(error.message);
     }
   }
 
