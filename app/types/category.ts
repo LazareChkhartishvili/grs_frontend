@@ -22,6 +22,7 @@ export interface Video {
   };
   isActive: boolean;
   sortOrder: number;
+  thumbnail?: string;
   viewCount: number;
   isPublic: boolean;
   createdAt: string;
