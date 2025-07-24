@@ -13,48 +13,49 @@ interface LocalizedString {
   _id: string;
 }
 
-interface BackendExercise {
-  _id: string;
-  name: LocalizedString;
-  description: LocalizedString;
-  recommendations: LocalizedString;
-  videoUrl: string;
-  thumbnailUrl: string;
-  videoDuration: string;
-  duration: string;
-  difficulty: "easy" | "medium" | "hard";
-  repetitions: string;
-  sets: string;
-  restTime: string;
-  isActive: boolean;
-  isPublished: boolean;
-  sortOrder: number;
-  setId: string;
-  categoryId: string;
-  subCategoryId?: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  // populated relations
-  set?: {
-    _id: string;
-    name: LocalizedString;
-    description: LocalizedString;
-  };
-  category?: {
-    _id: string;
-    name: LocalizedString;
-  };
-  subcategory?: {
-    _id: string;
-    name: LocalizedString;
-  } | null;
-}
+// interface BackendExercise {
+//   _id: string;
+//   name: LocalizedString;
+//   description: LocalizedString;
+//   recommendations: LocalizedString;
+//   videoUrl: string;
+//   thumbnailUrl: string;
+//   videoDuration: string;
+//   duration: string;
+//   difficulty: "easy" | "medium" | "hard";
+//   repetitions: string;
+//   sets: string;
+//   restTime: string;
+//   isActive: boolean;
+//   isPublished: boolean;
+//   sortOrder: number;
+//   setId: string;
+//   categoryId: string;
+//   subCategoryId?: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   __v: number;
+//   // populated relations
+//   set?: {
+//     _id: string;
+//     name: LocalizedString;
+//     description: LocalizedString;
+//   };
+//   category?: {
+//     _id: string;
+//     name: LocalizedString;
+//   };
+//   subcategory?: {
+//     _id: string;
+//     name: LocalizedString;
+//   } | null;
+// }
 
 interface WorksProps {
   title: string;
   items?: Set[];
-  exercises?: BackendExercise[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  exercises?: any[];
   sets?: Set[];
   linkHref?: string;
   linkText?: string;
@@ -75,13 +76,13 @@ const Works: React.FC<WorksProps> = ({
   borderColor,
 }) => {
   const { t, locale } = useI18n();
-  
+
   console.log("🎯 Works component data:", {
     title,
     itemsCount: items.length,
     exercisesCount: exercises.length,
     setsCount: sets.length,
-    fromMain
+    fromMain,
   });
 
   // Helper to get localized string from object or string
@@ -191,13 +192,13 @@ const Works: React.FC<WorksProps> = ({
   } else if (sets.length > 0) {
     console.log("🎯 Processing sets data:", sets);
     works = sets.map((set) => {
-      console.log("🎯 Processing set:", { 
-        id: set._id, 
+      console.log("🎯 Processing set:", {
+        id: set._id,
         categoryId: set.categoryId,
         name: set.name,
-        thumbnailImage: set.thumbnailImage 
+        thumbnailImage: set.thumbnailImage,
       });
-      
+
       return {
         id: set._id,
         title: getLocalized(set.name),
@@ -222,7 +223,7 @@ const Works: React.FC<WorksProps> = ({
       className="bg-[#F9F7FE] md:rounded-[20px] md:mt-0 mt-10 md:mb-10 mb-0 md:mx-5 rounded-b-[15px] md:pb-10 pb-0"
     >
       {/* Slider */}
-      <WorksSlider title={title} works={works} fromMain={fromMain}/>
+      <WorksSlider title={title} works={works} fromMain={fromMain} />
       <Link
         href={linkHref}
         className="text-[14px] md:px-10 px-5 md:text-[24px] leading-[90%] uppercase text-[#D4BAFC]"

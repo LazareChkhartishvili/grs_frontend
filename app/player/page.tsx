@@ -25,7 +25,7 @@ interface BackendExercise {
   thumbnailUrl: string;
   videoDuration: string;
   duration: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: "easy" | "medium" | "hard";
   repetitions: string;
   sets: string;
   restTime: string;
@@ -122,7 +122,10 @@ const getExercises = (setData: BackendSet | null): Exercise[] => {
 
     return {
       id: index + 1,
-      title: `УПРАЖНЕНИЕ ${index + 1}. ${getLocalizedText(exercise.name, "ru").toUpperCase()}`,
+      title: `УПРАЖНЕНИЕ ${index + 1}. ${getLocalizedText(
+        exercise.name,
+        "ru"
+      ).toUpperCase()}`,
       steps,
       status,
     };
@@ -151,8 +154,6 @@ const statusMap = {
   },
 };
 
-
-
 const numberTextColor = "rgba(61, 51, 74, 1)";
 const mobileNumberBg = "rgba(213, 209, 219, 1)";
 const markerSize = 48;
@@ -175,12 +176,15 @@ const getLocalizedText = (
 
 const Player = () => {
   const searchParams = useSearchParams();
-  const setId = searchParams.get('setId') || '';
+  const setId = searchParams.get("setId") || "";
   const { t } = useI18n();
 
   // ვიღებთ სრულ მონაცემებს
-  const { categoryData, loading } = useCategoryComplete("687c192042e8ebbadd50b8bc");
-  const setData: BackendSet | null = categoryData?.sets?.find((set: BackendSet) => set._id === setId) || null;
+  const { categoryData, loading } = useCategoryComplete(
+    "687c192042e8ebbadd50b8bc"
+  );
+  const setData: BackendSet | null =
+    categoryData?.sets?.find((set: BackendSet) => set._id === setId) || null;
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [centers, setCenters] = useState<number[]>([]);
@@ -207,7 +211,11 @@ const Player = () => {
 
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={false}
+        allCourseBg={false}
+      />
       <MobileNavbar />
       <div className="flex flex-col items-center md:overflow-hidden">
         <div className="w-full  max-w-[1400px] aspect-video md:mx-auto px-1 rounded-[20px] md:rounded-[30px] overflow-hidden">
@@ -223,7 +231,7 @@ const Player = () => {
           {setData?.exercises?.map((exercise, index) => {
             const bgColors = ["#F3D57F", "#F3D57F", "#D4BAFC", "#F9F7FE"];
             const textColors = ["#3D334A", "#3D334A", "#FFFFFF", "#3D334A"];
-            
+
             return (
               <div
                 key={exercise._id}
@@ -274,7 +282,8 @@ const Player = () => {
                       width: "6px",
                       top: center,
                       height: nextCenter - center,
-                      background: statusMap[exercises[idx + 1]?.status || "locked"].line,
+                      background:
+                        statusMap[exercises[idx + 1]?.status || "locked"].line,
                       borderRadius: 3,
                     }}
                   />

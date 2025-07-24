@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -14,33 +15,41 @@ import { useI18n } from "../../context/I18nContext";
 
 export default function SectionPage() {
   const searchParams = useSearchParams();
-  const subcategoryId = searchParams.get('subcategoryId') || '';
-  const categoryId = searchParams.get('categoryId') || '';
+  const subcategoryId = searchParams.get("subcategoryId") || "";
+  const categoryId = searchParams.get("categoryId") || "";
   const { t } = useI18n();
 
   // ვიყენებთ categoryComplete hook-ს მთავარი კატეგორიისთვის
   const { categoryData, loading, error } = useCategoryComplete(categoryId);
 
   // ვიყენებთ popular exercises-ების hook-ს
-  const { exercises: popularExercises, loading: popularLoading, error: popularError } = usePopularExercises();
+  const {
+    exercises: popularExercises,
+    loading: popularLoading,
+    error: popularError,
+  } = usePopularExercises();
 
   // ვპოულობთ ამ კონკრეტულ subcategory-ს
   const selectedSubcategory = categoryData?.subcategories?.find(
-    sub => sub._id === subcategoryId
+    (sub) => sub._id === subcategoryId
   );
 
   // ვპოულობთ ამ subcategory-ს სეტებს
-  const subcategorySets = categoryData?.sets?.filter(
-    set => set.subCategoryId === subcategoryId
-  ) || [];
+  const subcategorySets =
+    categoryData?.sets?.filter(
+      (set: { subCategoryId: string }) => set.subCategoryId === subcategoryId
+    ) || [];
 
-  console.log("Section Subcategory Data:", { selectedSubcategory, subcategorySets });
-  console.log("Popular Exercises:", { 
-    popularExercises, 
-    popularLoading, 
+  console.log("Section Subcategory Data:", {
+    selectedSubcategory,
+    subcategorySets,
+  });
+  console.log("Popular Exercises:", {
+    popularExercises,
+    popularLoading,
     popularError,
     exercisesCount: popularExercises?.length,
-    firstExercise: popularExercises?.[0]
+    firstExercise: popularExercises?.[0],
   });
 
   if (loading) {
@@ -108,29 +117,45 @@ export default function SectionPage() {
   // ამოვიღოთ რაოდენობები
   const setsCount = subcategorySets.length;
   const exercisesCount = subcategorySets.reduce(
-    (total, set) => total + (set.exercises?.length || 0),
+    (total: any, set: { exercises: string | any[] }) =>
+      total + (set.exercises?.length || 0),
     0
   );
 
   // გარდავქმნით სეტებს WorksSlider-ის ფორმატში
-  const formattedSets = subcategorySets.map((set) => ({
-    id: set._id,
-    title: getLocalizedText(set?.name, locale),
-    description: getLocalizedText(set?.description, locale),
-    image: set.thumbnailImage || "/assets/images/workMan.png",
-    exerciseCount: set.exercises?.length || 0,
-    categoryName: getLocalizedText(selectedSubcategory?.name as { ka: string; en: string; ru: string }, locale),
-    price: `${set.price?.monthly || 920}₾/თვე`,
-    monthlyPrice: set.price?.monthly || 920,
-    categoryId: categoryId,
-    subcategoryId: subcategoryId,
-  }));
+  const formattedSets = subcategorySets.map(
+    (set: {
+      _id: any;
+      name: { ka: string; en: string; ru: string } | undefined;
+      description: { ka: string; en: string; ru: string } | undefined;
+      thumbnailImage: any;
+      exercises: string | any[];
+      price: { monthly: any };
+    }) => ({
+      id: set._id,
+      title: getLocalizedText(set?.name, locale),
+      description: getLocalizedText(set?.description, locale),
+      image: set.thumbnailImage || "/assets/images/workMan.png",
+      exerciseCount: set.exercises?.length || 0,
+      categoryName: getLocalizedText(
+        selectedSubcategory?.name as { ka: string; en: string; ru: string },
+        locale
+      ),
+      price: `${set.price?.monthly || 920}₾/თვე`,
+      monthlyPrice: set.price?.monthly || 920,
+      categoryId: categoryId,
+      subcategoryId: subcategoryId,
+    })
+  );
 
   return (
     <div className="">
       <Header
         variant="categories"
-        title={getLocalizedText(selectedSubcategory?.name as { ka: string; en: string; ru: string }, locale)}
+        title={getLocalizedText(
+          selectedSubcategory?.name as { ka: string; en: string; ru: string },
+          locale
+        )}
         info={{
           setsCount,
           subcategoriesCount: 0, // subcategory-ს ქვეკატეგორიები არ აქვს
@@ -140,10 +165,18 @@ export default function SectionPage() {
       <div className="md:pt-[100px] pt-[400px]">
         {Array.isArray(formattedSets) && formattedSets.length > 0 && (
           <div>
-            <WorksSlider 
-              title={getLocalizedText(selectedSubcategory?.name as { ka: string; en: string; ru: string }, locale)} 
+            <WorksSlider
+              title={getLocalizedText(
+                selectedSubcategory?.name as {
+                  ka: string;
+                  en: string;
+                  ru: string;
+                },
+                locale
+              )}
               works={formattedSets}
               linkType="complex"
+              fromMain={false}
             />
           </div>
         )}
@@ -154,16 +187,14 @@ export default function SectionPage() {
             <h3 className="text-2xl font-cinzel text-gray-600 mb-2">
               {t("common.no_sets_found")}
             </h3>
-            <p className="text-gray-500">
-              {t("common.no_sets_description")}
-            </p>
+            <p className="text-gray-500">{t("common.no_sets_description")}</p>
           </div>
         )}
 
         {/* Popular Exercises Section */}
         {!popularLoading && popularExercises.length > 0 && (
           <div className="mt-10">
-            <Works 
+            <Works
               exercises={popularExercises}
               title={t("common.popular_exercises") || "პოპულარული ვარჯიშები"}
             />
@@ -173,14 +204,18 @@ export default function SectionPage() {
         {popularLoading && (
           <div className="text-center py-10">
             <div className="animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent mb-4 mx-auto"></div>
-            <p className="text-gray-500">{t("common.loading_exercises") || "ვარჯიშები იტვირთება..."}</p>
+            <p className="text-gray-500">
+              {t("common.loading_exercises") || "ვარჯიშები იტვირთება..."}
+            </p>
           </div>
         )}
 
         {!popularLoading && popularError && (
           <div className="text-center py-10">
             <div className="text-red-500 text-4xl mb-4">⚠️</div>
-            <p className="text-red-600">{t("common.exercises_error") || "ვარჯიშების ჩატვირთვის შეცდომა"}</p>
+            <p className="text-red-600">
+              {t("common.exercises_error") || "ვარჯიშების ჩატვირთვის შეცდომა"}
+            </p>
           </div>
         )}
 
@@ -190,7 +225,10 @@ export default function SectionPage() {
           withBanner={false}
           withSlider={true}
           layoutType="default"
-          title={getLocalizedText(selectedSubcategory?.name as { ka: string; en: string; ru: string }, locale)}
+          title={getLocalizedText(
+            selectedSubcategory?.name as { ka: string; en: string; ru: string },
+            locale
+          )}
         />
         <Professional />
       </div>
