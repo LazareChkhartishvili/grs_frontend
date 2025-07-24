@@ -1,6 +1,6 @@
 "use client";
 
-import { useCategories } from "../context/CategoryContext";
+import { useCategories } from "../hooks/useCategories";
 
 export default function CategoryDebug() {
   const { categories, loading, error, refetch } = useCategories();
