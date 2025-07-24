@@ -6,7 +6,11 @@ interface VideoListProps {
   onVideoSelect: (index: number) => void;
 }
 
-const VideoList = ({ videos, selectedVideo, onVideoSelect }: VideoListProps) => {
+const VideoList = ({
+  videos,
+  selectedVideo,
+  onVideoSelect,
+}: VideoListProps) => {
   return (
     <div className="bg-gray-50 rounded-lg p-6">
       <h3 className="text-xl font-semibold mb-4">ვიდეოები</h3>
@@ -21,7 +25,7 @@ const VideoList = ({ videos, selectedVideo, onVideoSelect }: VideoListProps) => 
                 : "bg-gray-50 hover:bg-gray-100"
             }`}
           >
-            <div className="font-medium">{video.title}</div>
+            {/* <div className="font-medium">{video.title[locale]}</div> */}
             {video.duration && (
               <div className="text-sm text-gray-500">
                 {Math.floor(video.duration / 60)}:
@@ -35,4 +39,4 @@ const VideoList = ({ videos, selectedVideo, onVideoSelect }: VideoListProps) => 
   );
 };
 
-export default VideoList; 
+export default VideoList;

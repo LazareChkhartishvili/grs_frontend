@@ -26,8 +26,9 @@ export interface Video {
   isPublic: boolean;
   createdAt: string;
   updatedAt: string;
-}
 
+  duration?: number;
+}
 export interface SubscriptionPlan {
   period: number;
   price: number;
