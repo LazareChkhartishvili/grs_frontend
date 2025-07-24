@@ -21,18 +21,19 @@ interface WorkItem {
 interface WorksSliderProps {
   title?: string;
   works: WorkItem[];
-  linkType?: 'sets' | 'complex' | 'section'; // დინამიური ლინკის ტიპი
+  linkType?: "sets" | "complex" | "section";
   categoryData?: any;
-  fromMain: boolean
+  fromMain: boolean;
+  categoryId?: string;
 }
 
 const WorksSlider: React.FC<WorksSliderProps> = ({
   title = "სეტები",
   works,
-  linkType = 'sets', // default არის sets
+  linkType = "sets", // default არის sets
   fromMain,
 }) => {
-  console.log(works)
+  console.log(works);
   const scroll = (direction: "left" | "right") => {
     const slider = document.getElementById("works-slider");
     console.log("🖱️ Scroll button clicked:", { direction, slider });
@@ -60,10 +61,7 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
         />
       </div>
 
-      <div
-        id="works-slider"
-        className="overflow-x-auto scrollbar-hide mb-10"
-      >
+      <div id="works-slider" className="overflow-x-auto scrollbar-hide mb-10">
         <div className="flex gap-4">
           {works.map((work) => (
             <Link
@@ -71,10 +69,12 @@ const WorksSlider: React.FC<WorksSliderProps> = ({
               href={
                 fromMain
                   ? `/complex/${work.id}?categoryId=${work.categoryId}`
-                  : linkType === 'complex'
+                  : linkType === "complex"
                   ? `/complex/${work.id}`
-                  : linkType === 'section'
-                  ? `/categories/section?categoryId=${work.categoryId || ''}&subcategoryId=${work.subcategoryId || ''}`
+                  : linkType === "section"
+                  ? `/categories/section?categoryId=${
+                      work.categoryId || ""
+                    }&subcategoryId=${work.subcategoryId || ""}`
                   : `/sets/${work.id}`
               }
               className="bg-white p-5 w-[335px] h-[493px] flex-shrink-0 rounded-[20px] hover:shadow-lg transition-shadow flex flex-col"
