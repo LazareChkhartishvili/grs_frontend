@@ -61,6 +61,8 @@ const transformSet = (backendSet: BackendSet): Set => {
     sortOrder: backendSet.sortOrder,
     categoryId: backendSet.categoryId,
     subCategoryId: backendSet.subCategoryId,
+    videos: undefined,
+    subscriptionPlans: undefined,
   };
 };
 
