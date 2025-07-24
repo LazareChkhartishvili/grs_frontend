@@ -77,7 +77,11 @@ const ShoppingCard = () => {
   return (
     <div>
       <div className="bg-[#F9F7FE] ">
-        <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+        <DesktopNavbar
+          menuItems={defaultMenuItems}
+          blogBg={false}
+          allCourseBg={false}
+        />
         <MobileNavbar />
         {/* LeftSide */}
         <div className="flex md:flex-row md:justify-between flex-col mx-2 md:mx-10 md:gap-[60px] md:mb-10 md:pb-10">

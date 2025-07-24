@@ -32,26 +32,30 @@ const Complex = ({ params }: ComplexPageProps) => {
   const { t } = useI18n();
   const searchParams = useSearchParams();
   const categoryIdFromUrl = searchParams.get("categoryId");
-  
+
   console.log("🎯 Complex component initialized:", {
     setId,
     categoryIdFromParams: categoryIdFromUrl,
     hasSearchParams: !!searchParams,
-    allSearchParams: Object.fromEntries(searchParams.entries())
+    allSearchParams: Object.fromEntries(searchParams.entries()),
   });
 
   // თუ არ არის categoryId URL-ში, მაშინ პირდაპირ set-ს ვიღებთ
   const shouldUseCategoryComplete = !!categoryIdFromUrl;
-  
+
   // Hook-ები conditionally
-  const { categoryData, loading: categoryLoading, error: categoryError } = useCategoryComplete(
-    shouldUseCategoryComplete ? categoryIdFromUrl : ''
-  );
-  
+  const {
+    categoryData,
+    loading: categoryLoading,
+    error: categoryError,
+  } = useCategoryComplete(shouldUseCategoryComplete ? categoryIdFromUrl : "");
+
   // ალტერნატიული: პირდაპირ set-ის მოძიება
-  const { set: directSet, loading: setLoading, error: setError } = useSet(
-    shouldUseCategoryComplete ? '' : setId
-  );
+  const {
+    set: directSet,
+    loading: setLoading,
+    error: setError,
+  } = useSet(shouldUseCategoryComplete ? "" : setId);
 
   // საბოლოო loading და error states
   const loading = shouldUseCategoryComplete ? categoryLoading : setLoading;
@@ -61,12 +65,14 @@ const Complex = ({ params }: ComplexPageProps) => {
   let rawSetData;
   if (shouldUseCategoryComplete && categoryData) {
     // კატეგორიიდან ვეძებთ set-ს
-    rawSetData = categoryData.sets?.find(set => set._id === setId);
+    rawSetData = categoryData.sets?.find(
+      (set: { _id: string }) => set._id === setId
+    );
   } else if (!shouldUseCategoryComplete && directSet) {
     // პირდაპირ set
     rawSetData = directSet;
   }
-  
+
   console.log("🎯 Data fetching status:", {
     setId,
     categoryId: categoryIdFromUrl,
@@ -77,25 +83,30 @@ const Complex = ({ params }: ComplexPageProps) => {
     hasDirectSet: !!directSet,
     setsCount: categoryData?.sets?.length || 0,
     setFound: !!rawSetData,
-    strategy: shouldUseCategoryComplete ? 'category-complete' : 'direct-set'
+    strategy: shouldUseCategoryComplete ? "category-complete" : "direct-set",
   });
 
   // ვითვლით ჯამურ ხანგრძლივობას
-  const totalDurationInMinutes = rawSetData?.exercises?.reduce((total: number, exercise: any) => {
-    const duration = exercise.duration || "0:00";
-    const [minutes, seconds] = duration.split(":").map(Number);
-    return total + minutes + (seconds || 0) / 60;
-  }, 0) || 0;
+  const totalDurationInMinutes =
+    rawSetData?.exercises?.reduce((total: number, exercise: any) => {
+      const duration = exercise.duration || "0:00";
+      const [minutes, seconds] = duration.split(":").map(Number);
+      return total + minutes + (seconds || 0) / 60;
+    }, 0) || 0;
 
   // ვაფორმატებთ ხანგრძლივობას "HH:MM" ფორმატში
-  const formattedTotalDuration = `${Math.floor(totalDurationInMinutes)}:${String(Math.round((totalDurationInMinutes % 1) * 60)).padStart(2, '0')}`;
+  const formattedTotalDuration = `${Math.floor(
+    totalDurationInMinutes
+  )}:${String(Math.round((totalDurationInMinutes % 1) * 60)).padStart(2, "0")}`;
 
   // ვამატებთ დათვლილ მონაცემებს setData-ში
-  const setData = rawSetData ? {
-    ...rawSetData,
-    totalExercises: rawSetData.exercises?.length || 0,
-    totalDuration: formattedTotalDuration
-  } : null;
+  const setData = rawSetData
+    ? {
+        ...rawSetData,
+        totalExercises: rawSetData.exercises?.length || 0,
+        totalDuration: formattedTotalDuration,
+      }
+    : null;
 
   console.log("🎯 Complex page rendered with:", { setData, categoryData });
 
@@ -108,7 +119,7 @@ const Complex = ({ params }: ComplexPageProps) => {
     setId,
     setData,
     setLoading,
-    setError
+    setError,
   });
 
   // Close popover when clicking outside
@@ -203,7 +214,11 @@ const Complex = ({ params }: ComplexPageProps) => {
 
   return (
     <div>
-      <Header variant="complex" onPriceClick={() => setPopoverOpen(true)} setData={setData} />
+      <Header
+        variant="complex"
+        onPriceClick={() => setPopoverOpen(true)}
+        setData={setData}
+      />
       <div className="">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:mt-40 px-4">
           <Tabs
@@ -399,4 +414,4 @@ const Complex = ({ params }: ComplexPageProps) => {
   );
 };
 
-export default Complex; 
+export default Complex;

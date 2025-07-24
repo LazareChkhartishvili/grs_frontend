@@ -16,6 +16,7 @@ const homePageWorks = [
     exerciseCount: 10,
     categoryName: "Ортопедия",
     monthlyPrice: 920,
+    categoryId: "rame",
   },
   {
     id: "2",
@@ -26,6 +27,7 @@ const homePageWorks = [
     exerciseCount: 10,
     categoryName: "Ортопедия",
     monthlyPrice: 920,
+    categoryId: "rame",
   },
   {
     id: "3",
@@ -36,6 +38,7 @@ const homePageWorks = [
     exerciseCount: 10,
     categoryName: "Ортопедия",
     monthlyPrice: 920,
+    categoryId: "rame",
   },
   {
     id: "4",
@@ -46,6 +49,7 @@ const homePageWorks = [
     exerciseCount: 10,
     categoryName: "Ортопедия",
     monthlyPrice: 920,
+    categoryId: "rame",
   },
 ];
 
@@ -61,8 +65,12 @@ const Section = () => {
           exercisesCount: 48,
         }}
       />
-      <WorksSlider works={homePageWorks} title="Subcategories"/>
-      <WorksSlider works={homePageWorks} />
+      <WorksSlider
+        works={homePageWorks}
+        title="Subcategories"
+        fromMain={false}
+      />
+      <WorksSlider works={homePageWorks} fromMain={false} />
       <Subscribe
         backgroundImage="/assets/images/categorySliderBgs/bg4.jpg"
         titleKey="subscription.title"

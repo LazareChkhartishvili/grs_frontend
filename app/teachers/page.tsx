@@ -8,7 +8,11 @@ const Teachers = () => {
   return (
     <div>
       <div className="bg-[#F9F7FE]">
-        <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+        <DesktopNavbar
+          menuItems={defaultMenuItems}
+          blogBg={false}
+          allCourseBg={false}
+        />
         <MobileNavbar />
 
         <TeacherInfo />

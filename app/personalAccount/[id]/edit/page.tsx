@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PersonInfo from "../../../components/PersonalAccount/PersonInfo";
@@ -11,52 +11,56 @@ const PersonalAccountPage = () => {
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    displayName: '',
-    gender: '',
-    phone: '',
-    email: '',
-    country: '',
-    city: '',
-    age: '',
-    weight: '',
-    diseases: '',
-    oldPassword: '',
-    newPassword: ''
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    gender: "",
+    phone: "",
+    email: "",
+    country: "",
+    city: "",
+    age: "",
+    weight: "",
+    diseases: "",
+    oldPassword: "",
+    newPassword: "",
   });
 
   useEffect(() => {
     if (!isAuthenticated || !user) {
-      router.push('/auth/login');
+      router.push("/auth/login");
       return;
     }
 
     // Pre-fill form with user data
-    const [firstName = '', lastName = ''] = (user.name || '').split(' ');
-    setFormData(prev => ({
+    const [firstName = "", lastName = ""] = (user.name || "").split(" ");
+    setFormData((prev) => ({
       ...prev,
       firstName,
       lastName,
-      displayName: user.name || '',
-      phone: user.phone || '',
-      email: user.email || '',
-      city: user.location || '',
+      displayName: user.name || "",
+      phone: user.phone || "",
+      email: user.email || "",
+      city: user.location || "",
     }));
   }, [user, isAuthenticated, router]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement update logic
-    console.log('Form data:', formData);
+    console.log("Form data:", formData);
   };
 
   if (!user) {
@@ -74,7 +78,11 @@ const PersonalAccountPage = () => {
 
   return (
     <div>
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={false}
+        allCourseBg={false}
+      />
       <MobileNavbar />
       <PersonInfo user={user} />
       <div className="md:p-10 p-5 bg-[#F9F7FE] m-10">

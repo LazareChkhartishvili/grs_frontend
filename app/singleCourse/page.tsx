@@ -18,7 +18,11 @@ export default function SingleCurse() {
 
   return (
     <>
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={false}
+        allCourseBg={false}
+      />
 
       <div className="bg-[#FAF7FF] flex flex-col items-center py-6 px-2 w-full text-[#302A3A]">
         {/* Responsive wrapper: row on md+, column on mobile */}

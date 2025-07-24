@@ -143,7 +143,7 @@ const Rehabilitation = () => {
         </div>
       </section>
 
-      <Category />
+      <Category bgColor={""} />
       <section className="px-2 md:px-8 mx-2 mt-6 md:mx-8 relative md:max-w-full md:h-[404px] h-[471px] bg-[rgba(249,247,254,1)] rounded-[20px] mx:p-[40] pt-[40px] pb-0 flex flex-col md:justify-between overflow-visible ">
         <div className="flex flex-col justify-between md:pb-[40px] gap-[35px]">
           <div className="md:pb-25">

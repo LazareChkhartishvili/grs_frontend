@@ -187,7 +187,11 @@ const PersonalAccountContent: React.FC = () => {
 
   return (
     <div className="md:gap-20 px-4 md:px-5">
-      <DesktopNavbar menuItems={defaultMenuItems} blogBg={false} />
+      <DesktopNavbar
+        menuItems={defaultMenuItems}
+        blogBg={false}
+        allCourseBg={false}
+      />
       <MobileNavbar />
       <ContinueWatchingBanner />
       <div className="mx-2 md:mx-10 md:mt-10 mt-0  flex flex-col gap-3 md:flex-row-reverse">
@@ -236,7 +240,11 @@ const PersonalAccountContent: React.FC = () => {
         ) : (
           <>
             {renderTabContent()}
-            <WorksSlider title="Рекомендуем" works={chapterSliderInfo} />
+            <WorksSlider
+              title="Рекомендуем"
+              works={chapterSliderInfo}
+              fromMain={false}
+            />
             <Statistics statistics={users[0].statistics} />
             <Achievements achievements={users[0].achievements} />
           </>
